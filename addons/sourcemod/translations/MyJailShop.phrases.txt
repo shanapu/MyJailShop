@@ -1,0 +1,445 @@
+﻿"Phrases"
+{
+	"shop_tag"
+	{
+		"en"		"[{green}jail.shop{default}]"
+	}
+	
+	"shop_disabled"
+	{
+		"en"		"Jail shop is currently {purple}disabled{default}!"
+		"de"		"Jail shop ist vorrübergehend {purple}ausgeschaltet{default}."
+	}
+	
+	"shop_menu_title"
+	{
+		"#format"	"{1:d}"
+		"en"		"Jail Shop. You have {1}¢"
+	}
+	
+	"shop_menu_invisible"
+	{
+		"#format"	"{1:d},{2:d}"
+		"en"		"Invisible for {2} sec. [{1}¢]"
+	}
+	
+	"shop_menu_awp"
+	{
+		"#format"	"{1:d}"
+		"en"		"AWP with 1 bullet [{1}¢]"
+	}
+	
+	"shop_menu_nodamage"
+	{
+		"#format"	"{1:d},{2:d}"
+		"en"		"No damage for {2} sec. [{1}¢]"
+	}
+	
+	"shop_menu_openjail"
+	{
+		"#format"	"{1:d}"
+		"en"		"Open Jails [{1}¢]"
+	}
+	
+	"shop_menu_froggyjump"
+	{
+		"#format"	"{1:d}"
+		"en"		"Froggy jump [{1}¢]"
+	}
+	
+	"shop_menu_vampire"
+	{
+		"#format"	"{1:d}"
+		"en"		"Vampire [{1}¢]"
+	}
+	
+	"shop_menu_health"
+	{
+		"#format" 	"{1:d},{2:d}"
+		"en"		"+{2}hp and armor [{1}¢]"
+	}
+	
+	"shop_menu_deagle"
+	{
+		"#format"	"{1:d}"
+		"en"		"Deagle with 1 Mag [{1}¢]"
+	}
+	
+	"shop_menu_taser"
+	{
+		"#format"	"{1:d}"
+		"en"		"Taser with 3 Bullets [{1}¢]"
+	}
+	
+	"shop_menu_wallhack"
+	{
+		"#format"	"{1:d}"
+		"en"		"Wallhack [{1}¢]"
+	}
+	
+	"shop_menu_revive"
+	{
+		"#format" 	"{1:d}"
+		"en" 	"Revive [{1}¢]"
+	}
+	
+	"shop_menu_knife"
+	{
+		"#format"	"{1:d}"
+		"en"		"One hit knife [{1}¢]"
+	}	
+	
+	"shop_menu_heal"
+	{
+		"#format"	"{1:d}"
+		"en"		"Heal [{1}¢]"
+	}
+	
+	"shop_menu_molotov"
+	{
+		"#format"	"{1:d}"
+		"en"		"Molotov + 2 flashs [{1}¢]"
+	}
+	
+	"shop_menu_model"
+	{
+		"#format"	"{1:d}"
+		"en"		"Guard model [{1}¢]"
+	}
+	
+	"shop_menu_poisonsmoke"
+	{
+		"#format"	"{1:d}"
+		"en"		"Poison Smoke [{1}¢]"
+	}
+	
+	"shop_menu_bhop"
+	{
+		"#format"	"{1:d}"
+		"en"		"BunnyHop [{1}¢]"
+	}
+	
+	"shop_menu_throwingknife"
+	{
+		"#format"	"{1:d}"
+		"en"		"Throwing one hit knife [{1}¢]"
+	}
+	
+	"shop_menu_firegrenade"
+	{
+		"#format"	"{1:d}"
+		"en"		"Napalm HE [{1}¢]"
+	}
+	
+	"shop_menu_gravity"
+	{
+		"#format"	"{1:d}"
+		"en"		"Low gravity [{1}¢]"
+	}
+	
+	"shop_menu_noclip"
+	{
+		"#format" 	"{1:d},{2:d}"
+		"en"		"No Clip for {2} sec. [{1}¢]"
+	}
+	
+	"shop_menu_bird"
+	{
+		"#format"	"{1:d}"
+		"en"		"Be a Bird [{1}¢]"
+	}
+	
+	"shop_menu_teleportsmoke"
+	{
+		"#format"	"{1:d}"
+		"en"		"Teleporter Smoke [{1}¢]"
+	}
+	
+	"shop_menu_armor"
+	{
+		"#format"	"{1:d}"
+		"en"		"Armor [{1}¢]"
+	}
+	
+	"shop_menu_playercredits"
+	{
+		"en"		"Player Credits"
+	}
+	
+	
+	"shop_teleportsmoke"
+	{
+		"en" 		"You bought: Teleporter Smoke!"
+	}
+	
+	"shop_costs"
+	{
+		"#format" 	"{1:d},{2:d}"
+		"en" 		"Costs: {2} ¢redits. Now, you have {1} ¢redits "
+	}
+	
+	"shop_firegrenade"
+	{
+		"en" 		"You bought: HE that burn the opponent!"
+	}
+	
+	"shop_poisensmoke"
+	{
+		"en" 		"You bought: Poison Smoke!"
+	}
+	
+	"shop_model"
+	{
+		"en" 		"You are now disguised as a guard, be careful!"
+	}
+	
+	"shop_bird"
+	{
+		"en" 		"You are a bird! Toggle fly with '+dropweapon'"
+	}
+	
+	"shop_molotov"
+	{
+		"en" 		"You bought: Molotov + 2 flashs!"
+	}
+	
+	"shop_throwingknife"
+	{
+		"en" 		"You bought: Throwing knife!"
+	}
+	
+	"shop_heal"
+	{
+		"en" 		"You healed!"
+	}
+	
+	"shop_knife"
+	{
+		"en" 		"You bought: One hit knife!"
+	}
+	
+	"shop_deagle"
+	{
+		"en" 		"You bought: Deagle with seven shots, know use it!"
+	}
+	
+	"shop_taser"
+	{
+		"en" 		"You bought: Taser with 3 shots, know use it!"
+	}
+	
+	"shop_health"
+	{
+		"#format"	"{1:d}"
+		"en" 		"Now you have +{1}HP and kevlar & helm!"
+	}
+	
+	"shop_gravity"
+	{
+		"en" 		"Now you have low gravity!"
+	}
+	
+	"shop_froggyjump"
+	{
+		"en" 		"Now you have Froggy jump!"
+	}
+	
+	"shop_wallhack"
+	{
+		"en" 		"Now you have Wallhack!"
+	}
+	
+	"shop_noclip"
+	{
+		"#format"	"{1:d}"
+		"en" 		"Now you have no clip for {1} seconds!"
+	}
+	
+	"shop_vapire"
+	{
+		"en" 		"Now you're a vampire!"
+	}
+	
+	"shop_opencell"
+	{
+		"en" 		"You opened the jails."
+	}
+	
+	"shop_nodamage"
+	{
+		"#format"	"{1:d}"
+		"en" 		"Now you're immortal for {1} seconds!"
+	}
+	
+	"shop_awp"
+	{
+		"en" 		"You bought: AWP with one shots, know use it!"
+	}
+	
+	"shop_bhop"
+	{
+		"en" 		"Now you have BunnyHop, have fun!"
+	}
+	
+	"shop_invisible"
+	{
+		"#format"	"{1:d}"
+		"en" 		"Now you're invisible for {1} seconds!"
+	}
+	
+	
+	"shop_missingcredits"
+	{
+		"#format" 	"{1:d},{2:d}"
+		"en" 		"Your ¢redits: {1} (You do not have enough. You need: {2}¢)"
+	}
+	
+	"shop_max"
+	{
+		"en" 		"You have already bought this item in this round, wait for the next round to buy again."
+	}
+	
+	"shop_alive"
+	{
+		"en" 	"You need to be alive to buy items!"
+	}
+	
+	"shop_dead"
+	{
+		"en" 	"You need be dead to use this item!"
+	}
+	
+	"shop_fulllive"
+	{
+		"en" 	"You're already on full health!"
+	}
+	
+	"shop_visible"
+	{
+		"en" 	"Now you're visible again!"
+	}
+	
+	"shop_noclipend"
+	{
+		"en" 	"NoClip has ended!"
+	}
+	
+	"shop_unnodamage"
+	{
+		"en" 	"Now you're mortal again!"
+	}
+	
+	"shop_welcome"
+	{
+		"en" 	"Type !shop to open the shop. Kill to win ¢redits on shop."
+	}
+	
+	"shop_credits"
+	{
+		"#format" 	"{1:d}"
+		"en" 	"Yours current ¢redits are: {1}!"
+	}
+	
+	"shop_maxcredits"
+	{
+		"#format" 	"{1:d}"
+		"en" 	"Your ¢redits on shop: {1}, maximum allowed!"
+	}
+	
+	"shop_revivehint"
+	{
+		"#format" 	"{1:d}"
+		"en" 	"You died, can use !revive for {1} credits!"
+	}
+	
+	"shop_menu_nodamage"
+	{	
+		"#format"	"{1:d}"
+		"en"		"No damage for 20 seconds [{1}¢]"
+	}
+	
+	"shop_playtime"
+	{
+		"#format" 	"{1:d}"
+		"en" 	"You get {1} ¢redits for playing on this server"
+	}
+	
+	"shop_tonly"
+	{
+		"en" 	"Shop only for prisioners!"
+	}
+	
+	"shop_onlyt"
+	{
+		"en" 	"This item is only for prisioners!"
+	}
+	
+	"shop_killedct"
+	{
+		"#format" 	"{1:d},{2:d},{3:N}"
+		"en" 		"You get {2} ¢redits for killing the guard {3}. Now you have: {1}¢"
+	}
+	
+	"shop_killedt"
+	{
+		"#format" 	"{1:d},{2:d},{3:N}"
+		"en" 		"You get {2} ¢redits for killing the prisoner {3}. Now you have: {1}¢"
+	}
+	
+	"shop_lastrequest"
+	{
+		"#format" 	"{1:d},{2:d}"
+		"en" 		"You get {2} ¢redits for attain the last request. Now you have: {1}¢"
+	}
+	
+	"shop_menu_player¢redits"
+	{
+		"en" 		"Players ¢redits on shop:"
+	}
+	
+	"shop_revived"
+	{
+		"#format" 	"{1:N}"
+		"en" 	"{1} has been revived!"
+	}
+	
+	"shop_opencellall"
+	{
+		"#format" 	"{1:N}"
+		"en" 	"{1} has opened all jails with shop"
+	}
+	
+	"shop_give"
+	{
+		"#format" 	"{1:d},{2:N}"
+		"en" 		"You send {1} ¢redits to Player {2}"
+	}
+	
+	"shop_get"
+	{
+		"#format" 	"{1:d},{2:N}"
+		"en" 		"You get {1} ¢redits from Player {2}"
+	}
+	
+	"shop_set"
+	{
+		"#format" 	"{1:d},{2:N}"
+		"en" 		"You set {2} ¢redits to {1}"
+	}
+	
+	"shop_getset"
+	{
+		"#format" 	"{1:d},{2:N}"
+		"en" 		"Your ¢redits was set to {1} by {2}"
+	}
+	
+	"shop_buytime"
+	{
+		"en" 		"The buy time is past. You can buy next round again."
+	}
+	
+	"shop_alreadyopen"
+	{
+		"en" 		"The cells are already open."
+	}
+}

@@ -1,0 +1,31 @@
+#Use the new container-based infrastructure
+sudo: false
+
+#Install some apt packages needed for spcomp
+addons:
+    apt_packages:
+        - lib32stdc++6
+
+#Set the build environment
+env:
+    - SMVERSION=1.7
+    - SMVERSION=1.8
+    - SMVERSION=1.9
+
+#And compile!
+install:
+    - wget --input-file=http://sourcemod.net/smdrop/$SMVERSION/sourcemod-latest-linux
+    - tar -xzf $(cat sourcemod-latest-linux)
+
+before_script:
+# TODO Import other modules to compilation
+    - cd addons/sourcemod/scripting/
+    - chmod +x spcomp
+    - mkdir compiled
+
+script: ./compile.sh MyJailShop.sp
+
+
+#Notifications
+notifications:
+    email: false
