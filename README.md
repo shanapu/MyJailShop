@@ -160,6 +160,11 @@ sm_jailshop_molotov_price - 0 - disabled, price of the 'Molotov & flashs' shop i
 
 * Sourcemod 1.7.0+
 
+
+***Optional plugins***
+
+* MyJailbreak [](https://github.com/shanapu/MyJailbreak)
+
 * Smart Jail Doors [](https://github.com/Kailo97/smartjaildoors)
 
 * CustomPlayerSkins [](https://forums.alliedmods.net/showthread.php?t=240703)
@@ -171,9 +176,11 @@ sm_jailshop_molotov_price - 0 - disabled, price of the 'Molotov & flashs' shop i
 
 * colors.inc [](https://forums.alliedmods.net/showthread.php?t=96831)
 
-* emitsoundany.inc [](https://forums.alliedmods.net/showthread.php?t=237045)
-
 * myjailshop.inc [](https://github.com/shanapu/MyJailShop/blob/master/addons/sourcemod/scripting/include/myjailshop.inc)
+
+* mystocks.inc [](https://github.com/shanapu/MyJailShop/blob/master/addons/sourcemod/scripting/include/mystocks.inc
+
+* myjailbreak.inc [](https://github.com/shanapu/MyJailbreak/blob/master/addons/sourcemod/scripting/include/myjailbreak.inc)
 
 * smartjaildoors.inc [](https://forums.alliedmods.net/showthread.php?p=2306289)
 
@@ -192,9 +199,18 @@ sm_jailshop_molotov_price - 0 - disabled, price of the 'Molotov & flashs' shop i
   
 1. Copy the folders **addons/**&** cfg/** to *your root* **csgo/** directory  
   
-1. OPTIONAL - Open *your* ```databases.cfg``` in ```your csgo/addons/sourcemod/configs``` directory and add the following content:
-     * 
- 
+1. OPTIONAL need sm_jailshop_mysql "1" 
+    * Open *your* ```databases.cfg``` in ```your csgo/addons/sourcemod/configs``` directory and add the following content:
+    ```
+	"MyJailShop"
+    {
+        "driver"        "mysql"
+        "host"          "127.0.0.1"  //IP to you MySQL server
+        "database"      "your_database_name"
+        "user"          "your_database_user"
+        "pass"          "your_database_password"
+    }
+	```
   
 1. Run plugin for the first time and *all necessary .cfg files will be generated*  
   
@@ -226,7 +242,7 @@ sm_jailshop_molotov_price - 0 - disabled, price of the 'Molotov & flashs' shop i
 
 
 ***Credits:***
-**All credits goes out to the original author [Dkmuniz & live4net](https://forums.alliedmods.net/member.php?u=230556)**.
+**All credits goes out to the original author [Dkmuniz](https://forums.alliedmods.net/member.php?u=230556)**.
 Also thanks to all sourcemod & metamod developers out there!
 
 based/merged/used code/idea plugins:
@@ -234,6 +250,7 @@ based/merged/used code/idea plugins:
 * [](https://forums.alliedmods.net/showthread.php?t=269846)
 * if I missed someone, please tell me!
 * THANK YOU ALL!
+
 
 ###THANKS FOR MAKING FREE SOFTWARE!
 *Much Thanks: *
@@ -247,11 +264,8 @@ devu4, Weeeishy, Include1, KissLick, live4net for great ideas!
 If you still use 1.7.x you should update your sourcemod or compile MyJailShop for yourself on your SM version**
 
 ***Download latest develop***
-[](https://github.com/shanapu/MyJailShop/tree/develop)
+[](https://github.com/shanapu/MyJailShop/)
 **The smx files on develop branch are not uptodate - you have to compile them for yourself.**
-
-***Wiki:*** [i]need some work[/i]
-[](https://github.com/shanapu/MyJailShop/wiki/)
 
 ***Report Bugs, Ideas, Requests & see todo:***
 [](https://github.com/shanapu/MyJailShop/issues)

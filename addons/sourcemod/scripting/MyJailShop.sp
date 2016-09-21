@@ -28,7 +28,6 @@
 #include <sdkhooks>
 #include <cstrike>
 #include <clientprefs>
-#include <emitsoundany>
 #include <colors>
 #include <smlib>
 #include <autoexecconfig>
@@ -970,7 +969,6 @@ public Action Event_RoundEnd(Event event, const char [] name, bool dontBroadcast
 		ResetPlayer(i);
 		if (gc_bMySQL.BoolValue) DB_WriteCredits(i);
 	}
-
 	
 	g_bIsLR = true;
 }
@@ -2562,7 +2560,7 @@ stock bool IsPlayerReservationAdmin(int client)
 public void DB_Connect()
 {
 	char error[255];
-	g_hDB = SQL_Connect("MyJailbreak", true, error, sizeof(error));
+	g_hDB = SQL_Connect("MyJailShop", true, error, sizeof(error));
 	if (g_hDB == INVALID_HANDLE)
 	{
 		g_bDBConnected = false;
@@ -2580,7 +2578,7 @@ public void DB_Connect()
 
 static void CreateTables()
 {
-	Format(g_sSQLBuffer, sizeof(g_sSQLBuffer), "CREATE TABLE if NOT EXISTS myjb_shop (accountID INT NOT NULL PRIMARY KEY default 0, steamid varchar(64) NOT NULL default '', name varchar(64) NOT NULL default '', credits INT NOT NULL default 0);");
+	Format(g_sSQLBuffer, sizeof(g_sSQLBuffer), "CREATE TABLE if NOT EXISTS myjs_credits (accountID INT NOT NULL PRIMARY KEY default 0, steamid varchar(64) NOT NULL default '', name varchar(64) NOT NULL default '', credits INT NOT NULL default 0);");
 	SQL_FastQuery(g_hDB, g_sSQLBuffer);
 }
 
@@ -2618,12 +2616,12 @@ public void DB_AddPlayer(int client)
 		
 		// insert ifnot already in the table
 		Format(g_sSQLBuffer, sizeof(g_sSQLBuffer),
-			"INSERT IGNORE INTO myjb_shop (accountID,steamid,name,credits) VALUES (%d, '%s', '%s', 0);", id, steamid, sanitized_name);
+			"INSERT IGNORE INTO myjs_credits (accountID,steamid,name,credits) VALUES (%d, '%s', '%s', 0);", id, steamid, sanitized_name);
 		SQL_TQuery(g_hDB, SQLErrorCheckCallback, g_sSQLBuffer);
 		
 		// update the player name
 		Format(g_sSQLBuffer, sizeof(g_sSQLBuffer),
-			"UPDATE myjb_shop SET name = '%s' WHERE accountID = %d", sanitized_name, id);
+			"UPDATE myjs_credits SET name = '%s' WHERE accountID = %d", sanitized_name, id);
 		SQL_TQuery(g_hDB, SQLErrorCheckCallback, g_sSQLBuffer);
 	}
 }
@@ -2640,7 +2638,7 @@ public void DB_FetchCredits(int client)
 	{
 		SQL_LockDatabase(g_hDB);
 		Format(g_sSQLBuffer, sizeof(g_sSQLBuffer),
-			"SELECT credits FROM myjb_shop WHERE accountID = %d", GetSteamAccountID(client));
+			"SELECT credits FROM myjs_credits WHERE accountID = %d", GetSteamAccountID(client));
 		Handle query = SQL_Query(g_hDB, g_sSQLBuffer);
 		
 		if (query == INVALID_HANDLE)
@@ -2667,7 +2665,7 @@ public void DB_FetchCredits(int client)
 
 public void DB_WriteCredits(int client)
 {
-	Format(g_sSQLBuffer, sizeof(g_sSQLBuffer), "UPDATE myjb_shop set credits = %d WHERE accountID = %d", g_iCredits[client], GetSteamAccountID(client));
+	Format(g_sSQLBuffer, sizeof(g_sSQLBuffer), "UPDATE myjs_credits set credits = %d WHERE accountID = %d", g_iCredits[client], GetSteamAccountID(client));
 	SQL_TQuery(g_hDB, SQLErrorCheckCallback, g_sSQLBuffer);
 }
 
