@@ -193,7 +193,7 @@ sm_jailshop_molotov_price - 0 - disabled, price of the 'Molotov & flashs' shop i
 1. OPTIONAL need sm_jailshop_mysql "1" 
     * Open *your* ```databases.cfg``` in ```your csgo/addons/sourcemod/configs``` directory and add the following content:
 	
-        * ```
+    ```
 	"MyJailShop"
     {
         "driver"        "mysql"
@@ -277,4 +277,4 @@ Even if you are a beginner and willing to learn or you just want to help with tr
   
   
   
-[SIZE="1"]my golden faucets not finance itself...[/SIZE] [ !http://shanapu.de/donate.gif)]("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=QT8TVRSYWP53J")
+*my golden faucets not finance itself...* [ ![](http://shanapu.de/donate.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=QT8TVRSYWP53J)
