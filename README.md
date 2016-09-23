@@ -1,21 +1,19 @@
 ## MyJailShop
-
   
 MyJailShop a redux rewrite of [Dkmuniz Jail Shop](https://forums.alliedmods.net/showthread.php?t=247917)
   
 ---
   
-
 ***Description:***
-
+  
 MyJailShop provide you a high customizable shop with credits system.
-
-
-
+  
+  
+  
 ***Shop Items:***
-
+  
 Guards & prisoner / CT & T - both:
-
+  
 * Heal up to 100HP
 * Armor & extra HP
 * Revive / respawn
@@ -24,10 +22,10 @@ Guards & prisoner / CT & T - both:
 * Low Gravity
 * No Damage / Immortal
 * Wallhack
-
-
+  
+  
 Prisoner / Terrorist - only:
-
+  
 * Open Cells (smartjaildoors)
 * Vampire - +speed & HP for damage
 * Invisible
@@ -43,16 +41,9 @@ Prisoner / Terrorist - only:
 * Throw One hit Knife
 * Three bullets Taser
 * Molotov & flashs
-
-
-***Commands & convars***
-
-
-
-***Warden***
-This plugins allows players to take control over the prison as warden/Headguard/Commander.  
-Chat, hud & sound notifications about warden / no warden. Vote to retire the warden. Colorized warden and define the color. Set warden Model and icon above pleayers head. Open & close cell doors & automatic open. Mute terroist for a amoung of time or round end. Extend roundtime. Gun plant prevention - CT can drop weapons only on round beginn without punishment & report to warden. Use Zeus as Handcuffs and move the cuffed T around. Cuffed T got a chance to gets a paperclip to unlock cuffs. Give warden laser pointer & painter(LaZzZers) with menu to choose color. Warden can toggle painter for terrorists. Set different countdowns (start/stop) with overlays, sound & chat notifications. Start a MathQuiz with endtimer & show the player with the first right answer. Toggle Friendly Fire & No Block. Kill/pick a random T (excluding rebels & last T) with different kill effects(Lighting,Timebomb,Firebomb). Count Player In Wardens radius. Mark or UnMark a player as Rebel. Automute Player when warden Talks.
-
+  
+  
+  
 **Commands**
 ```
 sm_jailshop
@@ -62,14 +53,17 @@ sm_revive
 sm_showjailcredits
 ```
 set your own custom command. take a look at "sm_jailshop_cmds_NAME"
-
+  
 *AdminCommands // ADMFLAG_GENERIC*
 ```
 sm_jailgive
 sm_jailset
 ```
-
+  
+  
+  
 **Plugin ConVars**
+  
 ```
 sm_jailshop_version - The version of this MyJailShop SourceMod plugin
 sm_jailshop_enable - 0 - disabled, 1 - enable the MyJailShop SourceMod plugin
@@ -106,11 +100,11 @@ sm_jailshop_cmds_revive - Set your custom chat commands for revive(!jailrevive (
 sm_jailshop_cmds_credits - Set your custom chat commands to see you credits (!jailcredits (no 'sm_'/'!')(seperate with comma ', ')(max. 12 commands)
 sm_jailshop_cmds_showcredits - Set your custom chat commands for see all online players credits(!showjailcredits (no 'sm_'/'!')(seperate with comma ', ')(max. 12 commands)
 ```
-
-
-
+  
+  
+  
 **Shop Item ConVars**
-
+  
 ```
 sm_jailshop_openjails_price - 0 - disabled, price of the 'Open jails' shop item (only if smartjaildoors is available)
 sm_jailshop_heal_price - 0 - disabled, price of the 'Heal' shop item
@@ -155,48 +149,51 @@ sm_jailshop_throw_knife_count - how many knifes a prisoner can throw
 sm_jailshop_taser_price - 0 - disabled, price of the '3 bullets Taser' shop item
 sm_jailshop_molotov_price - 0 - disabled, price of the 'Molotov & flashs' shop item
 ```
-
-***Optional plugins***
-
-* MyJailbreak [](https://github.com/shanapu/MyJailbreak)
-
-* Smart Jail Doors [](https://github.com/Kailo97/smartjaildoors)
-
-* CustomPlayerSkins [](https://forums.alliedmods.net/showthread.php?t=240703)
-
-
-*Include files needed for compile*[SPOILER]
-
-* autoexecconfig.inc [](https://forums.alliedmods.net/showthread.php?t=204254)
-
-* colors.inc [](https://forums.alliedmods.net/showthread.php?t=96831)
-
-* myjailshop.inc [](https://github.com/shanapu/MyJailShop/blob/master/addons/sourcemod/scripting/include/myjailshop.inc)
-
-* mystocks.inc [](https://github.com/shanapu/MyJailShop/blob/master/addons/sourcemod/scripting/include/mystocks.inc
-
-* myjailbreak.inc [](https://github.com/shanapu/MyJailbreak/blob/master/addons/sourcemod/scripting/include/myjailbreak.inc)
-
-* smartjaildoors.inc [](https://forums.alliedmods.net/showthread.php?p=2306289)
-
-* smlib.inc [](https://github.com/bcserv/smlib)
-
-* CustomPlayerSkins.inc [](https://forums.alliedmods.net/showthread.php?t=240703)
-
-
-
+  
+  
+  
+***Optional plugins***  
+  
+* MyJailbreak https://github.com/shanapu/MyJailbreak  
+  
+* Smart Jail Doors https://github.com/Kailo97/smartjaildoors  
+  
+* CustomPlayerSkins https://forums.alliedmods.net/showthread.php?t=240703
+  
+  
+  
+*Include files needed for compile*
+  
+* autoexecconfig.inc https://forums.alliedmods.net/showthread.php?t=204254
+  
+* colors.inc https://forums.alliedmods.net/showthread.php?t=96831
+  
+* myjailshop.inc https://github.com/shanapu/MyJailShop/blob/master/addons/sourcemod/scripting/include/myjailshop.inc
+  
+* mystocks.inc https://github.com/shanapu/MyJailShop/blob/master/addons/sourcemod/scripting/include/mystocks.inc
+  
+* myjailbreak.inc https://github.com/shanapu/MyJailbreak/blob/master/addons/sourcemod/scripting/include/myjailbreak.inc
+  
+* smartjaildoors.inc https://forums.alliedmods.net/showthread.php?p=2306289
+  
+* smlib.inc https://github.com/bcserv/smlib
+  
+* CustomPlayerSkins.inc https://forums.alliedmods.net/showthread.php?t=240703
+  
+  
+  
 ***Installation***
-
-
+  
 1. Make sure you have the *latest versions* of the **required plugins**
   
 1. Download the [latest release]("https://github.com/shanapu/MyJailShop/releases")
   
-1. Copy the folders **addons/**&** cfg/** to *your root* **csgo/** directory  
+1. Copy the folders **addons/** & **cfg/** to *your root* **csgo/** directory  
   
 1. OPTIONAL need sm_jailshop_mysql "1" 
     * Open *your* ```databases.cfg``` in ```your csgo/addons/sourcemod/configs``` directory and add the following content:
-    ```
+	
+        * ```
 	"MyJailShop"
     {
         "driver"        "mysql"
@@ -212,72 +209,72 @@ sm_jailshop_molotov_price - 0 - disabled, price of the 'Molotov & flashs' shop i
 1. Configure all settings in *cfg/MyJailShop* to your needs
   
 1. Have fun! Give feedback!
-
-
-
-
+  
+  
+  
 ***Latest Changes***
-
-
-**[1.0]** - initial release
+  
+1.0 - initial release
+  
+  
   
 ***Full Change Log:***
+  
 [CHANGELOG.md](https://github.com/shanapu/MyJailShop/blob/master/CHANGELOG.md)
-
-
-
-
+  
+  
+  
 ***Known Bugs***
-
-
+  
 * nothing known
-
+  
 [i]you found a bug? tell me please![/i]
-
-
-
+  
+  
+  
 ***Credits:***
 **All credits goes out to the original author [Dkmuniz](https://forums.alliedmods.net/member.php?u=230556)**.
 Also thanks to all sourcemod & metamod developers out there!
-
+  
 based/merged/used code/idea plugins:
-* [](https://forums.alliedmods.net/showthread.php?t=247917)
-* [](https://forums.alliedmods.net/showthread.php?t=269846)
+* https://forums.alliedmods.net/showthread.php?t=247917)
+* https://forums.alliedmods.net/showthread.php?t=269846)
 * if I missed someone, please tell me!
 * THANK YOU ALL!
-
-
+  
+  
+  
 ###THANKS FOR MAKING FREE SOFTWARE!
 *Much Thanks: *
 devu4, Weeeishy, Include1, KissLick, live4net for great ideas!
-
-
-
-***Download latest stable***
-[](https://github.com/shanapu/MyJailShop/releases)
-**The smx files on Github are compiled with SM 1.8. 
-If you still use 1.7.x you should update your sourcemod or compile MyJailShop for yourself on your SM version**
-
-***Download latest develop***
-[](https://github.com/shanapu/MyJailShop/)
-**The smx files on develop branch are not uptodate - you have to compile them for yourself.**
-
-***Report Bugs, Ideas, Requests & see todo:***
-[](https://github.com/shanapu/MyJailShop/issues)
-
-***Code changes stable:***
-[](https://github.com/shanapu/MyJailShop/commits/master)
-
-***Changelogs:***
-[](https://github.com/shanapu/MyJailShop/blob/master/CHANGELOG.md)
-
-
-
-coded with ![](http://shanapu.de/githearth-small.png) free software
-
+  
+  
+  
+***Download latest stable***  
+https://github.com/shanapu/MyJailShop/releases  
+**The smx files on Github are compiled with SM 1.8.  
+If you still use 1.7.x you should update your sourcemod or compile MyJailShop for yourself on your SM version**  
+  
+***Download latest develop***  
+https://github.com/shanapu/MyJailShop/  
+**The smx files on develop branch are not uptodate - you have to compile them for yourself.**  
+  
+***Report Bugs, Ideas, Requests & see todo:***  
+https://github.com/shanapu/MyJailShop/issues  
+  
+***Code changes stable:***  
+https://github.com/shanapu/MyJailShop/commits/master  
+  
+***Changelogs:***  
+https://github.com/shanapu/MyJailShop/blob/master/CHANGELOG.md  
+  
+  
+  
+coded with !http://shanapu.de/githearth-small.png) free software  
+  
 **I would be happy and very pleased if you want to join this project as an equal collaborator. 
 Even if you are a beginner and willing to learn or you just want to help with translations.** 
-
-
-
-[SIZE="1"]my golden faucets not finance itself...[/SIZE] [ ![](http://shanapu.de/donate.gif)]("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=QT8TVRSYWP53J")
+  
+  
+  
+[SIZE="1"]my golden faucets not finance itself...[/SIZE] [ !http://shanapu.de/donate.gif)]("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=QT8TVRSYWP53J")
