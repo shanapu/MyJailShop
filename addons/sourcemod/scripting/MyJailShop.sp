@@ -2,6 +2,9 @@
  * MyJailShop Plugin.
  * by: shanapu
  * https://github.com/shanapu/MyJailShop
+ * Based on: https://forums.alliedmods.net/showthread.php?t=247917
+ * Credits to original author: Dkmuniz
+ * Include code by bacardi https://forums.alliedmods.net/showthread.php?t=269846
  *
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License, version 3.0, as published by the
@@ -34,6 +37,7 @@
 #include <myjailshop>
 #include <mystocks>
 
+//Optional Plugins
 #undef REQUIRE_PLUGIN
 #include <smartjaildoors>
 #include <myjailbreak>
@@ -52,6 +56,7 @@
 
 
 //Console Variables
+//Settings
 ConVar gc_bEnable;
 ConVar gc_iCreditsMax;
 ConVar gc_iCreditsKillCT;
@@ -72,7 +77,7 @@ ConVar gc_bMySQL;
 ConVar gc_bCreditsWarmup;
 ConVar gc_iMinPlayersToGetCredits;
 ConVar gc_fCreditsTimeInterval;
-ConVar gc_iCreditsPerTime;
+ConVar gc_iCreditsTime;
 ConVar gc_iCreditsVIPPerTime;
 ConVar gc_fBuyTime;
 ConVar gc_bBuyTimeCells;
@@ -80,6 +85,7 @@ ConVar gc_bEventdays;
 ConVar gc_bNotification;
 ConVar gc_bClose;
 
+//Shop Items
 ConVar gc_iFroggyJumpOnlyTeam;
 ConVar gc_iWallhackOnlyTeam;
 ConVar gc_iGravOnlyTeam;
@@ -120,8 +126,10 @@ ConVar gc_bNoClip;
 ConVar gc_fNoClipTime;
 ConVar gc_bThrowKnife;
 ConVar gc_bWallhack;
+ConVar gc_fWallhackTime;
 ConVar gc_bFroggyJump;
 
+//Commands
 ConVar gc_sCustomCommandShop;
 ConVar gc_sCustomCommandGift;
 ConVar gc_sCustomCommandRevive;
@@ -199,17 +207,17 @@ public void OnPluginStart()
 	
 	
 	//Client Commands
-	RegConsoleCmd("drop", Command_ToggleFly);
-	RegConsoleCmd("sm_jailshop", Command_Menu_OpenShop);
-	RegConsoleCmd("sm_jailcredits", Commands_Credits);
-	RegConsoleCmd("sm_jailgift", Command_SendCredits);
-	RegConsoleCmd("sm_revive", Command_Revive);
-	RegConsoleCmd("sm_showjailcredits", Command_ShowCredits);
+	RegConsoleCmd("drop", Command_ToggleFly, "Change the flymode 'be a bird'-item");
+	RegConsoleCmd("sm_jailshop", Command_Menu_OpenShop, "Open the jail shop menu");
+	RegConsoleCmd("sm_jailcredits", Commands_Credits, "Show your jail shop credits");
+	RegConsoleCmd("sm_jailgift", Command_SendCredits, "Gift jail credits to a player - Use: sm_jailgift <#userid|name> [amount]");
+	RegConsoleCmd("sm_revive", Command_Revive, "Use shop item revive");
+	RegConsoleCmd("sm_showjailcredits", Command_ShowCredits, "Show jail credits of all online player");
 	
 	
 	//Admin Commands
-	RegAdminCmd("sm_give", AdminCommand_GiveCredits, ADMFLAG_ROOT);
-	RegAdminCmd("sm_set", AdminCommand_SetCredits, ADMFLAG_ROOT);
+	RegAdminCmd("sm_jailgive", AdminCommand_GiveCredits, ADMFLAG_ROOT);
+	RegAdminCmd("sm_jailset", AdminCommand_SetCredits, ADMFLAG_ROOT);
 	
 	
 	//Forwards
@@ -222,31 +230,32 @@ public void OnPluginStart()
 	
 	AutoExecConfig_CreateConVar("sm_jailshop_version", VERSION, "The version of this MyJailShop SourceMod plugin", FCVAR_SPONLY|FCVAR_REPLICATED|FCVAR_NOTIFY|FCVAR_DONTRECORD);
 	gc_bEnable = AutoExecConfig_CreateConVar("sm_jailshop_enable", "1", "0 - disabled, 1 - enable the MyJailShop SourceMod plugin", _, true, 0.0, true, 1.0);
-	gc_bWelcome = AutoExecConfig_CreateConVar("sm_jailshop_welcome", "1", "0 - disabled, 1 - welcome messages on spawn", _, true, 0.0, true, 1.0);
+	
 	gc_bCreditsSave = AutoExecConfig_CreateConVar("sm_jailshop_credits_save", "1", "0 - disabled, 1 - Save credits on player disconnect", _, true, 0.0, true, 1.0);
 	gc_bMySQL = AutoExecConfig_CreateConVar("sm_jailshop_mysql", "0", "0 - disabled, 1 - Should we use a mysql database to store credits", _, true, 0.0, true, 1.0);
 	gc_iCreditsMax = AutoExecConfig_CreateConVar("sm_jailshop_credits_max", "50000", "Maximum of credits to earn for a player");
 	gc_iMinPlayersToGetCredits = AutoExecConfig_CreateConVar("sm_jailshop_minplayers", "4", "Minimum players to earn credits", _, true, 0.0);
+	gc_bCreditsWarmup = AutoExecConfig_CreateConVar("sm_jailshop_warmupcredits", "1", "0 - disabled, 1 - enable players get credits on warmup", _, true, 0.0, true, 1.0);
 	
-	gc_iCreditsKillT = AutoExecConfig_CreateConVar("sm_jailshop_credits_per_kill_t", "150", "0 - disabled, amount of credits a prisioner earns when kill a Guard ()", _, true, 0.0);
-	gc_iCreditsVIPKillT = AutoExecConfig_CreateConVar("sm_jailshop_credits_per_kill_t_vip", "200", "0 - disabled, amount of credits a VIP prisioner earns when kill a Guard", _, true, 0.0);
-	gc_iCreditsKillCT = AutoExecConfig_CreateConVar("sm_jailshop_credits_per_kill_ct", "15", "0 - disabled, amount of credits a guard earns when kill a prisoner", _, true, 0.0);
-	gc_iCreditsVIPKillCT = AutoExecConfig_CreateConVar("sm_jailshop_credits_per_kill_ct_vip", "20", "0 - disabled, amount of credits a VIP guard earns when kill a prisoner", _, true, 0.0);
+	gc_iCreditsKillT = AutoExecConfig_CreateConVar("sm_jailshop_credits_kill_t", "150", "0 - disabled, amount of credits a prisioner earns when kill a Guard ()", _, true, 0.0);
+	gc_iCreditsVIPKillT = AutoExecConfig_CreateConVar("sm_jailshop_credits_kill_t_vip", "200", "0 - disabled, amount of credits a VIP prisioner earns when kill a Guard", _, true, 0.0);
+	gc_iCreditsKillCT = AutoExecConfig_CreateConVar("sm_jailshop_credits_kill_ct", "15", "0 - disabled, amount of credits a guard earns when kill a prisoner", _, true, 0.0);
+	gc_iCreditsVIPKillCT = AutoExecConfig_CreateConVar("sm_jailshop_credits_kill_ct_vip", "20", "0 - disabled, amount of credits a VIP guard earns when kill a prisoner", _, true, 0.0);
 	
 	gc_iCreditsWinT = AutoExecConfig_CreateConVar("sm_jailshop_credits_win_t", "50", "0 - disabled, amount of credits a prisioner earns when win round", _, true, 0.0);
 	gc_iCreditsVIPWinT = AutoExecConfig_CreateConVar("sm_jailshop_credits_win_t_vip", "100", "0 - disabled, amount of credits a VIP prisioner earns when win round", _, true, 0.0);
 	gc_iCreditsWinCT = AutoExecConfig_CreateConVar("sm_jailshop_credits_win_ct", "50", "0 - disabled, amount of credits a guard earns when win round", _, true, 0.0);
 	gc_iCreditsVIPWinCT = AutoExecConfig_CreateConVar("sm_jailshop_credits_win_ct_vip", "100", "0 - disabled, amount of credits a VIP guard earns when win round", _, true, 0.0);
-	gc_bCreditsWinAlive = AutoExecConfig_CreateConVar("sm_jailshop_credits_alive", "1", "0 - disabled, 1 - only alive player get credits when team win the round", _, true, 0.0, true, 1.0);
+	gc_bCreditsWinAlive = AutoExecConfig_CreateConVar("sm_jailshop_credits_win_alive", "1", "0 - disabled, 1 - only alive player get credits when team win the round", _, true, 0.0, true, 1.0);
 	
 	gc_iCreditsLR = AutoExecConfig_CreateConVar("sm_jailshop_credits_lr", "300", "0 - disabled, amount of credits for reach last request as prisoner (only if hosties is available)", _, true, 0.0);
 	gc_iCreditsVIPLR = AutoExecConfig_CreateConVar("sm_jailshop_credits_lr_vip", "400", "0 - disabled, amount of credits for reach last request as prisoner (only if hosties is available)", _, true, 0.0);
 	
-	gc_iCreditsPerTime = AutoExecConfig_CreateConVar("sm_jailshop_credits_per_time", "5", "0 - disabled, how many credits players receive every x seconds 'sm_jailshop_creditspertime_interval'", _, true, 0.0);
+	gc_iCreditsTime = AutoExecConfig_CreateConVar("sm_jailshop_credits_per_time", "5", "0 - disabled, how many credits players receive every x seconds 'sm_jailshop_credits_time_interval'", _, true, 0.0);
 	gc_fCreditsTimeInterval = AutoExecConfig_CreateConVar("sm_jailshop_credits_per_time_interval", "120", "Time in seconds a player recieved credits per time", _, true, 0.0);
-	gc_iCreditsVIPPerTime = AutoExecConfig_CreateConVar("sm_jailshop_credits_per_time_vip", "10", "0 - disabled, how many credits VIP players receive for 'sm_jailshop_creditspertime_interval", _, true, 0.0);
+	gc_iCreditsVIPPerTime = AutoExecConfig_CreateConVar("sm_jailshop_credits_per_time_vip", "10", "0 - disabled, how many credits VIP players receive for 'sm_jailshop_credits_time_interval", _, true, 0.0);
 	
-	gc_bCreditsWarmup = AutoExecConfig_CreateConVar("sm_jailshop_warmupcredits", "1", "0 - disabled, 1 - enable players get credits on warmup", _, true, 0.0, true, 1.0);
+	gc_bWelcome = AutoExecConfig_CreateConVar("sm_jailshop_welcome", "1", "0 - disabled, 1 - welcome messages on spawn", _, true, 0.0, true, 1.0);
 	gc_bNotification = AutoExecConfig_CreateConVar("sm_jailshop_notification", "1", "0 - disabled, 1 - enable chat notification everytime player get credits", _, true, 0.0, true, 1.0);
 	gc_fBuyTime = AutoExecConfig_CreateConVar("sm_jailshop_buytime", "180", "0 - disabled, Time in seconds after roundstart shopping is allowed", _, true, 0.0);
 	gc_bBuyTimeCells = AutoExecConfig_CreateConVar("sm_jailshop_buytime_cells", "0", "0 - disabled, 1 - only shopping until cell doors opened (only if smartjaildoors is available)", _, true, 0.0, true, 1.0);
@@ -267,7 +276,7 @@ public void OnPluginStart()
 	AutoExecConfig_SetFile("Items", "MyJailShop");
 	AutoExecConfig_SetCreateFile(true);
 	
-	
+	//Items
 	gc_bOpenCells = AutoExecConfig_CreateConVar("sm_jailshop_openjails_price", "800", "0 - disabled, price of the 'Open jails' shop item", _, true, 0.0);
 	gc_bHeal = AutoExecConfig_CreateConVar("sm_jailshop_heal_price", "250", "0 - disabled, price of the 'Heal' shop item", _, true, 0.0);
 	gc_iHealOnlyTeam = AutoExecConfig_CreateConVar("sm_jailshop_heal_access", "1", "0 - guards only, 1 - guards & prisoner, 2 - prisoner only ", _, true, 0.0, true, 2.0);
@@ -294,6 +303,7 @@ public void OnPluginStart()
 	gc_bNoClip = AutoExecConfig_CreateConVar("sm_jailshop_noclip_price", "9000", "0 - disabled, price of the 'No Clip' shop item", _, true, 0.0);
 	gc_fNoClipTime = AutoExecConfig_CreateConVar("sm_jailshop_noclip_time", "5.0", "Time in seconds how long the player has noclip", _, true, 1.0);
 	gc_bWallhack = AutoExecConfig_CreateConVar("sm_jailshop_wallhack_price", "25000", "0 - disabled, price of the 'Wallhack' shop item (only if CustomPlayerSkins is available)", _, true, 0.0);
+	gc_fWallhackTime = AutoExecConfig_CreateConVar("sm_jailshop_wallhack_time", "10.0", "Time in seconds how long the player has wallhack", _, true, 1.0);
 	gc_iWallhackOnlyTeam = AutoExecConfig_CreateConVar("sm_jailshop_wallhack_access", "1", "0 - guards only, 1 - guards & prisoner, 2 - prisoner only", _, true, 0.0, true, 2.0);
 	gc_bBird = AutoExecConfig_CreateConVar("sm_jailshop_bird_price", "1500", "0 - disabled, price of the 'Be a Bird' shop item", _, true, 0.0);
 	gc_iBird = AutoExecConfig_CreateConVar("sm_jailshop_bird_mode", "1", "1 - Chicken / 2 - Pigeon / 3 - Crow", _, true, 1.0, true, 3.0);
@@ -371,15 +381,15 @@ public void OnConfigsExecuted()
 	char sCommands[128], sCommandsL[12][32], sCommand[32];
 	
 	//Shop menu
-	gc_sCustomCommandShop.GetString(sCommands, sizeof(sCommands));
-	ReplaceString(sCommands, sizeof(sCommands), " ","");
-	iCount = ExplodeString(sCommands, ",", sCommandsL, sizeof(sCommandsL), sizeof(sCommandsL[]));
+	gc_sCustomCommandShop.GetString(sCommands, sizeof(sCommands)); //Get new commands
+	ReplaceString(sCommands, sizeof(sCommands), " ",""); //Remove the spaces " "
+	iCount = ExplodeString(sCommands, ",", sCommandsL, sizeof(sCommandsL), sizeof(sCommandsL[])); //Split commands to single command and count
 	
-	for (int i = 0; i < iCount; i++)
+	for (int i = 0; i < iCount; i++) //Loop the counted single commands
 	{
-		Format(sCommand, sizeof(sCommand), "sm_%s", sCommandsL[i]);
+		Format(sCommand, sizeof(sCommand), "sm_%s", sCommandsL[i]); //Add sm_ for console command
 		if (GetCommandFlags(sCommand) == INVALID_FCVAR_FLAGS)  //if command not already exist
-			RegConsoleCmd(sCommand, Command_Menu_OpenShop);
+			RegConsoleCmd(sCommand, Command_Menu_OpenShop); //set new command
 	}
 	
 	//Shop show credits
@@ -431,72 +441,40 @@ public void OnConfigsExecuted()
 	}
 }
 
-public void OnAllPluginsLoaded()
-{
-	gp_bSmartJailDoors = LibraryExists("smartjaildoors");
-	gp_bMyJailBreak = LibraryExists("myjailbreak");
-	gp_bCustomPlayerSkins = LibraryExists("CustomPlayerSkins");
-}
-
-
-public void OnLibraryRemoved(const char[] name)
-{
-	if (StrEqual(name, "smartjaildoors"))
-		gp_bSmartJailDoors = false;
-	
-	if (StrEqual(name, "myjailbreak"))
-		gp_bMyJailBreak = false;
-	
-	if (StrEqual(name, "CustomPlayerSkins"))
-		gp_bCustomPlayerSkins = false;
-}
-
-
-public void OnLibraryAdded(const char[] name)
-{
-	if (StrEqual(name, "smartjaildoors"))
-		gp_bSmartJailDoors = true;
-	
-	if (StrEqual(name, "myjailbreak"))
-		gp_bMyJailBreak = true;
-	
-	if (StrEqual(name, "CustomPlayerSkins"))
-		gp_bCustomPlayerSkins = true;
-}
-
-
 
 /******************************************************************************
                    COMMANDS
 ******************************************************************************/
 
 
+//sm_jailcredits
 public Action Commands_Credits(int client, int args)
 {
-	if (client == 0)
+	if (client == 0) //if client is server/serverconsole
 	{
 		CReplyToCommand(client, "%t", "Command is in-game only");
 		return Plugin_Handled;
 	}
-	if (!gc_bEnable.BoolValue)
+	if (!gc_bEnable.BoolValue) //if plugin is disbaled
 	{
 		CReplyToCommand(client, "%t %t", "shop_tag", "shop_disabled");
 		return Plugin_Handled;
 	}
-	
+	//Show credits in chat
 	CReplyToCommand(client, "%t %t", "shop_tag", "shop_credits", g_iCredits[client]);
 	return Plugin_Handled;
 }
 
 
+//sm_jailshop
 public Action Command_Menu_OpenShop(int client, int args)
 {
-	if (!gc_bEnable.BoolValue)
+	if (!gc_bEnable.BoolValue) //if plugin is disbaled
 	{
 		CReplyToCommand(client, "%t %t", "shop_tag", "shop_disabled");
 		return Plugin_Handled;
 	}
-	if (gp_bMyJailBreak && !gc_bEventdays.BoolValue)
+	if (gp_bMyJailBreak && !gc_bEventdays.BoolValue) //Check if myjailbreak is available and if shop is allowed on eventdays
 	{
 		if (IsEventDayRunning())
 		{
@@ -505,7 +483,7 @@ public Action Command_Menu_OpenShop(int client, int args)
 		}
 	}
 	
-	if (gc_bOnlyT.BoolValue)
+	if (gc_bOnlyT.BoolValue) //shop only for terror?
 	{
 		if (GetClientTeam(client) != 2)
 		{
@@ -519,24 +497,25 @@ public Action Command_Menu_OpenShop(int client, int args)
 }
 
 
+//sm_revive
 public Action Command_Revive(int client, int args)
 {
-	if (client == 0)
+	if (client == 0) //if client is server/serverconsole
 	{
 		CReplyToCommand(client, "%t", "Command is in-game only");
 		return Plugin_Handled;
 	}
-	if (!gc_bEnable.BoolValue)
+	if (!gc_bEnable.BoolValue) //if plugin is disbaled
 	{
 		CReplyToCommand(client, "%t %t", "shop_tag", "shop_disabled");
 		return Plugin_Handled;
 	}
-	if (gc_iReviveOnlyTeam.IntValue == 2 && GetClientTeam(client) == CS_TEAM_CT)
+	if (gc_iReviveOnlyTeam.IntValue == 2 && GetClientTeam(client) == CS_TEAM_CT) //shopitem only for terror?
 	{
 		CReplyToCommand(client, "%t %t", "shop_tag", "shop_onlyt");
 		return Plugin_Handled;
 	}
-	if (gc_iReviveOnlyTeam.IntValue == 0 && GetClientTeam(client) == CS_TEAM_T)
+	if (gc_iReviveOnlyTeam.IntValue == 0 && GetClientTeam(client) == CS_TEAM_T) //shopitem only for counter-terror?
 	{
 		CReplyToCommand(client, "%t %t", "shop_tag", "shop_onlyct");
 		return Plugin_Handled;
@@ -546,9 +525,10 @@ public Action Command_Revive(int client, int args)
 }
 
 
+//drop weapon button
 public Action Command_ToggleFly(int client, int args)
 {
-	if (g_bFly[client])
+	if (g_bFly[client]) //if player is a bird
 	{
 		MoveType movetype = GetEntityMoveType(client); 
 		
@@ -562,124 +542,24 @@ public Action Command_ToggleFly(int client, int args)
 }
 
 
-public Action AdminCommand_SetCredits(int client, int args)
-{
-	if (client == 0)
-	{
-		CReplyToCommand(client, "%t", "Command is in-game only");
-		return Plugin_Handled;
-	}
-	if (!gc_bEnable.BoolValue)
-	{
-		CReplyToCommand(client, "%t %t", "shop_tag", "shop_disabled");
-		return Plugin_Handled;
-	}
-	if (args < 2) 
-	{
-		CReplyToCommand(client, "%t Use: sm_set <#userid|name> [amount]","shop_tag");
-		return Plugin_Handled;
-	}
-	
-	char arg2[10];
-	GetCmdArg(2, arg2, sizeof(arg2));
-	
-	int amount = StringToInt(arg2);
-	
-	char strTarget[32]; 
-	GetCmdArg(1, strTarget, sizeof(strTarget));
-	
-	char strTargetName[MAX_TARGET_LENGTH];
-	int TargetList[MAXPLAYERS], TargetCount;
-	bool TargetTranslate;
-	
-	if ((TargetCount = ProcessTargetString(strTarget, client, TargetList, MAXPLAYERS, COMMAND_FILTER_CONNECTED, strTargetName, sizeof(strTargetName), TargetTranslate)) <= 0)
-	{
-		ReplyToTargetError(client, TargetCount);
-		return Plugin_Handled;
-	}
-	
-	for(int i = 0; i < TargetCount; i++)
-	{
-		int iClient = TargetList[i];
-		if (IsClientInGame(iClient))
-		{
-			g_iCredits[iClient] = amount;
-			Forward_OnPlayerGetCredits(iClient, amount);
-			
-			CPrintToChat(client, "%t %t", "shop_tag", "shop_set", amount, iClient);
-			CPrintToChat(iClient, "%t %t", "shop_tag", "shop_getset", amount, client);
-		}
-	}
-	return Plugin_Handled;
-}
-
-
-public Action AdminCommand_GiveCredits(int client, int args)
-{
-	if (client == 0)
-	{
-		CReplyToCommand(client, "%t", "Command is in-game only");
-		return Plugin_Handled;
-	}
-	if (!gc_bEnable.BoolValue)
-	{
-		CReplyToCommand(client, "%t %t", "shop_tag", "shop_disabled");
-		return Plugin_Handled;
-	}
-	if (args < 2) 
-	{
-		ReplyToCommand(client, "%t Use: sm_give <#userid|name> [amount]","shop_tag");
-		return Plugin_Handled;
-	}
-	
-	char arg2[10];
-	GetCmdArg(2, arg2, sizeof(arg2));
-	
-	int amount = StringToInt(arg2);
-	
-	char strTarget[32]; GetCmdArg(1, strTarget, sizeof(strTarget));
-	char strTargetName[MAX_TARGET_LENGTH];
-	
-	int TargetList[MAXPLAYERS], TargetCount;
-	bool TargetTranslate;
-	if ((TargetCount = ProcessTargetString(strTarget, client, TargetList, MAXPLAYERS, COMMAND_FILTER_CONNECTED, strTargetName, sizeof(strTargetName), TargetTranslate)) <= 0) 
-	{
-		ReplyToTargetError(client, TargetCount); 
-		return Plugin_Handled; 
-	}
-	for(int i = 0; i < TargetCount; i++) 
-	{
-		int iClient = TargetList[i];
-		if (IsClientInGame(iClient))
-		{
-			g_iCredits[iClient] += amount;
-			Forward_OnPlayerGetCredits(iClient, amount);
-			
-			CPrintToChat(client, "%t %t", "shop_give", amount, iClient);
-			CPrintToChat(iClient, "%t %t", "shop_get", amount, client);
-		}
-	}
-	return Plugin_Handled;
-}
-
-
+//sm_jailgift
 public Action Command_SendCredits(int client, int args)
 {
-	if (!gc_bEnable.BoolValue)
+	if (client == 0) //if client is server/serverconsole
 	{
-		CReplyToCommand(client, "%t %t", "shop_tag", "shop_disabled");
+		CReplyToCommand(client, "%t", "Command is in-game only");
 		return Plugin_Handled;
 	}
 	
-	if (client == 0)
+	if (!gc_bEnable.BoolValue) //if plugin is disbaled
 	{
-		CReplyToCommand(client, "%t", "Command is in-game only");
+		CReplyToCommand(client, "%t %t", "shop_tag", "shop_disabled");
 		return Plugin_Handled;
 	}
 	
 	if (args < 2) // Not enough parameters
 	{
-		ReplyToCommand(client, "%t Use: sm_gift <#userid|name> [amount]","shop_tag");
+		ReplyToCommand(client, "%t Use: sm_jailgift <#userid|name> [amount]","shop_tag");
 		return Plugin_Handled;
 	}
 	
@@ -723,9 +603,10 @@ public Action Command_SendCredits(int client, int args)
 }
 
 
+//sm_jailcredits
 public Action Command_ShowCredits(int client, int args) 
 {
-	if (!gc_bEnable.BoolValue)
+	if (!gc_bEnable.BoolValue) //if plugin is disbaled
 	{
 		CReplyToCommand(client, "%t %t", "shop_tag", "shop_disabled");
 		return Plugin_Handled;
@@ -758,6 +639,109 @@ public int Handler_ShowCredits(Menu menu, MenuAction action, int param1, int par
 }
 
 
+//sm_jailset
+public Action AdminCommand_SetCredits(int client, int args)
+{
+	if (client == 0) //if client is server/serverconsole
+	{
+		CReplyToCommand(client, "%t", "Command is in-game only");
+		return Plugin_Handled;
+	}
+	if (!gc_bEnable.BoolValue) //if plugin is disbaled
+	{
+		CReplyToCommand(client, "%t %t", "shop_tag", "shop_disabled");
+		return Plugin_Handled;
+	}
+	if (args < 2) 
+	{
+		CReplyToCommand(client, "%t Use: sm_jailset <#userid|name> [amount]","shop_tag");
+		return Plugin_Handled;
+	}
+	
+	char arg2[10];
+	GetCmdArg(2, arg2, sizeof(arg2));
+	
+	int amount = StringToInt(arg2);
+	
+	char strTarget[32]; 
+	GetCmdArg(1, strTarget, sizeof(strTarget));
+	
+	char strTargetName[MAX_TARGET_LENGTH];
+	int TargetList[MAXPLAYERS], TargetCount;
+	bool TargetTranslate;
+	
+	if ((TargetCount = ProcessTargetString(strTarget, client, TargetList, MAXPLAYERS, COMMAND_FILTER_CONNECTED, strTargetName, sizeof(strTargetName), TargetTranslate)) <= 0)
+	{
+		ReplyToTargetError(client, TargetCount);
+		return Plugin_Handled;
+	}
+	
+	for(int i = 0; i < TargetCount; i++)
+	{
+		int iClient = TargetList[i];
+		if (IsClientInGame(iClient))
+		{
+			g_iCredits[iClient] = amount;
+			Forward_OnPlayerGetCredits(iClient, amount);
+			
+			CPrintToChat(client, "%t %t", "shop_tag", "shop_set", amount, iClient);
+			CPrintToChat(iClient, "%t %t", "shop_tag", "shop_getset", amount, client);
+		}
+	}
+	return Plugin_Handled;
+}
+
+
+//sm_jailgive
+public Action AdminCommand_GiveCredits(int client, int args)
+{
+	if (client == 0) //if client is server/serverconsole
+	{
+		CReplyToCommand(client, "%t", "Command is in-game only");
+		return Plugin_Handled;
+	}
+	if (!gc_bEnable.BoolValue) //if plugin is disbaled
+	{
+		CReplyToCommand(client, "%t %t", "shop_tag", "shop_disabled");
+		return Plugin_Handled;
+	}
+	if (args < 2) 
+	{
+		ReplyToCommand(client, "%t Use: sm_jailgive <#userid|name> [amount]","shop_tag");
+		return Plugin_Handled;
+	}
+	
+	char arg2[10];
+	GetCmdArg(2, arg2, sizeof(arg2));
+	
+	int amount = StringToInt(arg2);
+	
+	char strTarget[32]; GetCmdArg(1, strTarget, sizeof(strTarget));
+	char strTargetName[MAX_TARGET_LENGTH];
+	
+	int TargetList[MAXPLAYERS], TargetCount;
+	bool TargetTranslate;
+	if ((TargetCount = ProcessTargetString(strTarget, client, TargetList, MAXPLAYERS, COMMAND_FILTER_CONNECTED, strTargetName, sizeof(strTargetName), TargetTranslate)) <= 0) 
+	{
+		ReplyToTargetError(client, TargetCount); 
+		return Plugin_Handled; 
+	}
+	for(int i = 0; i < TargetCount; i++) 
+	{
+		int iClient = TargetList[i];
+		if (IsClientInGame(iClient))
+		{
+			g_iCredits[iClient] += amount;
+			Forward_OnPlayerGetCredits(iClient, amount);
+			
+			CPrintToChat(client, "%t %t", "shop_give", amount, iClient);
+			CPrintToChat(iClient, "%t %t", "shop_get", amount, client);
+		}
+	}
+	return Plugin_Handled;
+}
+
+
 /******************************************************************************
                    EVENTS
 ******************************************************************************/
@@ -765,14 +749,15 @@ public int Handler_ShowCredits(Menu menu, MenuAction action, int param1, int par
 
 public Action Event_PlayerDeath(Event event, const char [] name, bool dontBroadcast)
 {
-	int attacker = GetClientOfUserId(event.GetInt("attacker"));
+	int attacker = GetClientOfUserId(event.GetInt("attacker")); //get victim & attacker
 	int client = GetClientOfUserId(event.GetInt("userid"));
 	
-	if (!gc_bEnable.BoolValue) return;
+	if (!gc_bEnable.BoolValue) return; //if plugin is disbaled
 	
+	//Start timer: show !revive chat hint if enought credits & enabled
 	if ((g_iCredits[client] >= gc_bRevive.IntValue) && (gc_bRevive.IntValue != 0)) CreateTimer(2.0, Timer_DeathMessage, client);
 	
-	if (g_bFly[client])
+	if (g_bFly[client]) //if player was a bird reset model, thirdperson and flymode
 	{
 		g_bFly[client] = false;
 		ClientCommand(client, "firstperson");
@@ -850,8 +835,9 @@ public Action Event_PlayerDeath(Event event, const char [] name, bool dontBroadc
 
 public Action Event_PlayerHurt(Event event, const char [] name, bool dontBroadcast)
 {
-	int victim = GetClientOfUserId(GetEventInt(event,"userid"));
+	int victim = GetClientOfUserId(GetEventInt(event,"userid")); //get victim & attacker
 	int attacker = GetClientOfUserId(event.GetInt("attacker"));
+	
 	if (attacker == 0 || !g_bFireHE[attacker]) 
 		return;
 	
@@ -999,24 +985,44 @@ public void Event_WeaponFire(Event event, char [] name, bool dontBroadcast)
 }
 
 
-/*
-
-
-public Action Event_PlayerSpawn(Event event, const char [] name, bool dontBroadcast)
-{
-	int client = GetClientOfUserId(event.GetInt("userid"));
-	
-	if (GetClientTeam(client) == 1 && !IsPlayerAlive(client))
-	{
-		return;
-	}
-}
-*/
-
-
 /******************************************************************************
                    FUNCTIONS LISTEN
 ******************************************************************************/
+
+
+// Check for optional Plugins
+public void OnAllPluginsLoaded()
+{
+	gp_bSmartJailDoors = LibraryExists("smartjaildoors");
+	gp_bMyJailBreak = LibraryExists("myjailbreak");
+	gp_bCustomPlayerSkins = LibraryExists("CustomPlayerSkins");
+}
+
+
+public void OnLibraryRemoved(const char[] name)
+{
+	if (StrEqual(name, "smartjaildoors"))
+		gp_bSmartJailDoors = false;
+	
+	if (StrEqual(name, "myjailbreak"))
+		gp_bMyJailBreak = false;
+	
+	if (StrEqual(name, "CustomPlayerSkins"))
+		gp_bCustomPlayerSkins = false;
+}
+
+
+public void OnLibraryAdded(const char[] name)
+{
+	if (StrEqual(name, "smartjaildoors"))
+		gp_bSmartJailDoors = true;
+	
+	if (StrEqual(name, "myjailbreak"))
+		gp_bMyJailBreak = true;
+	
+	if (StrEqual(name, "CustomPlayerSkins"))
+		gp_bCustomPlayerSkins = true;
+}
 
 
 public void OnMapStart()
@@ -1028,12 +1034,12 @@ public void OnMapStart()
 	
 	if (!g_bDBConnected && gc_bMySQL.BoolValue) DB_Connect();
 	
-	LoopValidClients(i, false, true) if (gc_bMySQL.BoolValue)
+	if (gc_bMySQL.BoolValue) LoopValidClients(i, false, true)
 	{
 		DB_AddPlayer(i);
 		DB_FetchCredits(i);
 	}
-	if (gc_iCreditsPerTime.IntValue != 0) g_hTimerCredits = CreateTimer(gc_fCreditsTimeInterval.FloatValue, Timer_Credits, _, TIMER_REPEAT);
+	if (gc_iCreditsTime.IntValue != 0) g_hTimerCredits = CreateTimer(gc_fCreditsTimeInterval.FloatValue, Timer_Credits, _, TIMER_REPEAT);
 }
 
 
@@ -1095,10 +1101,9 @@ public void OnEntityCreated(int iEntity, const char [] classname)
 public void Hook_OnEntitySpawned(int iGrenade)
 {
 	int client = GetEntPropEnt(iGrenade, Prop_Send, "m_hOwnerEntity");
-	if (IsValidClient(client, true, true))
-	{
-		if (g_bTeleportSmoke[client]) SetClientViewEntity(client, iGrenade);
-	}
+	
+	if (IsValidClient(client, true, true) && g_bTeleportSmoke[client])
+		SetClientViewEntity(client, iGrenade);
 }
 
 
@@ -1392,7 +1397,7 @@ public Action ResetPlayer(int client)
 		SDKUnhook(client, SDKHook_SetTransmit, Hook_SetTransmit);
 	}
 	
-	UnhookWallhack(client);
+	if (gp_bCustomPlayerSkins) UnhookWallhack(client);
 	
 	g_bPoison[client] = false;
 	g_bVampire[client] = false;
@@ -2103,7 +2108,10 @@ void Item_Wallhack(int client, char [] name)
 			
 			LoopClients(i) Setup_WallhackSkin(i);
 			
+			CreateTimer (gc_fWallhackTime.FloatValue, Timer_Wallhack, client);
+			
 			g_iCredits[client] -= gc_bWallhack.IntValue;
+			
 			Forward_OnPlayerBuyItem(client, name);
 			
 			CPrintToChatAll("%t %t", "shop_tag", "shop_wallhack", client);
@@ -2188,7 +2196,6 @@ void UnhookWallhack(int client)
 	{
 		char sModel[PLATFORM_MAX_PATH];
 		GetClientModel(client, sModel, sizeof(sModel));
-	//	SetEntProp(client, Prop_Send, "m_bShouldGlow", false, true);
 		SDKUnhook(client, SDKHook_SetTransmit, OnSetTransmit_Wallhack);
 	}
 }
@@ -2307,6 +2314,12 @@ public Action Timer_NoClip(Handle timer, any client)
 }
 
 
+public Action Timer_Wallhack(Handle timer, any client)
+{
+	g_bWallhack[client] = false;
+}
+
+
 public Action Timer_WelcomeMessage(Handle timer, any client)
 {
 	if (gc_bWelcome.BoolValue && IsClientInGame(client) && gc_bEnable.BoolValue) CPrintToChat(client, "%t %t", "shop_tag", "shop_welcome");
@@ -2364,9 +2377,9 @@ public Action Timer_Credits (Handle timer)
 			}
 			else
 			{
-				if (gc_bNotification.BoolValue) CPrintToChat(i, "%t %t", "shop_tag", "shop_playtime", gc_iCreditsPerTime.IntValue);
-				g_iCredits[i] += gc_iCreditsPerTime.IntValue;
-				Forward_OnPlayerGetCredits(i, gc_iCreditsPerTime.IntValue);
+				if (gc_bNotification.BoolValue) CPrintToChat(i, "%t %t", "shop_tag", "shop_playtime", gc_iCreditsTime.IntValue);
+				g_iCredits[i] += gc_iCreditsTime.IntValue;
+				Forward_OnPlayerGetCredits(i, gc_iCreditsTime.IntValue);
 			}
 		}
 	}
@@ -2528,7 +2541,7 @@ public Action Event_PlayerDisconnect(Event event, const char [] name, bool dontB
 		if (!g_bDBConnected && gc_bMySQL.BoolValue) DB_Connect();
 		DB_WriteCredits(client);
 	}
-	UnhookWallhack(client);
+	if (gp_bCustomPlayerSkins) UnhookWallhack(client);
 	return Plugin_Continue;
 }
 
