@@ -353,7 +353,7 @@
 	}
 	
 	"shop_menu_nodamage"
-	{	
+	{
 		"#format"	"{1:d}"
 		"en"		"No damage for 20 seconds [{1}¢]"
 	}

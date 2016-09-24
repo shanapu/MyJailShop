@@ -284,7 +284,7 @@ public void OnPluginStart()
 	gc_iHealthExtra = AutoExecConfig_CreateConVar("sm_jailshop_health_extra", "150", "How many HP get extra with the armor", _, true, 0.0);
 	gc_iHealthExtraOnlyTeam = AutoExecConfig_CreateConVar("sm_jailshop_health_extra_access", "1", "0 - guards only, 1 - guards & prisoner, 2 - prisoner only", _, true, 0.0, true, 2.0);
 	gc_bRevive = AutoExecConfig_CreateConVar("sm_jailshop_revive_price", "8000", "0 - disabled, price of the 'Revive' shop item", _, true, 0.0);
-	gc_iReviveOnlyTeam = AutoExecConfig_CreateConVar("sm_jailshop_heal_access", "1", "0 - guards only, 1 - guards & prisoner, 2 - prisoner only  ", _, true, 0.0, true, 2.0);
+	gc_iReviveOnlyTeam = AutoExecConfig_CreateConVar("sm_jailshop_revive_access", "1", "0 - guards only, 1 - guards & prisoner, 2 - prisoner only  ", _, true, 0.0, true, 2.0);
 	gc_bVampire = AutoExecConfig_CreateConVar("sm_jailshop_vampire_price", "4000", "0 - disabled, price of the 'Vampire' shop item", _, true, 0.0);
 	gc_fVampireSpeed = AutoExecConfig_CreateConVar("sm_jailshop_vampire_speed", "1.5", "Ratio for how fast the player will walk (1 - normal)", _, true, 0.5);
 	gc_fVampireDamageMultiplier = AutoExecConfig_CreateConVar("sm_jailshop_vampire_multiplier", "0.5", "Multiplier how many heatlh per damage  (e.g. 100damage * 0.5 = 50HP extra)", _, true, 1.0);
@@ -538,7 +538,7 @@ public Action Command_ToggleFly(int client, int args)
 		}
 		else SetEntityMoveType(client, MOVETYPE_WALK);
 	}
-	return Plugin_Handled;
+	return Plugin_Continue;
 }
 
 
@@ -1130,6 +1130,7 @@ public void OnClientPutInServer(int client)
 {
 	SDKHook(client, SDKHook_OnTakeDamage, Hook_OnTakeDamage);
 	SDKHook(client, SDKHook_WeaponCanUse, Hook_OnWeaponCanUse);
+	
 	g_bNoDamage[client] = false;
 	g_bInvisible[client] = false;
 	g_bPoison[client] = false;
