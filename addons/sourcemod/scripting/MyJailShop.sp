@@ -140,7 +140,7 @@ ConVar gc_sCustomCommandMassCredits;
 //Booleans
 bool g_bInvisible[MAXPLAYERS+1] = false;
 bool g_bFly[MAXPLAYERS+1] = false;
-bool g_NoDamage[MAXPLAYERS+1] = false;
+bool g_bNoDamage[MAXPLAYERS+1] = false;
 bool g_bPoison[MAXPLAYERS+1] = false;
 bool g_bVampire[MAXPLAYERS+1] = false;
 bool g_bSuperKnife[MAXPLAYERS+1] = false;
@@ -919,14 +919,14 @@ public Action Event_RoundEnd(Event event, const char [] name, bool dontBroadcast
 		{
 			if (IsPlayerReservationAdmin(i) && gc_iCreditsVIPWinT.IntValue != 0)
 			{
-				if (gc_bNotification.BoolValue) CPrintToChat(i, "%t %t", "shop_tag", "shop_wint", g_iCredits[i], gc_iCreditsVIPWinT.IntValue);
 				g_iCredits[i] += gc_iCreditsVIPWinT.IntValue;
+				if (gc_bNotification.BoolValue) CPrintToChat(i, "%t %t", "shop_tag", "shop_win", g_iCredits[i], gc_iCreditsVIPWinT.IntValue);
 				Forward_OnPlayerGetCredits(i, gc_iCreditsVIPWinT.IntValue);
 			}
 			else if (gc_iCreditsWinT.IntValue != 0)
 			{
-				if (gc_bNotification.BoolValue) CPrintToChat(i, "%t %t", "shop_tag", "shop_wint", g_iCredits[i], gc_iCreditsWinT.IntValue);
 				g_iCredits[i] += gc_iCreditsWinT.IntValue;
+				if (gc_bNotification.BoolValue) CPrintToChat(i, "%t %t", "shop_tag", "shop_win", g_iCredits[i], gc_iCreditsWinT.IntValue);
 				Forward_OnPlayerGetCredits(i, gc_iCreditsWinT.IntValue);
 			}
 		}
@@ -937,15 +937,15 @@ public Action Event_RoundEnd(Event event, const char [] name, bool dontBroadcast
 		{
 			if (IsPlayerReservationAdmin(i) && gc_iCreditsVIPWinCT.IntValue != 0)
 			{
-				if (gc_bNotification.BoolValue) CPrintToChat(i, "%t %t", "shop_tag", "shop_winct", g_iCredits[i], gc_iCreditsVIPWinCT.IntValue);
 				g_iCredits[i] += gc_iCreditsVIPWinCT.IntValue;
+				if (gc_bNotification.BoolValue) CPrintToChat(i, "%t %t", "shop_tag", "shop_win", g_iCredits[i], gc_iCreditsVIPWinCT.IntValue);
 				Forward_OnPlayerGetCredits(i, gc_iCreditsVIPWinCT.IntValue);
 			}
 			else if(gc_iCreditsVIPWinCT.IntValue != 0)
 			{
-				if (gc_bNotification.BoolValue) CPrintToChat(i, "%t %t", "shop_tag", "shop_winct", g_iCredits[i], gc_iCreditsWinCT.IntValue);
 				g_iCredits[i] += gc_iCreditsWinCT.IntValue;
-				Forward_OnPlayerGetCredits(i, gc_iCreditsWinCT.IntValue);
+				if (gc_bNotification.BoolValue) CPrintToChat(i, "%t %t", "shop_tag", "shop_win", g_iCredits[i], gc_iCreditsWinCT.IntValue);
+			 	Forward_OnPlayerGetCredits(i, gc_iCreditsWinCT.IntValue);
 			}
 		}
 	}
@@ -1109,7 +1109,7 @@ public void Hook_OnEntitySpawned(int iGrenade)
 
 public void OnClientPostAdminCheck(int client)
 {
-	g_NoDamage[client] = false;
+	g_bNoDamage[client] = false;
 	g_bInvisible[client] = false;
 	g_bFireHE[client] = false;
 	g_bSuperKnife[client] = false;
@@ -1130,7 +1130,7 @@ public void OnClientPutInServer(int client)
 {
 	SDKHook(client, SDKHook_OnTakeDamage, Hook_OnTakeDamage);
 	SDKHook(client, SDKHook_WeaponCanUse, Hook_OnWeaponCanUse);
-	g_NoDamage[client] = false;
+	g_bNoDamage[client] = false;
 	g_bInvisible[client] = false;
 	g_bPoison[client] = false;
 	g_bVampire[client] = false;
@@ -1150,7 +1150,7 @@ public void OnClientPutInServer(int client)
 
 public Action Hook_OnTakeDamage(int victim, int &attacker, int &inflictor, float &damage, int &damagetype)
 {
-	if (g_NoDamage[victim] || g_bNoClip[attacker])
+	if (g_bNoDamage[victim] || g_bNoClip[attacker])
 	{
 		damage = 0.0;
 		return Plugin_Changed;
@@ -1389,7 +1389,7 @@ public Action ResetPlayer(int client)
 		SetEntityMoveType(client, MOVETYPE_WALK);
 	}
 	
-	if (g_NoDamage[client]) g_NoDamage[client] = false;
+	if (g_bNoDamage[client]) g_bNoDamage[client] = false;
 	
 	if (g_bInvisible[client])
 	{
@@ -1745,7 +1745,7 @@ void Item_NoDamage(int client, char [] name)
 {
 	if (IsPlayerAlive(client))
 	{
-		g_NoDamage[client] = true;
+		g_bNoDamage[client] = true;
 		CreateTimer(gc_fNoDamageTime.FloatValue, Timer_NoDamage, client);
 		g_iCredits[client] -= gc_bNoDamage.IntValue;
 		Forward_OnPlayerBuyItem(client, name);
@@ -2391,7 +2391,7 @@ public Action Timer_NoDamage(Handle timer, any client)
 	if (IsClientInGame(client) && IsPlayerAlive(client))
 	{
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_unnodamage");
-		g_NoDamage[client] = false;
+		g_bNoDamage[client] = false;
 	}
 	
 }

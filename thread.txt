@@ -167,6 +167,8 @@ sm_jailshop_molotov_price - 0 - disabled, price of the 'Molotov & flashs' shop i
 
 [*]CustomPlayerSkins [url]https://forums.alliedmods.net/showthread.php?t=240703[/url]
 
+[*]Hosties 2 [url]https://forums.alliedmods.net/forumdisplay.php?f=155[/url]
+
 [/LIST]
 [U]Include files needed for compile[/U][SPOILER]
 [LIST]

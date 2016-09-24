@@ -331,7 +331,7 @@
 	
 	"shop_welcome"
 	{
-		"en" 	"Type !shop to open the shop. Kill to win ¢redits on shop."
+		"en" 	"Type !shop to open the shop. Kill/win/play to win ¢redits on shop."
 	}
 	
 	"shop_credits"
@@ -386,13 +386,19 @@
 		"en" 		"You get {2} ¢redits for killing the prisoner {3}. Now you have: {1}¢"
 	}
 	
+	"shop_win"
+	{
+		"#format" 	"{1:d},{2:d}"
+		"en" 		"You get {2} ¢redits for winning the round. Now you have: {1}¢"
+	}
+	
 	"shop_lastrequest"
 	{
 		"#format" 	"{1:d},{2:d}"
 		"en" 		"You get {2} ¢redits for attain the last request. Now you have: {1}¢"
 	}
 	
-	"shop_menu_player¢redits"
+	"shop_menu_playercredits"
 	{
 		"en" 		"Players ¢redits on shop:"
 	}

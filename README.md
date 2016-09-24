@@ -160,6 +160,8 @@ sm_jailshop_molotov_price - 0 - disabled, price of the 'Molotov & flashs' shop i
   
 * CustomPlayerSkins https://forums.alliedmods.net/showthread.php?t=240703
   
+* Hosties 2 https://forums.alliedmods.net/forumdisplay.php?f=155
+  
   
   
 *Include files needed for compile*
@@ -228,7 +230,7 @@ sm_jailshop_molotov_price - 0 - disabled, price of the 'Molotov & flashs' shop i
   
 * nothing known
   
-[i]you found a bug? tell me please![/i]
+*you found a bug? tell me please!*
   
   
   
@@ -237,8 +239,8 @@ sm_jailshop_molotov_price - 0 - disabled, price of the 'Molotov & flashs' shop i
 Also thanks to all sourcemod & metamod developers out there!
   
 based/merged/used code/idea plugins:
-* https://forums.alliedmods.net/showthread.php?t=247917)
-* https://forums.alliedmods.net/showthread.php?t=269846)
+* https://forums.alliedmods.net/showthread.php?t=247917
+* https://forums.alliedmods.net/showthread.php?t=269846
 * if I missed someone, please tell me!
 * THANK YOU ALL!
   
@@ -270,7 +272,7 @@ https://github.com/shanapu/MyJailShop/blob/master/CHANGELOG.md
   
   
   
-coded with !http://shanapu.de/githearth-small.png) free software  
+coded with ![](http://shanapu.de/githearth-small.png) free software  
   
 **I would be happy and very pleased if you want to join this project as an equal collaborator. 
 Even if you are a beginner and willing to learn or you just want to help with translations.** 
