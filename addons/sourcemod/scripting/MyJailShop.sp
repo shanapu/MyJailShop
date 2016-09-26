@@ -1149,32 +1149,35 @@ public void OnClientPutInServer(int client)
 }
 
 
-public Action Hook_OnTakeDamage(int victim, int &attacker, int &inflictor, float &damage, int &damagetype)
+public Action Hook_OnTakeDamage(int victim, int &attacker, int &inflictor, float &damage, int &damagetype)  //todo clean up a bit
 {
-	if (g_bNoDamage[victim] || g_bNoClip[attacker])
+	if(attacker > 0 && attacker <= MaxClients && victim > 0 && victim <= MaxClients)
 	{
-		damage = 0.0;
-		return Plugin_Changed;
-	}
-	else if (IsValidClient(victim, true, false)|| attacker == victim || IsValidClient(attacker, true, false))
-	{
-		ConVar g_bFF = FindConVar("mp_friendlyfire");
-		if ((g_bVampire[attacker] && GetClientTeam(victim) != GetClientTeam(attacker)) || (g_bVampire[attacker] && g_bFF.BoolValue))
+		if (g_bNoDamage[victim] || g_bNoClip[attacker])
 		{
-			int newHP = RoundToFloor(damage * gc_fVampireDamageMultiplier.FloatValue);
-			newHP += GetClientHealth(attacker);
-			SetEntityHealth(attacker, newHP);
+			damage = 0.0;
+			return Plugin_Changed;
 		}
-		
-		if (g_bSuperKnife[attacker])
+		else if (IsValidClient(victim, true, false)|| attacker == victim || IsValidClient(attacker, true, false))
 		{
-			char weaponName[255];
-			GetClientWeapon(attacker, weaponName, sizeof(weaponName));
-			
-			if (StrEqual(weaponName, "weapon_knifegg"))
+			ConVar g_bFF = FindConVar("mp_friendlyfire");
+			if ((g_bVampire[attacker] && GetClientTeam(victim) != GetClientTeam(attacker)) || (g_bVampire[attacker] && g_bFF.BoolValue))
 			{
-				damage = 1000.0;
-				return Plugin_Changed;
+				int newHP = RoundToFloor(damage * gc_fVampireDamageMultiplier.FloatValue);
+				newHP += GetClientHealth(attacker);
+				SetEntityHealth(attacker, newHP);
+			}
+			
+			if (g_bSuperKnife[attacker])
+			{
+				char weaponName[255];
+				GetClientWeapon(attacker, weaponName, sizeof(weaponName));
+				
+				if (StrEqual(weaponName, "weapon_knifegg"))
+				{
+					damage = 1000.0;
+					return Plugin_Changed;
+				}
 			}
 		}
 	}
