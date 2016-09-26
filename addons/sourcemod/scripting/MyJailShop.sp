@@ -594,8 +594,8 @@ public Action Command_SendCredits(int client, int args)
 				g_iCredits[iClient] += amount;
 				Forward_OnPlayerGetCredits(iClient, amount);
 				
-				CPrintToChat(client, "%t %t", "shop_give", amount, iClient);
-				CPrintToChat(iClient, "%t %t", "shop_get", amount, client);
+				CPrintToChat(client, "%t %t", "shop_tag", "shop_give", amount, iClient);
+				CPrintToChat(iClient, "%t %t", "shop_tag", "shop_get", amount, client);
 			}
 		}
 	}
