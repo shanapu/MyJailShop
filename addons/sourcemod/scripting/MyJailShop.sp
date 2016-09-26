@@ -1171,7 +1171,11 @@ public Action Hook_OnTakeDamage(int victim, int &attacker, int &inflictor, float
 			char weaponName[255];
 			GetClientWeapon(attacker, weaponName, sizeof(weaponName));
 			
-			if (StrEqual(weaponName, "weapon_knifegg")) DealDamage(victim,100,attacker,DMG_BULLET,weaponName);
+			if (StrEqual(weaponName, "weapon_knifegg"))
+			{
+				damage = 1000.0;
+				return Plugin_Changed;
+			}
 		}
 	}
 	return Plugin_Continue;
@@ -1241,7 +1245,6 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 					if (velocity2 < -150.0) velocity2_new = velocity2_new + 80.0;
 					
 					if (velocity2 < -200.0) velocity2_new = velocity2_new + 90.0;
-					
 					
 					// Set new velocity
 					velocity[0] = velocity0 * 0.1;
