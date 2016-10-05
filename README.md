@@ -6,7 +6,7 @@ MyJailShop a redux rewrite of [Dkmuniz Jail Shop](https://forums.alliedmods.net/
   
 ***Description:***
   
-MyJailShop provide you a high customizable shop with credits system.
+MyJailShop provide you a high customizable shop with credits system intended for jailbreak server.
   
   
   
@@ -21,15 +21,15 @@ Guards & prisoner / CT & T - both:
 * Froggy Jump / double jump
 * Low Gravity
 * No Damage / Immortal
-* Wallhack
+* Wallhack for x sec. (optional - need CustomPlayerSkins)
   
   
 Prisoner / Terrorist - only:
   
-* Open Cells (smartjaildoors)
+* Open Cells (optional - need smartjaildoors)
 * Vampire - +speed & HP for damage
-* Invisible
-* No Clip
+* Invisible for x sec.
+* No Clip for x sec.
 * Be a Bird
 * Fake Guard Model
 * Teleport smoke
@@ -44,20 +44,33 @@ Prisoner / Terrorist - only:
   
   
   
+**Features:**
+  
+* SourcePawn Transitional Syntax 1.7
+* Multilingual support
+* Console Varibale for all features
+* Custom chat commands !mycommand
+* Custom chat tags [jail.shop]
+* Colors
+* Natives & forwards - some gambling plugins coming soon
+* some other fancy stuff
+  
+  
+  
 **Commands**
 ```
-sm_jailshop
-sm_jailcredits
-sm_jailgift
-sm_revive
-sm_showjailcredits
+sm_jailshop - Open the jail shop menu
+sm_jailcredits - Show your jail shop credits
+sm_jailgift - Gift jail shop credits to a player - Use: sm_jailgift <#userid|name> [amount]
+sm_revive - Use jail shop item revive
+sm_showjailcredits - Show jail shop credits of all online player
 ```
 set your own custom command. take a look at "sm_jailshop_cmds_NAME"
   
 *AdminCommands // ADMFLAG_GENERIC*
 ```
-sm_jailgive
-sm_jailset
+sm_jailgive - Give jail shop credits to a player - Use: sm_jailgive <#userid|name> [amount]
+sm_jailset - Set jail shop credits of a player - Use: sm_jailgift <#userid|name> [amount]
 ```
   
   
@@ -192,7 +205,11 @@ sm_jailshop_molotov_price - 0 - disabled, price of the 'Molotov & flashs' shop i
   
 1. Copy the folders **addons/** & **cfg/** to *your root* **csgo/** directory  
   
-1. OPTIONAL need sm_jailshop_mysql "1" 
+1. Run plugin for the first time and *all necessary .cfg files will be generated*  
+  
+1. Configure all settings in *cfg/MyJailShop* to your needs
+  
+1. OPTIONAL MYSQL - need sm_jailshop_mysql "1" 
     * Open *your* ```databases.cfg``` in ```your csgo/addons/sourcemod/configs``` directory and add the following content:
 	
     ```
@@ -206,17 +223,7 @@ sm_jailshop_molotov_price - 0 - disabled, price of the 'Molotov & flashs' shop i
     }
 	```
   
-1. Run plugin for the first time and *all necessary .cfg files will be generated*  
-  
-1. Configure all settings in *cfg/MyJailShop* to your needs
-  
 1. Have fun! Give feedback!
-  
-  
-  
-***Latest Changes***
-  
-1.0 - initial release
   
   
   

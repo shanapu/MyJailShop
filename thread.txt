@@ -1,4 +1,4 @@
-[SIZE="5"][B]MyJailbShop [/B][/SIZE] a redux rewrite of [URL="https://forums.alliedmods.net/showthread.php?t=247917"]Dkmuniz Jail Shop[/URL]
+[SIZE="5"][B]MyJailbShop[/B][/SIZE] a redux rewrite of [URL="https://forums.alliedmods.net/showthread.php?t=247917"]Dkmuniz Jail Shop[/URL]
 
 
 [B][u]Description:[/u][/B]
@@ -9,7 +9,7 @@ MyJailShop provide you a high customizable shop with credits system intended for
 
 [B][u]Shop Items:[/u][/B]
 
-Guards & prisoner / CT & T - both:
+[B]Guards & prisoner / CT & T - both:[/B]
 [LIST]
 [*]Heal up to 100HP
 [*]Armor & extra HP
@@ -18,12 +18,12 @@ Guards & prisoner / CT & T - both:
 [*]Froggy Jump / double jump
 [*]Low Gravity
 [*]No Damage / Immortal
-[*]Wallhack
+[*]Wallhack for x sec. (optional - need CustomPlayerSkins)
 [/LIST]
 
-Prisoner / Terrorist - only:
+[B]Prisoner / Terrorist - only:[/B]
 [LIST]
-[*]Open Cells (smartjaildoors)
+[*]Open Cells (optional - need smartjaildoors)
 [*]Vampire - +speed & HP for damage
 [*]Invisible for x sec.
 [*]No Clip for x sec.
@@ -42,32 +42,40 @@ Prisoner / Terrorist - only:
 
 
 
-[B][u]Commands & convars[/u][/B]
+[B][u]Features:[/u][/B]
+[LIST]
+[*]SourcePawn Transitional Syntax 1.7
+[*]Multilingual support
+[*]Console varibale for almost all features
+[*]Custom chat commands !mycommand
+[*]Custom chat tags [jail.shop]
+[*]Colors
+[*]Natives & forwards - some gambling plugins coming soon
+[*]some other fancy stuff
+[/LIST]
+
+
+
+[B][u]Commands & convars:[/u][/B]
 [SPOILER]
-
-
-[U][B]Warden[/B][/U]
-This plugins allows players to take control over the prison as warden/Headguard/Commander.  
-Chat, hud & sound notifications about warden / no warden. Vote to retire the warden. Colorized warden and define the color. Set warden Model and icon above pleayers head. Open & close cell doors & automatic open. Mute terroist for a amoung of time or round end. Extend roundtime. Gun plant prevention - CT can drop weapons only on round beginn without punishment & report to warden. Use Zeus as Handcuffs and move the cuffed T around. Cuffed T got a chance to gets a paperclip to unlock cuffs. Give warden laser pointer & painter(LaZzZers) with menu to choose color. Warden can toggle painter for terrorists. Set different countdowns (start/stop) with overlays, sound & chat notifications. Start a MathQuiz with endtimer & show the player with the first right answer. Toggle Friendly Fire & No Block. Kill/pick a random T (excluding rebels & last T) with different kill effects(Lighting,Timebomb,Firebomb). Count Player In Wardens radius. Mark or UnMark a player as Rebel. Automute Player when warden Talks.
-
-[b]Commands[/b]
+[b]Commands:[/b]
 [SPOILER]
 [CODE]
 sm_jailshop - Open the jail shop menu
 sm_jailcredits - Show your jail shop credits
-sm_jailgift - Gift jail credits to a player - Use: sm_jailgift <#userid|name> [amount]
-sm_revive - Use shop item revive
-sm_showjailcredits - Show jail credits of all online player
+sm_jailgift - Gift jail shop credits to a player - Use: sm_jailgift <#userid|name> [amount]
+sm_revive - Use jail shop item revive
+sm_showjailcredits - Show jail shop credits of all online player
 [/CODE]
 set your own custom command. take a look at "sm_jailshop_cmds_NAME"
 
 [u]AdminCommands // ADMFLAG_GENERIC[/u]
 [CODE]
-sm_give
-sm_set
+sm_jailgive - Give jail shop credits to a player - Use: sm_jailgive <#userid|name> [amount]
+sm_jailset - Set jail shop credits of a player - Use: sm_jailgift <#userid|name> [amount]
 [/CODE]
 [/SPOILER]
-[b]Plugin ConVars[/b]
+[b]Plugin ConVars:[/b]
 [SPOILER]
 [CODE]
 sm_jailshop_version - The version of this MyJailShop SourceMod plugin
@@ -107,7 +115,7 @@ sm_jailshop_cmds_showcredits - Set your custom chat commands for see all online 
 [/CODE]
 [/SPOILER]
 
-[b]Shop Item ConVars[/b]
+[b]Shop Item ConVars:[/b]
 [SPOILER]
 [CODE]
 sm_jailshop_openjails_price - 0 - disabled, price of the 'Open jails' shop item (only if smartjaildoors is available)
@@ -158,7 +166,7 @@ sm_jailshop_molotov_price - 0 - disabled, price of the 'Molotov & flashs' shop i
 [/SPOILER]
 
 
-[U][B]Optinal plugins[/B][/U]
+[U][B]Optional plugins[/B][/U]
 [LIST]
 
 [*]MyJailbreak [url]https://github.com/Kailo97/smartjaildoors[/url]
@@ -248,7 +256,23 @@ native void SetCredits(int client, int newCredits);
 [*]Run plugin for the first time and [U]all necessary .cfg files will be generated[/U]  
   
 [*]Configure all settings in [U]cfg/MyJailShop[/U] to your needs
-  
+[/LIST]
+[INDENT][LIST]
+[*]OPTIONAL MYSQL - need sm_jailshop_mysql "1" 
+    * Open *your* ```databases.cfg``` in ```your csgo/addons/sourcemod/configs``` directory and add the following content:
+	
+    ```
+	"MyJailShop"
+    {
+        "driver"        "mysql"
+        "host"          "127.0.0.1"  //IP to you MySQL server
+        "database"      "your_database_name"
+        "user"          "your_database_user"
+        "pass"          "your_database_password"
+    }
+	```
+[/LIST][/INDENT]
+[LIST]
 [*]Have fun! Give feedback!
 [/LIST]
 [/QUOTE]
@@ -286,7 +310,7 @@ based/merged/used code/idea plugins:
 [/SPOILER]
 [SIZE="5"]THANKS FOR MAKING FREE SOFTWARE![/SIZE] :bacon!: :bacon!:
 [U]Much Thanks: [/U]
-devu4, Weeeishy, Include1, KissLick, live4net for great ideas!
+devu4, Weeeishy, Include1, KissLick, live4net for testing & great ideas!
 
 
 

@@ -216,8 +216,8 @@ public void OnPluginStart()
 	
 	
 	//Admin Commands
-	RegAdminCmd("sm_jailgive", AdminCommand_GiveCredits, ADMFLAG_ROOT);
-	RegAdminCmd("sm_jailset", AdminCommand_SetCredits, ADMFLAG_ROOT);
+	RegAdminCmd("sm_jailgive", AdminCommand_GiveCredits, ADMFLAG_ROOT, "Give jail shop credits to a player - Use: sm_jailgive <#userid|name> [amount]");
+	RegAdminCmd("sm_jailset", AdminCommand_SetCredits, ADMFLAG_ROOT, "Set jail shop credits of a player - Use: sm_jailgift <#userid|name> [amount]");
 	
 	
 	//Forwards
@@ -297,7 +297,7 @@ public void OnPluginStart()
 	gc_iGravOnlyTeam = AutoExecConfig_CreateConVar("sm_jailshop_gravity_access", "1", "0 - guards only, 1 - guards & prisoner, 2 - prisoner only ", _, true, 0.0, true, 2.0);
 	gc_bInvisible = AutoExecConfig_CreateConVar("sm_jailshop_invisible_price", "8000", "0 - disabled, price of the 'Invisible' shop item", _, true, 0.0);
 	gc_fInvisibleTime = AutoExecConfig_CreateConVar("sm_jailshop_invisible_time", "10.0", "Time in seconds how long the player is invisible", _, true, 1.0);
-	gc_bNoDamage = AutoExecConfig_CreateConVar("sm_jailshop_nodamage_price", "7000", "0 - disabled, price of the 'NoDamage' shop item", _, true, 0.0);
+	gc_bNoDamage = AutoExecConfig_CreateConVar("sm_jailshop_nodamage_price", "1500", "0 - disabled, price of the 'NoDamage' shop item", _, true, 0.0);
 	gc_fNoDamageTime = AutoExecConfig_CreateConVar("sm_jailshop_nodamage_time", "20.0", "Time in seconds how long the player got nodamage", _, true, 1.0);
 	gc_iNoDamageOnlyTeam = AutoExecConfig_CreateConVar("sm_jailshop_nodamage_access", "1", "0 - guards only, 1 - guards & prisoner, 2 - prisoner only", _, true, 0.0, true, 2.0);
 	gc_bNoClip = AutoExecConfig_CreateConVar("sm_jailshop_noclip_price", "9000", "0 - disabled, price of the 'No Clip' shop item", _, true, 0.0);
@@ -389,7 +389,7 @@ public void OnConfigsExecuted()
 	{
 		Format(sCommand, sizeof(sCommand), "sm_%s", sCommandsL[i]); //Add sm_ for console command
 		if (GetCommandFlags(sCommand) == INVALID_FCVAR_FLAGS)  //if command not already exist
-			RegConsoleCmd(sCommand, Command_Menu_OpenShop); //set new command
+			RegConsoleCmd(sCommand, Command_Menu_OpenShop, "Open the jail shop menu"); //set new command
 	}
 	
 	//Shop show credits
@@ -401,7 +401,7 @@ public void OnConfigsExecuted()
 	{
 		Format(sCommand, sizeof(sCommand), "sm_%s", sCommandsL[i]);
 		if (GetCommandFlags(sCommand) == INVALID_FCVAR_FLAGS)  //if command not already exist
-			RegConsoleCmd(sCommand, Commands_Credits);
+			RegConsoleCmd(sCommand, Commands_Credits,"Show your jail shop credits");
 	}
 	
 	//Shop revive
@@ -413,7 +413,7 @@ public void OnConfigsExecuted()
 	{
 		Format(sCommand, sizeof(sCommand), "sm_%s", sCommandsL[i]);
 		if (GetCommandFlags(sCommand) == INVALID_FCVAR_FLAGS)  //if command not already exist
-			RegConsoleCmd(sCommand, Command_Revive);
+			RegConsoleCmd(sCommand, Command_Revive, "Use jail shop item revive");
 	}
 	
 	//Shop show all credits menu
@@ -425,7 +425,7 @@ public void OnConfigsExecuted()
 	{
 		Format(sCommand, sizeof(sCommand), "sm_%s", sCommandsL[i]);
 		if (GetCommandFlags(sCommand) == INVALID_FCVAR_FLAGS)  //if command not already exist
-			RegConsoleCmd(sCommand, Command_ShowCredits);
+			RegConsoleCmd(sCommand, Command_ShowCredits, "Show jail shop credits of all online player");
 	}
 	
 	//Shop send gift credits
@@ -437,7 +437,7 @@ public void OnConfigsExecuted()
 	{
 		Format(sCommand, sizeof(sCommand), "sm_%s", sCommandsL[i]);
 		if (GetCommandFlags(sCommand) == INVALID_FCVAR_FLAGS)  //if command not already exist
-			RegConsoleCmd(sCommand, Command_SendCredits);
+			RegConsoleCmd(sCommand, Command_SendCredits, "Gift jail shop credits to a player - Use: sm_jailgift <#userid|name> [amount]");
 	}
 }
 
