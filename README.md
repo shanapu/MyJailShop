@@ -2,15 +2,12 @@
   
 MyJailShop a redux rewrite of [Dkmuniz Jail Shop](https://forums.alliedmods.net/showthread.php?t=247917)
   
+MyJailShop provide you a high customizable shop with credits system intended for jailbreak server.
+Earn credits for playtime, kills, your team won rounds &/or reach last request.
+  
 ---
   
-***Description:***
-  
-MyJailShop provide you a high customizable shop with credits system intended for jailbreak server.
-  
-  
-  
-***Shop Items:***
+**Shop Items:**
   
 Guards & prisoner / CT & T - both:
   
@@ -27,7 +24,7 @@ Guards & prisoner / CT & T - both:
 Prisoner / Terrorist - only:
   
 * Open Cells (optional - need smartjaildoors)
-* Vampire - +speed & HP for damage
+* Vampire / +speed & HP for damage
 * Invisible for x sec.
 * No Clip for x sec.
 * Be a Bird
@@ -48,11 +45,11 @@ Prisoner / Terrorist - only:
   
 * SourcePawn Transitional Syntax 1.7
 * Multilingual support
-* Console Varibale for all features
+* Console Varibale for all features!
 * Custom chat commands !mycommand
 * Custom chat tags [jail.shop]
 * Colors
-* Natives & forwards - some gambling plugins coming soon
+* Natives & forwards - some gambling plugins coming soon!
 * some other fancy stuff
   
   
@@ -67,7 +64,7 @@ sm_showjailcredits - Show jail shop credits of all online player
 ```
 set your own custom command. take a look at "sm_jailshop_cmds_NAME"
   
-*AdminCommands // ADMFLAG_GENERIC*
+*AdminCommands // ADMFLAG_ROOT*
 ```
 sm_jailgive - Give jail shop credits to a player - Use: sm_jailgive <#userid|name> [amount]
 sm_jailset - Set jail shop credits of a player - Use: sm_jailgift <#userid|name> [amount]
@@ -75,7 +72,7 @@ sm_jailset - Set jail shop credits of a player - Use: sm_jailgift <#userid|name>
   
   
   
-**Plugin ConVars**
+**Shop Setting ConVars**
   
 ```
 sm_jailshop_version - The version of this MyJailShop SourceMod plugin
@@ -85,12 +82,12 @@ sm_jailshop_mysql - 0 - disabled, 1 - Should we use a mysql database to store cr
 sm_jailshop_credits_max - Maximum of credits to earn for a player
 sm_jailshop_minplayers - Minimum players to earn credits
 sm_jailshop_warmupcredits - 0 - disabled, 1 - enable players get credits on warmup
-sm_jailshop_credits_kill_t - Amount of credits a prisioner earns when kill a Guard
-sm_jailshop_credits_kill_t_vip - Amount of credits a VIP prisioner earns when kill a Guard
+sm_jailshop_credits_kill_t - Amount of credits a prisoner earns when kill a Guard
+sm_jailshop_credits_kill_t_vip - Amount of credits a VIP prisoner earns when kill a Guard
 sm_jailshop_credits_kill_ct - Amount of credits a guard earns when kill a prisoner
 sm_jailshop_credits_kill_ct_vip - Amount of credits a VIP guard earns when kill a prisoner
-sm_jailshop_credits_win_t", "50", "0 - disabled, amount of credits a prisioner earns when win round
-sm_jailshop_credits_win_t_vip: 0 - disabled, amount of credits a VIP prisioner earns when win round
+sm_jailshop_credits_win_t - 0 - disabled, amount of credits a prisoner earns when win round
+sm_jailshop_credits_win_t_vip: 0 - disabled, amount of credits a VIP prisoner earns when win round
 sm_jailshop_credits_win_ct: 0 - disabled, amount of credits a guard earns when win round
 sm_jailshop_credits_win_ct_vip: 0 - disabled, amount of credits a VIP guard earns when win round
 sm_jailshop_credits_win_alive: 0 - disabled, 1 - only alive player get credits when team win the round
@@ -165,41 +162,35 @@ sm_jailshop_molotov_price - 0 - disabled, price of the 'Molotov & flashs' shop i
   
   
   
-***Optional plugins***  
+**Optional plugins**  
   
-* MyJailbreak https://github.com/shanapu/MyJailbreak  
+* [MyJailbreak](https://forums.alliedmods.net/showthread.php?t=283212) - dis/enable shopping on MyJailbreak Event Days  
   
-* Smart Jail Doors https://github.com/Kailo97/smartjaildoors  
+* [Hosties 2](https://forums.alliedmods.net/forumdisplay.php?f=155) - earn credits as prisoner for reach the last request  
   
-* CustomPlayerSkins https://forums.alliedmods.net/showthread.php?t=240703
+* [Smart Jail Doors](https://forums.alliedmods.net/showthread.php?t=264100) - needed for shop item - Open Jail Doors  
   
-* Hosties 2 https://forums.alliedmods.net/forumdisplay.php?f=155
+* [CustomPlayerSkins](https://forums.alliedmods.net/showthread.php?t=240703) - needed for shop item - Wallhack    
+  
   
   
   
 *Include files needed for compile*
   
 * autoexecconfig.inc https://forums.alliedmods.net/showthread.php?t=204254
-  
 * colors.inc https://forums.alliedmods.net/showthread.php?t=96831
-  
 * myjailshop.inc https://github.com/shanapu/MyJailShop/blob/master/addons/sourcemod/scripting/include/myjailshop.inc
-  
 * mystocks.inc https://github.com/shanapu/MyJailShop/blob/master/addons/sourcemod/scripting/include/mystocks.inc
-  
 * myjailbreak.inc https://github.com/shanapu/MyJailbreak/blob/master/addons/sourcemod/scripting/include/myjailbreak.inc
-  
 * smartjaildoors.inc https://forums.alliedmods.net/showthread.php?p=2306289
-  
 * smlib.inc https://github.com/bcserv/smlib
-  
 * CustomPlayerSkins.inc https://forums.alliedmods.net/showthread.php?t=240703
   
   
   
-***Installation***
+**Installation**
   
-1. Make sure you have the *latest versions* of the **required plugins**
+1.**OPTIONAL PLUGINS** - Make sure you have the *latest versions* of the **optional plugins**
   
 1. Download the [latest release]("https://github.com/shanapu/MyJailShop/releases")
   
@@ -209,7 +200,7 @@ sm_jailshop_molotov_price - 0 - disabled, price of the 'Molotov & flashs' shop i
   
 1. Configure all settings in *cfg/MyJailShop* to your needs
   
-1. OPTIONAL MYSQL - need sm_jailshop_mysql "1" 
+1. **OPTIONAL MYSQL** - need ```sm_jailshop_mysql "1"``` 
     * Open *your* ```databases.cfg``` in ```your csgo/addons/sourcemod/configs``` directory and add the following content:
 	
     ```
@@ -223,17 +214,19 @@ sm_jailshop_molotov_price - 0 - disabled, price of the 'Molotov & flashs' shop i
     }
 	```
   
+1. Restart your server
+  
 1. Have fun! Give feedback!
   
   
   
-***Full Change Log:***
+**Full Change Log:**
   
 [CHANGELOG.md](https://github.com/shanapu/MyJailShop/blob/master/CHANGELOG.md)
   
   
   
-***Known Bugs***
+**Known Bugs**
   
 * nothing known
   
@@ -241,7 +234,7 @@ sm_jailshop_molotov_price - 0 - disabled, price of the 'Molotov & flashs' shop i
   
   
   
-***Credits:***
+**Credits:**
 **All credits goes out to the original author [Dkmuniz](https://forums.alliedmods.net/member.php?u=230556)**.
 Also thanks to all sourcemod & metamod developers out there!
   
@@ -255,26 +248,22 @@ based/merged/used code/idea plugins:
   
 ###THANKS FOR MAKING FREE SOFTWARE!
 *Much Thanks: *
-devu4, Weeeishy, Include1, KissLick, live4net for great ideas!
+Dkmuniz, Franc1sco, devu4, Weeeishy, Include1, KissLick, live4net for great ideas!
   
   
   
-***Download latest stable***  
+**Download latest stable**  
 https://github.com/shanapu/MyJailShop/releases  
 **The smx files on Github are compiled with SM 1.8.  
 If you still use 1.7.x you should update your sourcemod or compile MyJailShop for yourself on your SM version**  
   
-***Download latest develop***  
-https://github.com/shanapu/MyJailShop/  
-**The smx files on develop branch are not uptodate - you have to compile them for yourself.**  
-  
-***Report Bugs, Ideas, Requests & see todo:***  
+**Report Bugs, Ideas, Requests & see todo:**  
 https://github.com/shanapu/MyJailShop/issues  
   
-***Code changes stable:***  
+**Code changes stable:**  
 https://github.com/shanapu/MyJailShop/commits/master  
   
-***Changelogs:***  
+**Changelogs:**  
 https://github.com/shanapu/MyJailShop/blob/master/CHANGELOG.md  
   
   

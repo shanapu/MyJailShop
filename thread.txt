@@ -1,43 +1,41 @@
-[SIZE="5"][B]MyJailbShop[/B][/SIZE] a redux rewrite of [URL="https://forums.alliedmods.net/showthread.php?t=247917"]Dkmuniz Jail Shop[/URL]
-
-
-[B][u]Description:[/u][/B]
+[SIZE="5"][B]MyJailShop[/B][/SIZE] a redux rewrite of [URL="https://forums.alliedmods.net/showthread.php?t=247917"]Dkmuniz Jail Shop[/URL]
 
 MyJailShop provide you a high customizable shop with credits system intended for jailbreak server.
-
+Earn credits for playtime, kills, your team won rounds &/or reach last request.
 
 
 [B][u]Shop Items:[/u][/B]
 
-[B]Guards & prisoner / CT & T - both:[/B]
+
+[u]Guards & prisoner / CT & T - both:[/u]
 [LIST]
-[*]Heal up to 100HP
-[*]Armor & extra HP
-[*]Revive / respawn
-[*]Bunny Hop
-[*]Froggy Jump / double jump
-[*]Low Gravity
-[*]No Damage / Immortal
-[*]Wallhack for x sec. (optional - need CustomPlayerSkins)
+[*][B]Heal up to 100HP[/B]
+[*][B]Armor & extra HP[/B]
+[*][B]Revive / respawn[/B]
+[*][B]Bunny Hop[/B]
+[*][B]Froggy Jump / double jump[/B]
+[*][B]Low Gravity[/B]
+[*][B]No Damage / Immortal[/B]
+[*][B]Wallhack for x sec. (optional - need CustomPlayerSkins)[/B]
 [/LIST]
 
-[B]Prisoner / Terrorist - only:[/B]
+[u]Prisoner / Terrorist - only:[/u]
 [LIST]
-[*]Open Cells (optional - need smartjaildoors)
-[*]Vampire - +speed & HP for damage
-[*]Invisible for x sec.
-[*]No Clip for x sec.
-[*]Be a Bird
-[*]Fake Guard Model
-[*]Teleport smoke
-[*]Poison smoke
-[*]Fire Grenade
-[*]One bullet AWP
-[*]Seven bullets deagle
-[*]One hit Knife
-[*]Throw One hit Knife
-[*]Three bullets Taser
-[*]Molotov & flashs
+[*][B]Open Cells (optional - need smartjaildoors)[/B]
+[*][B]Vampire / +speed & HP for damage[/B]
+[*][B]Invisible for x sec.[/B]
+[*][B]No Clip for x sec.[/B]
+[*][B]Be a Bird[/B]
+[*][B]Fake Guard Model[/B]
+[*][B]Teleport smoke[/B]
+[*][B]Poison smoke[/B]
+[*][B]Fire Grenade[/B]
+[*][B]One bullet AWP[/B]
+[*][B]Seven bullets deagle[/B]
+[*][B]One hit Knife[/B]
+[*][B]Throw One hit Knife[/B]
+[*][B]Three bullets Taser[/B]
+[*][B]Molotov & flashs[/B]
 [/LIST]
 
 
@@ -46,11 +44,11 @@ MyJailShop provide you a high customizable shop with credits system intended for
 [LIST]
 [*]SourcePawn Transitional Syntax 1.7
 [*]Multilingual support
-[*]Console varibale for almost all features
+[*]Console varibale for almost all features!
 [*]Custom chat commands !mycommand
 [*]Custom chat tags [jail.shop]
 [*]Colors
-[*]Natives & forwards - some gambling plugins coming soon
+[*]Natives & forwards - some gambling plugins coming soon!
 [*]some other fancy stuff
 [/LIST]
 
@@ -60,124 +58,128 @@ MyJailShop provide you a high customizable shop with credits system intended for
 [SPOILER]
 [b]Commands:[/b]
 [SPOILER]
-[CODE]
-sm_jailshop - Open the jail shop menu
-sm_jailcredits - Show your jail shop credits
-sm_jailgift - Gift jail shop credits to a player - Use: sm_jailgift <#userid|name> [amount]
-sm_revive - Use jail shop item revive
-sm_showjailcredits - Show jail shop credits of all online player
-[/CODE]
-set your own custom command. take a look at "sm_jailshop_cmds_NAME"
+[QUOTE]
+[b]sm_jailshop[/b] - Open the jail shop menu
+[b]sm_jailcredits[/b] - Show your jail shop credits
+[b]sm_jailgift[/b] - Gift jail shop credits to a player - Use: [b]sm_jailgift <#userid|name> [amount]
+[b]sm_revive[/b] - Use jail shop item revive
+[b]sm_showjailcredits[/b] - Show jail shop credits of all online player
+[/QUOTE]
+set your own custom command. take a look at "[b]sm_jailshop_cmds_NAME[/b]"
 
 [u]AdminCommands // ADMFLAG_GENERIC[/u]
-[CODE]
-sm_jailgive - Give jail shop credits to a player - Use: sm_jailgive <#userid|name> [amount]
-sm_jailset - Set jail shop credits of a player - Use: sm_jailgift <#userid|name> [amount]
-[/CODE]
+[QUOTE]
+[b]sm_jailgive[/b] - Give jail shop credits to a player - Use: [b]sm_jailgive <#userid|name> [amount]
+[b]sm_jailset[/b] - Set jail shop credits of a player - Use: [b]sm_jailgift <#userid|name> [amount]
+[/QUOTE]
 [/SPOILER]
-[b]Plugin ConVars:[/b]
-[SPOILER]
-[CODE]
-sm_jailshop_version - The version of this MyJailShop SourceMod plugin
-sm_jailshop_enable - 0 - disabled, 1 - enable the MyJailShop SourceMod plugin
-sm_jailshop_credits_save - 0 - disabled, 1 - Save credits on player disconnect
-sm_jailshop_mysql - 0 - disabled, 1 - Should we use a mysql database to store credits
-sm_jailshop_credits_max - Maximum of credits to earn for a player
-sm_jailshop_minplayers - Minimum players to earn credits
-sm_jailshop_warmupcredits - 0 - disabled, 1 - enable players get credits on warmup
-sm_jailshop_credits_kill_t - Amount of credits a prisioner earns when kill a Guard
-sm_jailshop_credits_kill_t_vip - Amount of credits a VIP prisioner earns when kill a Guard
-sm_jailshop_credits_kill_ct - Amount of credits a guard earns when kill a prisoner
-sm_jailshop_credits_kill_ct_vip - Amount of credits a VIP guard earns when kill a prisoner
-sm_jailshop_credits_win_t", "50", "0 - disabled, amount of credits a prisioner earns when win round
-sm_jailshop_credits_win_t_vip: 0 - disabled, amount of credits a VIP prisioner earns when win round
-sm_jailshop_credits_win_ct: 0 - disabled, amount of credits a guard earns when win round
-sm_jailshop_credits_win_ct_vip: 0 - disabled, amount of credits a VIP guard earns when win round
-sm_jailshop_credits_win_alive: 0 - disabled, 1 - only alive player get credits when team win the round
-sm_jailshop_credits_lr  - Amount of credits for reach last request as prisoner (only if hosties is available)
-sm_jailshop_credits_lr_vip - Amount of credits for reach last request as prisoner (only if hosties is available)
-sm_jailshop_credits_time_interval - Time in seconds a player recieved credits per time
-sm_jailshop_credits_time - 0 - disabled, how many credits players receive for 'sm_jailshop_credits_time_interval'
-sm_jailshop_credits_time_vip - 0 - disabled, how many credits VIP players receive for 'sm_jailshop_credits_time_interval
-sm_jailshop_welcome - 0 - disabled, 1 - welcome messages on spawn
-sm_jailshop_notification - 0 - disabled, 1 - enable chat notification everytime player get credits
-sm_jailshop_buytime - 0 - disabled, Time in seconds after roundstart shopping is allowed
-sm_jailshop_buytime_cells - 0 - disabled, 1 - only shopping until cell doors opened (only if smartjaildoors is available)
-sm_jailshop_access - 0 - shop available for guards & prisoner, 1 - only prisoner
-sm_jailshop_myjb - 0 - disable shopping on MyJailbreak Event Days, 1 - enable shopping on MyJailbreak Event Days (only if myjb is available, show/gift/... credits is still enabled)
-sm_jailshop_close - 0 - disabled, 1 - enable close menu after action
 
-sm_jailshop_cmds_shop - Set your custom chat commands for shop menu(!jailshop (no 'sm_'/'!')(seperate with comma ', ')(max. 12 commands)
-sm_jailshop_cmds_gift - Set your custom chat commands for gifting credits(!jailgift (no 'sm_'/'!')(seperate with comma ', ')(max. 12 commands)
-sm_jailshop_cmds_revive - Set your custom chat commands for revive(!jailrevive (no 'sm_'/'!')(seperate with comma ', ')(max. 12 commands)
-sm_jailshop_cmds_credits - Set your custom chat commands to see you credits (!jailcredits (no 'sm_'/'!')(seperate with comma ', ')(max. 12 commands)
-sm_jailshop_cmds_showcredits - Set your custom chat commands for see all online players credits(!showjailcredits (no 'sm_'/'!')(seperate with comma ', ')(max. 12 commands)
-[/CODE]
+[b]Shop Setting ConVars:[/b]
+[SPOILER]
+[QUOTE]
+[b]sm_jailshop_version[/b] - The version of this MyJailShop SourceMod plugin
+[b]sm_jailshop_enable[/b] - 0 - disabled, 1 - enable the MyJailShop SourceMod plugin
+[b]sm_jailshop_credits_save[/b] - 0 - disabled, 1 - Save credits on player disconnect
+[b]sm_jailshop_mysql[/b] - 0 - disabled, 1 - Should we use a mysql database to store credits
+[b]sm_jailshop_credits_max[/b] - Maximum of credits to earn for a player
+[b]sm_jailshop_minplayers[/b] - Minimum players to earn credits
+[b]sm_jailshop_warmupcredits[/b] - 0 - disabled, 1 - enable players get credits on warmup
+[b]sm_jailshop_credits_kill_t[/b] - Amount of credits a prisoner earns when kill a Guard
+[b]sm_jailshop_credits_kill_t_vip[/b] - Amount of credits a VIP prisoner earns when kill a Guard
+[b]sm_jailshop_credits_kill_ct[/b] - Amount of credits a guard earns when kill a prisoner
+[b]sm_jailshop_credits_kill_ct_vip[/b] - Amount of credits a VIP guard earns when kill a prisoner
+[b]sm_jailshop_credits_win_t[/b] - 0 - disabled, amount of credits a prisoner earns when win round
+[b]sm_jailshop_credits_win_t_vip[/b] - 0 - disabled, amount of credits a VIP prisoner earns when win round
+[b]sm_jailshop_credits_win_ct[/b] - 0 - disabled, amount of credits a guard earns when win round
+[b]sm_jailshop_credits_win_ct_vip[/b] 0 - disabled, amount of credits a VIP guard earns when win round
+[b]sm_jailshop_credits_win_alive[/b] 0 - disabled, 1 - only alive player get credits when team win the round
+[b]sm_jailshop_credits_lr[/b]  - Amount of credits for reach last request as prisoner (only if hosties is available)
+[b]sm_jailshop_credits_lr_vip[/b] - Amount of credits for reach last request as prisoner (only if hosties is available)
+[b]sm_jailshop_credits_time_interval[/b] - Time in seconds a player recieved credits per time
+[b]sm_jailshop_credits_time[/b] - 0 - disabled, how many credits players receive for '[b]sm_jailshop_credits_time_interval'
+[b]sm_jailshop_credits_time_vip[/b] - 0 - disabled, how many credits VIP players receive for '[b]sm_jailshop_credits_time_interval
+[b]sm_jailshop_welcome[/b] - 0 - disabled, 1 - welcome messages on spawn
+[b]sm_jailshop_notification[/b] - 0 - disabled, 1 - enable chat notification everytime player get credits
+[b]sm_jailshop_buytime[/b] - 0 - disabled, Time in seconds after roundstart shopping is allowed
+[b]sm_jailshop_buytime_cells[/b] - 0 - disabled, 1 - only shopping until cell doors opened (only if smartjaildoors is available)
+[b]sm_jailshop_access[/b] - 0 - shop available for guards & prisoner, 1 - only prisoner
+[b]sm_jailshop_myjb[/b] - 0 - disable shopping on MyJailbreak Event Days, 1 - enable shopping on MyJailbreak Event Days (only if myjb is available, show/gift/... credits is still enabled)
+[b]sm_jailshop_close[/b] - 0 - disabled, 1 - enable close menu after action
+
+[b]sm_jailshop_cmds_shop[/b] - Set your custom chat commands for shop menu(!jailshop (no 'sm_'/'!')(seperate with comma ', ')(max. 12 commands)
+[b]sm_jailshop_cmds_gift[/b] - Set your custom chat commands for gifting credits(!jailgift (no 'sm_'/'!')(seperate with comma ', ')(max. 12 commands)
+[b]sm_jailshop_cmds_revive[/b] - Set your custom chat commands for revive(!jailrevive (no 'sm_'/'!')(seperate with comma ', ')(max. 12 commands)
+[b]sm_jailshop_cmds_credits[/b] - Set your custom chat commands to see you credits (!jailcredits (no 'sm_'/'!')(seperate with comma ', ')(max. 12 commands)
+[b]sm_jailshop_cmds_showcredits[/b] - Set your custom chat commands for see all online players credits(!showjailcredits (no 'sm_'/'!')(seperate with comma ', ')(max. 12 commands)
+[/QUOTE]
 [/SPOILER]
 
 [b]Shop Item ConVars:[/b]
 [SPOILER]
-[CODE]
-sm_jailshop_openjails_price - 0 - disabled, price of the 'Open jails' shop item (only if smartjaildoors is available)
-sm_jailshop_heal_price - 0 - disabled, price of the 'Heal' shop item
-sm_jailshop_heal_access - 0 - guards only, 1 - guards & prisoner, 2 - prisoner only 
-sm_jailshop_armor_hp_price - 0 - disabled, price of the 'Armor & HP' shop item
-sm_jailshop_health_extra - How many HP get extra with the armor
-sm_jailshop_health_extra_access - 0 - guards only, 1 - guards & prisoner, 2 - prisoner only
-sm_jailshop_revive_price - 0 - disabled, price of the 'Revive' shop item
-sm_jailshop_heal_access - 0 - guards only, 1 - guards & prisoner, 2 - prisoner only  
-sm_jailshop_vampire_price - 0 - disabled, price of the 'Vampire' shop item
-sm_jailshop_vampire_speed - Ratio for how fast the player will walk (1 - normal)
-sm_jailshop_vampire_multiplier - Multiplier how many heatlh per damage  (e.g. 100damage * 0.5 = 50HP extra)
-sm_jailshop_bhop_price - 0 - disabled, price of the 'Bunny Hop' shop item
-sm_jailshop_bhop_access - 0 - guards only, 1 - guards & prisoner, 2 - prisoner only 
-sm_jailshop_froggyjump_price - 0 - disabled, price of the 'Froggy Jump' shop item
-sm_jailshop_froggyjump_access - 0 - guards only, 1 - guards & prisoner, 2 - prisoner only 
-sm_jailshop_gravity_price - 0 - disabled, price of the 'Low Gravity' shop item
-sm_jailshop_gravity_value - Ratio for Gravity (1.0 earth, 0.5 moon)", _, true, 0.1, true, 1.0);
-sm_jailshop_gravity_access - 0 - guards only, 1 - guards & prisoner, 2 - prisoner only 
-sm_jailshop_invisible_price - 0 - disabled, price of the 'Invisible' shop item
-sm_jailshop_invisible_time - Time in seconds how long the player is invisible
-sm_jailshop_nodamage_price - 0 - disabled, price of the 'NoDamage' shop item
-sm_jailshop_nodamage_time - Time in seconds how long the player got nodamage
-sm_jailshop_nodamage_access - 0 - guards only, 1 - guards & prisoner, 2 - prisoner only
-sm_jailshop_noclip_price - 0 - disabled, price of the 'No Clip' shop item
-sm_jailshop_noclip_time - Time in seconds how long the player has noclip
-sm_jailshop_wallhack_price - 0 - disabled, price of the 'Wallhack' shop item (only if CustomPlayerSkins is available)
-sm_jailshop_wallhack_time: Time in seconds how long the player has wallhack
-sm_jailshop_wallhack_access - 0 - guards only, 1 - guards & prisoner, 2 - prisoner only
-sm_jailshop_bird_price - 0 - disabled, price of the 'Be a Bird' shop item
-sm_jailshop_bird_mode - 1 - Chicken / 2 - Pigeon / 3 - Crow", _, true, 1.0, true, 3.0);
-sm_jailshop_fakeguard_price - 0 - disabled, price of the 'Fake guard model' shop item
-sm_jailshop_fakeguard_model - Path to the model for fake guard.
-sm_jailshop_teleportsmoke_price - 0 - disabled, price of the 'Teleport smoke' shop item
-sm_jailshop_poisonsmoke_price - 0 - disabled, price of the 'Poison smoke' shop item
-sm_jailshop_firehe_price - 0 - disabled, price of the 'Fire Grenade' shop item
-sm_jailshop_awp_price - 0 - disabled, price of the 'One bullet AWP' shop item
-sm_jailshop_deagle_price - 0 - disabled, price of the '7 bullets Deagle' shop item
-sm_jailshop_knife_price - 0 - disabled, price of the 'One hit knife' shop item
-sm_jailshop_throw_knife_price - 0 - disabled, price of the 'Throwing one hit knife' shop item
-sm_jailshop_throw_knife_count - how many knifes a prisoner can throw
-sm_jailshop_taser_price - 0 - disabled, price of the '3 bullets Taser' shop item
-sm_jailshop_molotov_price - 0 - disabled, price of the 'Molotov & flashs' shop item
-[/CODE]
+[QUOTE]
+[b]sm_jailshop_openjails_price[/b] - 0 - disabled, price of the 'Open jails' shop item (only if smartjaildoors is available)
+[b]sm_jailshop_heal_price[/b] - 0 - disabled, price of the 'Heal' shop item
+[b]sm_jailshop_heal_access[/b] - 0 - guards only, 1 - guards & prisoner, 2 - prisoner only 
+[b]sm_jailshop_armor_hp_price[/b] - 0 - disabled, price of the 'Armor & HP' shop item
+[b]sm_jailshop_health_extra[/b] - How many HP get extra with the armor
+[b]sm_jailshop_health_extra_access[/b] - 0 - guards only, 1 - guards & prisoner, 2 - prisoner only
+[b]sm_jailshop_revive_price[/b] - 0 - disabled, price of the 'Revive' shop item
+[b]sm_jailshop_heal_access[/b] - 0 - guards only, 1 - guards & prisoner, 2 - prisoner only  
+[b]sm_jailshop_vampire_price[/b] - 0 - disabled, price of the 'Vampire' shop item
+[b]sm_jailshop_vampire_speed[/b] - Ratio for how fast the player will walk (1 - normal)
+[b]sm_jailshop_vampire_multiplier[/b] - Multiplier how many heatlh per damage  (e.g. 100damage * 0.5 = 50HP extra)
+[b]sm_jailshop_bhop_price[/b] - 0 - disabled, price of the 'Bunny Hop' shop item
+[b]sm_jailshop_bhop_access[/b] - 0 - guards only, 1 - guards & prisoner, 2 - prisoner only 
+[b]sm_jailshop_froggyjump_price[/b] - 0 - disabled, price of the 'Froggy Jump' shop item
+[b]sm_jailshop_froggyjump_access[/b] - 0 - guards only, 1 - guards & prisoner, 2 - prisoner only 
+[b]sm_jailshop_gravity_price[/b] - 0 - disabled, price of the 'Low Gravity' shop item
+[b]sm_jailshop_gravity_value[/b] - Ratio for Gravity (1.0 earth, 0.5 moon)", _, true, 0.1, true, 1.0);
+[b]sm_jailshop_gravity_access[/b] - 0 - guards only, 1 - guards & prisoner, 2 - prisoner only 
+[b]sm_jailshop_invisible_price[/b] - 0 - disabled, price of the 'Invisible' shop item
+[b]sm_jailshop_invisible_time[/b] - Time in seconds how long the player is invisible
+[b]sm_jailshop_nodamage_price[/b] - 0 - disabled, price of the 'NoDamage' shop item
+[b]sm_jailshop_nodamage_time[/b] - Time in seconds how long the player got nodamage
+[b]sm_jailshop_nodamage_access[/b] - 0 - guards only, 1 - guards & prisoner, 2 - prisoner only
+[b]sm_jailshop_noclip_price[/b] - 0 - disabled, price of the 'No Clip' shop item
+[b]sm_jailshop_noclip_time[/b] - Time in seconds how long the player has noclip
+[b]sm_jailshop_wallhack_price[/b] - 0 - disabled, price of the 'Wallhack' shop item (only if CustomPlayerSkins is available)
+[b]sm_jailshop_wallhack_time[/b] - Time in seconds how long the player has wallhack
+[b]sm_jailshop_wallhack_access[/b] - 0 - guards only, 1 - guards & prisoner, 2 - prisoner only
+[b]sm_jailshop_bird_price[/b] - 0 - disabled, price of the 'Be a Bird' shop item
+[b]sm_jailshop_bird_mode[/b] - 1 - Chicken / 2 - Pigeon / 3 - Crow", _, true, 1.0, true, 3.0);
+[b]sm_jailshop_fakeguard_price[/b] - 0 - disabled, price of the 'Fake guard model' shop item
+[b]sm_jailshop_fakeguard_model[/b] - Path to the model for fake guard.
+[b]sm_jailshop_teleportsmoke_price[/b] - 0 - disabled, price of the 'Teleport smoke' shop item
+[b]sm_jailshop_poisonsmoke_price[/b] - 0 - disabled, price of the 'Poison smoke' shop item
+[b]sm_jailshop_firehe_price[/b] - 0 - disabled, price of the 'Fire Grenade' shop item
+[b]sm_jailshop_awp_price[/b] - 0 - disabled, price of the 'One bullet AWP' shop item
+[b]sm_jailshop_deagle_price[/b]- 0 - disabled, price of the '7 bullets Deagle' shop item
+[b]sm_jailshop_knife_price[/b] - 0 - disabled, price of the 'One hit knife' shop item
+[b]sm_jailshop_throw_knife_price[/b] - 0 - disabled, price of the 'Throwing one hit knife' shop item
+[b]sm_jailshop_throw_knife_count[/b] - how many knifes a prisoner can throw
+[b]sm_jailshop_taser_price[/b] - 0 - disabled, price of the '3 bullets Taser' shop item
+[b]sm_jailshop_molotov_price[/b] - 0 - disabled, price of the 'Molotov & flashs' shop item
+[/QUOTE]
 [/SPOILER]
 
 [/SPOILER]
 
 
-[U][B]Optional plugins[/B][/U]
+[U][B]Supports optional plugins:[/B][/U]
 [LIST]
 
-[*]MyJailbreak [url]https://github.com/Kailo97/smartjaildoors[/url]
+[*][url=https://forums.alliedmods.net/showthread.php?t=283212]MyJailbreak[/url] - dis/enable shopping on MyJailbreak Event Days
 
-[*]Smart Jail Doors [url]https://github.com/Kailo97/smartjaildoors[/url]
+[*][url=https://forums.alliedmods.net/forumdisplay.php?f=155]Hosties 2[/url] - earn credits as prisoner for reach the last request
 
-[*]CustomPlayerSkins [url]https://forums.alliedmods.net/showthread.php?t=240703[/url]
+[*][url=https://forums.alliedmods.net/showthread.php?t=264100]Smart Jail Doors[/url] - needed for shop item - Open Jail Doors
 
-[*]Hosties 2 [url]https://forums.alliedmods.net/forumdisplay.php?f=155[/url]
+[*][url=https://forums.alliedmods.net/showthread.php?t=240703]CustomPlayerSkins[/url] - needed for shop item - Wallhack
 
 [/LIST]
+
+
+
 [U]Include files needed for compile[/U][SPOILER]
 [LIST]
 [*]autoexecconfig.inc [url]https://forums.alliedmods.net/showthread.php?t=204254[/url]
@@ -248,7 +250,9 @@ native void SetCredits(int client, int newCredits);
 
 [U][B]Installation[/B][/U]
 [QUOTE]
-[LIST=1]
+[LIST]
+[*][B]OPTIONAL PLUGINS[/B] - Make sure you have the [U]latest versions[/U] of the [B]optional plugins[/B]
+  
 [*]Download the [URL="https://github.com/shanapu/MyJailShop/releases"]latest release[/URL]
   
 [*]Copy the folders [B]addons/[/B]&[B] cfg/[/B] to [U]your root[/U] [B]csgo/[/B] directory  
@@ -258,10 +262,9 @@ native void SetCredits(int client, int newCredits);
 [*]Configure all settings in [U]cfg/MyJailShop[/U] to your needs
 [/LIST]
 [INDENT][LIST]
-[*]OPTIONAL MYSQL - need sm_jailshop_mysql "1" 
-    * Open *your* ```databases.cfg``` in ```your csgo/addons/sourcemod/configs``` directory and add the following content:
-	
-    ```
+[*][B]OPTIONAL MYSQL[/B] - need sm_jailshop_mysql "1" 
+    Open your databases.cfg in your csgo/addons/sourcemod/configs directory and add the following content:
+    [php]
 	"MyJailShop"
     {
         "driver"        "mysql"
@@ -270,9 +273,10 @@ native void SetCredits(int client, int newCredits);
         "user"          "your_database_user"
         "pass"          "your_database_password"
     }
-	```
+	[/php]
 [/LIST][/INDENT]
 [LIST]
+[*]Restart your server
 [*]Have fun! Give feedback!
 [/LIST]
 [/QUOTE]
@@ -281,7 +285,7 @@ native void SetCredits(int client, int newCredits);
 [B][u]Latest Changes[/u][/B]
 
 [QUOTE] 
-[b][1.0][/b] - initial release
+[b][1.0.0][/b] - initial release
   
 [U][B]Full Change Log:[/B][/U]
 [url=https://github.com/shanapu/MyJailShop/blob/master/CHANGELOG.md]CHANGELOG.md[/url]
@@ -298,7 +302,7 @@ native void SetCredits(int client, int newCredits);
 [/QUOTE]
 
 
-[B][U]Credits:[/U][/B]
+[SIZE="3"][B][U]Credits:[/U][/B][/SIZE]
 [B]All credits goes out to the original author [url=https://forums.alliedmods.net/member.php?u=230556]Dkmuniz[/URL][/B].
 Also thanks to all sourcemod & metamod developers out there!
 [SPOILER]
@@ -318,13 +322,6 @@ devu4, Weeeishy, Include1, KissLick, live4net for testing & great ideas!
 [url]https://github.com/shanapu/MyJailShop/releases[/url]
 [COLOR="DarkRed"][B]The smx files on Github are compiled with SM 1.8. 
 If you still use 1.7.x you should update your sourcemod or compile MyJailShop for yourself on your SM version[/B][/COLOR]
-
-[B][U]Download latest develop[/U][/B]
-[url]https://github.com/shanapu/MyJailShop/tree/develop[/url]
-[COLOR="DarkRed"][B]The smx files on develop branch are not uptodate - you have to compile them for yourself.[/B][/COLOR]
-
-[B][U]Wiki:[/U][/B] [i]need some work[/i]
-[url]https://github.com/shanapu/MyJailShop/wiki/[/url]
 
 [U][B]Report Bugs, Ideas, Requests & see todo:[/B][/U]
 [url]https://github.com/shanapu/MyJailShop/issues[/url]
