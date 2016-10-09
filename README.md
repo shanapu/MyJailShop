@@ -3,7 +3,7 @@
 MyJailShop a redux rewrite of [Dkmuniz Jail Shop](https://forums.alliedmods.net/showthread.php?t=247917)
   
 MyJailShop provide you a high customizable shop with credits system intended for jailbreak server.
-Earn credits for playtime, kills, your team won rounds &/or reach last request.
+Earn credits for playtime, kills, your team won rounds &/or you reach last request.
   
 ---
   
@@ -103,6 +103,7 @@ sm_jailshop_buytime_cells - 0 - disabled, 1 - only shopping until cell doors ope
 sm_jailshop_access - 0 - shop available for guards & prisoner, 1 - only prisoner
 sm_jailshop_myjb - 0 - disable shopping on MyJailbreak Event Days, 1 - enable shopping on MyJailbreak Event Days (only if myjb is available, show/gift/... credits is still enabled)
 sm_jailshop_close - 0 - disabled, 1 - enable close menu after action
+sm_jailshop_tag - Allow "MyJailShop" to be added to the server tags? So player will find servers with MyJailShop faster. it dont touch you sv_tags
 
 sm_jailshop_cmds_shop - Set your custom chat commands for shop menu(!jailshop (no 'sm_'/'!')(seperate with comma ', ')(max. 12 commands)
 sm_jailshop_cmds_gift - Set your custom chat commands for gifting credits(!jailgift (no 'sm_'/'!')(seperate with comma ', ')(max. 12 commands)
@@ -132,7 +133,7 @@ sm_jailshop_bhop_access - 0 - guards only, 1 - guards & prisoner, 2 - prisoner o
 sm_jailshop_froggyjump_price - 0 - disabled, price of the 'Froggy Jump' shop item
 sm_jailshop_froggyjump_access - 0 - guards only, 1 - guards & prisoner, 2 - prisoner only 
 sm_jailshop_gravity_price - 0 - disabled, price of the 'Low Gravity' shop item
-sm_jailshop_gravity_value - Ratio for Gravity (1.0 earth, 0.5 moon)", _, true, 0.1, true, 1.0);
+sm_jailshop_gravity_value - Ratio for Gravity (1.0 earth, 0.5 moon)
 sm_jailshop_gravity_access - 0 - guards only, 1 - guards & prisoner, 2 - prisoner only 
 sm_jailshop_invisible_price - 0 - disabled, price of the 'Invisible' shop item
 sm_jailshop_invisible_time - Time in seconds how long the player is invisible
@@ -145,7 +146,7 @@ sm_jailshop_wallhack_price - 0 - disabled, price of the 'Wallhack' shop item (on
 sm_jailshop_wallhack_time - Time in seconds how long the player has wallhack
 sm_jailshop_wallhack_access - 0 - guards only, 1 - guards & prisoner, 2 - prisoner only
 sm_jailshop_bird_price - 0 - disabled, price of the 'Be a Bird' shop item
-sm_jailshop_bird_mode - 1 - Chicken / 2 - Pigeon / 3 - Crow", _, true, 1.0, true, 3.0);
+sm_jailshop_bird_mode - 1 - Chicken / 2 - Pigeon / 3 - Crow
 sm_jailshop_fakeguard_price - 0 - disabled, price of the 'Fake guard model' shop item
 sm_jailshop_fakeguard_model - Path to the model for fake guard.
 sm_jailshop_teleportsmoke_price - 0 - disabled, price of the 'Teleport smoke' shop item

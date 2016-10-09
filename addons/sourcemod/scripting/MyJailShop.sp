@@ -84,6 +84,7 @@ ConVar gc_bBuyTimeCells;
 ConVar gc_bEventdays;
 ConVar gc_bNotification;
 ConVar gc_bClose;
+ConVar gc_bTag;
 
 //Shop Items
 ConVar gc_iFroggyJumpOnlyTeam;
@@ -220,10 +221,6 @@ public void OnPluginStart()
 	RegAdminCmd("sm_jailset", AdminCommand_SetCredits, ADMFLAG_ROOT, "Set jail shop credits of a player - Use: sm_jailgift <#userid|name> [amount]");
 	
 	
-	//Forwards
-	gF_OnPlayerGetCredits = CreateGlobalForward("OnPlayerGetCredits", ET_Ignore, Param_Cell, Param_Cell);
-	gF_OnPlayerBuyItem = CreateGlobalForward("OnPlayerBuyItem", ET_Ignore, Param_Cell, Param_String);
-	
 	//AutoExecConfig
 	AutoExecConfig_SetFile("Settings", "MyJailShop");
 	AutoExecConfig_SetCreateFile(true);
@@ -262,6 +259,7 @@ public void OnPluginStart()
 	gc_bOnlyT = AutoExecConfig_CreateConVar("sm_jailshop_access", "0", "0 - shop available for guards & prisoner, 1 - only prisoner", _, true, 0.0, true, 1.0);
 	gc_bEventdays = AutoExecConfig_CreateConVar("sm_jailshop_myjb", "1", "0 - disable shopping on MyJailbreak Event Days, 1 - enable shopping on MyJailbreak Event Days (only if myjb is available)(show/gift/... credits is still enabled)", _, true,  0.0, true, 1.0);
 	gc_bClose = AutoExecConfig_CreateConVar("sm_jailshop_close", "1", "0 - disabled, 1 - enable close menu after action", _, true,  0.0, true, 1.0);
+	gc_bTag = AutoExecConfig_CreateConVar("sm_jailshop_tag", "1", "Allow \"MyJailShop\" to be added to the server tags? So player will find servers with MyJailShop faster. it dont touch you sv_tags", _, true,  0.0, true, 1.0);
 	
 	gc_sCustomCommandShop = AutoExecConfig_CreateConVar("sm_jailshop_cmds_shop", "jbshop,jbstore,jailstore", "Set your custom chat commands for shop menu(!jailshop (no 'sm_'/'!')(seperate with comma ', ')(max. 12 commands)");
 	gc_sCustomCommandGift = AutoExecConfig_CreateConVar("sm_jailshop_cmds_gift", "gbgift,send", "Set your custom chat commands for gifting credits(!jailgift (no 'sm_'/'!')(seperate with comma ', ')(max. 12 commands)");
@@ -376,6 +374,19 @@ public int OnSettingChanged(Handle convar, const char[] oldValue, const char[] n
 
 public void OnConfigsExecuted()
 {
+	if (gc_bTag.BoolValue)
+	{
+		ConVar hTags = FindConVar("sv_tags");
+		char sTags[128];
+		hTags.GetString(sTags, sizeof(sTags));
+		if (StrContains(sTags, "MyJailShop", false) == -1)
+		{
+			StrCat(sTags, sizeof(sTags), ", MyJailShop");
+			hTags.SetString(sTags);
+		}
+	}
+	
+	
 	//Set custom Commands
 	int iCount = 0;
 	char sCommands[128], sCommandsL[12][32], sCommand[32];
@@ -2698,8 +2709,15 @@ public void DB_WriteCredits(int client)
 //Register Natives
 public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max)
 {
+	//Forwards
+	gF_OnPlayerGetCredits = CreateGlobalForward("OnPlayerGetCredits", ET_Ignore, Param_Cell, Param_Cell);
+	gF_OnPlayerBuyItem = CreateGlobalForward("OnPlayerBuyItem", ET_Ignore, Param_Cell, Param_String);
+	
+	
+	//Natives
 	CreateNative("SetCredits", Native_SetCredits);
 	CreateNative("GetCredits", Native_GetCredits);
+	
 	
 	if (GetEngineVersion() != Engine_CSGO)
 	{

@@ -1,7 +1,7 @@
 [SIZE="5"][B]MyJailShop[/B][/SIZE] a redux rewrite of [URL="https://forums.alliedmods.net/showthread.php?t=247917"]Dkmuniz Jail Shop[/URL]
 
 MyJailShop provide you a high customizable shop with credits system intended for jailbreak server.
-Earn credits for playtime, kills, your team won rounds &/or reach last request.
+Earn credits for playtime, kills, your team won rounds &/or you reach last request.
 
 
 [B][u]Shop Items:[/u][/B]
@@ -16,12 +16,12 @@ Earn credits for playtime, kills, your team won rounds &/or reach last request.
 [*][B]Froggy Jump / double jump[/B]
 [*][B]Low Gravity[/B]
 [*][B]No Damage / Immortal[/B]
-[*][B]Wallhack for x sec. (optional - need CustomPlayerSkins)[/B]
+[*][B]Wallhack for x sec.[/B] (optional - need CustomPlayerSkins)
 [/LIST]
 
 [u]Prisoner / Terrorist - only:[/u]
 [LIST]
-[*][B]Open Cells (optional - need smartjaildoors)[/B]
+[*][B]Open Cells[/B] (optional - need smartjaildoors)
 [*][B]Vampire / +speed & HP for damage[/B]
 [*][B]Invisible for x sec.[/B]
 [*][B]No Clip for x sec.[/B]
@@ -67,7 +67,7 @@ Earn credits for playtime, kills, your team won rounds &/or reach last request.
 [/QUOTE]
 set your own custom command. take a look at "[b]sm_jailshop_cmds_NAME[/b]"
 
-[u]AdminCommands // ADMFLAG_GENERIC[/u]
+[u]AdminCommands // ADMFLAG_ROOT[/u]
 [QUOTE]
 [b]sm_jailgive[/b] - Give jail shop credits to a player - Use: [b]sm_jailgive <#userid|name> [amount]
 [b]sm_jailset[/b] - Set jail shop credits of a player - Use: [b]sm_jailgift <#userid|name> [amount]
@@ -105,6 +105,7 @@ set your own custom command. take a look at "[b]sm_jailshop_cmds_NAME[/b]"
 [b]sm_jailshop_access[/b] - 0 - shop available for guards & prisoner, 1 - only prisoner
 [b]sm_jailshop_myjb[/b] - 0 - disable shopping on MyJailbreak Event Days, 1 - enable shopping on MyJailbreak Event Days (only if myjb is available, show/gift/... credits is still enabled)
 [b]sm_jailshop_close[/b] - 0 - disabled, 1 - enable close menu after action
+[b]sm_jailshop_tag[/b] - Allow "MyJailShop" to be added to the server tags? So player will find servers with MyJailShop faster. it dont touch you sv_tags
 
 [b]sm_jailshop_cmds_shop[/b] - Set your custom chat commands for shop menu(!jailshop (no 'sm_'/'!')(seperate with comma ', ')(max. 12 commands)
 [b]sm_jailshop_cmds_gift[/b] - Set your custom chat commands for gifting credits(!jailgift (no 'sm_'/'!')(seperate with comma ', ')(max. 12 commands)
@@ -133,7 +134,7 @@ set your own custom command. take a look at "[b]sm_jailshop_cmds_NAME[/b]"
 [b]sm_jailshop_froggyjump_price[/b] - 0 - disabled, price of the 'Froggy Jump' shop item
 [b]sm_jailshop_froggyjump_access[/b] - 0 - guards only, 1 - guards & prisoner, 2 - prisoner only 
 [b]sm_jailshop_gravity_price[/b] - 0 - disabled, price of the 'Low Gravity' shop item
-[b]sm_jailshop_gravity_value[/b] - Ratio for Gravity (1.0 earth, 0.5 moon)", _, true, 0.1, true, 1.0);
+[b]sm_jailshop_gravity_value[/b] - Ratio for Gravity (1.0 earth, 0.5 moon)
 [b]sm_jailshop_gravity_access[/b] - 0 - guards only, 1 - guards & prisoner, 2 - prisoner only 
 [b]sm_jailshop_invisible_price[/b] - 0 - disabled, price of the 'Invisible' shop item
 [b]sm_jailshop_invisible_time[/b] - Time in seconds how long the player is invisible
@@ -146,7 +147,7 @@ set your own custom command. take a look at "[b]sm_jailshop_cmds_NAME[/b]"
 [b]sm_jailshop_wallhack_time[/b] - Time in seconds how long the player has wallhack
 [b]sm_jailshop_wallhack_access[/b] - 0 - guards only, 1 - guards & prisoner, 2 - prisoner only
 [b]sm_jailshop_bird_price[/b] - 0 - disabled, price of the 'Be a Bird' shop item
-[b]sm_jailshop_bird_mode[/b] - 1 - Chicken / 2 - Pigeon / 3 - Crow", _, true, 1.0, true, 3.0);
+[b]sm_jailshop_bird_mode[/b] - 1 - Chicken / 2 - Pigeon / 3 - Crow
 [b]sm_jailshop_fakeguard_price[/b] - 0 - disabled, price of the 'Fake guard model' shop item
 [b]sm_jailshop_fakeguard_model[/b] - Path to the model for fake guard.
 [b]sm_jailshop_teleportsmoke_price[/b] - 0 - disabled, price of the 'Teleport smoke' shop item
@@ -251,7 +252,7 @@ native void SetCredits(int client, int newCredits);
 [U][B]Installation[/B][/U]
 [QUOTE]
 [LIST]
-[*][B]OPTIONAL PLUGINS[/B] - Make sure you have the [U]latest versions[/U] of the [B]optional plugins[/B]
+[*][B]OPTIONAL - PLUGINS[/B] - Make sure you have the [U]latest versions[/U] of the [B]optional plugins[/B]
   
 [*]Download the [URL="https://github.com/shanapu/MyJailShop/releases"]latest release[/URL]
   
@@ -262,7 +263,7 @@ native void SetCredits(int client, int newCredits);
 [*]Configure all settings in [U]cfg/MyJailShop[/U] to your needs
 [/LIST]
 [INDENT][LIST]
-[*][B]OPTIONAL MYSQL[/B] - need sm_jailshop_mysql "1" 
+[*][B]OPTIONAL - MYSQL[/B] - need sm_jailshop_mysql "1" 
     Open your databases.cfg in your csgo/addons/sourcemod/configs directory and add the following content:
     [php]
 	"MyJailShop"
