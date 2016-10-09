@@ -51,7 +51,7 @@
 
 
 //Defines
-#define VERSION "1.0"
+#define VERSION "1.1.dev"
 #define URL "https://github.com/shanapu/MyJailShop"
 
 
@@ -597,17 +597,21 @@ public Action Command_SendCredits(int client, int args)
 		int iClient = TargetList[i];
 		if (IsClientInGame(iClient) && amount > 0)
 		{
-			if (g_iCredits[client] < amount)
-				ReplyToCommand(client, "%t %t", "shop_tag", "shop_missingcredits", g_iCredits[client], amount);
-			else
+			if (client != iClient)
 			{
-				g_iCredits[client] -= amount;
-				g_iCredits[iClient] += amount;
-				Forward_OnPlayerGetCredits(iClient, amount);
-				
-				CPrintToChat(client, "%t %t", "shop_tag", "shop_give", amount, iClient);
-				CPrintToChat(iClient, "%t %t", "shop_tag", "shop_get", amount, client);
+				if (g_iCredits[client] < amount)
+					ReplyToCommand(client, "%t %t", "shop_tag", "shop_missingcredits", g_iCredits[client], amount);
+				else
+				{
+					g_iCredits[client] -= amount;
+					g_iCredits[iClient] += amount;
+					Forward_OnPlayerGetCredits(iClient, amount);
+					
+					CPrintToChat(client, "%t %t", "shop_tag", "shop_give", amount, iClient);
+					CPrintToChat(iClient, "%t %t", "shop_tag", "shop_get", amount, client);
+				}
 			}
+			CPrintToChat(client, "%t %t", "shop_tag", "shop_giftyourself");
 		}
 	}
 	return Plugin_Handled;
@@ -2050,7 +2054,7 @@ void Item_Taser(int client, char [] name)
 		SetEntProp(taser, Prop_Send, "m_iClip1", 3);
 		
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_taser");
-		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", g_iCredits[client], gc_bBhop.IntValue);
+		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", g_iCredits[client], gc_bTaser.IntValue);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
 }

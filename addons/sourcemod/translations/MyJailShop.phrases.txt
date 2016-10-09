@@ -448,4 +448,9 @@
 	{
 		"en" 		"The cells are already open."
 	}
+	
+	"shop_giftyourself"
+	{
+		"en" 		"You can not gift yourself."
+	}
 }
