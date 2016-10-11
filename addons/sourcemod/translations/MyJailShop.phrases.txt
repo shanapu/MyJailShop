@@ -331,7 +331,7 @@
 	
 	"shop_welcome"
 	{
-		"en" 	"Type !shop to open the shop. Kill/win/play to win ¢redits on shop."
+		"en" 	"Type !jailshop to open the shop. Kill/win/play to win ¢redits on shop."
 	}
 	
 	"shop_credits"
