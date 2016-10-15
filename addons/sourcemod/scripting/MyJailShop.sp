@@ -2332,7 +2332,7 @@ public Action Timer_NoClip(Handle timer, any client)
 {
 	g_bNoClip[client] = false;
 	SetEntityMoveType(client, MOVETYPE_WALK);
-	CPrintToChatAll("%t %t", "shop_tag", "shop_noclipend");
+	CPrintToChat(client, "%t %t", "shop_tag", "shop_noclipend");
 }
 
 
