@@ -197,6 +197,8 @@ sm_jailshop_molotov_price - 0 - disabled, price of the 'Molotov & flashs' shop i
   
 1. Copy the folders **addons/** & **cfg/** to *your root* **csgo/** directory  
   
+1. Restart your server
+  
 1. Run plugin for the first time and *all necessary .cfg files will be generated*  
   
 1. Configure all settings in *cfg/MyJailShop* to your needs
@@ -242,6 +244,7 @@ Also thanks to all sourcemod & metamod developers out there!
 based/merged/used code/idea plugins:
 * https://forums.alliedmods.net/showthread.php?t=247917
 * https://forums.alliedmods.net/showthread.php?t=269846
+* https://github.com/popoklopsi/Stamm/blob/master/stamm_froggyjump.sp
 * if I missed someone, please tell me!
 * THANK YOU ALL!
   
@@ -249,7 +252,7 @@ based/merged/used code/idea plugins:
   
 ###THANKS FOR MAKING FREE SOFTWARE!
 *Much Thanks: *
-Dkmuniz, Franc1sco, devu4, Weeeishy, Include1, KissLick, live4net for great ideas!
+Dkmuniz, Franc1sco, devu4, Weeeishy, Include1, KissLick, live4net, bacardi, TiBarification for great ideas!
   
   
   

@@ -105,13 +105,13 @@ set your own custom command. take a look at "[b]sm_jailshop_cmds_NAME[/b]"
 [b]sm_jailshop_access[/b] - 0 - shop available for guards & prisoner, 1 - only prisoner
 [b]sm_jailshop_myjb[/b] - 0 - disable shopping on MyJailbreak Event Days, 1 - enable shopping on MyJailbreak Event Days (only if myjb is available, show/gift/... credits is still enabled)
 [b]sm_jailshop_close[/b] - 0 - disabled, 1 - enable close menu after action
-[b]sm_jailshop_tag[/b] - Allow "MyJailShop" to be added to the server tags? So player will find servers with MyJailShop faster. it dont touch you sv_tags
 
 [b]sm_jailshop_cmds_shop[/b] - Set your custom chat commands for shop menu(!jailshop (no 'sm_'/'!')(seperate with comma ', ')(max. 12 commands)
 [b]sm_jailshop_cmds_gift[/b] - Set your custom chat commands for gifting credits(!jailgift (no 'sm_'/'!')(seperate with comma ', ')(max. 12 commands)
 [b]sm_jailshop_cmds_revive[/b] - Set your custom chat commands for revive(!jailrevive (no 'sm_'/'!')(seperate with comma ', ')(max. 12 commands)
 [b]sm_jailshop_cmds_credits[/b] - Set your custom chat commands to see you credits (!jailcredits (no 'sm_'/'!')(seperate with comma ', ')(max. 12 commands)
 [b]sm_jailshop_cmds_showcredits[/b] - Set your custom chat commands for see all online players credits(!showjailcredits (no 'sm_'/'!')(seperate with comma ', ')(max. 12 commands)
+[b]sm_jailshop_tag[/b] - Allow "MyJailShop" to be added to the server tags? So player will find servers with MyJailShop faster. it dont touch you sv_tags
 [/QUOTE]
 [/SPOILER]
 
@@ -215,7 +215,7 @@ myjailshop.inc
  * @param extraCredits	Amount of credits
  * @NoReturn
  *********************************************************/
-forward void OnPlayerGetCredits(int client, int extraCredits);
+forward void MyJailShop_OnPlayerGetCredits(int client, int extraCredits);
 
 
 /*********************************************************
@@ -225,7 +225,7 @@ forward void OnPlayerGetCredits(int client, int extraCredits);
  * @param item			The name of the item.
  * @NoReturn
  *********************************************************/
-forward void OnPlayerBuyItem(int client, char [] item);
+forward void MyJailShop_OnPlayerBuyItem(int client, char [] item);
 
 
 
@@ -235,7 +235,7 @@ forward void OnPlayerBuyItem(int client, char [] item);
  * @param client		The client to get the credits
  * @Return				The credits of the client
  *********************************************************/
-native int GetCredits(int client);
+native int MyJailShop_GetCredits(int client);
 
 
 /*********************************************************
@@ -244,7 +244,7 @@ native int GetCredits(int client);
  * @param client		The client to set the credits
  * @NoReturn
  *********************************************************/
-native void SetCredits(int client, int newCredits);
+native void MyJailShop_SetCredits(int client, int newCredits);
 [/php]
 [/SPOILER]
 
@@ -260,6 +260,8 @@ native void SetCredits(int client, int newCredits);
   
 [*]Run plugin for the first time and [U]all necessary .cfg files will be generated[/U]  
   
+[*]Restart your server
+  
 [*]Configure all settings in [U]cfg/MyJailShop[/U] to your needs
 [/LIST]
 [INDENT][LIST]
@@ -269,10 +271,10 @@ native void SetCredits(int client, int newCredits);
 	"MyJailShop"
     {
         "driver"        "mysql"
-        "host"          "127.0.0.1"  //IP to you MySQL server
-        "database"      "your_database_name"
-        "user"          "your_database_user"
-        "pass"          "your_database_password"
+        "host"          "127.0.0.1"  //IP to your MySQL server
+        "database"      "your_database_name"  //database name
+        "user"          "your_database_user"  //database user
+        "pass"          "your_database_password"  //database password
     }
 	[/php]
 [/LIST][/INDENT]
@@ -310,12 +312,13 @@ Also thanks to all sourcemod & metamod developers out there!
 based/merged/used code/idea plugins:
 * [url]https://forums.alliedmods.net/showthread.php?t=247917[/url]
 * [url]https://forums.alliedmods.net/showthread.php?t=269846[/url]
+* [url]https://github.com/popoklopsi/Stamm/blob/master/stamm_froggyjump.sp[/url]
 * if I missed someone, please tell me!
 * THANK YOU ALL!
 [/SPOILER]
 [SIZE="5"]THANKS FOR MAKING FREE SOFTWARE![/SIZE] :bacon!: :bacon!:
 [U]Much Thanks: [/U]
-devu4, Weeeishy, Include1, KissLick, live4net for testing & great ideas!
+Dkmuniz, Franc1sco, devu4, Weeeishy, Include1, KissLick, live4net, bacardi, TiBarification for testing & great ideas!
 
 
 

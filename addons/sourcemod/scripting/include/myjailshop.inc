@@ -40,8 +40,8 @@ public SharedPlugin:__pl_myjailshop =
 #if !defined REQUIRE_PLUGIN
 public __pl_myjailshop_SetNTVOptional()
 {
-	MarkNativeAsOptional("SetCredits");
-	MarkNativeAsOptional("GetCredits");
+	MarkNativeAsOptional("MyJailShop_SetCredits");
+	MarkNativeAsOptional("MyJailShop_GetCredits");
 }
 #endif
 
@@ -53,7 +53,7 @@ public __pl_myjailshop_SetNTVOptional()
  * @param extraCredits	Amount of credits
  * @NoReturn
  *********************************************************/
-forward void OnPlayerGetCredits(int client, int extraCredits);
+forward void MyJailShop_OnPlayerGetCredits(int client, int extraCredits);
 
 
 /*********************************************************
@@ -63,7 +63,7 @@ forward void OnPlayerGetCredits(int client, int extraCredits);
  * @param item			The name of the item.
  * @NoReturn
  *********************************************************/
-forward void OnPlayerBuyItem(int client, char [] item);
+forward void MyJailShop_OnPlayerBuyItem(int client, char [] item);
 
 
 
@@ -73,7 +73,7 @@ forward void OnPlayerBuyItem(int client, char [] item);
  * @param client		The client to get the credits
  * @Return				The credits of the client
  *********************************************************/
-native int GetCredits(int client);
+native int MyJailShop_GetCredits(int client);
 
 
 /*********************************************************
@@ -82,4 +82,4 @@ native int GetCredits(int client);
  * @param client		The client to set the credits
  * @NoReturn
  *********************************************************/
-native void SetCredits(int client, int newCredits);
+native void MyJailShop_SetCredits(int client, int newCredits);

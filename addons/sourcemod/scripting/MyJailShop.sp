@@ -487,7 +487,7 @@ public Action Command_Menu_OpenShop(int client, int args)
 	}
 	if (gp_bMyJailBreak && !gc_bEventdays.BoolValue) //Check if myjailbreak is available and if shop is allowed on eventdays
 	{
-		if (IsEventDayRunning())
+		if (MyJailbreak_IsEventDayRunning())
 		{
 			CReplyToCommand(client, "%t %t", "shop_tag", "shop_disabled");
 			return Plugin_Handled;
@@ -1506,10 +1506,6 @@ public Action Menu_OpenShop(int client)
 			else if (gc_iWallhackOnlyTeam.IntValue >= 1 && gc_bWallhack.IntValue != 0) AddMenuItem(menu, "Wallhack", info, ITEMDRAW_DISABLED);
 		}
 		
-		Format(info, sizeof(info), "%T","shop_menu_bird", client, gc_bBird.IntValue);
-		if (g_iCredits[client] >= gc_bBird.IntValue && gc_bBird.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client)) AddMenuItem(menu, "Bird", info);
-		else if (gc_bBird.IntValue != 0) AddMenuItem(menu, "Bird", info, ITEMDRAW_DISABLED);
-		
 		Format(info, sizeof(info), "%T","shop_menu_model", client, gc_bFakeModel.IntValue);
 		if (g_iCredits[client] >= gc_bFakeModel.IntValue && gc_bFakeModel.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client)) AddMenuItem(menu, "FakeModel", info);
 		else if (gc_bFakeModel.IntValue != 0) AddMenuItem(menu, "FakeModel", info, ITEMDRAW_DISABLED);
@@ -1549,6 +1545,10 @@ public Action Menu_OpenShop(int client)
 		Format(info, sizeof(info), "%T","shop_menu_molotov", client, gc_bMolotov.IntValue);
 		if (g_iCredits[client] >= gc_bMolotov.IntValue && gc_bMolotov.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client)) AddMenuItem(menu, "Molotov", info);
 		else if (gc_bMolotov.IntValue != 0) AddMenuItem(menu, "Molotov", info, ITEMDRAW_DISABLED);
+		
+		Format(info, sizeof(info), "%T","shop_menu_bird", client, gc_bBird.IntValue);
+		if (g_iCredits[client] >= gc_bBird.IntValue && gc_bBird.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client)) AddMenuItem(menu, "Bird", info);
+		else if (gc_bBird.IntValue != 0) AddMenuItem(menu, "Bird", info, ITEMDRAW_DISABLED);
 	}
 	else if (GetClientTeam(client) == CS_TEAM_CT)
 	{
@@ -1603,7 +1603,7 @@ public int Handler_Menu_OpenShop(Menu menu, MenuAction action, int client, int i
 		{
 			if (gp_bMyJailBreak && !gc_bEventdays.BoolValue)
 			{
-				if (IsEventDayRunning())
+				if (MyJailbreak_IsEventDayRunning())
 				{
 					CReplyToCommand(client, "%t %t", "shop_tag", "shop_disabled");
 					return;
@@ -2714,13 +2714,13 @@ public void DB_WriteCredits(int client)
 public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max)
 {
 	//Forwards
-	gF_OnPlayerGetCredits = CreateGlobalForward("OnPlayerGetCredits", ET_Ignore, Param_Cell, Param_Cell);
-	gF_OnPlayerBuyItem = CreateGlobalForward("OnPlayerBuyItem", ET_Ignore, Param_Cell, Param_String);
+	gF_OnPlayerGetCredits = CreateGlobalForward("MyJailShop_OnPlayerGetCredits", ET_Ignore, Param_Cell, Param_Cell);
+	gF_OnPlayerBuyItem = CreateGlobalForward("MyJailShop_OnPlayerBuyItem", ET_Ignore, Param_Cell, Param_String);
 	
 	
 	//Natives
-	CreateNative("SetCredits", Native_SetCredits);
-	CreateNative("GetCredits", Native_GetCredits);
+	CreateNative("MyJailShop_SetCredits", Native_SetCredits);
+	CreateNative("MyJailShop_GetCredits", Native_GetCredits);
 	
 	
 	if (GetEngineVersion() != Engine_CSGO)
