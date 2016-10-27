@@ -177,13 +177,13 @@ int g_iKnifesThrown[MAXPLAYERS + 1] = 0;
 Handle g_hTimerCredits;
 Handle g_hCookieCredits = INVALID_HANDLE;
 Handle g_hDB = INVALID_HANDLE;
-Handle gF_OnPlayerGetCredits;
-Handle gF_OnPlayerBuyItem;
+Handle gF_hOnPlayerGetCredits;
+Handle gF_hOnPlayerBuyItem;
 Handle g_hTimerDelay[MAXPLAYERS+1];
 Handle g_hThrownKnives;
 
-Handle gF_hGetCredits;
-Handle gF_hSetCredits;
+Handle gF_hOnGetCredits;
+Handle gF_hOnSetCredits;
 
 
 //Strings
@@ -232,7 +232,7 @@ public void OnPluginStart()
 	AutoExecConfig_CreateConVar("sm_jailshop_version", VERSION, "The version of this MyJailShop SourceMod plugin", FCVAR_SPONLY|FCVAR_REPLICATED|FCVAR_NOTIFY|FCVAR_DONTRECORD);
 	gc_bEnable = AutoExecConfig_CreateConVar("sm_jailshop_enable", "1", "0 - disabled, 1 - enable the MyJailShop SourceMod plugin", _, true, 0.0, true, 1.0);
 	
-	gc_bCreditSystem = AutoExecConfig_CreateConVar("sm_jailshop_credits_system", "1", "1 - MyJailShop, 2 - Zephrus store, 3 - 'SM Store', 4 - FrozDark shop", _, true, 0.0, true, 1.0);
+	gc_bCreditSystem = AutoExecConfig_CreateConVar("sm_jailshop_credits_system", "1", "1 - MyJailShop Credits, 0 - Zephrus store or 'SM Store' or FrozDark shop (need extra support plugin)", _, true, 0.0, true, 1.0);
 	gc_bCreditsSave = AutoExecConfig_CreateConVar("sm_jailshop_credits_save", "1", "0 - disabled, 1 - Save credits on player disconnect", _, true, 0.0, true, 1.0);
 	gc_bMySQL = AutoExecConfig_CreateConVar("sm_jailshop_mysql", "0", "0 - disabled, 1 - Should we use a mysql database to store credits", _, true, 0.0, true, 1.0);
 	gc_iCreditsMax = AutoExecConfig_CreateConVar("sm_jailshop_credits_max", "50000", "Maximum of credits to earn for a player");
@@ -2732,11 +2732,11 @@ public void DB_WriteCredits(int client)
 public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max)
 {
 	//Forwards
-	gF_OnPlayerGetCredits = CreateGlobalForward("MyJailShop_OnPlayerGetCredits", ET_Ignore, Param_Cell, Param_Cell);
-	gF_OnPlayerBuyItem = CreateGlobalForward("MyJailShop_OnPlayerBuyItem", ET_Ignore, Param_Cell, Param_String);
+	gF_hOnPlayerGetCredits = CreateGlobalForward("MyJailShop_OnPlayerGetCredits", ET_Ignore, Param_Cell, Param_Cell);
+	gF_hOnPlayerBuyItem = CreateGlobalForward("MyJailShop_OnPlayerBuyItem", ET_Ignore, Param_Cell, Param_String);
 	
-	gF_hGetCredits = CreateGlobalForward("MyJailShop_OnGetCredits", ET_Event, Param_Cell);
-	gF_hSetCredits = CreateGlobalForward("MyJailShop_OnSetCredits", ET_Event, Param_Cell, Param_Cell);
+	gF_hOnGetCredits = CreateGlobalForward("MyJailShop_OnGetCredits", ET_Event, Param_Cell);
+	gF_hOnSetCredits = CreateGlobalForward("MyJailShop_OnSetCredits", ET_Event, Param_Cell, Param_Cell);
 	
 	
 	//Natives
@@ -2795,7 +2795,7 @@ public int Native_SetCredits(Handle plugin, int argc)
 
 void Forward_OnPlayerGetCredits(int client, int extraCredits)
 {
-	Call_StartForward(gF_OnPlayerGetCredits);
+	Call_StartForward(gF_hOnPlayerGetCredits);
 	Call_PushCell(client);
 	Call_PushCell(extraCredits);
 	Call_Finish();
@@ -2804,19 +2804,19 @@ void Forward_OnPlayerGetCredits(int client, int extraCredits)
 
 void Forward_OnPlayerBuyItem(int client, char [] item)
 {
-	Call_StartForward(gF_OnPlayerBuyItem);
+	Call_StartForward(gF_hOnPlayerBuyItem);
 	Call_PushCell(client);
 	Call_PushString(item);
 	Call_Finish();
 }
 
 
-public int Forward_OnGetCredits(int client)
+int Forward_OnGetCredits(int client)
 {
 	int credits = 0;
 	if (!gc_bCreditSystem.BoolValue)
 	{
-		Call_StartForward(gF_hGetCredits);
+		Call_StartForward(gF_hOnGetCredits);
 		Call_PushCell(client);
 		Call_Finish(credits);
 	}
@@ -2824,11 +2824,11 @@ public int Forward_OnGetCredits(int client)
 	return credits;
 }
 
-public void Forward_OnSetCredits(int client, int credits)
+void Forward_OnSetCredits(int client, int credits)
 {
 	if (!gc_bCreditSystem.BoolValue)
 	{
-		Call_StartForward(gF_hSetCredits);
+		Call_StartForward(gF_hOnSetCredits);
 		Call_PushCell(client);
 		Call_PushCell(credits);
 		Call_Finish();
