@@ -324,6 +324,11 @@
 		"en" 	"NoClip has ended!"
 	}
 	
+	"shop_unwallhack"
+	{
+		"en" 	"Wallhack has ended!"
+	}
+	
 	"shop_unnodamage"
 	{
 		"en" 	"Now you're mortal again!"
