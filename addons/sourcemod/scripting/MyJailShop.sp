@@ -42,6 +42,7 @@
 #include <smartjaildoors>
 #include <myjailbreak>
 #include <CustomPlayerSkins>
+#include <mywarden>
 #define REQUIRE_PLUGIN
 
 
@@ -130,6 +131,8 @@ ConVar gc_bThrowKnife;
 ConVar gc_bWallhack;
 ConVar gc_fWallhackTime;
 ConVar gc_bFroggyJump;
+ConVar gc_iPaperClip;
+ConVar gc_iPaperClipAmount;
 
 //Custom Commands
 ConVar gc_sCustomCommandShop;
@@ -137,6 +140,9 @@ ConVar gc_sCustomCommandGift;
 ConVar gc_sCustomCommandRevive;
 ConVar gc_sCustomCommandCredits;
 ConVar gc_sCustomCommandMassCredits;
+
+//Extern Plugins
+ConVar g_bHandcuff;
 
 
 //Booleans
@@ -163,6 +169,7 @@ bool g_bIsLR = true;
 bool gp_bSmartJailDoors = false;
 bool gp_bMyJailBreak = false;
 bool gp_bCustomPlayerSkins = false;
+bool gp_bWarden = false;
 
 
 //Intergers
@@ -300,6 +307,8 @@ public void OnPluginStart()
 	gc_iGravOnlyTeam = AutoExecConfig_CreateConVar("sm_jailshop_gravity_access", "1", "0 - guards only, 1 - guards & prisoner, 2 - prisoner only ", _, true, 0.0, true, 2.0);
 	gc_bInvisible = AutoExecConfig_CreateConVar("sm_jailshop_invisible_price", "8000", "0 - disabled, price of the 'Invisible' shop item", _, true, 0.0);
 	gc_fInvisibleTime = AutoExecConfig_CreateConVar("sm_jailshop_invisible_time", "10.0", "Time in seconds how long the player is invisible", _, true, 1.0);
+	gc_iPaperClip = AutoExecConfig_CreateConVar("sm_jailshop_paperclip_price", "500", "0 - disabled, price of the 'PaperClips' shop item (only if myjb is available)", _, true, 0.0);
+	gc_iPaperClipAmount = AutoExecConfig_CreateConVar("sm_jailshop_paperclip_amount", "2", "Amount of paperclips a player get (only if myjb is available)", _, true, 1.0);
 	gc_bNoDamage = AutoExecConfig_CreateConVar("sm_jailshop_nodamage_price", "1500", "0 - disabled, price of the 'NoDamage' shop item", _, true, 0.0);
 	gc_fNoDamageTime = AutoExecConfig_CreateConVar("sm_jailshop_nodamage_time", "20.0", "Time in seconds how long the player got nodamage", _, true, 1.0);
 	gc_iNoDamageOnlyTeam = AutoExecConfig_CreateConVar("sm_jailshop_nodamage_access", "1", "0 - guards only, 1 - guards & prisoner, 2 - prisoner only", _, true, 0.0, true, 2.0);
@@ -652,10 +661,7 @@ public Action Command_ShowCredits(int client, int args)
 }
 
 
-public int Handler_ShowCredits(Menu menu, MenuAction action, int param1, int param2)
-{
-
-}
+public int Handler_ShowCredits(Menu menu, MenuAction action, int param1, int param2){}
 
 
 //sm_jailset
@@ -1015,6 +1021,9 @@ public void OnAllPluginsLoaded()
 	gp_bSmartJailDoors = LibraryExists("smartjaildoors");
 	gp_bMyJailBreak = LibraryExists("myjailbreak");
 	gp_bCustomPlayerSkins = LibraryExists("CustomPlayerSkins");
+	gp_bWarden = LibraryExists("mywarden");
+	
+	g_bHandcuff = FindConVar("sm_warden_handcuffs")
 }
 
 
@@ -1028,6 +1037,9 @@ public void OnLibraryRemoved(const char[] name)
 	
 	if (StrEqual(name, "CustomPlayerSkins"))
 		gp_bCustomPlayerSkins = false;
+	
+	if (StrEqual(name, "mywarden"))
+		gp_bWarden = false;
 }
 
 
@@ -1041,6 +1053,9 @@ public void OnLibraryAdded(const char[] name)
 	
 	if (StrEqual(name, "CustomPlayerSkins"))
 		gp_bCustomPlayerSkins = true;
+	
+	if (StrEqual(name, "mywarden"))
+		gp_bWarden = true;
 }
 
 
@@ -1514,6 +1529,16 @@ public Action Menu_OpenShop(int client)
 			else if (gc_iWallhackOnlyTeam.IntValue >= 1 && gc_bWallhack.IntValue != 0) AddMenuItem(menu, "Wallhack", info, ITEMDRAW_DISABLED);
 		}
 		
+		if (gp_bWarden)
+		{
+			if(g_bHandcuff.BoolValue)
+			{
+				Format(info, sizeof(info), "%T","shop_menu_paperclip", client, gc_iPaperClip.IntValue, gc_iPaperClipAmount.IntValue);
+				if (Forward_OnGetCredits(client) >= gc_iPaperClip.IntValue && gc_iPaperClip.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client)) AddMenuItem(menu, "PaperClip", info);
+				else if (gc_iPaperClip.IntValue != 0)AddMenuItem(menu, "PaperClip", info, ITEMDRAW_DISABLED);
+			}
+		}
+		
 		Format(info, sizeof(info), "%T","shop_menu_model", client, gc_bFakeModel.IntValue);
 		if (Forward_OnGetCredits(client) >= gc_bFakeModel.IntValue && gc_bFakeModel.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client)) AddMenuItem(menu, "FakeModel", info);
 		else if (gc_bFakeModel.IntValue != 0) AddMenuItem(menu, "FakeModel", info, ITEMDRAW_DISABLED);
@@ -1713,6 +1738,10 @@ public int Handler_Menu_OpenShop(Menu menu, MenuAction action, int client, int i
 			else if (strcmp(info,"FroggyJump") == 0)
 			{
 				Item_FroggyJump(client, info);
+			}
+			else if (strcmp(info,"PaperClip") == 0)
+			{
+				Item_PaperClip(client, info);
 			}
 			if (!gc_bClose.BoolValue)
 			{
@@ -2139,9 +2168,29 @@ void Item_FroggyJump(int client, char [] name)
 			Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_bFroggyJump.IntValue));
 			Forward_OnPlayerBuyItem(client, name);
 			
-			CPrintToChatAll("%t %t", "shop_tag", "shop_froggyjump", client);
+			CPrintToChat(client, "%t %t", "shop_tag", "shop_froggyjump", client);
 		}
 		else CPrintToChat(client, "%t %t", "shop_tag", "shop_missingcredits", Forward_OnGetCredits(client), gc_bFroggyJump.IntValue);
+	}
+	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
+}
+
+
+
+void Item_PaperClip(int client, char [] name)
+{
+	if (IsPlayerAlive(client))
+	{
+		if (Forward_OnGetCredits(client) >= gc_iPaperClip.IntValue)
+		{
+			warden_handcuffs_givepaperclip(client, gc_iPaperClipAmount.IntValue);
+			
+			Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iPaperClip.IntValue));
+			Forward_OnPlayerBuyItem(client, name);
+			
+			CPrintToChat(client, "%t %t", "shop_tag", "shop_paperclip", client);
+		}
+		else CPrintToChat(client, "%t %t", "shop_tag", "shop_missingcredits", Forward_OnGetCredits(client), gc_iPaperClip.IntValue);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
 }
@@ -2164,7 +2213,7 @@ void Item_Wallhack(int client, char [] name)
 			
 			Forward_OnPlayerBuyItem(client, name);
 			
-			CPrintToChatAll("%t %t", "shop_tag", "shop_wallhack", client);
+			CPrintToChat(client, "%t %t", "shop_tag", "shop_wallhack", client);
 		}
 		else CPrintToChat(client, "%t %t", "shop_tag", "shop_missingcredits", Forward_OnGetCredits(client), gc_bWallhack.IntValue);
 	}

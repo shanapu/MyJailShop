@@ -35,6 +35,12 @@
 		"en"		"No damage for {2} sec. [{1}¢]"
 	}
 	
+	"shop_menu_paperclip"
+	{
+		"#format"	"{1:d},{2:d}"
+		"en"		"Get {2} paperclip(s). [{1}¢]"
+	}
+	
 	"shop_menu_openjail"
 	{
 		"#format"	"{1:d}"
@@ -211,6 +217,12 @@
 	"shop_heal"
 	{
 		"en" 		"You healed!"
+	}
+	
+	"shop_paperclip"
+	{
+		"#format"	"{1:d}"
+		"en"		"You bought: {1} paperclip(s) for handcuffs!"
 	}
 	
 	"shop_knife"
