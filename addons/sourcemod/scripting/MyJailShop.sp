@@ -87,6 +87,7 @@ ConVar gc_bEventdays;
 ConVar gc_bNotification;
 ConVar gc_bClose;
 ConVar gc_bTag;
+ConVar gc_bLogging;
 
 //Shop Items
 ConVar gc_iFroggyJumpOnlyTeam;
@@ -197,6 +198,8 @@ Handle gF_hOnSetCredits;
 char g_sSQLBuffer[1024];
 char g_sModelPathPrevious[MAXPLAYERS+1][256];
 char g_sModelPathFakeGuard[256];
+char g_sPurchaseLogFile[PLATFORM_MAX_PATH];
+char g_sGiftLogFile[PLATFORM_MAX_PATH];
 
 
 //Info
@@ -272,6 +275,7 @@ public void OnPluginStart()
 	gc_bEventdays = AutoExecConfig_CreateConVar("sm_jailshop_myjb", "1", "0 - disable shopping on MyJailbreak Event Days, 1 - enable shopping on MyJailbreak Event Days (only if myjb is available)(show/gift/... credits is still enabled)", _, true,  0.0, true, 1.0);
 	gc_bClose = AutoExecConfig_CreateConVar("sm_jailshop_close", "1", "0 - disabled, 1 - enable close menu after action", _, true,  0.0, true, 1.0);
 	gc_bTag = AutoExecConfig_CreateConVar("sm_jailshop_tag", "1", "Allow \"MyJailShop\" to be added to the server tags? So player will find servers with MyJailShop faster. it dont touch you sv_tags", _, true,  0.0, true, 1.0);
+	gc_bLogging = AutoExecConfig_CreateConVar("sm_jailshop_log", "1", "Allow MyJailShop to log purchases and gifts in logs/MyJailShop", _, true,  0.0, true, 1.0);
 	
 	gc_sCustomCommandShop = AutoExecConfig_CreateConVar("sm_jailshop_cmds_shop", "jbshop,jbstore,jailstore", "Set your custom chat commands for shop menu(!jailshop (no 'sm_'/'!')(seperate with comma ', ')(max. 12 commands)");
 	gc_sCustomCommandGift = AutoExecConfig_CreateConVar("sm_jailshop_cmds_gift", "gbgift,send", "Set your custom chat commands for gifting credits(!jailgift (no 'sm_'/'!')(seperate with comma ', ')(max. 12 commands)");
@@ -372,8 +376,12 @@ public void OnPluginStart()
 	}
 	
 	g_hThrownKnives = CreateArray();
+	
+	SetLogFile(g_sPurchaseLogFile, "purchase", "MyJailShop");
+	SetLogFile(g_sGiftLogFile, "gift", "MyJailShop");
 }
 
+			
 
 //ConVarChange for Strings
 public int OnSettingChanged(Handle convar, const char[] oldValue, const char[] newValue)
@@ -583,7 +591,7 @@ public Action Command_SendCredits(int client, int args)
 	
 	if (args < 2) // Not enough parameters
 	{
-		ReplyToCommand(client, "%t Use: sm_jailgift <#userid|name> [amount]","shop_tag");
+		ReplyToCommand(client, "Use: sm_jailgift <#userid|name> [amount]");
 		return Plugin_Handled;
 	}
 	
@@ -622,6 +630,7 @@ public Action Command_SendCredits(int client, int args)
 					
 					CPrintToChat(client, "%t %t", "shop_tag", "shop_give", amount, iClient);
 					CPrintToChat(iClient, "%t %t", "shop_tag", "shop_get", amount, client);
+					if (gc_bLogging.BoolValue) LogToFileEx(g_sGiftLogFile, "Player %L has gift %i credits to %L ", client, amount, iClient);
 				}
 			}
 			CPrintToChat(client, "%t %t", "shop_tag", "shop_giftyourself");
@@ -679,7 +688,7 @@ public Action AdminCommand_SetCredits(int client, int args)
 	}
 	if (args < 2) 
 	{
-		CReplyToCommand(client, "%t Use: sm_jailset <#userid|name> [amount]","shop_tag");
+		CReplyToCommand(client, "Use: sm_jailset <#userid|name> [amount]");
 		return Plugin_Handled;
 	}
 	
@@ -711,6 +720,7 @@ public Action AdminCommand_SetCredits(int client, int args)
 			
 			CPrintToChat(client, "%t %t", "shop_tag", "shop_set", amount, iClient);
 			CPrintToChat(iClient, "%t %t", "shop_tag", "shop_getset", amount, client);
+			if (gc_bLogging.BoolValue) LogToFileEx(g_sGiftLogFile, "Admin %L set %L credits to %i ", client, iClient, amount);
 		}
 	}
 	return Plugin_Handled;
@@ -732,7 +742,7 @@ public Action AdminCommand_GiveCredits(int client, int args)
 	}
 	if (args < 2) 
 	{
-		ReplyToCommand(client, "%t Use: sm_jailgive <#userid|name> [amount]","shop_tag");
+		ReplyToCommand(client, "Use: sm_jailgive <#userid|name> [amount]");
 		return Plugin_Handled;
 	}
 	
@@ -759,8 +769,9 @@ public Action AdminCommand_GiveCredits(int client, int args)
 			Forward_OnSetCredits(iClient,(Forward_OnGetCredits(iClient)+amount));
 			Forward_OnPlayerGetCredits(iClient, amount);
 			
-			CPrintToChat(client, "%t %t", "shop_give", amount, iClient);
-			CPrintToChat(iClient, "%t %t", "shop_get", amount, client);
+			CPrintToChat(client, "%t %t", "shop_tag", "shop_give", amount, iClient);
+			CPrintToChat(iClient, "%t %t", "shop_tag", "shop_get", amount, client);
+			if (gc_bLogging.BoolValue) LogToFileEx(g_sGiftLogFile, "Admin %L gifted %i credits to %L ", client, amount, iClient);
 		}
 	}
 	return Plugin_Handled;
@@ -1774,6 +1785,7 @@ void Item_Invisible(int client, char [] name)
 		
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_invisible", RoundToCeil(gc_fInvisibleTime.FloatValue));
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_bInvisible.IntValue);
+		if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Invisible", client);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
 }
@@ -1795,6 +1807,7 @@ void Item_AWP(int client, char [] name)
 		
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_awp");
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_bAWP.IntValue);
+		if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: AWP", client);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
 }
@@ -1811,6 +1824,7 @@ void Item_NoDamage(int client, char [] name)
 		
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_nodamage", RoundToCeil(gc_fNoDamageTime.FloatValue));
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_bNoDamage.IntValue);
+		if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: No Damage", client);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
 }
@@ -1827,6 +1841,7 @@ void Item_Doors(int client, char [] name)
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_opencell");
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_bOpenCells.IntValue);
 		CPrintToChatAll("%t %t", "shop_tag", "shop_opencellall", client); 
+		if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Open cells", client);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alreadyopen");
 }
@@ -1843,6 +1858,7 @@ void Item_Vampire(int client, char [] name)
 		
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_vapire");
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_bVampire.IntValue);
+		if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Vampire", client);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
 }
@@ -1862,6 +1878,7 @@ void Item_Health(int client, char [] name)
 		
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_health", gc_iHealthExtra.IntValue);
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_bHealth.IntValue);
+		if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Health", client);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
 }
@@ -1885,6 +1902,7 @@ void Item_Deagle(int client, char [] name)
 		
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_deagle");
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_bDeagle.IntValue);
+		if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Deagle", client);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
 }
@@ -1910,6 +1928,7 @@ void Item_Knife(int client, char [] name)
 		
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_knife");
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_bKnife.IntValue);
+		if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: One hit knife", client);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
 }
@@ -1934,6 +1953,7 @@ void Item_Heal(int client, char [] name)
 			EmitSoundToAll("medicsound/medic.wav");
 			CPrintToChat(client, "%t %t", "shop_tag", "shop_heal");
 			CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_bHeal.IntValue);
+			if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: heal", client);
 		}
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
@@ -1952,6 +1972,7 @@ void Item_Molotov(int client, char [] name)
 		
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_molotov");
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_bMolotov.IntValue);
+		if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Molotov", client);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
 }
@@ -1969,6 +1990,7 @@ void Item_FakeModel(int client, char [] name)
 		
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_model");
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_bFakeModel.IntValue);
+		if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: FakeModel", client);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
 }
@@ -1987,6 +2009,7 @@ void Item_PoisonSmoke(int client, char [] name)
 		
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_poisensmoke");
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_bPoisonSmoke.IntValue);
+		if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Poison smoke", client);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
 }
@@ -2010,6 +2033,7 @@ void Item_Bird(int client, char [] name)
 		
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_bird");
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_bBird.IntValue);
+		if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: be a bird", client);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
 }
@@ -2027,6 +2051,7 @@ void Item_TeleportSmoke(int client, char [] name)
 		g_bTeleportSmoke[client] = true;
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_teleportsmoke");
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_bTeleportSmoke.IntValue);
+		if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Teleport smoke", client);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
 }
@@ -2044,6 +2069,7 @@ void Item_FireGrenade(int client, char [] name)
 		g_bFireHE[client] = true;
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_firegrenade");
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_bFireHE.IntValue);
+		if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Fire HE", client);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
 }
@@ -2059,6 +2085,7 @@ void Item_Gravity(int client, char [] name)
 		SetEntityGravity(client, gc_fGravValue.FloatValue);
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_gravity");
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_bGravity.IntValue);
+		if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Gravity", client);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
 }
@@ -2074,6 +2101,7 @@ void Item_Bhop(int client, char [] name)
 		g_bBhop[client] = true;
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_bhop");
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_bBhop.IntValue);
+		if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Bhop", client);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
 }
@@ -2092,6 +2120,7 @@ void Item_Taser(int client, char [] name)
 		
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_taser");
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_bTaser.IntValue);
+		if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Taser", client);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
 }
@@ -2109,6 +2138,7 @@ void Item_NoClip(int client, char [] name)
 		
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_noclip", RoundToCeil(gc_fNoClipTime.FloatValue));
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_bNoClip.IntValue);
+		if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: No clip", client);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
 }
@@ -2130,6 +2160,7 @@ void Item_ThrowingKnife(int client, char [] name)
 		
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_throwingknife");
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_bThrowKnife.IntValue);
+		if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Throw knife", client);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
 }
@@ -2149,6 +2180,7 @@ void Item_Revive(int client, char [] name)
 				Forward_OnPlayerBuyItem(client, name);
 				
 				CPrintToChatAll("%t %t", "shop_tag", "shop_revived", client);
+				if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Revive", client);
 			}
 			else CPrintToChat(client, "%t %t", "shop_tag", "shop_missingcredits", Forward_OnGetCredits(client), gc_bRevive.IntValue);
 		}
@@ -2169,6 +2201,7 @@ void Item_FroggyJump(int client, char [] name)
 			Forward_OnPlayerBuyItem(client, name);
 			
 			CPrintToChat(client, "%t %t", "shop_tag", "shop_froggyjump", client);
+			if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: FroggyJump", client);
 		}
 		else CPrintToChat(client, "%t %t", "shop_tag", "shop_missingcredits", Forward_OnGetCredits(client), gc_bFroggyJump.IntValue);
 	}
@@ -2189,6 +2222,7 @@ void Item_PaperClip(int client, char [] name)
 			Forward_OnPlayerBuyItem(client, name);
 			
 			CPrintToChat(client, "%t %t", "shop_tag", "shop_paperclip", gc_iPaperClipAmount.IntValue);
+			if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Paperclip", client);
 		}
 		else CPrintToChat(client, "%t %t", "shop_tag", "shop_missingcredits", Forward_OnGetCredits(client), gc_iPaperClip.IntValue);
 	}
@@ -2214,6 +2248,7 @@ void Item_Wallhack(int client, char [] name)
 			Forward_OnPlayerBuyItem(client, name);
 			
 			CPrintToChat(client, "%t %t", "shop_tag", "shop_wallhack", client);
+			if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Wallhack", client);
 		}
 		else CPrintToChat(client, "%t %t", "shop_tag", "shop_missingcredits", Forward_OnGetCredits(client), gc_bWallhack.IntValue);
 	}
