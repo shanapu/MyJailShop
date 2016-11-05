@@ -23,7 +23,7 @@ before_script:
     - chmod +x spcomp
     - mkdir compiled
 
-script: ./compile.sh MyJailShop.sp MyJailShop-frozdark-shop.sp MyJailShop-sm-store.sp MyJailShop-zephyrus-store.sp
+script: ./compile.sh myjailshop.sp myjailshop-frozdark-shop.sp myjailshop-sm-store.sp myjailshop-zephyrus-store.sp
 
 
 #Notifications
