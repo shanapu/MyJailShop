@@ -42,7 +42,7 @@
 #include <smartjaildoors>
 #include <myjailbreak>
 #include <CustomPlayerSkins>
-#include <mywarden>
+#include <warden>
 #define REQUIRE_PLUGIN
 
 
@@ -1021,9 +1021,9 @@ public void OnAllPluginsLoaded()
 	gp_bSmartJailDoors = LibraryExists("smartjaildoors");
 	gp_bMyJailBreak = LibraryExists("myjailbreak");
 	gp_bCustomPlayerSkins = LibraryExists("CustomPlayerSkins");
-	gp_bWarden = LibraryExists("mywarden");
+	gp_bWarden = LibraryExists("warden");
 	
-	g_bHandcuff = FindConVar("sm_warden_handcuffs")
+	g_bHandcuff = FindConVar("sm_warden_handcuffs");
 }
 
 
@@ -1038,7 +1038,7 @@ public void OnLibraryRemoved(const char[] name)
 	if (StrEqual(name, "CustomPlayerSkins"))
 		gp_bCustomPlayerSkins = false;
 	
-	if (StrEqual(name, "mywarden"))
+	if (StrEqual(name, "warden"))
 		gp_bWarden = false;
 }
 
@@ -1054,7 +1054,7 @@ public void OnLibraryAdded(const char[] name)
 	if (StrEqual(name, "CustomPlayerSkins"))
 		gp_bCustomPlayerSkins = true;
 	
-	if (StrEqual(name, "mywarden"))
+	if (StrEqual(name, "warden"))
 		gp_bWarden = true;
 }
 
@@ -2188,7 +2188,7 @@ void Item_PaperClip(int client, char [] name)
 			Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iPaperClip.IntValue));
 			Forward_OnPlayerBuyItem(client, name);
 			
-			CPrintToChat(client, "%t %t", "shop_tag", "shop_paperclip", client);
+			CPrintToChat(client, "%t %t", "shop_tag", "shop_paperclip", gc_iPaperClipAmount.IntValue);
 		}
 		else CPrintToChat(client, "%t %t", "shop_tag", "shop_missingcredits", Forward_OnGetCredits(client), gc_iPaperClip.IntValue);
 	}
