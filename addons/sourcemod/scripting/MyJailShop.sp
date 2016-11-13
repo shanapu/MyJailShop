@@ -1799,9 +1799,9 @@ void Item_AWP(int client, char [] name)
 	}
 	else if (g_bOneBulletAWP[client] && IsPlayerAlive(client))
 	{	
-		GivePlayerItem(client, "weapon_awp");
+		int iAWP = GivePlayerItem(client, "weapon_awp");
 		g_bOneBulletAWP[client] = false;
-		SetPlayerWeaponAmmo(client, Client_GetActiveWeapon(client), 1, 0);
+		SetPlayerWeaponAmmo(client, iAWP, 1, 0);
 		Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_bAWP.IntValue));
 		Forward_OnPlayerBuyItem(client, name);
 		
@@ -1893,9 +1893,9 @@ void Item_Deagle(int client, char [] name)
 	
 	else if (g_bOneMagDeagle[client] && IsPlayerAlive(client))
 	{
-		GivePlayerItem(client, "weapon_deagle");
+		int iDeagle = GivePlayerItem(client, "weapon_deagle");
 		g_bOneMagDeagle[client] = false;
-		SetPlayerWeaponAmmo(client, Client_GetActiveWeapon(client), 0, 1);
+		SetPlayerWeaponAmmo(client, iDeagle, 7, 0);
 		
 		Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_bDeagle.IntValue));
 		Forward_OnPlayerBuyItem(client, name);
@@ -1919,8 +1919,8 @@ void Item_Knife(int client, char [] name)
 			RemoveEdict(currentknife);
 		}
 		
-		int knife = GivePlayerItem(client, "weapon_knifegg");
-		EquipPlayerWeapon(client, knife);
+		int iKnife = GivePlayerItem(client, "weapon_knifegg");
+		EquipPlayerWeapon(client, iKnife);
 		
 		g_bSuperKnife[client] = true;
 		Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_bKnife.IntValue));
@@ -2114,9 +2114,9 @@ void Item_Taser(int client, char [] name)
 		Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_bBhop.IntValue));
 		Forward_OnPlayerBuyItem(client, name);
 		
-		int taser = GivePlayerItem(client, "weapon_taser");
-		SetEntProp(taser, Prop_Send, "m_iPrimaryReserveAmmoCount", 0);
-		SetEntProp(taser, Prop_Send, "m_iClip1", 3);
+		int iTaser = GivePlayerItem(client, "weapon_taser");
+		SetEntProp(iTaser, Prop_Send, "m_iPrimaryReserveAmmoCount", 0);
+		SetEntProp(iTaser, Prop_Send, "m_iClip1", 3);
 		
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_taser");
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_bTaser.IntValue);

@@ -21,6 +21,7 @@
   
   
 *Fixed*
+*  Bug to get more bullets on deagle & awp Thx Jezis
 *  Show chat message "You bought..." only to client.
 *  Possibility for player to !jailgift credits to themself
 *  Show wrong costs on Taser Thx Dkmuniz

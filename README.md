@@ -252,7 +252,7 @@ based/merged/used code/idea plugins:
   
 ###THANKS FOR MAKING FREE SOFTWARE!
 *Much Thanks: *
-Dkmuniz, Franc1sco, devu4, Weeeishy, Include1, KissLick, live4net, bacardi, TiBarification for great ideas!
+Dkmuniz, Franc1sco, devu4, Weeeishy, Include1, KissLick, live4net, bacardi, TiBarification, ElleVen for great ideas!
   
   
   
