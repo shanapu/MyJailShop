@@ -742,7 +742,7 @@ public Action AdminCommand_GiveCredits(int client, int args)
 	}
 	if (args < 2) 
 	{
-		ReplyToCommand(client, "Use: sm_jailgive <#userid|name> [amount]");
+		CReplyToCommand(client, "%t Use: sm_jailgive <#userid|name> [amount]", "shop_tag");
 		return Plugin_Handled;
 	}
 	
