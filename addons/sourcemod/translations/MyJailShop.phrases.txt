@@ -1,473 +1,564 @@
-﻿"Phrases"
+﻿// Exported from SourceMod Translator
+// http://translator.mitchdempsey.com/sourcemod_plugins/268
+//
+"Phrases"
 {
-	"shop_tag"
+	"shop_alive"
 	{
-		"en"		"[{green}jail.shop{default}]"
+		"en"		"You need to be alive to buy items!"
+		"ru"		"Вы должны быть живы, чтобы покупать предметы!"
+		"es"		"¡Debes estar vivo para comprar algo!"
 	}
-	
+
+	"shop_alreadyopen"
+	{
+		"en"		"The cells are already open."
+		"ru"		"Камеры уже открыты."
+		"es"		"Las células ya están abiertas"
+	}
+
+	"shop_awp"
+	{
+		"en"		"You bought: AWP with one shots, know use it!"
+		"ru"		"Вы приобрели: АВП с одним выстрелом, вы знаете как его использовать!"
+		"es"		"Compraste: AWP con un disparo, ¡úsalo con inteligencia!"
+	}
+
+	"shop_bhop"
+	{
+		"en"		"Now you have BunnyHop, have fun!"
+		"ru"		"Теперь у вас есть BunnyHop, получайте удовольствие!"
+	}
+
+	"shop_bird"
+	{
+		"en"		"You are a bird! Toggle fly with '+dropweapon'"
+		"ru"		"Вы птица!  Переключатель полёта с '+dropweapon'"
+	}
+
+	"shop_buytime"
+	{
+		"en"		"The buy time is past. You can buy next round again."
+		"ru"		"Время покупок истекло. Вы можете покупать в следующем раунде снова."
+		"es"		"Se acabó el tiempo de compras. Puedes comprar de nuevo en la próxima ronda."
+	}
+
+	"shop_costs"
+	{
+		"#format"   "{1:d},{2:d}"
+		"en"		"Costs: {2} ¢redits. Now, you have {1} ¢redits "
+		"ru"		"Расходы: {2} ¢редитов. Теперь вы имеете {1} ¢редитов"
+		"es"		"Costes: {2} ¢réditos. Ahora tienes {1} ¢réditos "
+	}
+
+	"shop_credits"
+	{
+		"#format"   "{1:d}"
+		"en"		"Yours current ¢redits are: {1}!"
+		"ru"		"Ваши текущие ¢редиты: {1}!"
+	}
+
+	"shop_dead"
+	{
+		"en"		"You need be dead to use this item!"
+		"ru"		"Вы должны быть мертвы, чтобы использовать этот предмет!"
+		"es"		"¡Debes estar muerto para usar esto!"
+	}
+
+	"shop_deagle"
+	{
+		"en"		"You bought: Deagle with seven shots, know use it!"
+		"ru"		"Вы приобрели: Deagle с 7 патронами, вы знаете как его использовать!"
+		"es"		"Compraste: Deagle con siete disparos, ¡úsalos con inteligencia!"
+	}
+
 	"shop_disabled"
 	{
 		"en"		"Jail shop is currently {purple}disabled{default}!"
 		"de"		"Jail shop ist vorrübergehend {purple}ausgeschaltet{default}."
+		"ru"		"Тюремная лавка на данный момент {purple}отключена{default}!"
 	}
-	
-	"shop_menu_title"
-	{
-		"#format"	"{1:d}"
-		"en"		"Jail Shop. You have {1}¢"
-	}
-	
-	"shop_menu_invisible"
-	{
-		"#format"	"{1:d},{2:d}"
-		"en"		"Invisible for {2} sec. [{1}¢]"
-	}
-	
-	"shop_menu_awp"
-	{
-		"#format"	"{1:d}"
-		"en"		"AWP with 1 bullet [{1}¢]"
-	}
-	
-	"shop_menu_nodamage"
-	{
-		"#format"	"{1:d},{2:d}"
-		"en"		"No damage for {2} sec. [{1}¢]"
-	}
-	
-	"shop_menu_paperclip"
-	{
-		"#format"	"{1:d},{2:d}"
-		"en"		"Get {2} paperclip(s). [{1}¢]"
-	}
-	
-	"shop_menu_openjail"
-	{
-		"#format"	"{1:d}"
-		"en"		"Open Jails [{1}¢]"
-	}
-	
-	"shop_menu_froggyjump"
-	{
-		"#format"	"{1:d}"
-		"en"		"Froggy jump [{1}¢]"
-	}
-	
-	"shop_menu_vampire"
-	{
-		"#format"	"{1:d}"
-		"en"		"Vampire [{1}¢]"
-	}
-	
-	"shop_menu_health"
-	{
-		"#format" 	"{1:d},{2:d}"
-		"en"		"+{2}hp and armor [{1}¢]"
-	}
-	
-	"shop_menu_deagle"
-	{
-		"#format"	"{1:d}"
-		"en"		"Deagle with 1 Mag [{1}¢]"
-	}
-	
-	"shop_menu_taser"
-	{
-		"#format"	"{1:d}"
-		"en"		"Taser with 3 Bullets [{1}¢]"
-	}
-	
-	"shop_menu_wallhack"
-	{
-		"#format"	"{1:d}"
-		"en"		"Wallhack [{1}¢]"
-	}
-	
-	"shop_menu_revive"
-	{
-		"#format" 	"{1:d}"
-		"en" 	"Revive [{1}¢]"
-	}
-	
-	"shop_menu_knife"
-	{
-		"#format"	"{1:d}"
-		"en"		"One hit knife [{1}¢]"
-	}	
-	
-	"shop_menu_heal"
-	{
-		"#format"	"{1:d}"
-		"en"		"Heal [{1}¢]"
-	}
-	
-	"shop_menu_molotov"
-	{
-		"#format"	"{1:d}"
-		"en"		"Molotov + 2 flashs [{1}¢]"
-	}
-	
-	"shop_menu_model"
-	{
-		"#format"	"{1:d}"
-		"en"		"Guard model [{1}¢]"
-	}
-	
-	"shop_menu_poisonsmoke"
-	{
-		"#format"	"{1:d}"
-		"en"		"Poison Smoke [{1}¢]"
-	}
-	
-	"shop_menu_bhop"
-	{
-		"#format"	"{1:d}"
-		"en"		"BunnyHop [{1}¢]"
-	}
-	
-	"shop_menu_throwingknife"
-	{
-		"#format"	"{1:d}"
-		"en"		"Throwing one hit knife [{1}¢]"
-	}
-	
-	"shop_menu_firegrenade"
-	{
-		"#format"	"{1:d}"
-		"en"		"Napalm HE [{1}¢]"
-	}
-	
-	"shop_menu_gravity"
-	{
-		"#format"	"{1:d}"
-		"en"		"Low gravity [{1}¢]"
-	}
-	
-	"shop_menu_noclip"
-	{
-		"#format" 	"{1:d},{2:d}"
-		"en"		"No Clip for {2} sec. [{1}¢]"
-	}
-	
-	"shop_menu_bird"
-	{
-		"#format"	"{1:d}"
-		"en"		"Be a Bird [{1}¢]"
-	}
-	
-	"shop_menu_teleportsmoke"
-	{
-		"#format"	"{1:d}"
-		"en"		"Teleporter Smoke [{1}¢]"
-	}
-	
-	"shop_menu_armor"
-	{
-		"#format"	"{1:d}"
-		"en"		"Armor [{1}¢]"
-	}
-	
-	"shop_menu_playercredits"
-	{
-		"en"		"Player Credits"
-	}
-	
-	
-	"shop_teleportsmoke"
-	{
-		"en" 		"You bought: Teleporter Smoke!"
-	}
-	
-	"shop_costs"
-	{
-		"#format" 	"{1:d},{2:d}"
-		"en" 		"Costs: {2} ¢redits. Now, you have {1} ¢redits "
-	}
-	
+
 	"shop_firegrenade"
 	{
-		"en" 		"You bought: HE that burn the opponent!"
+		"en"		"You bought: HE that burn the opponent!"
+		"ru"		"Вы приобрели: HE, которая поджигает противника!"
 	}
-	
-	"shop_poisensmoke"
-	{
-		"en" 		"You bought: Poison Smoke!"
-	}
-	
-	"shop_model"
-	{
-		"en" 		"You are now disguised as a guard, be careful!"
-	}
-	
-	"shop_bird"
-	{
-		"en" 		"You are a bird! Toggle fly with '+dropweapon'"
-	}
-	
-	"shop_molotov"
-	{
-		"en" 		"You bought: Molotov + 2 flashs!"
-	}
-	
-	"shop_throwingknife"
-	{
-		"en" 		"You bought: Throwing knife!"
-	}
-	
-	"shop_heal"
-	{
-		"en" 		"You healed!"
-	}
-	
-	"shop_paperclip"
-	{
-		"#format"	"{1:d}"
-		"en"		"You bought: {1} paperclip(s) for handcuffs!"
-	}
-	
-	"shop_knife"
-	{
-		"en" 		"You bought: One hit knife!"
-	}
-	
-	"shop_deagle"
-	{
-		"en" 		"You bought: Deagle with seven shots, know use it!"
-	}
-	
-	"shop_taser"
-	{
-		"en" 		"You bought: Taser with 3 shots, know use it!"
-	}
-	
-	"shop_health"
-	{
-		"#format"	"{1:d}"
-		"en" 		"Now you have +{1}HP and kevlar & helm!"
-	}
-	
-	"shop_gravity"
-	{
-		"en" 		"Now you have low gravity!"
-	}
-	
+
 	"shop_froggyjump"
 	{
-		"en" 		"Now you have Froggy jump!"
+		"en"		"Now you have Froggy jump!"
+		"ru"		"Теперь у вас есть Лягушачий Прыжок!"
 	}
-	
-	"shop_wallhack"
-	{
-		"en" 		"Now you have Wallhack!"
-	}
-	
-	"shop_noclip"
-	{
-		"#format"	"{1:d}"
-		"en" 		"Now you have no clip for {1} seconds!"
-	}
-	
-	"shop_vapire"
-	{
-		"en" 		"Now you're a vampire!"
-	}
-	
-	"shop_opencell"
-	{
-		"en" 		"You opened the jails."
-	}
-	
-	"shop_nodamage"
-	{
-		"#format"	"{1:d}"
-		"en" 		"Now you're immortal for {1} seconds!"
-	}
-	
-	"shop_awp"
-	{
-		"en" 		"You bought: AWP with one shots, know use it!"
-	}
-	
-	"shop_bhop"
-	{
-		"en" 		"Now you have BunnyHop, have fun!"
-	}
-	
-	"shop_invisible"
-	{
-		"#format"	"{1:d}"
-		"en" 		"Now you're invisible for {1} seconds!"
-	}
-	
-	
-	"shop_missingcredits"
-	{
-		"#format" 	"{1:d},{2:d}"
-		"en" 		"Your ¢redits: {1} (You do not have enough. You need: {2}¢)"
-	}
-	
-	"shop_max"
-	{
-		"en" 		"You have already bought this item in this round, wait for the next round to buy again."
-	}
-	
-	"shop_alive"
-	{
-		"en" 	"You need to be alive to buy items!"
-	}
-	
-	"shop_dead"
-	{
-		"en" 	"You need be dead to use this item!"
-	}
-	
+
 	"shop_fulllive"
 	{
-		"en" 	"You're already on full health!"
+		"en"		"You're already on full health!"
+		"ru"		"У вас уже полное здоровье!"
 	}
-	
-	"shop_visible"
-	{
-		"en" 	"Now you're visible again!"
-	}
-	
-	"shop_noclipend"
-	{
-		"en" 	"NoClip has ended!"
-	}
-	
-	"shop_unwallhack"
-	{
-		"en" 	"Wallhack has ended!"
-	}
-	
-	"shop_unnodamage"
-	{
-		"en" 	"Now you're mortal again!"
-	}
-	
-	"shop_welcome"
-	{
-		"en" 	"Type !jailshop to open the shop. Kill/win/play to win ¢redits on shop."
-	}
-	
-	"shop_credits"
-	{
-		"#format" 	"{1:d}"
-		"en" 	"Yours current ¢redits are: {1}!"
-	}
-	
-	"shop_maxcredits"
-	{
-		"#format" 	"{1:d}"
-		"en" 	"Your ¢redits on shop: {1}, maximum allowed!"
-	}
-	
-	"shop_revivehint"
-	{
-		"#format" 	"{1:d}"
-		"en" 	"You died, can use !revive for {1} credits!"
-	}
-	
-	"shop_menu_nodamage"
-	{
-		"#format"	"{1:d}"
-		"en"		"No damage for 20 seconds [{1}¢]"
-	}
-	
-	"shop_playtime"
-	{
-		"#format" 	"{1:d}"
-		"en" 	"You get {1} ¢redits for playing on this server"
-	}
-	
-	"shop_tonly"
-	{
-		"en" 	"Shop only for prisioners!"
-	}
-	
-	"shop_onlyt"
-	{
-		"en" 	"This item is only for prisioners!"
-	}
-	
-	"shop_killedct"
-	{
-		"#format" 	"{1:d},{2:d},{3:N}"
-		"en" 		"You get {2} ¢redits for killing the guard {3}. Now you have: {1}¢"
-	}
-	
-	"shop_killedt"
-	{
-		"#format" 	"{1:d},{2:d},{3:N}"
-		"en" 		"You get {2} ¢redits for killing the prisoner {3}. Now you have: {1}¢"
-	}
-	
-	"shop_win"
-	{
-		"#format" 	"{1:d},{2:d}"
-		"en" 		"You get {2} ¢redits for winning the round. Now you have: {1}¢"
-	}
-	
-	"shop_lastrequest"
-	{
-		"#format" 	"{1:d},{2:d}"
-		"en" 		"You get {2} ¢redits for attain the last request. Now you have: {1}¢"
-	}
-	
-	"shop_menu_playercredits"
-	{
-		"en" 		"Players ¢redits on shop:"
-	}
-	
-	"shop_revived"
-	{
-		"#format" 	"{1:N}"
-		"en" 	"{1} has been revived!"
-	}
-	
-	"shop_opencellall"
-	{
-		"#format" 	"{1:N}"
-		"en" 	"{1} has opened all jails with shop"
-	}
-	
-	"shop_give"
-	{
-		"#format" 	"{1:d},{2:N}"
-		"en" 		"You send {1} ¢redits to Player {2}"
-	}
-	
+
 	"shop_get"
 	{
-		"#format" 	"{1:d},{2:N}"
-		"en" 		"You get {1} ¢redits from Player {2}"
+		"#format"   "{1:d},{2:N}"
+		"en"		"You get {1} ¢redits from Player {2}"
+		"ru"		"Вы получаете {1} ¢редитов от Игрока {2}"
 	}
-	
-	"shop_set"
-	{
-		"#format" 	"{1:d},{2:N}"
-		"en" 		"You set {2} ¢redits to {1}"
-	}
-	
+
 	"shop_getset"
 	{
-		"#format" 	"{1:d},{2:N}"
-		"en" 		"Your ¢redits was set to {1} by {2}"
+		"#format"   "{1:d},{2:N}"
+		"en"		"Your ¢redits was set to {1} by {2}"
+		"ru"		"Ваши ¢редиты были установлены на {1} от {2}"
 	}
-	
-	"shop_buytime"
-	{
-		"en" 		"The buy time is past. You can buy next round again."
-	}
-	
-	"shop_alreadyopen"
-	{
-		"en" 		"The cells are already open."
-	}
-	
+
 	"shop_giftyourself"
 	{
-		"en" 		"You can not gift yourself."
+		"ru"		"Вы не можете использовать подарок на себе."
+		"en"		"You can not gift yourself."
 	}
+
+	"shop_give"
+	{
+		"#format"   "{1:d},{2:N}"
+		"en"		"You send {1} ¢redits to Player {2}"
+		"ru"		"Вы отправили {1} ¢редитов Игроку {2}"
+		"es"		"Enviaste {1} ¢réditos al jugador {2}"
+	}
+
+	"shop_gravity"
+	{
+		"en"		"Now you have low gravity!"
+		"ru"		"Теперь у вас есть низкая гравитация!"
+	}
+
+	"shop_heal"
+	{
+		"en"		"You healed!"
+		"ru"		"Вы исцелены!"
+	}
+
+	"shop_health"
+	{
+		"#format"   "{1:d}"
+		"en"		"Now you have +{1}HP and kevlar & helm!"
+		"ru"		"Вы получили +{1}HP и броню с шлемом!"
+	}
+
+	"shop_invisible"
+	{
+		"#format"   "{1:d}"
+		"en"		"Now you're invisible for {1} seconds!"
+		"ru"		"Теперь вы невидимы на {1} секунд!"
+	}
+
+	"shop_killedct"
+	{
+		"#format"   "{1:d},{2:d},{3:N}"
+		"en"		"You get {2} ¢redits for killing the guard {3}. Now you have: {1}¢"
+		"ru"		"Вы получили {2} ¢редитов за убийство охранника {3}. На данный момент вы имеете: {1}¢"
+	}
+
+	"shop_killedt"
+	{
+		"#format"   "{1:d},{2:d},{3:N}"
+		"en"		"You get {2} ¢redits for killing the prisoner {3}. Now you have: {1}¢"
+		"ru"		"Вы получили {2} ¢редитов за убийство заключённого {3}. На данный момент вы имеете: {1}¢"
+	}
+
+	"shop_knife"
+	{
+		"en"		"You bought: One hit knife!"
+		"ru"		"Вы приобрели: супер-нож"
+		"es"		"Compraste: ¡Cuchillo de un golpe!"
+	}
+
+	"shop_lastrequest"
+	{
+		"#format"   "{1:d},{2:d}"
+		"en"		"You get {2} ¢redits for attain the last request. Now you have: {1}¢"
+		"ru"		"Вы получили {2} ¢редитов за достижение ЛР. На данный момент вы имеете: {1}¢"
+	}
+
+	"shop_max"
+	{
+		"en"		"You have already bought this item in this round, wait for the next round to buy again."
+		"ru"		"Вы уже приобрели этот предмет в этом раунде, подождите до следующего раунда, чтобы купить снова."
+		"es"		"Ya compraste eso en esta ronda, espera a la próxima para comprarlo de nuevo."
+	}
+
+	"shop_maxcredits"
+	{
+		"#format"   "{1:d}"
+		"en"		"Your ¢redits on shop: {1}, maximum allowed!"
+		"ru"		"Ваши ¢редиты в магазине: {1}, максимально допустимое!"
+		"es"		"Tus ¢réditos en la tienda: {1}, ¡máximo permitido!"
+	}
+
+	"shop_menu_armor"
+	{
+		"#format"   "{1:d}"
+		"en"		"Armor [{1}¢]"
+		"ru"		"Броня [{1}¢]"
+	}
+
+	"shop_menu_awp"
+	{
+		"#format"   "{1:d}"
+		"en"		"AWP with 1 bullet [{1}¢]"
+		"ru"		"АВП с одним патроном [{1}¢]"
+	}
+
+	"shop_menu_bhop"
+	{
+		"#format"   "{1:d}"
+		"en"		"BunnyHop [{1}¢]"
+		"ru"		"BunnyHop [{1}¢]"
+	}
+
+	"shop_menu_bird"
+	{
+		"#format"   "{1:d}"
+		"en"		"Be a Bird [{1}¢]"
+		"ru"		"Стать птицей [{1}¢]"
+	}
+
+	"shop_menu_deagle"
+	{
+		"#format"   "{1:d}"
+		"en"		"Deagle with 1 Mag [{1}¢]"
+		"ru"		"Deagle с 1 магазином [{1}¢]"
+	}
+
+	"shop_menu_firegrenade"
+	{
+		"#format"   "{1:d}"
+		"en"		"Napalm HE [{1}¢]"
+		"ru"		"Огненная гранта [{1}¢]"
+	}
+
+	"shop_menu_froggyjump"
+	{
+		"#format"   "{1:d}"
+		"en"		"Froggy jump [{1}¢]"
+		"ru"		"Лягушачий прыжок [{1}¢]"
+	}
+
+	"shop_menu_gravity"
+	{
+		"#format"   "{1:d}"
+		"en"		"Low gravity [{1}¢]"
+		"ru"		"Маленькая гравитация [{1}¢]"
+	}
+
+	"shop_menu_heal"
+	{
+		"#format"   "{1:d}"
+		"en"		"Heal [{1}¢]"
+		"ru"		"Излечение [{1}¢]"
+	}
+
+	"shop_menu_health"
+	{
+		"#format"   "{1:d},{2:d}"
+		"en"		"+{2}hp and armor [{1}¢]"
+		"ru"		"+{2}hp и брони [{1}¢]"
+	}
+
+	"shop_menu_invisible"
+	{
+		"#format"   "{1:d},{2:d}"
+		"en"		"Invisible for {2} sec. [{1}¢]"
+		"ru"		"Невидимость на {2} сек. [{1}¢]"
+	}
+
+	"shop_menu_knife"
+	{
+		"#format"   "{1:d}"
+		"en"		"One hit knife [{1}¢]"
+		"ru"		"Один удар ножом [{1}¢]"
+	}
+
+	"shop_menu_model"
+	{
+		"#format"   "{1:d}"
+		"en"		"Guard model [{1}¢]"
+		"ru"		"Одежда охранника [{1}¢]"
+	}
+
+	"shop_menu_molotov"
+	{
+		"#format"   "{1:d}"
+		"en"		"Molotov + 2 flashs [{1}¢]"
+		"ru"		"Молотов + 2 флэшки [{1}¢]"
+	}
+
+	"shop_menu_noclip"
+	{
+		"#format"   "{1:d},{2:d}"
+		"en"		"No Clip for {2} sec. [{1}¢]"
+		"ru"		"НоКлип на {2} сек. [{1}¢]"
+	}
+
+	"shop_menu_nodamage"
+	{
+		"#format"   "{1:d}"
+		"en"		"No damage for 20 seconds [{1}¢]"
+		"ru"		"Никаких повреждений в течение 20 секунд [{1}¢]"
+	}
+
+	"shop_menu_openjail"
+	{
+		"#format"   "{1:d}"
+		"en"		"Open Jails [{1}¢]"
+		"ru"		"Открыть камеры [{1}¢]"
+	}
+
+	"shop_menu_paperclip"
+	{
+		"#format"   "{1:d},{2:d}"
+		"ru"		"Получить {2} скрепки. [{1}¢]"
+		"en"		"Get {2} paperclip(s). [{1}¢]"
+	}
+
+	"shop_menu_playercredits"
+	{
+		"en"		"Players ¢redits on shop:"
+		"ru"		"Кредиты игрока"
+	}
+
+	"shop_menu_player¢redits"
+	{
+		"en"		"Players ¢redits on shop:"
+		"ru"		"¢редиты игроков в магазине:"
+	}
+
+	"shop_menu_poisonsmoke"
+	{
+		"#format"   "{1:d}"
+		"en"		"Poison Smoke [{1}¢]"
+		"ru"		"Ядовитый дым [{1}¢]"
+	}
+
+	"shop_menu_revive"
+	{
+		"#format"   "{1:d}"
+		"en"		"Revive [{1}¢]"
+		"ru"		"Воскрешение [{1}¢]"
+	}
+
+	"shop_menu_taser"
+	{
+		"#format"   "{1:d}"
+		"en"		"Taser with 3 Bullets [{1}¢]"
+		"ru"		"Шокер с 3 выстрелами [{1}¢]"
+	}
+
+	"shop_menu_teleportsmoke"
+	{
+		"#format"   "{1:d}"
+		"en"		"Teleporter Smoke [{1}¢]"
+		"ru"		"Смок-телепортации [{1}¢]"
+	}
+
+	"shop_menu_throwingknife"
+	{
+		"#format"   "{1:d}"
+		"en"		"Throwing one hit knife [{1}¢]"
+		"ru"		"Бросить одним ударом нож [{1}¢]"
+	}
+
+	"shop_menu_title"
+	{
+		"#format"   "{1:d}"
+		"en"		"Jail Shop. You have {1}¢"
+		"ru"		"Тюремная лавка. Вы имеете {1}¢"
+	}
+
+	"shop_menu_vampire"
+	{
+		"#format"   "{1:d}"
+		"en"		"Vampire [{1}¢]"
+		"ru"		"Вампир [{1}¢]"
+	}
+
+	"shop_menu_wallhack"
+	{
+		"#format"   "{1:d}"
+		"en"		"Wallhack [{1}¢]"
+		"ru"		"WallHack [{1}¢]"
+	}
+
+	"shop_missingcredits"
+	{
+		"#format"   "{1:d},{2:d}"
+		"en"		"Your ¢redits: {1} (You do not have enough. You need: {2}¢)"
+		"ru"		"Ваши ¢редиты: {1} (У вас недостаточно ¢редитов для покупки. Вам необходимо: {2}¢)"
+	}
+
+	"shop_model"
+	{
+		"en"		"You are now disguised as a guard, be careful!"
+		"ru"		"Вы замаскировались под охранника, будьте осторожны!"
+	}
+
+	"shop_molotov"
+	{
+		"en"		"You bought: Molotov + 2 flashs!"
+		"ru"		"Вы приобрели: Молотов + 2 флэшки!"
+	}
+
+	"shop_noclip"
+	{
+		"#format"   "{1:d}"
+		"en"		"Now you have no clip for {1} seconds!"
+		"ru"		"Теперь у вас есть НоКлип на {1} секунд!"
+	}
+
+	"shop_noclipend"
+	{
+		"en"		"NoClip has ended!"
+		"ru"		"NoClip закончился!"
+	}
+
+	"shop_nodamage"
+	{
+		"#format"   "{1:d}"
+		"en"		"Now you're immortal for {1} seconds!"
+		"ru"		"Теперь вы бессмертны на {1} секунд!"
+	}
+
+	"shop_onlyt"
+	{
+		"en"		"This item is only for prisioners!"
+		"ru"		"Этот предмет доступен только заключённым!"
+	}
+
+	"shop_opencell"
+	{
+		"en"		"You opened the jails."
+		"ru"		"Вы открыли камеры."
+	}
+
+	"shop_opencellall"
+	{
+		"#format"   "{1:N}"
+		"en"		"{1} has opened all jails with shop"
+		"ru"		"{1} открыл все клетки, используя магазин"
+	}
+
+	"shop_paperclip"
+	{
+		"#format"   "{1:d}"
+		"ru"		"Вы приобрели: {1} скрепок для наручников!"
+		"en"		"You bought: {1} paperclip(s) for handcuffs!"
+	}
+
+	"shop_playtime"
+	{
+		"#format"   "{1:d}"
+		"en"		"You get {1} ¢redits for playing on this server"
+		"ru"		"Вы получили {1} ¢редитов за игру на этом сервере"
+	}
+
+	"shop_poisensmoke"
+	{
+		"en"		"You bought: Poison Smoke!"
+		"ru"		"Вы приобрели: Ядовитый дым!"
+	}
+
+	"shop_revived"
+	{
+		"#format"   "{1:N}"
+		"en"		"{1} has been revived!"
+		"ru"		"{1} был возрождён!"
+	}
+
+	"shop_revivehint"
+	{
+		"#format"   "{1:d}"
+		"en"		"You died, can use !revive for {1} credits!"
+		"ru"		"Вы погибли, вы можете использовать !revive за {1} кредитов!"
+	}
+
+	"shop_set"
+	{
+		"#format"   "{1:d},{2:N}"
+		"en"		"You set {2} ¢redits to {1}"
+		"ru"		"Вы установили {2} ¢редитов {1}"
+	}
+
+	"shop_tag"
+	{
+		"en"		"[{green}jail.shop{default}]"
+		"ru"		"[{green}jail.магазин{default}]"
+	}
+
+	"shop_taser"
+	{
+		"en"		"You bought: Taser with 3 shots, know use it!"
+		"ru"		"Вы приобрели: Шокер с 3 выстрелами!"
+		"es"		"Compraste: Pistola eléctrica con 3 disparos, ¡úsalos con inteligencia!"
+	}
+
+	"shop_teleportsmoke"
+	{
+		"en"		"You bought: Teleporter Smoke!"
+		"ru"		"Вы приобрели: Смок-телепорт!"
+	}
+
+	"shop_throwingknife"
+	{
+		"en"		"You bought: Throwing knife!"
+		"ru"		"Вы приобрели: Метательный нож!"
+	}
+
+	"shop_tonly"
+	{
+		"en"		"Shop only for prisioners!"
+		"ru"		"Магазин только для заключённых!"
+	}
+
+	"shop_unnodamage"
+	{
+		"en"		"Now you're mortal again!"
+		"ru"		"Вы снова смертны!"
+	}
+
+	"shop_unwallhack"
+	{
+		"ru"		"ВХ закончился!"
+		"en"		"Wallhack has ended!"
+	}
+
+	"shop_vapire"
+	{
+		"en"		"Now you're a vampire!"
+		"ru"		"Теперь вы вампир!"
+	}
+
+	"shop_visible"
+	{
+		"en"		"Now you're visible again!"
+		"ru"		"Теперь вы снова видимы!"
+	}
+
+	"shop_wallhack"
+	{
+		"en"		"Now you have Wallhack!"
+		"ru"		"Теперь у вас есть WallHack!"
+	}
+
+	"shop_welcome"
+	{
+		"en"		"Type !jailshop to open the shop. Kill/win/play to win ¢redits on shop."
+		"ru"		"Введите !shop, чтобы открыть магазин. Убейте, чтобы выйграть ¢редитов в магазине."
+	}
+
+	"shop_win"
+	{
+		"#format"   "{1:d},{2:d}"
+		"ru"		"Вы получили {2} ¢редитов за победу в раунде! Теперь вы имеете: {1}¢"
+		"en"		"You get {2} ¢redits for winning the round. Now you have: {1}¢"
+	}
+
 }

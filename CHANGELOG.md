@@ -12,15 +12,18 @@
     *  new plugin - myjailshop-zephyrus-store.smx - Support plugin for Zephyrus store plugin
     *  new plugin - myjailshop-sm-store.smx - Support plugin for 'sm store' plugin
     *  new plugin - myjailshop-frozdark-shop.smx - Support plugin for FrozDarks shop plugin
+ *  RU transaltion - Thx include1!
   
   
   
 *Changed*
 * Moved 'Be a Bird'-item to end of menu
+* Already buyed items are greyed out
   
   
   
 *Fixed*
+*  Bug color in give/gift chat messages
 *  Bug to get more bullets on deagle & awp Thx Jezis
 *  Show chat message "You bought..." only to client.
 *  Possibility for player to !jailgift credits to themself
