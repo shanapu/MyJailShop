@@ -1584,11 +1584,11 @@ public Action Menu_OpenShop(int client)
 		else if (gc_bDeagle.IntValue != 0) AddMenuItem(menu, "Deagle", info, ITEMDRAW_DISABLED);
 		
 		Format(info, sizeof(info), "%T","shop_menu_knife", client, gc_bKnife.IntValue);
-		if (Forward_OnGetCredits(client) >= gc_bKnife.IntValue && gc_bKnife.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && !g_bThrowingKnife[client]) AddMenuItem(menu, "Knife", info);
+		if (Forward_OnGetCredits(client) >= gc_bKnife.IntValue && gc_bKnife.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && !g_bSuperKnife[client]) AddMenuItem(menu, "Knife", info);
 		else if (gc_bKnife.IntValue != 0) AddMenuItem(menu, "Knife", info, ITEMDRAW_DISABLED);
 		
 		Format(info, sizeof(info), "%T","shop_menu_throwingknife", client, gc_bThrowKnife.IntValue, RoundToCeil(gc_fNoClipTime.FloatValue));
-		if (Forward_OnGetCredits(client) >= gc_bThrowKnife.IntValue && gc_bThrowKnife.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && !g_bSuperKnife[client]) AddMenuItem(menu, "ThrowingKnife", info);
+		if (Forward_OnGetCredits(client) >= gc_bThrowKnife.IntValue && gc_bThrowKnife.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && !g_bThrowingKnife[client]) AddMenuItem(menu, "ThrowingKnife", info);
 		else if (gc_bThrowKnife.IntValue != 0) AddMenuItem(menu, "ThrowingKnife", info, ITEMDRAW_DISABLED);
 		
 		Format(info, sizeof(info), "%T","shop_menu_taser", client, gc_bTaser.IntValue);
