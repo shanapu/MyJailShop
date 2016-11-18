@@ -52,7 +52,7 @@
 
 
 //Defines
-#define VERSION "1.1.dev"
+#define VERSION "1.2.dev"
 #define URL "https://github.com/shanapu/MyJailShop"
 
 
