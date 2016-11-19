@@ -13,16 +13,21 @@
     *  new plugin - myjailshop-sm-store.smx - Support plugin for 'sm store' plugin
     *  new plugin - myjailshop-frozdark-shop.smx - Support plugin for FrozDarks shop plugin
  *  RU transaltion - Thx include1!
+ *  IT transaltion - Thx Hexer10!
   
   
   
 *Changed*
 * Moved 'Be a Bird'-item to end of menu
 * Already buyed items are greyed out
+* When using MyJB, icons will be disabled on invisible, bird & fakeguard
+* MyJailbreak: remove players icon above heads on 'fakeguard' & 'be a bird'-items
   
   
   
 *Fixed*
+*  Ammobug when a player already got a prim/sec weapon and buy deagle or awp
+    *  new cvar - sm_jailshop_removeweapon - 0 - disabled, 1 - When a player already got a prim/sec weapon and buy deagle or awp the current weapon disappear
 *  Bug color in give/gift chat messages
 *  Bug to get more bullets on deagle & awp Thx Jezis
 *  Show chat message "You bought..." only to client.

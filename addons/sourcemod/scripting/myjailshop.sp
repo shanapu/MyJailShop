@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU General Public License along with
- * this program.  ifnot, see <http://www.gnu.org/licenses/>.
+ * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 
@@ -43,6 +43,7 @@
 #include <myjailbreak>
 #include <CustomPlayerSkins>
 #include <warden>
+#include <myicons>
 #define REQUIRE_PLUGIN
 
 
@@ -85,6 +86,7 @@ ConVar gc_fBuyTime;
 ConVar gc_bBuyTimeCells;
 ConVar gc_bEventdays;
 ConVar gc_bNotification;
+ConVar gc_bRemoveWeapon;
 ConVar gc_bClose;
 ConVar gc_bTag;
 ConVar gc_bLogging;
@@ -173,6 +175,7 @@ bool gp_bSmartJailDoors = false;
 bool gp_bMyJailBreak = false;
 bool gp_bCustomPlayerSkins = false;
 bool gp_bWarden = false;
+bool gp_bMyIcons = false;
 
 
 //Intergers
@@ -275,6 +278,7 @@ public void OnPluginStart()
 	gc_bBuyTimeCells = AutoExecConfig_CreateConVar("sm_jailshop_buytime_cells", "0", "0 - disabled, 1 - only shopping until cell doors opened (only if smartjaildoors is available)", _, true, 0.0, true, 1.0);
 	gc_bOnlyT = AutoExecConfig_CreateConVar("sm_jailshop_access", "0", "0 - shop available for guards & prisoner, 1 - only prisoner", _, true, 0.0, true, 1.0);
 	gc_bEventdays = AutoExecConfig_CreateConVar("sm_jailshop_myjb", "1", "0 - disable shopping on MyJailbreak Event Days, 1 - enable shopping on MyJailbreak Event Days (only if myjb is available)(show/gift/... credits is still enabled)", _, true,  0.0, true, 1.0);
+	gc_bRemoveWeapon = AutoExecConfig_CreateConVar("sm_jailshop_removeweapon", "1", "0 - disabled, 1 - When a player already got a prim/sec weapon and buy deagle or awp the current weapon disappear", _, true,  0.0, true, 1.0);
 	gc_bClose = AutoExecConfig_CreateConVar("sm_jailshop_close", "1", "0 - disabled, 1 - enable close menu after action", _, true,  0.0, true, 1.0);
 	gc_bTag = AutoExecConfig_CreateConVar("sm_jailshop_tag", "1", "Allow \"MyJailShop\" to be added to the server tags? So player will find servers with MyJailShop faster. it dont touch you sv_tags", _, true,  0.0, true, 1.0);
 	gc_bLogging = AutoExecConfig_CreateConVar("sm_jailshop_log", "1", "Allow MyJailShop to log purchases and gifts in logs/MyJailShop", _, true,  0.0, true, 1.0);
@@ -1034,6 +1038,7 @@ public void OnAllPluginsLoaded()
 	gp_bMyJailBreak = LibraryExists("myjailbreak");
 	gp_bCustomPlayerSkins = LibraryExists("CustomPlayerSkins");
 	gp_bWarden = LibraryExists("warden");
+	gp_bMyIcons = LibraryExists("myicons");
 	
 	g_bHandcuff = FindConVar("sm_warden_handcuffs");
 }
@@ -1052,6 +1057,9 @@ public void OnLibraryRemoved(const char[] name)
 	
 	if (StrEqual(name, "warden"))
 		gp_bWarden = false;
+	
+	if (StrEqual(name, "myicons"))
+		gp_bMyIcons = false;
 }
 
 
@@ -1068,6 +1076,9 @@ public void OnLibraryAdded(const char[] name)
 	
 	if (StrEqual(name, "warden"))
 		gp_bWarden = true;
+	
+	if (StrEqual(name, "myicons"))
+		gp_bMyIcons = true;
 }
 
 
@@ -1461,6 +1472,7 @@ public Action ResetPlayer(int client)
 	}
 	
 	if (gp_bCustomPlayerSkins) UnhookWallhack(client);
+	if(gp_bMyIcons) MyIcons_BlockClientIcon(client, false);
 	
 	g_bPoison[client] = false;
 	g_bVampire[client] = false;
@@ -1791,6 +1803,8 @@ void Item_Invisible(int client, char [] name)
 		Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_bInvisible.IntValue));
 		Forward_OnPlayerBuyItem(client, name);
 		
+		if(gp_bMyIcons) MyIcons_BlockClientIcon(client, true);
+		
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_invisible", RoundToCeil(gc_fInvisibleTime.FloatValue));
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_bInvisible.IntValue);
 		if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Invisible", client);
@@ -1807,6 +1821,12 @@ void Item_AWP(int client, char [] name)
 	}
 	else if (IsPlayerAlive(client))
 	{
+		int weapon;
+		if ((weapon = GetPlayerWeaponSlot(client, CS_SLOT_PRIMARY)) != -1)   //if player has already a weapon
+		{
+			SDKHooks_DropWeapon(client, weapon, NULL_VECTOR, NULL_VECTOR);
+			if (gc_bRemoveWeapon.BoolValue) AcceptEntityInput(weapon, "Kill");
+		}
 		int iAWP = GivePlayerItem(client, "weapon_awp");
 		g_bOneBulletAWP[client] = true;
 		SetPlayerWeaponAmmo(client, iAWP, 1, 0);
@@ -1905,6 +1925,12 @@ void Item_Deagle(int client, char [] name)
 	}
 	else if (IsPlayerAlive(client))
 	{
+		int weapon;
+		if ((weapon = GetPlayerWeaponSlot(client, CS_SLOT_SECONDARY)) != -1)   //if player has already a weapon
+		{
+			SDKHooks_DropWeapon(client, weapon, NULL_VECTOR, NULL_VECTOR);
+			if (gc_bRemoveWeapon.BoolValue) AcceptEntityInput(weapon, "Kill");
+		}
 		int iDeagle = GivePlayerItem(client, "weapon_deagle");
 		g_bOneMagDeagle[client] = true;
 		SetPlayerWeaponAmmo(client, iDeagle, 7, 0);
@@ -2008,6 +2034,7 @@ void Item_FakeModel(int client, char [] name)
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_model");
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_bFakeModel.IntValue);
 		if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: FakeModel", client);
+		if(gp_bMyIcons) MyIcons_BlockClientIcon(client, true);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
 }
@@ -2051,6 +2078,7 @@ void Item_Bird(int client, char [] name)
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_bird");
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_bBird.IntValue);
 		if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: be a bird", client);
+		if(gp_bMyIcons) MyIcons_BlockClientIcon(client, true);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
 }
@@ -2226,7 +2254,6 @@ void Item_FroggyJump(int client, char [] name)
 }
 
 
-
 void Item_PaperClip(int client, char [] name)
 {
 	if (IsPlayerAlive(client))
@@ -2245,7 +2272,6 @@ void Item_PaperClip(int client, char [] name)
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
 }
-
 
 
 void Item_Wallhack(int client, char [] name)
@@ -2545,6 +2571,7 @@ public Action Timer_Invisible(Handle timer, any client)
 		g_bInvisible[client] = false;
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_visible");
 		SDKUnhook(client, SDKHook_SetTransmit, Hook_SetTransmit);
+		if(gp_bMyIcons) MyIcons_BlockClientIcon(client, false);
 	}
 }
 
