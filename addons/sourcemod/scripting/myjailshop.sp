@@ -53,7 +53,7 @@
 
 
 //Defines
-#define VERSION "1.1.dev"
+#define VERSION "1.2.dev"
 #define URL "https://github.com/shanapu/MyJailShop"
 
 
@@ -694,7 +694,7 @@ public Action AdminCommand_SetCredits(int client, int args)
 	}
 	if (args < 2) 
 	{
-		CReplyToCommand(client, "Use: sm_jailset <#userid|name> [amount]");
+		CReplyToCommand(client, "%t Use: sm_jailset <#userid|name> [amount]", "shop_tag");
 		return Plugin_Handled;
 	}
 	
