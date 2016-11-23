@@ -52,7 +52,7 @@
 	"shop_costs"
 	{
 		"#format"	"{1:d},{2:d}"
-		"it"		"Costs: {2} ¢redits. Now, you have {1} ¢redits "
+		"it"		"Costo: {2} ¢redits. Ora hai {1} ¢rediti "
 		"en"		"Costs: {2} ¢redits. Now, you have {1} ¢redits "
 		"ru"		"Расходы: {2} ¢редитов. Теперь вы имеете {1} ¢редитов"
 		"es"		"Costes: {2} ¢réditos. Ahora tienes {1} ¢réditos "
