@@ -90,6 +90,8 @@ ConVar gc_bRemoveWeapon;
 ConVar gc_bClose;
 ConVar gc_bTag;
 ConVar gc_bLogging;
+ConVar gc_bRemoveOnLR;
+ConVar gc_bBuyOnLR;
 
 //Shop Items
 ConVar gc_iFroggyJumpOnlyTeam;
@@ -151,6 +153,7 @@ ConVar g_bHandcuff;
 //Booleans
 bool g_bInvisible[MAXPLAYERS+1] = false;
 bool g_bFly[MAXPLAYERS+1] = false;
+bool g_bFakeGuard[MAXPLAYERS+1] = false;
 bool g_bNoDamage[MAXPLAYERS+1] = false;
 bool g_bPoison[MAXPLAYERS+1] = false;
 bool g_bVampire[MAXPLAYERS+1] = false;
@@ -276,6 +279,8 @@ public void OnPluginStart()
 	gc_bNotification = AutoExecConfig_CreateConVar("sm_jailshop_notification", "1", "0 - disabled, 1 - enable chat notification everytime player get credits", _, true, 0.0, true, 1.0);
 	gc_fBuyTime = AutoExecConfig_CreateConVar("sm_jailshop_buytime", "180", "0 - disabled, Time in seconds after roundstart shopping is allowed", _, true, 0.0);
 	gc_bBuyTimeCells = AutoExecConfig_CreateConVar("sm_jailshop_buytime_cells", "0", "0 - disabled, 1 - only shopping until cell doors opened (only if smartjaildoors is available)", _, true, 0.0, true, 1.0);
+	gc_bBuyOnLR = AutoExecConfig_CreateConVar("sm_jailshop_buy_lr", "1", "0 - disabled, 1 - restrict shopping on Last lequest", _, true, 0.0, true, 1.0);
+	gc_bRemoveOnLR = AutoExecConfig_CreateConVar("sm_jailshop_remove_lr", "1", "Remove the bought perks on a last request. (bought weapons will stay)", _, true,  0.0, true, 1.0);
 	gc_bOnlyT = AutoExecConfig_CreateConVar("sm_jailshop_access", "0", "0 - shop available for guards & prisoner, 1 - only prisoner", _, true, 0.0, true, 1.0);
 	gc_bEventdays = AutoExecConfig_CreateConVar("sm_jailshop_myjb", "1", "0 - disable shopping on MyJailbreak Event Days, 1 - enable shopping on MyJailbreak Event Days (only if myjb is available)(show/gift/... credits is still enabled)", _, true,  0.0, true, 1.0);
 	gc_bRemoveWeapon = AutoExecConfig_CreateConVar("sm_jailshop_removeweapon", "1", "0 - disabled, 1 - When a player already got a prim/sec weapon and buy deagle or awp the current weapon disappear", _, true,  0.0, true, 1.0);
@@ -1177,6 +1182,7 @@ public void OnClientPostAdminCheck(int client)
 	g_bPoison[client] = false;
 	g_bVampire[client] = false;
 	g_bFly[client] = false;
+	g_bFakeGuard[client] = false;
 	g_bNoClip[client] = false;
 	g_bThrowingKnife[client] = false;
 	g_bFroggyJump[client] = false;
@@ -1358,6 +1364,8 @@ public Action Hook_OnWeaponCanUse(int client, int weapon)
 public int OnAvailableLR(int Announced)
 {
 	g_bIsLR = true;
+	if (gc_bBuyOnLR.BoolValue) g_bAllowBuy = false;
+	
 	LoopValidClients(i, false, false) if (GetClientTeam(i) == CS_TEAM_T && gc_bEnable.BoolValue)
 	{
 		if (GetAllPlayersCount() >= gc_iMinPlayersToGetCredits.IntValue) 
@@ -1376,6 +1384,9 @@ public int OnAvailableLR(int Announced)
 				
 				if (gc_bNotification.BoolValue) CPrintToChat(i, "%t %t", "shop_tag", "shop_lastrequest", Forward_OnGetCredits(i), gc_iCreditsLR.IntValue);
 			}
+		}
+		if (gc_bRemoveOnLR.BoolValue)
+		{
 			SetEntityGravity(i, 1.0);
 			ResetPlayer(i);
 			SetEntPropFloat(i, Prop_Data, "m_flLaggedMovementValue", 1.0);
@@ -1463,7 +1474,11 @@ public Action ResetPlayer(int client)
 		SetEntityMoveType(client, MOVETYPE_WALK);
 	}
 	
-	if (g_bNoDamage[client]) g_bNoDamage[client] = false;
+	if (g_bFakeGuard[client])
+	{
+		g_bFakeGuard[client] = false;
+		SetEntityModel(client, g_sModelPathPrevious[client]);
+	}
 	
 	if (g_bInvisible[client])
 	{
@@ -1474,6 +1489,7 @@ public Action ResetPlayer(int client)
 	if (gp_bCustomPlayerSkins) UnhookWallhack(client);
 	if(gp_bMyIcons) MyIcons_BlockClientIcon(client, false);
 	
+	g_bNoDamage[client] = false;
 	g_bPoison[client] = false;
 	g_bVampire[client] = false;
 	g_bTeleportSmoke[client] = false;
@@ -2027,6 +2043,8 @@ void Item_FakeModel(int client, char [] name)
 	{
 		Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_bFakeModel.IntValue));
 		Forward_OnPlayerBuyItem(client, name);
+		
+		g_bFakeGuard[client] = true;
 		
 		GetEntPropString(client, Prop_Data, "m_ModelName", g_sModelPathPrevious[client], sizeof(g_sModelPathPrevious[]));
 		SetEntityModel(client, g_sModelPathFakeGuard);
