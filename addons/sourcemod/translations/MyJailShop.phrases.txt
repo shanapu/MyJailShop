@@ -373,7 +373,7 @@
 		"ru"		"Кредиты игрока"
 	}
 
-	"shop_menu_player¢redits"
+	"shop_menu_playercredits"
 	{
 		"en"		"Players ¢redits on shop:"
 		"ru"		"¢редиты игроков в магазине:"
@@ -493,6 +493,12 @@
 		"it"		"Questo oggetto e' solo per i prigionieri!"
 		"en"		"This item is only for prisioners!"
 		"ru"		"Этот предмет доступен только заключённым!"
+	}
+	
+		
+	"shop_onlyct"
+	{
+		"en" 		"This item is only for guards!"
 	}
 
 	"shop_opencell"
