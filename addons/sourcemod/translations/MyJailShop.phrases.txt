@@ -374,6 +374,11 @@
 		"en" 	"This item is only for prisioners!"
 	}
 	
+	"shop_onlyct"
+	{
+		"en" 	"This item is only for guards!"
+	}
+	
 	"shop_killedct"
 	{
 		"#format" 	"{1:d},{2:d},{3:N}"
