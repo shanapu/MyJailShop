@@ -322,10 +322,37 @@ Dkmuniz, Franc1sco, devu4, Weeeishy, Include1, KissLick, live4net, bacardi, TiBa
 
 
 
-[B][U]Download latest stable[/U][/B]
-[url]https://github.com/shanapu/MyJailShop/releases[/url]
-[COLOR="DarkRed"][B]The smx files on Github are compiled with SM 1.8. 
-If you still use 1.7.x you should update your sourcemod or compile MyJailShop for yourself on your SM version[/B][/COLOR]
+
+[rant]
+[B][U]What should I consider if I open a issue on github or post on forum?[/U][/B]
+[LIST]
+[*]Take a look to the [url=https://github.com/shanapu/MyJailbreak/wiki/Frequently-Asked-Questions]FAQ[/url].
+[*]Read the issues on github & posts on forums thread - maybe your request was already posted there.
+[*]Use descriptive topic titles & descriptions. "i have idea", "need Help", "Suggestion" or "don't work" isn't helpful & pleasant.
+[*]Try to explain your request with [U][b]so many details as you can.[/b][/U]
+[*][B]USE PROPER ENGLISH![/B]
+[*]Expound every single step to reproduce your train of thought. [U]We're all no clairvoyant or mindreaders.[U]
+[*]Explain like "I'm an idiot and never I used MyJailShop before".
+[*]Maybe take a screenshot or make a beautiful picture with paint.
+[*]Provide [U]so many infos as you can[/U]. Like your...
+[/LIST][INDENT][LIST=1]
+[*]sourcemod & metamod version
+[*]MyJailShop version
+[*]sm plugins list server console output
+[*]plugin configs (.cfg)
+[*]error logs from .../csgo/addons/sourcemod/logs directory
+[*]all other things that could help us helping you!
+[/LIST][/INDENT][LIST]
+[*]Please open [U]one Issue[/U] per request/errors/problems. Split many requests/errors/problems to different Issues. Thanks!
+[/LIST]
+[COLOR="DarkRed"][B][U]If you are not capable to do this, I going to ignore you![/B][/U][/COLOR] sry
+[/rant]
+
+
+
+[B][U]Download latest stable[/U][/B] new build system!
+[url]https://shanapu.de/MyJailbreak/[/url]
+
 
 [U][B]Report Bugs, Ideas, Requests & see todo:[/B][/U]
 [url]https://github.com/shanapu/MyJailShop/issues[/url]
@@ -341,7 +368,7 @@ If you still use 1.7.x you should update your sourcemod or compile MyJailShop fo
 coded with [IMG]http://shanapu.de/githearth-small.png[/IMG] free software
 
 [b]I would be happy and very pleased if you want to join this project as an equal collaborator. 
-Even if you are a beginner and willing to learn or you just want to help with translations.[/b] 
+Even if you are a beginner and willing to learn or you just want to [url=http://translator.mitchdempsey.com/users/378/sourcemod_plugins]help with translations.[/url][/b] 
 
 
 

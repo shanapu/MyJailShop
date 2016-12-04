@@ -1,0 +1,10 @@
+Make sure you have the latest versions of the required plugins
+  
+  
+Open Copy the folders addons/ & cfg/ to your gameservers root csgo/ directory  
+  
+Run plugin for the first time and all necessary .cfg files will be generated  
+  
+Configure all settings in cfg/MyJailShop to your needs
+  
+Have fun! Give feedback!
