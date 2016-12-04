@@ -3,7 +3,7 @@
   a high customizable shop with credits system intended for jailbreak server.
   
 Download: https://shanapu.de/MyJailShop  
-https://forums.alliedmods.net/showthread.php?t=288712  
+Discuss: https://forums.alliedmods.net/showthread.php?t=288712  
 Report: https://github.com/shanapu/MyJailShop/issues  
   
 master: [![Build Status](https://img.shields.io/travis/shanapu/MyJailShop/master.svg?style=flat-square)](https://travis-ci.org/shanapu/MyJailShop?branch=master)  dev: [![Build Status](https://img.shields.io/travis/shanapu/MyJailShop/dev.svg?style=flat-square)](https://travis-ci.org/shanapu/MyJailShop?branch=dev)  
