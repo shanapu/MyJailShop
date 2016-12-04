@@ -47,6 +47,27 @@ public __pl_myjailshop_SetNTVOptional()
 
 
 /*********************************************************
+ * Called when a client get credits and sm_jailshop_credits_system "0"
+ *
+ * @param client		The client who get the credits
+ * @Return				The credits of the client
+ *********************************************************/
+forward int MyJailShop_OnGetCredits(int client);
+
+
+
+/*********************************************************
+ * Called when a clients credits are set and sm_jailshop_credits_system "0"
+ *
+ * @param client		The client who get the credits
+ * @param Credits	Amount of credits
+ * @NoReturn
+ *********************************************************/
+forward void MyJailShop_OnSetCredits(int client, int NewCreditsAmount);
+
+
+
+/*********************************************************
  * Called when a client get credits
  *
  * @param client		The client who get the credits
