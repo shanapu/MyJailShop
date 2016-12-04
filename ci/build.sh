@@ -25,10 +25,10 @@ do
 done
 
 echo "Compile MyJailShop plugins"
-addons/sourcemod/scripting/spcomp -E -v0 addons/sourcemod/plugins/myjailshop.sp
-addons/sourcemod/scripting/spcomp -E -v0 addons/sourcemod/plugins/myjailshop-frozdark-shop.sp
-addons/sourcemod/scripting/spcomp -E -v0 addons/sourcemod/plugins/myjailshop-sm-store.sp
-addons/sourcemod/scripting/spcomp -E -v0 addons/sourcemod/plugins/myjailshop-zephyrus-store.sp
+addons/sourcemod/scripting/spcomp -E -v0 addons/sourcemod/scripting/myjailshop.sp
+addons/sourcemod/scripting/spcomp -E -v0 addons/sourcemod/scripting/myjailshop-frozdark-shop.sp
+addons/sourcemod/scripting/spcomp -E -v0 addons/sourcemod/scripting/myjailshop-sm-store.sp
+addons/sourcemod/scripting/spcomp -E -v0 addons/sourcemod/scripting/myjailshop-zephyrus-store.sp
 
 
 echo "Remove plugins folder if exists"
