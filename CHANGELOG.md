@@ -1,5 +1,12 @@
 ### Change Log
   
+**[1.2.1]** - fix
+  
+*Fixed*
+ *  bug on using original warden not MyJailbreaks warden 
+  
+  
+  
 **[1.2.0]** - 3rd party credits, MyJailbreaks paperclips support & fixes 
   
 *Added*

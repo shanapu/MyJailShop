@@ -53,7 +53,7 @@
 
 
 //Defines
-#define VERSION "1.2.0-<COMMIT>"
+#define VERSION "1.2.1-<COMMIT>"
 #define URL "https://github.com/shanapu/MyJailShop"
 
 
@@ -1579,11 +1579,14 @@ public Action Menu_OpenShop(int client)
 		
 		if (gp_bWarden)
 		{
-			if(g_bHandcuff.BoolValue)
+			if (g_bHandcuff != null)
 			{
-				Format(info, sizeof(info), "%T","shop_menu_paperclip", client, gc_iPaperClip.IntValue, gc_iPaperClipAmount.IntValue);
-				if (Forward_OnGetCredits(client) >= gc_iPaperClip.IntValue && gc_iPaperClip.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client)) AddMenuItem(menu, "PaperClip", info);
-				else if (gc_iPaperClip.IntValue != 0)AddMenuItem(menu, "PaperClip", info, ITEMDRAW_DISABLED);
+				if(g_bHandcuff.BoolValue)
+				{
+					Format(info, sizeof(info), "%T","shop_menu_paperclip", client, gc_iPaperClip.IntValue, gc_iPaperClipAmount.IntValue);
+					if (Forward_OnGetCredits(client) >= gc_iPaperClip.IntValue && gc_iPaperClip.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client)) AddMenuItem(menu, "PaperClip", info);
+					else if (gc_iPaperClip.IntValue != 0) AddMenuItem(menu, "PaperClip", info, ITEMDRAW_DISABLED);
+				}
 			}
 		}
 		
