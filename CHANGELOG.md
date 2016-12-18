@@ -1,6 +1,13 @@
 ### Change Log
   
-**[1.2.dev]** - initial release
+**[1.2.1]** - fix
+  
+*Fixed*
+ *  bug on using original warden not MyJailbreaks warden 
+  
+  
+  
+**[1.2.0]** - 3rd party credits, MyJailbreaks paperclips support & fixes 
   
 *Added*
  *  new item: new item paperclips if MyJailBreaks Warden & Handcuffs available
@@ -17,6 +24,7 @@
  *  new cvar - sm_jailshop_remove_lr - 0 - disabled, 1 - Remove the bought perks on a last request. (bought weapons stay)
  *  RU transaltion - Thx include1!
  *  IT transaltion - Thx Hexer10!
+ *  New builds system - sourcecode on github / binarys at http://shanapu.de/MyJailShop
   
   
   
@@ -45,6 +53,7 @@
 *  Forwards: Changed all forward names by adding MyJailShop_* in front to avoid conflicts with 3rd party plugins
   
   
+**[1.1.0]** - skipped
   
 **[1.0.0]** - initial release
 

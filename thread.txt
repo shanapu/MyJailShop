@@ -25,7 +25,7 @@ Earn credits for playtime, kills, your team won rounds &/or you reach last reque
 [*][B]Vampire / +speed & HP for damage[/B]
 [*][B]Invisible for x sec.[/B]
 [*][B]No Clip for x sec.[/B]
-[*][B]Be a Bird[/B]
+[*][B]Paperclips for handcuffs[/B]
 [*][B]Fake Guard Model[/B]
 [*][B]Teleport smoke[/B]
 [*][B]Poison smoke[/B]
@@ -36,6 +36,7 @@ Earn credits for playtime, kills, your team won rounds &/or you reach last reque
 [*][B]Throw One hit Knife[/B]
 [*][B]Three bullets Taser[/B]
 [*][B]Molotov & flashs[/B]
+[*][B]Be a Bird[/B]
 [/LIST]
 
 
@@ -44,6 +45,7 @@ Earn credits for playtime, kills, your team won rounds &/or you reach last reque
 [LIST]
 [*]SourcePawn Transitional Syntax 1.7
 [*]Multilingual support
+[*]Use credit system of alternative stores/shops (zephyrus,frozdark,sm store)
 [*]Console varibale for almost all features!
 [*]Custom chat commands !mycommand
 [*]Custom chat tags [jail.shop]
@@ -79,6 +81,7 @@ set your own custom command. take a look at "[b]sm_jailshop_cmds_NAME[/b]"
 [QUOTE]
 [b]sm_jailshop_version[/b] - The version of this MyJailShop SourceMod plugin
 [b]sm_jailshop_enable[/b] - 0 - disabled, 1 - enable the MyJailShop SourceMod plugin
+[b]sm_jailshop_credits_system[/b] - 1 - MyJailShop Credits, 0 - Zephrus store or 'SM Store' or FrozDark shop (need extra support plugin)
 [b]sm_jailshop_credits_save[/b] - 0 - disabled, 1 - Save credits on player disconnect
 [b]sm_jailshop_mysql[/b] - 0 - disabled, 1 - Should we use a mysql database to store credits
 [b]sm_jailshop_credits_max[/b] - Maximum of credits to earn for a player
@@ -105,13 +108,16 @@ set your own custom command. take a look at "[b]sm_jailshop_cmds_NAME[/b]"
 [b]sm_jailshop_access[/b] - 0 - shop available for guards & prisoner, 1 - only prisoner
 [b]sm_jailshop_myjb[/b] - 0 - disable shopping on MyJailbreak Event Days, 1 - enable shopping on MyJailbreak Event Days (only if myjb is available, show/gift/... credits is still enabled)
 [b]sm_jailshop_close[/b] - 0 - disabled, 1 - enable close menu after action
-
+[b]sm_jailshop_tag[/b] - Allow "MyJailShop" to be added to the server tags? So player will find servers with MyJailShop faster. it dont touch you sv_tags
+[b]sm_jailshop_log[/b] - Allow MyJailShop to log purchases and gifts in logs/MyJailShop
+[b]sm_jailshop_buy_lr[/b] - 0 - disabled, 1 - Restrict shopping on last request
+[b]sm_jailshop_remove_lr[/b] - 0 - disabled, 1 - Remove the bought perks on a last request. (bought weapons stay)
+[b]sm_jailshop_removeweapon[/b] - 0 - disabled, 1 - When a player already got a prim/sec weapon and buy deagle or awp the current weapon disappear
 [b]sm_jailshop_cmds_shop[/b] - Set your custom chat commands for shop menu(!jailshop (no 'sm_'/'!')(seperate with comma ', ')(max. 12 commands)
 [b]sm_jailshop_cmds_gift[/b] - Set your custom chat commands for gifting credits(!jailgift (no 'sm_'/'!')(seperate with comma ', ')(max. 12 commands)
 [b]sm_jailshop_cmds_revive[/b] - Set your custom chat commands for revive(!jailrevive (no 'sm_'/'!')(seperate with comma ', ')(max. 12 commands)
 [b]sm_jailshop_cmds_credits[/b] - Set your custom chat commands to see you credits (!jailcredits (no 'sm_'/'!')(seperate with comma ', ')(max. 12 commands)
 [b]sm_jailshop_cmds_showcredits[/b] - Set your custom chat commands for see all online players credits(!showjailcredits (no 'sm_'/'!')(seperate with comma ', ')(max. 12 commands)
-[b]sm_jailshop_tag[/b] - Allow "MyJailShop" to be added to the server tags? So player will find servers with MyJailShop faster. it dont touch you sv_tags
 [/QUOTE]
 [/SPOILER]
 
@@ -160,6 +166,8 @@ set your own custom command. take a look at "[b]sm_jailshop_cmds_NAME[/b]"
 [b]sm_jailshop_throw_knife_count[/b] - how many knifes a prisoner can throw
 [b]sm_jailshop_taser_price[/b] - 0 - disabled, price of the '3 bullets Taser' shop item
 [b]sm_jailshop_molotov_price[/b] - 0 - disabled, price of the 'Molotov & flashs' shop item
+[b]sm_jailshop_paperclip_price[/b] - 0 - disabled, price of the 'PaperClips' shop item (only if myjb is available)
+[b]sm_jailshop_paperclip_amount[/b] - Amount of paperclips a player get (only if myjb is available)
 [/QUOTE]
 [/SPOILER]
 
@@ -176,6 +184,17 @@ set your own custom command. take a look at "[b]sm_jailshop_cmds_NAME[/b]"
 [*][url=https://forums.alliedmods.net/showthread.php?t=264100]Smart Jail Doors[/url] - needed for shop item - Open Jail Doors
 
 [*][url=https://forums.alliedmods.net/showthread.php?t=240703]CustomPlayerSkins[/url] - needed for shop item - Wallhack
+
+[/LIST]
+
+[U][B]Supports 3rd party shop/stores credit systems[/B][/U] - use sm_jailshop_credits_system "0"
+[LIST]
+
+[*][url=https://forums.alliedmods.net/showthread.php?t=276677][ANY] Store by Zephyrus[/url] - use api plugin: zephyrus-store.smx
+
+[*][url=https://forums.alliedmods.net/showthread.php?t=255418]Sourcemod Store[/url - use api plugin: myjailshop-sm-store.smx
+
+[*][url=http://hlmod.ru/resources/shop-core.182/]Shop by FrozDark[/url] - use api plugin: myjailshop-frozdark-shop.smx
 
 [/LIST]
 
@@ -288,6 +307,74 @@ native void MyJailShop_SetCredits(int client, int newCredits);
 [B][u]Latest Changes[/u][/B]
 
 [QUOTE] 
+[b][1.2.0][/B] - 3rd party credits, MyJailbreaks paperclips support & fixes 
+  
+[SPOILER] 
+[i]Added[/i]
+[LIST]
+[*]new item: new item paperclips if MyJailBreaks Warden & Handcuffs available
+[/LIST]
+[INDENT][LIST]
+[*]new cvar - sm_jailshop_paperclip_price - 0 - disabled, price of the 'PaperClips' shop item (only if myjb is available)
+[*]new cvar - sm_jailshop_paperclip_amount - Amount of paperclips a player get (only if myjb is available)
+[/LIST][/INDENT] 
+[LIST]
+[*]Support for 3rd party store/shop plugins credit system (use their credits instead myjs credits)
+[/LIST]
+[INDENT][LIST]
+[*]new cvar - sm_jailshop_credits_system - 1 - MyJailShop Credits, 0 - Zephrus store or 'SM Store' or FrozDark shop (need extra support plugin)
+[*]new plugin - myjailshop-zephyrus-store.smx - Support plugin for Zephyrus store plugin
+[*]new plugin - myjailshop-sm-store.smx - Support plugin for 'sm store' plugin
+[*]new plugin - myjailshop-frozdark-shop.smx - Support plugin for FrozDarks shop plugin
+[/LIST][/INDENT] 
+[LIST]
+[*]new cvar - sm_jailshop_tag - Allow "MyJailShop" to be added to the server tags? So player will find servers with MyJailShop faster. it dont touch you sv_tags
+[*]new cvar - sm_jailshop_log - Allow MyJailShop to log purchases and gifts in logs/MyJailShop
+[*]new cvar - sm_jailshop_buy_lr - 0 - disabled, 1 - Restrict shopping on last request
+[*]new cvar - sm_jailshop_remove_lr - 0 - disabled, 1 - Remove the bought perks on a last request. (bought weapons stay)
+[*]RU transaltion - Thx include1!
+[*]IT transaltion - Thx Hexer10!
+[*]New builds system - sourcecode on github / binarys at http://shanapu.de/MyJailShop
+[/LIST]
+  
+  
+  
+[i]Changed[/i]
+[LIST]
+[*]Moved 'Be a Bird'-item to end of menu
+[*]Already buyed items are greyed out
+[*]When using MyJB, icons will be disabled on invisible, bird & fakeguard
+[*]MyJailbreak: remove players icon above heads on 'fakeguard' & 'be a bird'-items
+[/LIST]
+  
+  
+  
+[i]Fixed[/i]
+[LIST]
+[*]Ammobug when a player already got a prim/sec weapon and buy deagle or awp
+[/LIST]
+[INDENT][LIST]
+[*]new cvar - sm_jailshop_removeweapon - 0 - disabled, 1 - When a player already got a prim/sec weapon and buy deagle or awp the current weapon disappear
+[/LIST][/INDENT] 
+[LIST]
+[*]Bug color in give/gift chat messages
+[*]Bug to get more bullets on deagle & awp Thx Jezis
+[*]Show chat message "You bought..." only to client.
+[*]Possibility for player to !jailgift credits to themself
+[*]Show wrong costs on Taser Thx Dkmuniz
+[*]minor fixes & small typos
+[/LIST]
+  
+  
+  
+[i]Developer stuff[i]
+[LIST]
+[*]Natives: Changed all native names by adding MyJailShop_* in front to avoid conflicts with 3rd party plugins
+[*]Forwards: Changed all forward names by adding MyJailShop_* in front to avoid conflicts with 3rd party plugins
+[/LIST]
+  
+[b][1.1.0][/b] - skipped
+  
 [b][1.0.0][/b] - initial release
   
 [U][B]Full Change Log:[/B][/U]
@@ -350,8 +437,11 @@ Dkmuniz, Franc1sco, devu4, Weeeishy, Include1, KissLick, live4net, bacardi, TiBa
 
 
 
-[B][U]Download latest stable[/U][/B] new build system!
-[url]https://shanapu.de/MyJailbreak/[/url]
+[B][U]Download release pack[/U][/B] new build system!
+[url]https://shanapu.de/MyJailShop/[/url]
+
+[B][U]Sourcecode[/U][/B]
+[url]https://github.com/shanapu/MyJailShop/[/url]
 
 
 [U][B]Report Bugs, Ideas, Requests & see todo:[/B][/U]
