@@ -9,6 +9,7 @@
         "en"        "You need to be alive to buy items!"
         "ru"        "Вы должны быть живы, чтобы покупать предметы!"
         "es"        "¡Debes estar vivo para comprar algo!"
+        "chi"       "你需要活着去买"
     }
 
     "shop_alreadyopen"
@@ -17,6 +18,7 @@
         "en"        "The cells are already open."
         "ru"        "Камеры уже открыты."
         "es"        "Las células ya están abiertas"
+        "chi"       "监狱门已经打开"
     }
 
     "shop_awp"
@@ -25,6 +27,7 @@
         "en"        "You bought: AWP with one shots, know use it!"
         "ru"        "Вы приобрели: АВП с одним выстрелом, вы знаете как его использовать!"
         "es"        "Compraste: AWP con un disparo, ¡úsalo con inteligencia!"
+        "chi"       "你已经买了一个AWP，明智地使用它!"
     }
 
     "shop_bhop"
@@ -32,6 +35,7 @@
         "it"        "Ora sai Bunnyhoppare, divertiti!"
         "en"        "Now you have BunnyHop, have fun!"
         "ru"        "Теперь у вас есть BunnyHop, получайте удовольствие!"
+        "chi"       "现在你有BunnyHop 跳跃跳!"
     }
 
     "shop_bird"
@@ -39,6 +43,7 @@
         "it"        "Sei un uccello! Attiva la fly con '+dropweapon'"
         "en"        "You are a bird! Toggle fly with '+dropweapon'"
         "ru"        "Вы птица!  Переключатель полёта с '+dropweapon'"
+        "chi"       "你已经变成了一只鸟！ 飞与使用 '+dropweapon'"
     }
 
     "shop_buytime"
@@ -47,6 +52,7 @@
         "en"        "The buy time is past. You can buy next round again."
         "ru"        "Время покупок истекло. Вы можете покупать в следующем раунде снова."
         "es"        "Se acabó el tiempo de compras. Puedes comprar de nuevo en la próxima ronda."
+        "chi"       "购买时间现在用完了，你可以再下一轮购买."
     }
 
     "shop_costs"
@@ -56,6 +62,7 @@
         "en"        "Costs: {2} ¢redits. Now, you have {1} ¢redits"
         "ru"        "Расходы: {2} ¢редитов. Теперь вы имеете {1} ¢редитов"
         "es"        "Costes: {2} ¢réditos. Ahora tienes {1} ¢réditos"
+        "chi"       "成本：{2}¢credit。 现在，您有{1}¢credit“"
     }
 
     "shop_credits"
@@ -64,6 +71,7 @@
         "it"        "Hai attualmente: {1} ¢redits!"
         "en"        "Yours current ¢redits are: {1}!"
         "ru"        "Ваши текущие ¢редиты: {1}!"
+        "chi"       "你有:{1} credits! "
     }
 
     "shop_dead"
@@ -72,6 +80,7 @@
         "en"        "You need be dead to use this item!"
         "ru"        "Вы должны быть мертвы, чтобы использовать этот предмет!"
         "es"        "¡Debes estar muerto para usar esto!"
+        "chi"       "您必须死亡才能使用此项目"
     }
 
     "shop_deagle"
@@ -80,6 +89,7 @@
         "en"        "You bought: Deagle with seven shots, know use it!"
         "ru"        "Вы приобрели: Deagle с 7 патронами, вы знаете как его использовать!"
         "es"        "Compraste: Deagle con siete disparos, ¡úsalos con inteligencia!"
+        "chi"       "你买了一个: Deagle, 明智地使用它!"
     }
 
     "shop_disabled"
@@ -88,6 +98,7 @@
         "it"        "Lo shop e' attualmente {purple}disabilitato{default}!"
         "en"        "Jail shop is currently {purple}disabled{default}!"
         "ru"        "Тюремная лавка на данный момент {purple}отключена{default}!"
+        "chi"       "监狱商店目前{purple}无法使用{default}!"
     }
 
     "shop_firegrenade"
@@ -95,6 +106,7 @@
         "it"        "Hai comprato: HE that burn the opponent!"
         "en"        "You bought: HE that burn the opponent!"
         "ru"        "Вы приобрели: HE, которая поджигает противника!"
+        "chi"       "你买了: HE 可以燃烧你的敌人!"
     }
 
     "shop_froggyjump"
@@ -102,6 +114,7 @@
         "it"        "Ora salti come una rana!"
         "en"        "Now you have Froggy jump!"
         "ru"        "Теперь у вас есть Лягушачий Прыжок!"
+        "chi"       "你现在可以像一只青蛙一样跳跃！"
     }
 
     "shop_fulllive"
@@ -109,15 +122,17 @@
         "it"        "La tua vita e' gia' al completo!"
         "en"        "You're already on full health!"
         "ru"        "У вас уже полное здоровье!"
+        "chi"       "你已经完全健康了!"
     }
 
     "shop_get"
     {
         "#format"   "{1:d},{2:N}"
         "it"        "Hai ricevuto {1} ¢rediti da {2}"
-        "en"        "You get {1} ¢redits from Player {2}"
+        "en"        "You have received {1} ¢redits from Player {2}"
         "ru"        "Вы получаете {1} ¢редитов от Игрока {2}"
-    }
+        "chi"       "你收到了{1} ¢redits 从 Player {2}"
+    }
 
     "shop_getset"
     {
@@ -125,27 +140,30 @@
         "it"        "I tuoi ¢rediti sono stati impostati a {1} da {2}"
         "en"        "Your ¢redits was set to {1} by {2}"
         "ru"        "Ваши ¢редиты были установлены на {1} от {2}"
-    }
+        "chi"       "你的¢redits 改变到{1}从{2}"
+    }
 
     "shop_giftyourself"
     {
         "it"        "Non ti puoi inviare da solo crediti."
         "ru"        "Вы не можете использовать подарок на себе."
         "en"        "You can not gift yourself."
-    }
+        "chi"       "你不能够送给你自己！”
+        }
 
     "shop_give"
     {
         "#format"   "{1:d},{2:N}"
         "it"        "Hai dato {1} ¢rediti a {2}"
-        "en"        "You send {1} ¢redits to Player {2}"
+        "en"        "You have sent {1} ¢redits to Player {2}"
         "ru"        "Вы отправили {1} ¢редитов Игроку {2}"
-        "es"        "Enviaste {1} ¢réditos al jugador {2}"
-    }
+        "es"        "Enviaste {1} ¢réditos al jugador {2}"
+        "chi"       "您给{1}¢信用额发送给Player{2}“
+    }
 
     "shop_gravity"
-    {
-        "it"        "Ora hai la bassa gravita'!"
+    {
+        "it"        "Ora hai la bassa gravita'!"
         "en"        "Now you have low gravity!"
         "ru"        "Теперь у вас есть низкая гравитация!"
     }
@@ -220,6 +238,7 @@
         "en"        "Your ¢redits on shop: {1}, maximum allowed!"
         "ru"        "Ваши ¢редиты в магазине: {1}, максимально допустимое!"
         "es"        "Tus ¢réditos en la tienda: {1}, ¡máximo permitido!"
+        "chi"       "你有最大¢redits : {1}"
     }
 
     "shop_menu_armor"
