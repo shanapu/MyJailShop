@@ -289,7 +289,7 @@ public void OnPluginStart()
 	gc_bLogging = AutoExecConfig_CreateConVar("sm_jailshop_log", "1", "Allow MyJailShop to log purchases and gifts in logs/MyJailShop", _, true,  0.0, true, 1.0);
 	
 	gc_sCustomCommandShop = AutoExecConfig_CreateConVar("sm_jailshop_cmds_shop", "jbshop,jbstore,jailstore", "Set your custom chat commands for shop menu(!jailshop (no 'sm_'/'!')(seperate with comma ', ')(max. 12 commands)");
-	gc_sCustomCommandGift = AutoExecConfig_CreateConVar("sm_jailshop_cmds_gift", "gbgift,send", "Set your custom chat commands for gifting credits(!jailgift (no 'sm_'/'!')(seperate with comma ', ')(max. 12 commands)");
+	gc_sCustomCommandGift = AutoExecConfig_CreateConVar("sm_jailshop_cmds_gift", "jbgift,send", "Set your custom chat commands for gifting credits(!jailgift (no 'sm_'/'!')(seperate with comma ', ')(max. 12 commands)");
 	gc_sCustomCommandRevive = AutoExecConfig_CreateConVar("sm_jailshop_cmds_revive", "revive,jbrevive,alive", "Set your custom chat commands for revive(!jailrevive (no 'sm_'/'!')(seperate with comma ', ')(max. 12 commands)");
 	gc_sCustomCommandCredits = AutoExecConfig_CreateConVar("sm_jailshop_cmds_credits", "points,credits", "Set your custom chat commands to see you credits (!jailcredits (no 'sm_'/'!')(seperate with comma ', ')(max. 12 commands)");
 	gc_sCustomCommandMassCredits = AutoExecConfig_CreateConVar("sm_jailshop_cmds_showcredits", "showpoints,allcredits,showcredits", "Set your custom chat commands for see all online players credits(!showjailcredits (no 'sm_'/'!')(seperate with comma ', ')(max. 12 commands)");
@@ -1618,7 +1618,7 @@ public Action Menu_OpenShop(int client)
 		if (Forward_OnGetCredits(client) >= gc_bKnife.IntValue && gc_bKnife.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && !g_bSuperKnife[client]) AddMenuItem(menu, "Knife", info);
 		else if (gc_bKnife.IntValue != 0) AddMenuItem(menu, "Knife", info, ITEMDRAW_DISABLED);
 		
-		Format(info, sizeof(info), "%T","shop_menu_throwingknife", client, gc_bThrowKnife.IntValue, RoundToCeil(gc_fNoClipTime.FloatValue));
+		Format(info, sizeof(info), "%T","shop_menu_throwingknife", client, gc_bThrowKnife.IntValue);
 		if (Forward_OnGetCredits(client) >= gc_bThrowKnife.IntValue && gc_bThrowKnife.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && !g_bThrowingKnife[client]) AddMenuItem(menu, "ThrowingKnife", info);
 		else if (gc_bThrowKnife.IntValue != 0) AddMenuItem(menu, "ThrowingKnife", info, ITEMDRAW_DISABLED);
 		

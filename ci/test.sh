@@ -17,14 +17,8 @@ do
   rm output.txt
 done
 
-echo "Compile MyJailbreak plugins"
-for file in addons/sourcemod/scripting/MyJailbreak/*.sp
-do
-  addons/sourcemod/scripting/spcomp -E -v0 $file
-done
-
 echo "Compile MyJailShop plugins"
-for file in addons/sourcemod/scripting/MyJailbreak/*.sp
-do
-  addons/sourcemod/scripting/spcomp -E -v0 $file
-done
+addons/sourcemod/scripting/spcomp -E -v0 addons/sourcemod/scripting/myjailshop.sp
+addons/sourcemod/scripting/spcomp -E -v0 addons/sourcemod/scripting/myjailshop-frozdark-shop.sp
+addons/sourcemod/scripting/spcomp -E -v0 addons/sourcemod/scripting/myjailshop-sm-store.sp
+addons/sourcemod/scripting/spcomp -E -v0 addons/sourcemod/scripting/myjailshop-zephyrus-store.sp
