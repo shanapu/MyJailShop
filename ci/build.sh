@@ -85,6 +85,10 @@ echo "Remove placeholder files"
 rm -r build/addons/sourcemod/logs/MyJailShop/.gitkeep
 rm -r build/cfg/MyJailShop/.gitkeep
 
+echo "Download source and move to folder"
+git clone --depth=50 --branch=$2 https://github.com/shanapu/MyJailShop.git source/MyJailShop
+mv source/MyJailShop/addons/sourcemod/scripting build/gameserver/addons/sourcemod
+
 echo "Create clean translation folder"
 mkdir build/addons/sourcemod/translations
 
