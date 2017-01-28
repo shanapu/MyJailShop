@@ -11,30 +11,27 @@
  * 
  * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
  *
  * You should have received a copy of the GNU General Public License along with
- * this program.  ifnot, see <http://www.gnu.org/licenses/>.
+ * this program.  ifnot, see <http:// www.gnu.org/licenses/>.
  */
 
 /******************************************************************************
                    STARTUP
 ******************************************************************************/
 
-
-//Includes
+// Includes
 #include <sourcemod>
 #include <shop>
 #include <myjailshop>
 
-
-//Compiler Options
+// Compiler Options
 #pragma semicolon 1
 #pragma newdecls required
 
-
-//Info
+// Info
 public Plugin myinfo = 
 {
 	name = "MyJailShop - Use credits from Shop by FrozDark",
@@ -43,7 +40,6 @@ public Plugin myinfo =
 	version = "1.0",
 	url = "https://github.com/shanapu/MyJailShop"
 };
-
 
 /******************************************************************************
                    FORWARDS LISTEN
@@ -55,7 +51,6 @@ public int MyJailShop_OnGetCredits(int client)
 	
 	return credits;
 }
-
 
 public void MyJailShop_OnSetCredits(int client, int credits)
 {
