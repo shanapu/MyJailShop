@@ -375,16 +375,16 @@ public void OnPluginStart()
 	
 	if (gc_bCreditsSave.BoolValue)
 	{
-		LoopValidClients(client, false, true)
+		for (int i = 1; i <= MaxClients; i++) if (IsValidClient(i, false, true))
 		{
 			if (gc_bMySQL.BoolValue)
 			{
-				DB_AddPlayer(client);
-				DB_FetchCredits(client);
+				DB_AddPlayer(i);
+				DB_FetchCredits(i);
 			}
-			else if (AreClientCookiesCached(client))
+			else if (AreClientCookiesCached(i))
 			{
-				OnClientCookiesCached(client);
+				OnClientCookiesCached(i);
 			}
 		}
 	}
@@ -729,7 +729,7 @@ public Action Command_ShowCredits(int client, int args)
 	Menu menu = CreateMenu(Handler_ShowCredits);
 	SetMenuTitle(menu, "%t","shop_menu_playercredits");
 	
-	LoopValidClients(i, false, true)
+	for (int i = 1; i <= MaxClients; i++) if (IsValidClient(i, false, true))
 	{
 		GetClientName(i, sName, sizeof(sName));
 		IntToString(GetClientUserId(i), sUserId, sizeof(sUserId));
@@ -1027,7 +1027,7 @@ public Action Event_RoundEnd(Event event, const char[] name, bool dontBroadcast)
 	
 	if (winner == CS_TEAM_T)
 	{
-		LoopValidClients(i, false, AliveValue) if (GetAllPlayersCount() >= gc_iMinPlayersToGetCredits.IntValue && (gc_bCreditsWarmup.BoolValue || GameRules_GetProp("m_bWarmupPeriod") != 1)) 
+		for (int i = 1; i <= MaxClients; i++) if (IsValidClient(i, false, AliveValue)) if (GetAllPlayersCount() >= gc_iMinPlayersToGetCredits.IntValue && (gc_bCreditsWarmup.BoolValue || GameRules_GetProp("m_bWarmupPeriod") != 1)) 
 		{
 			if (IsPlayerReservationAdmin(i) && gc_iCreditsVIPWinT.IntValue != 0)
 			{
@@ -1045,7 +1045,7 @@ public Action Event_RoundEnd(Event event, const char[] name, bool dontBroadcast)
 	}
 	if (winner == CS_TEAM_CT)
 	{
-		LoopValidClients(i, false, AliveValue) if (GetAllPlayersCount() >= gc_iMinPlayersToGetCredits.IntValue && (gc_bCreditsWarmup.BoolValue || GameRules_GetProp("m_bWarmupPeriod") != 1)) 
+		for (int i = 1; i <= MaxClients; i++) if (IsValidClient(i, false, AliveValue)) if (GetAllPlayersCount() >= gc_iMinPlayersToGetCredits.IntValue && (gc_bCreditsWarmup.BoolValue || GameRules_GetProp("m_bWarmupPeriod") != 1)) 
 		{
 			if (IsPlayerReservationAdmin(i) && gc_iCreditsVIPWinCT.IntValue != 0)
 			{
@@ -1061,7 +1061,7 @@ public Action Event_RoundEnd(Event event, const char[] name, bool dontBroadcast)
 			}
 		}
 	}
-	LoopValidClients(i, false, true)
+	for (int i = 1; i <= MaxClients; i++) if (IsValidClient(i, false, true))
 	{
 		ResetPlayer(i);
 		if (gc_bMySQL.BoolValue) DB_WriteCredits(i);
@@ -1160,7 +1160,7 @@ public void OnMapStart()
 	
 	if (!g_bDBConnected && gc_bMySQL.BoolValue) DB_Connect();
 	
-	if (gc_bMySQL.BoolValue) LoopValidClients(i, false, true)
+	if (gc_bMySQL.BoolValue) for (int i = 1; i <= MaxClients; i++) if (IsValidClient(i, false, true))
 	{
 		DB_AddPlayer(i);
 		DB_FetchCredits(i);
@@ -1217,7 +1217,7 @@ public void OnPluginEnd()
 {
 	if (!gc_bCreditsSave.BoolValue) return;
 	
-	LoopValidClients(i, false, true) OnClientDisconnect(i);
+	for (int i = 1; i <= MaxClients; i++) if (IsValidClient(i, false, true)) OnClientDisconnect(i);
 }
 
 
@@ -1430,7 +1430,7 @@ public int OnAvailableLR(int Announced)
 	g_bIsLR = true;
 	if (gc_bBuyOnLR.BoolValue) g_bAllowBuy = false;
 	
-	LoopValidClients(i, false, false) if (GetClientTeam(i) == CS_TEAM_T && gc_bEnable.BoolValue)
+	for (int i = 1; i <= MaxClients; i++) if (IsValidClient(i, false, false)) if (GetClientTeam(i) == CS_TEAM_T && gc_bEnable.BoolValue)
 	{
 		if (GetAllPlayersCount() >= gc_iMinPlayersToGetCredits.IntValue) 
 		{
@@ -2368,7 +2368,7 @@ void Item_Wallhack(int client, char[] name)
 		{
 			g_bWallhack[client] = true;
 			
-			LoopClients(i) Setup_WallhackSkin(i);
+			for (int i = 1; i <= MaxClients; i++) if (IsClientInGame(i)) Setup_WallhackSkin(i);
 			
 			CreateTimer (gc_fWallhackTime.FloatValue, Timer_Wallhack, client);
 			
@@ -2432,15 +2432,15 @@ public Action OnSetTransmit_Wallhack(int iSkin, int client)
 	if (!IsPlayerAlive(client))
 		return Plugin_Handled;
 	
-	LoopClients(target)
+	for (int i = 1; i <= MaxClients; i++) if (IsClientInGame(i))
 	{
-		if (!CPS_HasSkin(target))
+		if (!CPS_HasSkin(i))
 			continue;
 		
-		if (GetClientTeam(target) == GetClientTeam(client))
+		if (GetClientTeam(i) == GetClientTeam(client))
 			continue;
 		
-		if (EntRefToEntIndex(CPS_GetSkin(target)) != iSkin)
+		if (EntRefToEntIndex(CPS_GetSkin(i)) != iSkin)
 			continue;
 		
 		if (g_bWallhack[client])
@@ -2591,7 +2591,7 @@ public Action Timer_CheckDamage(Handle timer, any iEntity)
 	float fSmokeOrigin[3], fOrigin[3];
 	GetEntPropVector(iEntity, Prop_Send, "m_vecOrigin", fSmokeOrigin);
 	
-	LoopValidClients(i, true, true)
+	for (int i = 1; i <= MaxClients; i++) if (IsValidClient(i, true, true))
 	{
 		if (GetClientTeam(i) != GetClientTeam(client))
 		{
@@ -2605,7 +2605,7 @@ public Action Timer_CheckDamage(Handle timer, any iEntity)
 
 public Action Timer_Credits (Handle timer)
 {
-	LoopValidClients(i, false, true) if (GetClientTeam(i) != CS_TEAM_SPECTATOR && gc_bEnable.BoolValue)
+	for (int i = 1; i <= MaxClients; i++) if (IsValidClient(i, false, true)) if (GetClientTeam(i) != CS_TEAM_SPECTATOR && gc_bEnable.BoolValue)
 	{
 		if (GetAllPlayersCount() >= gc_iMinPlayersToGetCredits.IntValue && (gc_bCreditsWarmup.BoolValue || GameRules_GetProp("m_bWarmupPeriod") != 1)) 
 		{
@@ -2643,9 +2643,11 @@ public Action Timer_Wallhack(Handle timer, any client)
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_unwallhack");
 		g_bWallhack[client] = false;
 		
-		LoopClients(i) if (g_bWallhack[i]) return;
-		
-		LoopClients(iC) UnhookWallhack(iC);
+		for (int i = 1; i <= MaxClients; i++) if (IsClientInGame(i))
+		{
+			if (g_bWallhack[i]) return;
+			UnhookWallhack(i);
+		}
 	}
 }
 
@@ -2766,7 +2768,7 @@ public void OnMapEnd ()
 	if (!g_bDBConnected && gc_bMySQL.BoolValue)
 		DB_Connect();
 	
-	LoopValidClients(i, false, true)
+	for (int i = 1; i <= MaxClients; i++) if (IsValidClient(i, false, true))
 	{
 		if (gc_bMySQL.BoolValue) DB_WriteCredits(i);
 		OnClientDisconnect(i);
@@ -2804,7 +2806,7 @@ stock int GetAllPlayersCount()
 {
 	int iCount = 0;
 	
-	LoopValidClients(clients, false, true) iCount++;
+	for (int i = 1; i <= MaxClients; i++) if (IsValidClient(i, false, true)) iCount++;
 	
 	return iCount;
 }
