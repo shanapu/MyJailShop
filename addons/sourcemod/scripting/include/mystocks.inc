@@ -178,7 +178,7 @@ stock void SetLogFile(char LogFile[PLATFORM_MAX_PATH], char[] FileName, char[] F
 
 
 // Set the players Ammo for active weapon
-stock void SetPlayerWeaponAmmo(int client, int weaponEnt, int clip = -1, int ammo = -1)
+stock void SetPlayerAmmo(int client, int weaponEnt, int clip = -1, int ammo = -1)
 {
 	if (weaponEnt == INVALID_ENT_REFERENCE)
 		return;
@@ -190,7 +190,7 @@ stock void SetPlayerWeaponAmmo(int client, int weaponEnt, int clip = -1, int amm
 	{
 		int iOffset = FindDataMapInfo(client, "m_iAmmo") + (GetEntProp(weaponEnt, Prop_Data, "m_iPrimaryAmmoType") * 4);
 		SetEntData(client, iOffset, ammo, 4, true);
-		
+
 		if (GetEngineVersion() == Engine_CSGO) 
 		{
 			SetEntProp(weaponEnt, Prop_Send, "m_iPrimaryReserveAmmoCount", ammo);

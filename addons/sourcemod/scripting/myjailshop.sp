@@ -2,7 +2,7 @@
  * MyJailShop Plugin.
  * by: shanapu
  * https://github.com/shanapu/MyJailShop
- * Based on: https:// forums.alliedmods.net/showthread.php?t=247917
+ * Based on: https://forums.alliedmods.net/showthread.php?t=247917
  * Credits to original author: Dkmuniz
  * Include code by bacardi https:// forums.alliedmods.net/showthread.php?t=269846
  *
@@ -16,7 +16,7 @@
  * details.
  *
  * You should have received a copy of the GNU General Public License along with
- * this program. If not, see <http:// www.gnu.org/licenses/>.
+ * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 
@@ -91,6 +91,7 @@ ConVar gc_bTag;
 ConVar gc_bLogging;
 ConVar gc_bRemoveOnLR;
 ConVar gc_bBuyOnLR;
+ConVar gc_fSale;
 
 // Shop Items
 ConVar gc_iFroggyJumpOnlyTeam;
@@ -197,16 +198,13 @@ bool g_bDBConnected = false;
 bool g_bAllowBuy = true;
 bool g_bCellsOpen = true;
 bool g_bIsLR = true;
+bool g_bSale = false;
 
 bool gp_bSmartJailDoors = false;
 bool gp_bMyJailBreak = false;
 bool gp_bCustomPlayerSkins = false;
 bool gp_bWarden = false;
 bool gp_bMyIcons = false;
-
-
-bool g_bSale = false;
-ConVar gc_fSale;
 
 
 // Intergers
@@ -798,7 +796,10 @@ void SaleOn()
 	PrintToChatAll("%t Sale On! All items on %i%% discount!", "shop_tag", gc_fSale.IntValue);
 }
 
-
+public void TG_OnGamePrepare()
+{
+	for (int i = 1; i <= MaxClients; i++) ResetPlayer(i);
+}
 
 // sm_jailshop
 public Action Command_Menu_OpenShop(int client, int args)
@@ -2140,7 +2141,7 @@ void Item_AWP(int client, char[] name)
 		}
 		int iAWP = GivePlayerItem(client, "weapon_awp");
 		g_bOneBulletAWP[client] = true;
-		SetPlayerWeaponAmmo(client, iAWP, 1, 0);
+		SetPlayerAmmo(client, iAWP, 1, 0);
 		Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iAWP.IntValue));
 		Forward_OnPlayerBuyItem(client, name);
 		
@@ -2244,7 +2245,7 @@ void Item_Deagle(int client, char[] name)
 		}
 		int iDeagle = GivePlayerItem(client, "weapon_deagle");
 		g_bOneMagDeagle[client] = true;
-		SetPlayerWeaponAmmo(client, iDeagle, 7, 0);
+		SetPlayerAmmo(client, iDeagle, 7, 0);
 		
 		Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iDeagle.IntValue));
 		Forward_OnPlayerBuyItem(client, name);

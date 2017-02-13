@@ -15,7 +15,7 @@
  * details.
  *
  * You should have received a copy of the GNU General Public License along with
- * this program.  ifnot, see <http:// www.gnu.org/licenses/>.
+ * this program.  ifnot, see <http://www.gnu.org/licenses/>.
  */
 
 /******************************************************************************
@@ -48,7 +48,7 @@ public Plugin myinfo =
 public int MyJailShop_OnGetCredits(int client)
 {
 	int credits = Store_GetClientCredits(client);
-	
+
 	return credits;
 }
 
