@@ -51,6 +51,7 @@ Earn credits for playtime, kills, your team won rounds &/or you reach last reque
 [*]Custom chat tags [jail.shop]
 [*]Colors
 [*]Natives & forwards - some gambling plugins coming soon!
+[*]VIP flags for items
 [*]some other fancy stuff
 [/LIST]
 
@@ -71,6 +72,7 @@ set your own custom command. take a look at "[b]sm_jailshop_cmds_NAME[/b]"
 
 [u]AdminCommands // ADMFLAG_ROOT[/u]
 [QUOTE]
+[b]sm_sale[/b] - Toggle Sale - discount all items
 [b]sm_jailgive[/b] - Give jail shop credits to a player - Use: [b]sm_jailgive <#userid|name> [amount]
 [b]sm_jailset[/b] - Set jail shop credits of a player - Use: [b]sm_jailgift <#userid|name> [amount]
 [/QUOTE]
@@ -113,6 +115,7 @@ set your own custom command. take a look at "[b]sm_jailshop_cmds_NAME[/b]"
 [b]sm_jailshop_buy_lr[/b] - 0 - disabled, 1 - Restrict shopping on last request
 [b]sm_jailshop_remove_lr[/b] - 0 - disabled, 1 - Remove the bought perks on a last request. (bought weapons stay)
 [b]sm_jailshop_removeweapon[/b] - 0 - disabled, 1 - When a player already got a prim/sec weapon and buy deagle or awp the current weapon disappear
+[b]sm_jailshop_sale_multi[/b] - How many percent discount on a sale!
 [b]sm_jailshop_cmds_shop[/b] - Set your custom chat commands for shop menu(!jailshop (no 'sm_'/'!')(seperate with comma ', ')(max. 12 commands)
 [b]sm_jailshop_cmds_gift[/b] - Set your custom chat commands for gifting credits(!jailgift (no 'sm_'/'!')(seperate with comma ', ')(max. 12 commands)
 [b]sm_jailshop_cmds_revive[/b] - Set your custom chat commands for revive(!jailrevive (no 'sm_'/'!')(seperate with comma ', ')(max. 12 commands)
@@ -125,48 +128,72 @@ set your own custom command. take a look at "[b]sm_jailshop_cmds_NAME[/b]"
 [SPOILER]
 [QUOTE]
 [b]sm_jailshop_openjails_price[/b] - 0 - disabled, price of the 'Open jails' shop item (only if smartjaildoors is available)
+[b]sm_jailshop_openjails_flag[/b] - Set flag for admin/vip must have to get access to open cells. No flag = is available for all players!
 [b]sm_jailshop_heal_price[/b] - 0 - disabled, price of the 'Heal' shop item
 [b]sm_jailshop_heal_access[/b] - 0 - guards only, 1 - guards & prisoner, 2 - prisoner only 
+[b]sm_jailshop_heal_flag[/b] - Set flag for admin/vip must have to get access to heal. No flag = is available for all players!
 [b]sm_jailshop_armor_hp_price[/b] - 0 - disabled, price of the 'Armor & HP' shop item
 [b]sm_jailshop_health_extra[/b] - How many HP get extra with the armor
 [b]sm_jailshop_health_extra_access[/b] - 0 - guards only, 1 - guards & prisoner, 2 - prisoner only
+[b]sm_jailshop_health_flag[/b] - Set flag for admin/vip must have to get access to health. No flag = is available for all players!
 [b]sm_jailshop_revive_price[/b] - 0 - disabled, price of the 'Revive' shop item
+[b]sm_jailshop_revive_flag[/b] - Set flag for admin/vip must have to get access to revive. No flag = is available for all players!
 [b]sm_jailshop_heal_access[/b] - 0 - guards only, 1 - guards & prisoner, 2 - prisoner only  
 [b]sm_jailshop_vampire_price[/b] - 0 - disabled, price of the 'Vampire' shop item
 [b]sm_jailshop_vampire_speed[/b] - Ratio for how fast the player will walk (1 - normal)
 [b]sm_jailshop_vampire_multiplier[/b] - Multiplier how many heatlh per damage  (e.g. 100damage * 0.5 = 50HP extra)
+[b]sm_jailshop_vampire_flag[/b] - Set flag for admin/vip must have to get access to vampire. No flag = is available for all players!
 [b]sm_jailshop_bhop_price[/b] - 0 - disabled, price of the 'Bunny Hop' shop item
 [b]sm_jailshop_bhop_access[/b] - 0 - guards only, 1 - guards & prisoner, 2 - prisoner only 
+[b]sm_jailshop_bhop_flag[/b] - Set flag for admin/vip must have to get access to bhop. No flag = is available for all players!
 [b]sm_jailshop_froggyjump_price[/b] - 0 - disabled, price of the 'Froggy Jump' shop item
 [b]sm_jailshop_froggyjump_access[/b] - 0 - guards only, 1 - guards & prisoner, 2 - prisoner only 
+[b]sm_jailshop_froggyjump_flag[/b] - Set flag for admin/vip must have to get access to froggyjump. No flag = is available for all players!
 [b]sm_jailshop_gravity_price[/b] - 0 - disabled, price of the 'Low Gravity' shop item
 [b]sm_jailshop_gravity_value[/b] - Ratio for Gravity (1.0 earth, 0.5 moon)
 [b]sm_jailshop_gravity_access[/b] - 0 - guards only, 1 - guards & prisoner, 2 - prisoner only 
+[b]sm_jailshop_gravity_flag[/b] - Set flag for admin/vip must have to get access to gravity. No flag = is available for all players!
 [b]sm_jailshop_invisible_price[/b] - 0 - disabled, price of the 'Invisible' shop item
 [b]sm_jailshop_invisible_time[/b] - Time in seconds how long the player is invisible
+[b]sm_jailshop_invisible_flag[/b] - Set flag for admin/vip must have to get access to invisible. No flag = is available for all players!
 [b]sm_jailshop_nodamage_price[/b] - 0 - disabled, price of the 'NoDamage' shop item
 [b]sm_jailshop_nodamage_time[/b] - Time in seconds how long the player got nodamage
 [b]sm_jailshop_nodamage_access[/b] - 0 - guards only, 1 - guards & prisoner, 2 - prisoner only
+[b]sm_jailshop_nodamage_flag - Set flag for admin/vip must have to get access to damage. No flag = is available for all players!
 [b]sm_jailshop_noclip_price[/b] - 0 - disabled, price of the 'No Clip' shop item
 [b]sm_jailshop_noclip_time[/b] - Time in seconds how long the player has noclip
+[b]sm_jailshop_noclip_flag[/b] - Set flag for admin/vip must have to get access to noclip. No flag = is available for all players!
 [b]sm_jailshop_wallhack_price[/b] - 0 - disabled, price of the 'Wallhack' shop item (only if CustomPlayerSkins is available)
 [b]sm_jailshop_wallhack_time[/b] - Time in seconds how long the player has wallhack
 [b]sm_jailshop_wallhack_access[/b] - 0 - guards only, 1 - guards & prisoner, 2 - prisoner only
+[b]sm_jailshop_wallhack_flag[/b] - Set flag for admin/vip must have to get access to wallhack. No flag = is available for all players!
 [b]sm_jailshop_bird_price[/b] - 0 - disabled, price of the 'Be a Bird' shop item
 [b]sm_jailshop_bird_mode[/b] - 1 - Chicken / 2 - Pigeon / 3 - Crow
+[b]sm_jailshop_bird_flag[/b] - Set flag for admin/vip must have to get access to bird. No flag = is available for all players!
 [b]sm_jailshop_fakeguard_price[/b] - 0 - disabled, price of the 'Fake guard model' shop item
 [b]sm_jailshop_fakeguard_model[/b] - Path to the model for fake guard.
+[b]sm_jailshop_fakeguard_flag[/b] - Set flag for admin/vip must have to get access to fake model. No flag = is available for all players!
 [b]sm_jailshop_teleportsmoke_price[/b] - 0 - disabled, price of the 'Teleport smoke' shop item
+[b]sm_jailshop_teleportsmoke_flag[/b] - Set flag for admin/vip must have to get access to teleport smoke. No flag = is available for all players!
 [b]sm_jailshop_poisonsmoke_price[/b] - 0 - disabled, price of the 'Poison smoke' shop item
+[b]sm_jailshop_poisonsmoke_flag[/b] - Set flag for admin/vip must have to get access to Poison Smoke. No flag = is available for all players!
 [b]sm_jailshop_firehe_price[/b] - 0 - disabled, price of the 'Fire Grenade' shop item
+[b]sm_jailshop_firehe_flag[/b] - Set flag for admin/vip must have to get access to firehe. No flag = is available for all players!
 [b]sm_jailshop_awp_price[/b] - 0 - disabled, price of the 'One bullet AWP' shop item
+[b]sm_jailshop_awp_flag[/b] - Set flag for admin/vip must have to get access to awp. No flag = is available for all players!
 [b]sm_jailshop_deagle_price[/b]- 0 - disabled, price of the '7 bullets Deagle' shop item
+[b]sm_jailshop_deagle_flag[/b] - Set flag for admin/vip must have to get access to deagle. No flag = is available for all players!
 [b]sm_jailshop_knife_price[/b] - 0 - disabled, price of the 'One hit knife' shop item
+[b]sm_jailshop_knife_flag[/b] - Set flag for admin/vip must have to get access to knife. No flag = is available for all players!
 [b]sm_jailshop_throw_knife_price[/b] - 0 - disabled, price of the 'Throwing one hit knife' shop item
 [b]sm_jailshop_throw_knife_count[/b] - how many knifes a prisoner can throw
+[b]sm_jailshop_throw_knife_flag[/b] - Set flag for admin/vip must have to get access to throw knife. No flag = is available for all players!
 [b]sm_jailshop_taser_price[/b] - 0 - disabled, price of the '3 bullets Taser' shop item
+[b]sm_jailshop_taser_flag[/b] - Set flag for admin/vip must have to get access to taser. No flag = is available for all players!
 [b]sm_jailshop_molotov_price[/b] - 0 - disabled, price of the 'Molotov & flashs' shop item
+[b]sm_jailshop_molotov_flag[/b] - Set flag for admin/vip must have to get access to molotov. No flag = is available for all players!
 [b]sm_jailshop_paperclip_price[/b] - 0 - disabled, price of the 'PaperClips' shop item (only if myjb is available)
+[b]sm_jailshop_paperclip_flag[/b] - "Set flag for admin/vip must have to get access to paperclip. No flag = is a
 [b]sm_jailshop_paperclip_amount[/b] - Amount of paperclips a player get (only if myjb is available)
 [/QUOTE]
 [/SPOILER]
@@ -183,7 +210,9 @@ set your own custom command. take a look at "[b]sm_jailshop_cmds_NAME[/b]"
 
 [*][url=https://forums.alliedmods.net/showthread.php?t=264100]Smart Jail Doors[/url] - needed for shop item - Open Jail Doors
 
-[*][url=https://forums.alliedmods.net/showthread.php?t=240703]CustomPlayerSkins[/url] - needed for shop item - Wallhack
+[*][url=https://forums.alliedmods.net/showthread.php?t=240703]CustomPlayerSkins[/url] - needed for shop item - Wallhackshowthread.php?t=264100]Smart Jail Doors[/url] - needed for shop item - Open Jail Doors
+
+[*][url=https://forums.alliedmods.net/showthread.php?p=2442992]TeamGames[/url] - remove for item persk on team game
 
 [/LIST]
 

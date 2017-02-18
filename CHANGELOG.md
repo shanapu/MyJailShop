@@ -1,5 +1,16 @@
 ### Change Log
   
+**[1.3.0]** - Sale, VIP Items & teamgames support
+  
+*Added*
+
+ * Sale - Discount all items with x percent on a sale - sale end on mapchange
+ *  new command - sm_sale - Toggle Sale - discount all items 
+ *  new cvars - sm_jailshop_sale_multi - How many percent discount on a sale!
+ *  new cvars - sm_jailshop_**ITEMNAME**_flag - Set flag for admin/vip must have to get access to a item. No flag = is available for all players!
+ *  remove item perks (not the guns/nades) on TeamGames game start.
+  
+  
 **[1.2.1]** - fix
   
 *Fixed*

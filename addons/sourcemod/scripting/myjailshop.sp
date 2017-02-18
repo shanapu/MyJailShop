@@ -52,7 +52,7 @@
 
 
 // Defines
-#define VERSION "1.2.1-<COMMIT>"
+#define VERSION "1.3.0-<COMMIT>"
 #define URL "https://github.com/shanapu/MyJailShop"
 
 
@@ -265,7 +265,7 @@ public Plugin myinfo = {
 	name = "MyJailShop",
 	author = "shanapu",
 	description = "MyJailShop provide you a high customizable shop with credits system intended for jailbreak server",
-	version = VERSION, 
+	version = VERSION,
 	url = URL
 };
 

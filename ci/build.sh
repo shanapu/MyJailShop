@@ -24,6 +24,17 @@ do
   rm output.txt
 done
 
+if [ $1 == "1.7" ]
+then echo "Fix include for SM1.7"
+for file in addons/sourcemod/scripting/include/mystocks.inc
+do
+  sed -i "s/stock int Handler_NullCancel(Handle menu, MenuAction action, int param1, int param2)/public int Handler_NullCancel(Handle menu, MenuAction action, int param1, int param2)/g" $file > output.txt
+  sed -i "s/stock Action DeleteOverlay(Handle timer, any client)/public Action DeleteOverlay(Handle timer, any client)/g" $file > output.txt
+  sed -i "s/stock Action Timer_RemoveColor(Handle timer, any client)/public Action Timer_RemoveColor(Handle timer, any client)/g" $file > output.txt
+  rm output.txt
+done
+fi
+
 echo "Compile MyJailShop plugins"
 addons/sourcemod/scripting/spcomp -E -v0 addons/sourcemod/scripting/myjailshop.sp
 addons/sourcemod/scripting/spcomp -E -v0 addons/sourcemod/scripting/myjailshop-frozdark-shop.sp
