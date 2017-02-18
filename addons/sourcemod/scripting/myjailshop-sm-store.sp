@@ -11,7 +11,7 @@
  * 
  * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
  *
  * You should have received a copy of the GNU General Public License along with
@@ -22,19 +22,16 @@
                    STARTUP
 ******************************************************************************/
 
-
-//Includes
+// Includes
 #include <sourcemod>
 #include <store/store-core>
 #include <myjailshop>
 
-
-//Compiler Options
+// Compiler Options
 #pragma semicolon 1
 #pragma newdecls required
 
-
-//Info
+// Info
 public Plugin myinfo = 
 {
 	name = "MyJailShop - Use Credits from SM Store",
@@ -43,7 +40,6 @@ public Plugin myinfo =
 	version = "1.0",
 	url = "https://github.com/shanapu/MyJailShop"
 };
-
 
 /******************************************************************************
                    FORWARDS LISTEN
@@ -56,7 +52,6 @@ public int MyJailShop_OnGetCredits(int client)
 	
 	return credits;
 }
-
 
 public void MyJailShop_OnSetCredits(int client, int credits)
 {

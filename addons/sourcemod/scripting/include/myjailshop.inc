@@ -11,11 +11,11 @@
  * 
  * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
  *
  * You should have received a copy of the GNU General Public License along with
- * this program.  If not, see <http://www.gnu.org/licenses/>.
+ * this program. If not, see <http:// www.gnu.org/licenses/>.
  */
 
 
@@ -29,6 +29,7 @@ public SharedPlugin:__pl_myjailshop =
 {
 	name = "myjailshop", 
 	file = "myjailshop.smx", 
+
 	#if defined REQUIRE_PLUGIN
 	required = 1, 
 	#else
@@ -84,7 +85,7 @@ forward void MyJailShop_OnPlayerGetCredits(int client, int extraCredits);
  * @param item			The name of the item.
  * @NoReturn
  *********************************************************/
-forward void MyJailShop_OnPlayerBuyItem(int client, char [] item);
+forward void MyJailShop_OnPlayerBuyItem(int client, char[] item);
 
 
 

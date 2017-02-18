@@ -216,8 +216,6 @@ set your own custom command. take a look at "[b]sm_jailshop_cmds_NAME[/b]"
 
 [*]smartjaildoors.inc [url]https://forums.alliedmods.net/showthread.php?p=2306289[/url]
 
-[*]smlib.inc [url]https://github.com/bcserv/smlib[/url]
-
 [*]CustomPlayerSkins.inc [url]https://forums.alliedmods.net/showthread.php?t=240703[/url]
 [/LIST]
 [/SPOILER]
