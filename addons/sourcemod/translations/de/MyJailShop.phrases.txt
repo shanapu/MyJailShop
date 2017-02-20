@@ -1,0 +1,16 @@
+// Exported from SourceMod Translator
+// Date: 2017-02-20 16:12:10 UTC
+// Language: German (de)
+// 
+// To view other translations for this plugin, please visit:
+// http://translator.mitchdempsey.com/sourcemod_plugins/268
+//
+"Phrases"
+{
+
+	"shop_disabled"
+	{
+		"de"		"Jail shop ist vorrübergehend {purple}ausgeschaltet{default}."
+	}
+
+}

@@ -1,0 +1,71 @@
+// Exported from SourceMod Translator
+// Date: 2017-02-20 16:12:10 UTC
+// Language: Spanish (es)
+// 
+// To view other translations for this plugin, please visit:
+// http://translator.mitchdempsey.com/sourcemod_plugins/268
+//
+"Phrases"
+{
+
+	"shop_alive"
+	{
+		"es"		"¡Debes estar vivo para comprar algo!"
+	}
+
+	"shop_alreadyopen"
+	{
+		"es"		"Las células ya están abiertas"
+	}
+
+	"shop_awp"
+	{
+		"es"		"Compraste: AWP con un disparo, ¡úsalo con inteligencia!"
+	}
+
+	"shop_buytime"
+	{
+		"es"		"Se acabó el tiempo de compras. Puedes comprar de nuevo en la próxima ronda."
+	}
+
+	"shop_costs"
+	{
+		"es"		"Costes: {2} ¢réditos. Ahora tienes {1} ¢réditos"
+	}
+
+	"shop_dead"
+	{
+		"es"		"¡Debes estar muerto para usar esto!"
+	}
+
+	"shop_deagle"
+	{
+		"es"		"Compraste: Deagle con siete disparos, ¡úsalos con inteligencia!"
+	}
+
+	"shop_give"
+	{
+		"es"		"Enviaste {1} ¢réditos al jugador {2}"
+	}
+
+	"shop_knife"
+	{
+		"es"		"Compraste: ¡Cuchillo de un golpe!"
+	}
+
+	"shop_max"
+	{
+		"es"		"Ya compraste eso en esta ronda, espera a la próxima para comprarlo de nuevo."
+	}
+
+	"shop_maxcredits"
+	{
+		"es"		"Tus ¢réditos en la tienda: {1}, ¡máximo permitido!"
+	}
+
+	"shop_taser"
+	{
+		"es"		"Compraste: Pistola eléctrica con 3 disparos, ¡úsalos con inteligencia!"
+	}
+
+}
