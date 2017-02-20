@@ -1,0 +1,431 @@
+// Exported from SourceMod Translator
+// Date: 2017-02-20 16:12:11 UTC
+// Language: Polish (pl)
+// 
+// To view other translations for this plugin, please visit:
+// http://translator.mitchdempsey.com/sourcemod_plugins/268
+//
+"Phrases"
+{
+
+	"shop_alive"
+	{
+		"pl"		"Musisz być żywy, aby zakupuć ten przedmiot!"
+	}
+
+	"shop_alreadyopen"
+	{
+		"pl"		"Cele są już otwarte!"
+	}
+
+	"shop_awp"
+	{
+		"pl"		"Zakupiłeś: AWP z jednym nabojem, spożytkuj dobrze!"
+	}
+
+	"shop_bhop"
+	{
+		"pl"		"Teraz masz BunnyHop!"
+	}
+
+	"shop_bird"
+	{
+		"pl"		"Jesteś ptakiem! Kieruj '+dropweapon'"
+	}
+
+	"shop_buytime"
+	{
+		"pl"		"Czas na zakup minął."
+	}
+
+	"shop_costs"
+	{
+		"pl"		"Koszt: {2} kredytów. Aktualnie posiadasz {1} kredytów"
+	}
+
+	"shop_credits"
+	{
+		"pl"		"Aktualnie posiadasz: {1} kredytów!"
+	}
+
+	"shop_dead"
+	{
+		"pl"		"Musisz być nie żywy, aby użyć tego przedmiotu!"
+	}
+
+	"shop_deagle"
+	{
+		"pl"		"Zakupiłeś: Deagle z siedmioma nabojami, spożytkuj dobrze!"
+	}
+
+	"shop_disabled"
+	{
+		"pl"		"Jail Shop jest aktualnie {purple}wyłączony{default}!"
+	}
+
+	"shop_firegrenade"
+	{
+		"pl"		"Zakupiłeś: Granata zapalającego!"
+	}
+
+	"shop_froggyjump"
+	{
+		"pl"		"Dostajesz żabi skok!"
+	}
+
+	"shop_fulllive"
+	{
+		"pl"		"Już posiadasz maksymalną ilość HP!"
+	}
+
+	"shop_get"
+	{
+		"pl"		"Dostałeś {1} kredytów od gracza {2}"
+	}
+
+	"shop_getset"
+	{
+		"pl"		"Twoje kredyty zostały zmienione z {1} na {2}"
+	}
+
+	"shop_give"
+	{
+		"pl"		"Wysłałeś {1} kredytów do gracza {2}"
+	}
+
+	"shop_gravity"
+	{
+		"pl"		"Teraz masz zmiejszoną grawitację!"
+	}
+
+	"shop_heal"
+	{
+		"pl"		"Zostałeś uleczony!"
+	}
+
+	"shop_health"
+	{
+		"pl"		"Dostajesz +{1}HP oraz kamizelke z hełmem!"
+	}
+
+	"shop_invisible"
+	{
+		"pl"		"Jesteś niewidzialny przez {1} sekund!"
+	}
+
+	"shop_killedct"
+	{
+		"pl"		"Dostajesz {2} kredytów za zabicie strażnika {3}. Aktualnie posiadasz: {1}¢"
+	}
+
+	"shop_killedt"
+	{
+		"pl"		"Dostajesz {2} kredytów za zabicie więźnia {3}. Aktualnie posiadasz: {1}¢"
+	}
+
+	"shop_knife"
+	{
+		"pl"		"Zakupiłeś: Nóż zabijający na hita!"
+	}
+
+	"shop_lastrequest"
+	{
+		"pl"		"Dostajesz {2} kredytów za przeżycie do ostatniego życzenia. Aktualnie posiadasz: {1}¢"
+	}
+
+	"shop_max"
+	{
+		"pl"		"Już kupiłeś ten przedmiot w tej rundzie!."
+	}
+
+	"shop_maxcredits"
+	{
+		"pl"		"Posiadasz maksymalną ilość kredytów: {1}!"
+	}
+
+	"shop_menu_armor"
+	{
+		"pl"		"Kamizelka [{1}¢]"
+	}
+
+	"shop_menu_awp"
+	{
+		"pl"		"AWP z 1 nabojem [{1}¢]"
+	}
+
+	"shop_menu_bhop"
+	{
+		"pl"		"BunnyHop [{1}¢]"
+	}
+
+	"shop_menu_bird"
+	{
+		"pl"		"Bądź ptakiem [{1}¢]"
+	}
+
+	"shop_menu_deagle"
+	{
+		"pl"		"Deagle z 1 magazynkiem [{1}¢]"
+	}
+
+	"shop_menu_firegrenade"
+	{
+		"pl"		"Granat zapalający [{1}¢]"
+	}
+
+	"shop_menu_froggyjump"
+	{
+		"pl"		"Żabi skok [{1}¢]"
+	}
+
+	"shop_menu_gravity"
+	{
+		"pl"		"Mniejsza grawitacja [{1}¢]"
+	}
+
+	"shop_menu_heal"
+	{
+		"pl"		"Uzdrownienie [{1}¢]"
+	}
+
+	"shop_menu_health"
+	{
+		"pl"		"+{2}hp i kamizelka [{1}¢]"
+	}
+
+	"shop_menu_invisible"
+	{
+		"pl"		"Niewidzialność przez {2} sek. [{1}¢]"
+	}
+
+	"shop_menu_knife"
+	{
+		"pl"		"Nóż zabijający na hita [{1}¢]"
+	}
+
+	"shop_menu_model"
+	{
+		"pl"		"Model strażnika [{1}¢]"
+	}
+
+	"shop_menu_molotov"
+	{
+		"pl"		"Mołotow + 2 flashami [{1}¢]"
+	}
+
+	"shop_menu_noclip"
+	{
+		"pl"		"No Clip przez {2} sek. [{1}¢]"
+	}
+
+	"shop_menu_nodamage"
+	{
+		"pl"		"Nieśmiertelność przez 20 sekund [{1}¢]"
+	}
+
+	"shop_menu_openjail"
+	{
+		"pl"		"Otwarcie cel [{1}¢]"
+	}
+
+	"shop_menu_playercredits"
+	{
+		"pl"		"Ilość kredytów graczy:"
+	}
+
+	"shop_menu_player¢redits"
+	{
+		"pl"		"Ilość kredytów graczy:"
+	}
+
+	"shop_menu_poisonsmoke"
+	{
+		"pl"		"Trujący smoke [{1}¢]"
+	}
+
+	"shop_menu_revive"
+	{
+		"pl"		"Odrodzenie [{1}¢]"
+	}
+
+	"shop_menu_taser"
+	{
+		"pl"		"Paralizator z 3 nabojami [{1}¢]"
+	}
+
+	"shop_menu_teleportsmoke"
+	{
+		"pl"		"Teleportujący smoke [{1}¢]"
+	}
+
+	"shop_menu_throwingknife"
+	{
+		"pl"		"Nóż do rzucania, zabijający na hita [{1}¢]"
+	}
+
+	"shop_menu_title"
+	{
+		"pl"		"Jail Shop. Posiadasz {1}¢"
+	}
+
+	"shop_menu_vampire"
+	{
+		"pl"		"Wampiryzm [{1}¢]"
+	}
+
+	"shop_menu_wallhack"
+	{
+		"pl"		"Wallhack [{1}¢]"
+	}
+
+	"shop_missingcredits"
+	{
+		"pl"		"Posiadasz: {1} kredytów (Nie masz wystarczającej ilości. Potrzebujesz: {2}¢)"
+	}
+
+	"shop_model"
+	{
+		"pl"		"Jesteś przebrany za strażnika, bądź uważny!"
+	}
+
+	"shop_molotov"
+	{
+		"pl"		"Zakupiłeś: Mołotow + 2 flashami!"
+	}
+
+	"shop_noclip"
+	{
+		"pl"		"Teraz masz no clip przez {1} sekund!"
+	}
+
+	"shop_noclipend"
+	{
+		"pl"		"NoClip się skończył!"
+	}
+
+	"shop_nodamage"
+	{
+		"pl"		"Jesteś nieśmiertelny przez {1} sekund!"
+	}
+
+	"shop_onlyt"
+	{
+		"pl"		"Ten przedmiot jest dostępny tylko dla więźniów!"
+	}
+
+	"shop_opencell"
+	{
+		"pl"		"Otworzyłeś cele."
+	}
+
+	"shop_opencellall"
+	{
+		"pl"		"{1} otworzył cele!"
+	}
+
+	"shop_playtime"
+	{
+		"pl"		"Dostajesz {1} kredytów za granie na tym serwerze"
+	}
+
+	"shop_poisensmoke"
+	{
+		"pl"		"Zakupiłeś: Trujący smoke!"
+	}
+
+	"shop_revived"
+	{
+		"pl"		"{1} użył odrodzenia!"
+	}
+
+	"shop_revivehint"
+	{
+		"pl"		"Zginąłeś, możesz użyć !revive, aby się odrodzić za {1} kredytów!"
+	}
+
+	"shop_set"
+	{
+		"pl"		"Ustawiłeś {2} kredytów dla {1}"
+	}
+
+	"shop_tag"
+	{
+		"pl"		"[{green}Jail.Shop{default}]"
+	}
+
+	"shop_taser"
+	{
+		"pl"		"Zakupiłeś: Paralizator z 3 nabojami, spożytkuj dobrze!"
+	}
+
+	"shop_teleportsmoke"
+	{
+		"pl"		"Zakupiłeś: Teleportujący smoke!"
+	}
+
+	"shop_throwingknife"
+	{
+		"pl"		"Zakupiłeś: Rzucający nóż"
+	}
+
+	"shop_tonly"
+	{
+		"pl"		"Sklep dostępny tylko dla więźniów!"
+	}
+
+	"shop_unnodamage"
+	{
+		"pl"		"Nieśmiertelność skończyła się!"
+	}
+
+	"shop_vapire"
+	{
+		"pl"		"Teraz jesteś wampirem!"
+	}
+
+	"shop_visible"
+	{
+		"pl"		"Niewidzialność dobiegła końca!"
+	}
+
+	"shop_wallhack"
+	{
+		"pl"		"Teraz masz Wallhack!"
+	}
+
+	"shop_welcome"
+	{
+		"pl"		"Wpisz !jailshop, aby otworzyć sklep. Zabijaj/wygrywaj/graj, aby zdobywać kredyty."
+	}
+
+	"shop_menu_paperclip"
+	{
+		"pl"		"Kup {2} wytrych. [{1}¢]"
+	}
+
+	"shop_paperclip"
+	{
+		"pl"		"Zakupiłeś: {1} wytrych do kajdanek!"
+	}
+
+	"shop_unwallhack"
+	{
+		"pl"		"Wallhack skończył się!"
+	}
+
+	"shop_win"
+	{
+		"pl"		"Dostajesz {2} kredytów za wygranie rundy. Aktualnie posiadasz: {1}¢"
+	}
+
+	"shop_giftyourself"
+	{
+		"pl"		"Nie możesz dać sobie prezentu."
+	}
+
+	"shop_onlyct"
+	{
+		"pl"		"Ten przedmiot jest tylko dla strażników!"
+	}
+
+}

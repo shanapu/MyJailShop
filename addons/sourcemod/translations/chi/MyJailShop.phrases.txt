@@ -1,0 +1,86 @@
+// Exported from SourceMod Translator
+// Date: 2017-02-20 16:12:11 UTC
+// Language: Chinese (Simplified) (chi)
+// 
+// To view other translations for this plugin, please visit:
+// http://translator.mitchdempsey.com/sourcemod_plugins/268
+//
+"Phrases"
+{
+
+	"shop_alive"
+	{
+		"chi"		"你需要活着去买"
+	}
+
+	"shop_alreadyopen"
+	{
+		"chi"		"监狱门已经打开"
+	}
+
+	"shop_awp"
+	{
+		"chi"		"你已经买了一个AWP，明智地使用它!"
+	}
+
+	"shop_bhop"
+	{
+		"chi"		"现在你有BunnyHop 跳跃跳!"
+	}
+
+	"shop_bird"
+	{
+		"chi"		"你已经变成了一只鸟！ 飞与使用 '+dropweapon'"
+	}
+
+	"shop_buytime"
+	{
+		"chi"		"购买时间现在用完了，你可以再下一轮购买."
+	}
+
+	"shop_costs"
+	{
+		"chi"		"成本：{2}¢credit。 现在，您有{1}¢credit“"
+	}
+
+	"shop_credits"
+	{
+		"chi"		"你有:{1} credits! "
+	}
+
+	"shop_dead"
+	{
+		"chi"		"您必须死亡才能使用此项目"
+	}
+
+	"shop_deagle"
+	{
+		"chi"		"你买了一个: Deagle, 明智地使用它!"
+	}
+
+	"shop_disabled"
+	{
+		"chi"		"监狱商店目前{purple}无法使用{default}!"
+	}
+
+	"shop_firegrenade"
+	{
+		"chi"		"你买了: HE 可以燃烧你的敌人!"
+	}
+
+	"shop_froggyjump"
+	{
+		"chi"		"你现在可以像一只青蛙一样跳跃！"
+	}
+
+	"shop_fulllive"
+	{
+		"chi"		"你已经完全健康了!"
+	}
+
+	"shop_maxcredits"
+	{
+		"chi"		"你有最大¢redits : {1}"
+	}
+
+}

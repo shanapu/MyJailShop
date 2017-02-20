@@ -1,0 +1,416 @@
+// Exported from SourceMod Translator
+// Date: 2017-02-20 16:12:11 UTC
+// Language: Italian (it)
+// 
+// To view other translations for this plugin, please visit:
+// http://translator.mitchdempsey.com/sourcemod_plugins/268
+//
+"Phrases"
+{
+
+	"shop_alive"
+	{
+		"it"		"Devi essere vivo per comprare questo oggetto!"
+	}
+
+	"shop_alreadyopen"
+	{
+		"it"		"Le celle sono gia' aperte."
+	}
+
+	"shop_awp"
+	{
+		"it"		"Hai comprato: AWP con un proiettile, impara ad usarlo!"
+	}
+
+	"shop_bhop"
+	{
+		"it"		"Ora sai Bunnyhoppare, divertiti!"
+	}
+
+	"shop_bird"
+	{
+		"it"		"Sei un uccello! Attiva la fly con '+dropweapon'"
+	}
+
+	"shop_buytime"
+	{
+		"it"		"Non puoi piu' usare shop, aspetta il prossimo round."
+	}
+
+	"shop_costs"
+	{
+		"it"		"Costo: {2} ¢redits. Ora hai {1} ¢rediti"
+	}
+
+	"shop_credits"
+	{
+		"it"		"Hai attualmente: {1} ¢redits!"
+	}
+
+	"shop_dead"
+	{
+		"it"		"Devi essere morto per comprare questo oggetto!"
+	}
+
+	"shop_deagle"
+	{
+		"it"		"Hai comprato: Deagle con un caricatore, impara ad usarla!"
+	}
+
+	"shop_disabled"
+	{
+		"it"		"Lo shop e' attualmente {purple}disabilitato{default}!"
+	}
+
+	"shop_firegrenade"
+	{
+		"it"		"Hai comprato: HE that burn the opponent!"
+	}
+
+	"shop_froggyjump"
+	{
+		"it"		"Ora salti come una rana!"
+	}
+
+	"shop_fulllive"
+	{
+		"it"		"La tua vita e' gia' al completo!"
+	}
+
+	"shop_get"
+	{
+		"it"		"Non ti puoi inviare da solo crediti."
+	}
+
+	"shop_getset"
+	{
+		"it"		"I tuoi ¢rediti sono stati impostati a {1} da {2}"
+	}
+
+	"shop_give"
+	{
+		"it"		"Hai dato {1} ¢rediti a {2}"
+	}
+
+	"shop_gravity"
+	{
+		"it"		"Ora hai la bassa gravita'!"
+	}
+
+	"shop_heal"
+	{
+		"it"		"Ti sei curato!"
+	}
+
+	"shop_health"
+	{
+		"it"		"Ora hai +{1}HP con il kevlar + elmo!"
+	}
+
+	"shop_invisible"
+	{
+		"it"		"Ora sei invisibile per {1} secondi!"
+	}
+
+	"shop_killedct"
+	{
+		"it"		"Hai guadagnato {2} ¢rediti per avere ucciso una guardia {3}. Ora ne hai': {1}¢"
+	}
+
+	"shop_killedt"
+	{
+		"it"		"Hai guadagnato {2} ¢rediti per avere ucciso un terrorista {3}. Ora ne hai': {1}¢"
+	}
+
+	"shop_knife"
+	{
+		"it"		"Hai comprato: un colltello che one-shotta!"
+	}
+
+	"shop_lastrequest"
+	{
+		"it"		"Hai guadagnato {2} ¢rediti per aver raggiunto l'ultima richiesta. Ora ne hai': {1}¢"
+	}
+
+	"shop_max"
+	{
+		"it"		"Hai gia' comprato questo oggetto in questo round, aspetta il prossimo round per ricomprarlo."
+	}
+
+	"shop_maxcredits"
+	{
+		"it"		"I tuoi ¢rediti nello shop: {1}, limite massimo raggiunto!"
+	}
+
+	"shop_menu_armor"
+	{
+		"it"		"Armatura [{1}¢]"
+	}
+
+	"shop_menu_awp"
+	{
+		"it"		"AWP con un proiettile [{1}¢]"
+	}
+
+	"shop_menu_bhop"
+	{
+		"it"		"BunnyHop [{1}¢]"
+	}
+
+	"shop_menu_bird"
+	{
+		"it"		"Diventa un uccello [{1}¢]"
+	}
+
+	"shop_menu_deagle"
+	{
+		"it"		"Deagle con un caricatore [{1}¢]"
+	}
+
+	"shop_menu_firegrenade"
+	{
+		"it"		"Napalm HE [{1}¢]"
+	}
+
+	"shop_menu_froggyjump"
+	{
+		"it"		"Salto da rana [{1}¢]"
+	}
+
+	"shop_menu_gravity"
+	{
+		"it"		"Bassa gravita' [{1}¢]"
+	}
+
+	"shop_menu_heal"
+	{
+		"it"		"Vita [{1}¢]"
+	}
+
+	"shop_menu_health"
+	{
+		"it"		"+{2}hp e armatura [{1}¢]"
+	}
+
+	"shop_menu_invisible"
+	{
+		"it"		"Invisibilita' per {2} sec. [{1}¢]"
+	}
+
+	"shop_menu_knife"
+	{
+		"it"		"Coltello one-hit [{1}¢]"
+	}
+
+	"shop_menu_model"
+	{
+		"it"		"Modello da guardia [{1}¢]"
+	}
+
+	"shop_menu_molotov"
+	{
+		"it"		"Molotov + 2 flash [{1}¢]"
+	}
+
+	"shop_menu_noclip"
+	{
+		"it"		"No Clip per {2} sec. [{1}¢]"
+	}
+
+	"shop_menu_nodamage"
+	{
+		"it"		"Immortalita' per 20 secondi [{1}¢]"
+	}
+
+	"shop_menu_openjail"
+	{
+		"it"		"Scassina le celle [{1}¢]"
+	}
+
+	"shop_menu_playercredits"
+	{
+		"it"		"¢rediti dei giocatori nello shop:"
+	}
+
+	"shop_menu_poisonsmoke"
+	{
+		"it"		"Smoke avvelenata [{1}¢]"
+	}
+
+	"shop_menu_revive"
+	{
+		"it"		"Resuscita [{1}¢]"
+	}
+
+	"shop_menu_taser"
+	{
+		"it"		"Taser con 3 munizioni [{1}¢]"
+	}
+
+	"shop_menu_teleportsmoke"
+	{
+		"it"		"Smoke teletrasporto [{1}¢]"
+	}
+
+	"shop_menu_throwingknife"
+	{
+		"it"		"one-hit coltello lanciabile [{1}¢]"
+	}
+
+	"shop_menu_title"
+	{
+		"it"		"Jail Shop. Possiedi {1}¢"
+	}
+
+	"shop_menu_vampire"
+	{
+		"it"		"Vampiro [{1}¢]"
+	}
+
+	"shop_menu_wallhack"
+	{
+		"it"		"Wallhack [{1}¢]"
+	}
+
+	"shop_missingcredits"
+	{
+		"it"		"I tuoi ¢rediti: {1} (Non ne' hai abbastanza. Te ne' servono: {2}¢)"
+	}
+
+	"shop_model"
+	{
+		"it"		"Ora sei travestito da guardia, stai attento!"
+	}
+
+	"shop_molotov"
+	{
+		"it"		"Hai comprato: Molotov + 2 flashs!"
+	}
+
+	"shop_noclip"
+	{
+		"it"		"Ora hai la noclip per {1} secondi!"
+	}
+
+	"shop_noclipend"
+	{
+		"it"		"La NoClip e' finita!"
+	}
+
+	"shop_nodamage"
+	{
+		"it"		"Ora sei immortale per {1} secondi!"
+	}
+
+	"shop_onlyt"
+	{
+		"it"		"Questo oggetto e' solo per i prigionieri!"
+	}
+
+	"shop_opencell"
+	{
+		"it"		"Hai scassinato le celle."
+	}
+
+	"shop_opencellall"
+	{
+		"it"		"{1} ha scassinato tutte le celle con lo shop"
+	}
+
+	"shop_playtime"
+	{
+		"it"		"Hai ottenuto {1} ¢rediti per avere giocato un questo server"
+	}
+
+	"shop_poisensmoke"
+	{
+		"it"		"Hai comprato: Poison Smoke!"
+	}
+
+	"shop_revived"
+	{
+		"it"		"{1} e' resuscitato!"
+	}
+
+	"shop_revivehint"
+	{
+		"it"		"Sei morto, puoi usare !revive per resuscitarti al costo di {1} crediti!"
+	}
+
+	"shop_set"
+	{
+		"it"		"Hai impostato i ¢rediti a {2} a {1}"
+	}
+
+	"shop_taser"
+	{
+		"it"		"Hai comprato: Taser con 3 munizioni, impara ad usarlo!"
+	}
+
+	"shop_teleportsmoke"
+	{
+		"it"		"Hai comprato: Teleporter Smoke!"
+	}
+
+	"shop_throwingknife"
+	{
+		"it"		"Hai comprato: Throwing knife!"
+	}
+
+	"shop_tonly"
+	{
+		"it"		"Shop solo per i prigionieri!"
+	}
+
+	"shop_unnodamage"
+	{
+		"it"		"Sei nuovamente mortale!"
+	}
+
+	"shop_vapire"
+	{
+		"it"		"Ora sei un vampiro!"
+	}
+
+	"shop_visible"
+	{
+		"it"		"Sei nuovamente visibile!"
+	}
+
+	"shop_wallhack"
+	{
+		"it"		"Ora hai la Wallhack!"
+	}
+
+	"shop_welcome"
+	{
+		"it"		"Digita !jailshop per aprire lo shop. Uccidi/vinci/gioca per vincere ¢rediti per lo shop."
+	}
+
+	"shop_menu_paperclip"
+	{
+		"it"		"Prendi {2} graffetta(e). [{1}¢]"
+	}
+
+	"shop_paperclip"
+	{
+		"it"		"Hai comprato: {1} graffetta(e) per le manette!"
+	}
+
+	"shop_unwallhack"
+	{
+		"it"		"La Wallhack e' finita!"
+	}
+
+	"shop_win"
+	{
+		"it"		"Hai guadagnato {2} ¢crediti per avere vinto il round. Ora ne hai': {1}¢"
+	}
+
+	"shop_giftyourself"
+	{
+		"it"		"Non ti puoi inviare da solo crediti."
+	}
+
+}
