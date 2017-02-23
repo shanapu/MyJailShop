@@ -761,7 +761,7 @@ void SaleOff()
 {
 	ServerCommand("exec MyJailShop/Items.cfg");
 	g_bSale = false;
-	PrintToChatAll("%t Sale has ended!", "shop_tag");
+	PrintToChatAll("%t %t", "shop_tag", "shop_saleend");
 }
 
 
@@ -793,7 +793,7 @@ void SaleOn()
 	gc_iPaperClip.IntValue = (gc_iPaperClip.IntValue-((gc_iPaperClip.IntValue/100)*gc_fSale.IntValue));
 	
 	g_bSale = true;
-	PrintToChatAll("%t Sale On! All items on %i%% discount!", "shop_tag", gc_fSale.IntValue);
+	PrintToChatAll("%t %t", "shop_tag", "shop_saleon", gc_fSale.IntValue);
 }
 
 public void TG_OnGamePrepare()
@@ -1806,11 +1806,17 @@ public Action ResetPlayer(int client)
 public Action Menu_OpenShop(int client)
 {
 	char info[124];
-	
 	Menu menu = CreateMenu(Handler_Menu_OpenShop);
-	
-	if (!g_bSale) SetMenuTitle(menu, "%t","shop_menu_title", Forward_OnGetCredits(client));
-	else SetMenuTitle(menu, "%t\n%%SALE%% %i%% discount!","shop_menu_title", Forward_OnGetCredits(client), gc_fSale.IntValue);
+
+	if (!g_bSale)
+	{
+		SetMenuTitle(menu, "%t","shop_menu_title", Forward_OnGetCredits(client));
+	}
+	else
+	{
+		SetMenuTitle(menu, "%t\n%t","shop_menu_title", Forward_OnGetCredits(client), "shop_menu_title_sale", gc_fSale.IntValue);
+	}
+
 	if (GetClientTeam(client) == CS_TEAM_T)
 	{
 		if (gp_bSmartJailDoors)

@@ -475,4 +475,21 @@
 		"en"		"This item is only for guards!"
 	}
 
+	"shop_saleon"
+	{
+		"#format"	"{1:d}"
+		"en"		"Sale On! All items on {1}%% discount!"
+	}
+
+	"shop_saleend"
+	{
+		"en"		"Sale has ended!"
+	}
+
+	"shop_menu_title_sale"
+	{
+		"#format"	"{1:d}"
+		"en"		"%%SALE%% {1}%% discount!"
+	}
+
 }
