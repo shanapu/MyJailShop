@@ -744,7 +744,26 @@ public Action AdminCommand_Sale(int client, int args)
 		CReplyToCommand(client, "%t %t", "shop_tag", "shop_disabled");
 		return Plugin_Handled;
 	}
-	if (!g_bSale)
+	if (args > 0)
+	{
+		char arg[4];
+		GetCmdArg(1, arg, sizeof(arg));
+		int bOpenSale = StringToInt(arg);
+
+		if (bOpenSale == 1 && !g_bSale)
+		{
+			SaleOn();
+		}
+		else if (bOpenSale == 0  && g_bSale)
+		{
+			SaleOff();
+		}
+		else
+		{
+			CReplyToCommand(client, "%t Use: sm_sale <1|0>", "shop_tag");
+		}
+	}
+	else if (!g_bSale)
 	{
 		SaleOn();
 	}
@@ -761,7 +780,7 @@ void SaleOff()
 {
 	ServerCommand("exec MyJailShop/Items.cfg");
 	g_bSale = false;
-	PrintToChatAll("%t %t", "shop_tag", "shop_saleend");
+	CPrintToChatAll("%t %t", "shop_tag", "shop_saleend");
 }
 
 
@@ -793,12 +812,15 @@ void SaleOn()
 	gc_iPaperClip.IntValue = (gc_iPaperClip.IntValue-((gc_iPaperClip.IntValue/100)*gc_fSale.IntValue));
 	
 	g_bSale = true;
-	PrintToChatAll("%t %t", "shop_tag", "shop_saleon", gc_fSale.IntValue);
+	CPrintToChatAll("%t %t", "shop_tag", "shop_saleon", gc_fSale.IntValue);
 }
 
 public void TG_OnGamePrepare()
 {
-	for (int i = 1; i <= MaxClients; i++) ResetPlayer(i);
+	for (int i = 1; i <= MaxClients; i++) 
+	{
+		ResetPlayer(i);
+	}
 }
 
 // sm_jailshop
@@ -1421,8 +1443,9 @@ public void OnClientDisconnect(int client)
 
 public void OnClientCookiesCached(int client)
 {
-	if (!gc_bCreditsSave.BoolValue) return;
-	
+	if (!gc_bCreditsSave.BoolValue) 
+		return;
+
 	if (gc_bMySQL.BoolValue)
 	{
 		if (!g_bDBConnected) DB_Connect();
