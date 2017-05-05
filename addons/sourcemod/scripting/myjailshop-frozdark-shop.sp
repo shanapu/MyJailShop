@@ -2,6 +2,8 @@
  * MyJailShop - Shop by FrozDark Support Plugin.
  * by: shanapu
  * https://github.com/shanapu/MyJailShop
+ * 
+ * Copyright (C) 2016-2017 Thomas Schmidt (shanapu)
  *
  * This file is part of the MyJailShop SourceMod Plugin.
  * 

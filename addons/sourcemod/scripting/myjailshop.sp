@@ -5,6 +5,8 @@
  * Based on: https://forums.alliedmods.net/showthread.php?t=247917
  * Credits to original author: Dkmuniz
  * Include code by bacardi https:// forums.alliedmods.net/showthread.php?t=269846
+ * 
+ * Copyright (C) 2016-2017 Thomas Schmidt (shanapu)
  *
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License, version 3.0, as published by the
@@ -52,7 +54,7 @@
 
 
 // Defines
-#define VERSION "1.3.0-<COMMIT>"
+#define VERSION "1.3.1-<COMMIT>"
 #define URL "https://github.com/shanapu/MyJailShop"
 
 
@@ -194,6 +196,8 @@ bool g_bWallhack[MAXPLAYERS+1] = false;
 bool g_bFroggyJump[MAXPLAYERS+1] = false;
 bool g_bNoClip[MAXPLAYERS+1] = true;
 bool g_bThrowingKnife[MAXPLAYERS+1] = true;
+bool g_bGravity[MAXPLAYERS+1] = false;
+bool g_bLadder[MAXPLAYERS+1] = false;
 bool g_bDBConnected = false;
 bool g_bAllowBuy = true;
 bool g_bCellsOpen = true;
@@ -1506,6 +1510,7 @@ public void OnClientPostAdminCheck(int client)
 	g_bOneMagDeagle[client] = false;
 	g_bTeleportSmoke[client] = false;
 	g_bBhop[client] = false;
+	g_bGravity[client] = false;
 	g_bMolotov[client] = false;
 	g_bHealth[client] = false;
 }
@@ -1528,6 +1533,7 @@ public void OnClientPutInServer(int client)
 	g_bWallhack[client] = false;
 	g_bFireHE[client] = false;
 	g_bBhop[client] = false;
+	g_bGravity[client] = false;
 	g_bMolotov[client] = false;
 	g_bHealth[client] = false;
 	g_bOneBulletAWP[client] = false;
@@ -1582,6 +1588,22 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 	
 	if (IsPlayerAlive(client))
 	{
+		if(g_bGravity[client])
+		{
+			if (GetEntityMoveType(client) == MOVETYPE_LADDER)
+			{
+				g_bLadder[client] = true;
+			}
+			else
+			{
+				if (g_bLadder[client])
+				{
+					SetEntityGravity(client, gc_fGravValue.FloatValue);
+					g_bLadder[client] = false;
+				}
+			}
+		}
+		
 		// Reset when on Ground
 		if (GetEntityFlags(client) & FL_ONGROUND)
 		{
@@ -1814,6 +1836,7 @@ public Action ResetPlayer(int client)
 	g_bFroggyJump[client] = false;
 	g_bWallhack[client] = false;
 	g_bBhop[client] = false;
+	g_bGravity[client] = false;
 	g_bOneBulletAWP[client] = false;
 	g_bOneMagDeagle[client] = false;
 	g_bMolotov[client] = false;
@@ -1877,7 +1900,7 @@ public Action Menu_OpenShop(int client)
 		else if (gc_iFroggyJumpOnlyTeam.IntValue >= 1 && gc_iFroggyJump.IntValue != 0 && CheckVipFlag(client, g_sFroggyJumpFlag)) AddMenuItem(menu, "FroggyJump", info, ITEMDRAW_DISABLED);
 		
 		Format(info, sizeof(info), "%T","shop_menu_gravity", client, gc_iGravity.IntValue);
-		if (gc_iGravOnlyTeam.IntValue >= 1 && Forward_OnGetCredits(client) >= gc_iGravity.IntValue && gc_iGravity.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sGravityFlag)) AddMenuItem(menu, "Gravity", info);
+		if (gc_iGravOnlyTeam.IntValue >= 1 && Forward_OnGetCredits(client) >= gc_iGravity.IntValue && gc_iGravity.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && !g_bGravity[client] && CheckVipFlag(client, g_sGravityFlag)) AddMenuItem(menu, "Gravity", info);
 		else if (gc_iGravOnlyTeam.IntValue >= 1 && gc_iGravity.IntValue != 0 && CheckVipFlag(client, g_sGravityFlag)) AddMenuItem(menu, "Gravity", info, ITEMDRAW_DISABLED);
 		
 		Format(info, sizeof(info), "%T","shop_menu_invisible", client, gc_iInvisible.IntValue, RoundToCeil(gc_fInvisibleTime.FloatValue));
@@ -2470,6 +2493,7 @@ void Item_Gravity(int client, char[] name)
 		Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iGravity.IntValue));
 		Forward_OnPlayerBuyItem(client, name);
 		
+		g_bGravity[client] = true;
 		SetEntityGravity(client, gc_fGravValue.FloatValue);
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_gravity");
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_iGravity.IntValue);
