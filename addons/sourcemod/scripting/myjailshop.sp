@@ -54,7 +54,7 @@
 
 
 // Defines
-#define VERSION "1.3.1-<COMMIT>"
+#define VERSION "1.3.2-<COMMIT>"
 #define URL "https://github.com/shanapu/MyJailShop"
 
 
@@ -140,6 +140,7 @@ ConVar gc_fWallhackTime;
 ConVar gc_iFroggyJump;
 ConVar gc_iPaperClip;
 ConVar gc_iPaperClipAmount;
+ConVar gc_iRandomTP;
 
 ConVar gc_sInvisibleFlag;
 ConVar gc_sAWPFlag;
@@ -165,6 +166,7 @@ ConVar gc_sThrowKnifeFlag;
 ConVar gc_sWallhackFlag;
 ConVar gc_sFroggyJumpFlag;
 ConVar gc_sPaperClipFlag;
+ConVar gc_sRandomTPFlag;
 
 // Custom Commands
 ConVar gc_sCustomCommandShop;
@@ -178,26 +180,27 @@ ConVar g_bHandcuff;
 
 
 // Booleans
-bool g_bInvisible[MAXPLAYERS+1] = false;
-bool g_bFly[MAXPLAYERS+1] = false;
-bool g_bFakeGuard[MAXPLAYERS+1] = false;
-bool g_bNoDamage[MAXPLAYERS+1] = false;
-bool g_bPoison[MAXPLAYERS+1] = false;
-bool g_bVampire[MAXPLAYERS+1] = false;
-bool g_bSuperKnife[MAXPLAYERS+1] = false;
-bool g_bTeleportSmoke[MAXPLAYERS+1] = false;
-bool g_bFireHE[MAXPLAYERS+1] = false;
-bool g_bOneBulletAWP[MAXPLAYERS+1] = false;
-bool g_bOneMagDeagle[MAXPLAYERS+1] = false;
-bool g_bBhop[MAXPLAYERS+1] = false;
-bool g_bMolotov[MAXPLAYERS+1] = false;
-bool g_bHealth[MAXPLAYERS+1] = false;
-bool g_bWallhack[MAXPLAYERS+1] = false;
-bool g_bFroggyJump[MAXPLAYERS+1] = false;
-bool g_bNoClip[MAXPLAYERS+1] = true;
-bool g_bThrowingKnife[MAXPLAYERS+1] = true;
-bool g_bGravity[MAXPLAYERS+1] = false;
-bool g_bLadder[MAXPLAYERS+1] = false;
+bool g_bInvisible[MAXPLAYERS + 1] = false;
+bool g_bFly[MAXPLAYERS + 1] = false;
+bool g_bFakeGuard[MAXPLAYERS + 1] = false;
+bool g_bNoDamage[MAXPLAYERS + 1] = false;
+bool g_bPoison[MAXPLAYERS + 1] = false;
+bool g_bVampire[MAXPLAYERS + 1] = false;
+bool g_bSuperKnife[MAXPLAYERS + 1] = false;
+bool g_bTeleportSmoke[MAXPLAYERS + 1] = false;
+bool g_bFireHE[MAXPLAYERS + 1] = false;
+bool g_bOneBulletAWP[MAXPLAYERS + 1] = false;
+bool g_bOneMagDeagle[MAXPLAYERS + 1] = false;
+bool g_bBhop[MAXPLAYERS + 1] = false;
+bool g_bMolotov[MAXPLAYERS + 1] = false;
+bool g_bHealth[MAXPLAYERS + 1] = false;
+bool g_bWallhack[MAXPLAYERS + 1] = false;
+bool g_bFroggyJump[MAXPLAYERS + 1] = false;
+bool g_bNoClip[MAXPLAYERS + 1] = true;
+bool g_bThrowingKnife[MAXPLAYERS + 1] = true;
+bool g_bGravity[MAXPLAYERS + 1] = false;
+bool g_bLadder[MAXPLAYERS + 1] = false;
+bool g_bRandomTP[MAXPLAYERS + 1] = false;
 bool g_bDBConnected = false;
 bool g_bAllowBuy = true;
 bool g_bCellsOpen = true;
@@ -214,7 +217,7 @@ bool gp_bMyIcons = false;
 // Intergers
 int g_iBeamSprite = -1;
 int g_iHaloSprite = -1;
-int g_iCredits[MAXPLAYERS+1];
+int g_iCredits[MAXPLAYERS + 1];
 int g_iFroggyJumped[MAXPLAYERS + 1];
 int g_iKnifesThrown[MAXPLAYERS + 1] = 0;
 
@@ -225,7 +228,7 @@ Handle g_hCookieCredits = INVALID_HANDLE;
 Handle g_hDB = INVALID_HANDLE;
 Handle gF_hOnPlayerGetCredits;
 Handle gF_hOnPlayerBuyItem;
-Handle g_hTimerDelay[MAXPLAYERS+1];
+Handle g_hTimerDelay[MAXPLAYERS + 1];
 Handle g_hThrownKnives;
 
 Handle gF_hOnGetCredits;
@@ -234,7 +237,7 @@ Handle gF_hOnSetCredits;
 
 // Strings
 char g_sSQLBuffer[1024];
-char g_sModelPathPrevious[MAXPLAYERS+1][256];
+char g_sModelPathPrevious[MAXPLAYERS + 1][256];
 char g_sModelPathFakeGuard[256];
 char g_sPurchaseLogFile[PLATFORM_MAX_PATH];
 char g_sGiftLogFile[PLATFORM_MAX_PATH];
@@ -262,14 +265,15 @@ char g_sThrowKnifeFlag[4];
 char g_sWallhackFlag[4];
 char g_sFroggyJumpFlag[4];
 char g_sPaperClipFlag[4];
+char g_sRandomTPFlag[4];
 
 
 // Info
-public Plugin myinfo = {
-	name = "MyJailShop",
-	author = "shanapu",
-	description = "MyJailShop provide you a high customizable shop with credits system intended for jailbreak server",
-	version = VERSION,
+public Plugin myinfo =  {
+	name = "MyJailShop", 
+	author = "shanapu", 
+	description = "MyJailShop provide you a high customizable shop with credits system intended for jailbreak server", 
+	version = VERSION, 
 	url = URL
 };
 
@@ -302,7 +306,7 @@ public void OnPluginStart()
 	AutoExecConfig_SetFile("Settings", "MyJailShop");
 	AutoExecConfig_SetCreateFile(true);
 	
-	AutoExecConfig_CreateConVar("sm_jailshop_version", VERSION, "The version of this MyJailShop SourceMod plugin", FCVAR_SPONLY|FCVAR_REPLICATED|FCVAR_NOTIFY|FCVAR_DONTRECORD);
+	AutoExecConfig_CreateConVar("sm_jailshop_version", VERSION, "The version of this MyJailShop SourceMod plugin", FCVAR_SPONLY | FCVAR_REPLICATED | FCVAR_NOTIFY | FCVAR_DONTRECORD);
 	gc_bEnable = AutoExecConfig_CreateConVar("sm_jailshop_enable", "1", "0 - disabled, 1 - enable the MyJailShop SourceMod plugin", _, true, 0.0, true, 1.0);
 	
 	gc_bCreditSystem = AutoExecConfig_CreateConVar("sm_jailshop_credits_system", "1", "1 - MyJailShop Credits, 0 - Zephrus store or 'SM Store' or FrozDark shop (need extra support plugin)", _, true, 0.0, true, 1.0);
@@ -381,7 +385,7 @@ public void OnPluginStart()
 	gc_iFroggyJumpOnlyTeam = AutoExecConfig_CreateConVar("sm_jailshop_froggyjump_access", "1", "0 - guards only, 1 - guards & prisoner, 2 - prisoner only ", _, true, 0.0, true, 2.0);
 	gc_sFroggyJumpFlag = AutoExecConfig_CreateConVar("sm_jailshop_froggyjump_flag", "", "Set flag for admin/vip must have to get access to froggyjump. No flag = is available for all players!");
 	gc_iGravity = AutoExecConfig_CreateConVar("sm_jailshop_gravity_price", "2500", "0 - disabled, price of the 'Low Gravity' shop item", _, true, 0.0);
-	gc_fGravValue= AutoExecConfig_CreateConVar("sm_jailshop_gravity_value", "0.6", "Ratio for Gravity (1.0 earth, 0.5 moon)", _, true, 0.1, true, 1.0);
+	gc_fGravValue = AutoExecConfig_CreateConVar("sm_jailshop_gravity_value", "0.6", "Ratio for Gravity (1.0 earth, 0.5 moon)", _, true, 0.1, true, 1.0);
 	gc_iGravOnlyTeam = AutoExecConfig_CreateConVar("sm_jailshop_gravity_access", "1", "0 - guards only, 1 - guards & prisoner, 2 - prisoner only ", _, true, 0.0, true, 2.0);
 	gc_sGravityFlag = AutoExecConfig_CreateConVar("sm_jailshop_gravity_flag", "", "Set flag for admin/vip must have to get access to gravity. No flag = is available for all players!");
 	gc_iInvisible = AutoExecConfig_CreateConVar("sm_jailshop_invisible_price", "8000", "0 - disabled, price of the 'Invisible' shop item", _, true, 0.0);
@@ -426,6 +430,8 @@ public void OnPluginStart()
 	gc_sTaserFlag = AutoExecConfig_CreateConVar("sm_jailshop_taser_flag", "", "Set flag for admin/vip must have to get access to taser. No flag = is available for all players!");
 	gc_iMolotov = AutoExecConfig_CreateConVar("sm_jailshop_molotov_price", "2500", "0 - disabled, price of the 'Molotov & flashs' shop item", _, true, 0.0);
 	gc_sMolotovFlag = AutoExecConfig_CreateConVar("sm_jailshop_molotov_flag", "", "Set flag for admin/vip must have to get access to molotov. No flag = is available for all players!");
+	gc_iRandomTP = AutoExecConfig_CreateConVar("sm_jailshop_randomtp", "6500", "0 - disable, price of the 'Random teleport' shop item", _, true, 0.0);
+	gc_sRandomTPFlag = AutoExecConfig_CreateConVar("sm_jailshop_randomtp_flag", "", "Set flag for admin/vip must have to get accesso to RandomTP. No flag = is avaible for all players!");
 	
 	
 	AutoExecConfig_ExecuteFile();
@@ -435,7 +441,7 @@ public void OnPluginStart()
 	// Hooks
 	HookEvent("player_death", Event_PlayerDeath);
 	HookEvent("smokegrenade_detonate", Event_SmokeGrenadeDetonate, EventHookMode_Post);
-	HookEvent("player_hurt",Event_PlayerHurt, EventHookMode_Pre);
+	HookEvent("player_hurt", Event_PlayerHurt, EventHookMode_Pre);
 	HookEvent("round_end", Event_RoundEnd);
 	HookEvent("round_start", Event_RoundStart);
 	HookEvent("player_disconnect", Event_PlayerDisconnect, EventHookMode_Pre);
@@ -493,13 +499,14 @@ public void OnPluginStart()
 	gc_sWallhackFlag.GetString(g_sWallhackFlag, sizeof(g_sWallhackFlag));
 	gc_sFroggyJumpFlag.GetString(g_sFroggyJumpFlag, sizeof(g_sFroggyJumpFlag));
 	gc_sPaperClipFlag.GetString(g_sPaperClipFlag, sizeof(g_sPaperClipFlag));
+	gc_sRandomTPFlag.GetString(g_sRandomTPFlag, sizeof(g_sRandomTPFlag));
 	
 	if (!g_bDBConnected && gc_bMySQL.BoolValue)
 		DB_Connect();
 	
 	if (gc_bCreditsSave.BoolValue)
 	{
-		for (int i = 1; i <= MaxClients; i++) if (IsValidClient(i, false, true))
+		for (int i = 1; i <= MaxClients; i++)if (IsValidClient(i, false, true))
 		{
 			if (gc_bMySQL.BoolValue)
 			{
@@ -633,6 +640,11 @@ public int OnSettingChanged(Handle convar, const char[] oldValue, const char[] n
 		strcopy(g_sPaperClipFlag, sizeof(g_sPaperClipFlag), newValue);
 		PrecacheModel(g_sPaperClipFlag);
 	}
+	else if (convar == gc_sRandomTPFlag)
+	{
+		strcopy(g_sRandomTPFlag, sizeof(g_sRandomTPFlag), newValue);
+		PrecacheModel(g_sRandomTPFlag);
+	}
 }
 
 
@@ -656,61 +668,61 @@ public void OnConfigsExecuted()
 	
 	// Shop menu
 	gc_sCustomCommandShop.GetString(sCommands, sizeof(sCommands)); // Get new commands
-	ReplaceString(sCommands, sizeof(sCommands), " ",""); // Remove the spaces " "
+	ReplaceString(sCommands, sizeof(sCommands), " ", ""); // Remove the spaces " "
 	iCount = ExplodeString(sCommands, ",", sCommandsL, sizeof(sCommandsL), sizeof(sCommandsL[])); // Split commands to single command and count
 	
 	for (int i = 0; i < iCount; i++) // Loop the counted single commands
 	{
 		Format(sCommand, sizeof(sCommand), "sm_%s", sCommandsL[i]); // Add sm_ for console command
-		if (GetCommandFlags(sCommand) == INVALID_FCVAR_FLAGS)  // if command not already exist
+		if (GetCommandFlags(sCommand) == INVALID_FCVAR_FLAGS) // if command not already exist
 			RegConsoleCmd(sCommand, Command_Menu_OpenShop, "Open the jail shop menu"); // set new command
 	}
 	
 	// Shop show credits
 	gc_sCustomCommandCredits.GetString(sCommands, sizeof(sCommands));
-	ReplaceString(sCommands, sizeof(sCommands), " ","");
+	ReplaceString(sCommands, sizeof(sCommands), " ", "");
 	iCount = ExplodeString(sCommands, ",", sCommandsL, sizeof(sCommandsL), sizeof(sCommandsL[]));
 	
 	for (int i = 0; i < iCount; i++)
 	{
 		Format(sCommand, sizeof(sCommand), "sm_%s", sCommandsL[i]);
-		if (GetCommandFlags(sCommand) == INVALID_FCVAR_FLAGS)  // if command not already exist
-			RegConsoleCmd(sCommand, Commands_Credits,"Show your jail shop credits");
+		if (GetCommandFlags(sCommand) == INVALID_FCVAR_FLAGS) // if command not already exist
+			RegConsoleCmd(sCommand, Commands_Credits, "Show your jail shop credits");
 	}
 	
 	// Shop revive
 	gc_sCustomCommandRevive.GetString(sCommands, sizeof(sCommands));
-	ReplaceString(sCommands, sizeof(sCommands), " ","");
+	ReplaceString(sCommands, sizeof(sCommands), " ", "");
 	iCount = ExplodeString(sCommands, ",", sCommandsL, sizeof(sCommandsL), sizeof(sCommandsL[]));
 	
 	for (int i = 0; i < iCount; i++)
 	{
 		Format(sCommand, sizeof(sCommand), "sm_%s", sCommandsL[i]);
-		if (GetCommandFlags(sCommand) == INVALID_FCVAR_FLAGS)  // if command not already exist
+		if (GetCommandFlags(sCommand) == INVALID_FCVAR_FLAGS) // if command not already exist
 			RegConsoleCmd(sCommand, Command_Revive, "Use jail shop item revive");
 	}
 	
 	// Shop show all credits menu
 	gc_sCustomCommandMassCredits.GetString(sCommands, sizeof(sCommands));
-	ReplaceString(sCommands, sizeof(sCommands), " ","");
+	ReplaceString(sCommands, sizeof(sCommands), " ", "");
 	iCount = ExplodeString(sCommands, ",", sCommandsL, sizeof(sCommandsL), sizeof(sCommandsL[]));
 	
 	for (int i = 0; i < iCount; i++)
 	{
 		Format(sCommand, sizeof(sCommand), "sm_%s", sCommandsL[i]);
-		if (GetCommandFlags(sCommand) == INVALID_FCVAR_FLAGS)  // if command not already exist
+		if (GetCommandFlags(sCommand) == INVALID_FCVAR_FLAGS) // if command not already exist
 			RegConsoleCmd(sCommand, Command_ShowCredits, "Show jail shop credits of all online player");
 	}
 	
 	// Shop send gift credits
 	gc_sCustomCommandGift.GetString(sCommands, sizeof(sCommands));
-	ReplaceString(sCommands, sizeof(sCommands), " ","");
+	ReplaceString(sCommands, sizeof(sCommands), " ", "");
 	iCount = ExplodeString(sCommands, ",", sCommandsL, sizeof(sCommandsL), sizeof(sCommandsL[]));
 	
 	for (int i = 0; i < iCount; i++)
 	{
 		Format(sCommand, sizeof(sCommand), "sm_%s", sCommandsL[i]);
-		if (GetCommandFlags(sCommand) == INVALID_FCVAR_FLAGS)  // if command not already exist
+		if (GetCommandFlags(sCommand) == INVALID_FCVAR_FLAGS) // if command not already exist
 			RegConsoleCmd(sCommand, Command_SendCredits, "Gift jail shop credits to a player - Use: sm_jailgift <#userid|name> [amount]");
 	}
 }
@@ -753,12 +765,12 @@ public Action AdminCommand_Sale(int client, int args)
 		char arg[4];
 		GetCmdArg(1, arg, sizeof(arg));
 		int bOpenSale = StringToInt(arg);
-
+		
 		if (bOpenSale == 1 && !g_bSale)
 		{
 			SaleOn();
 		}
-		else if (bOpenSale == 0  && g_bSale)
+		else if (bOpenSale == 0 && g_bSale)
 		{
 			SaleOff();
 		}
@@ -790,30 +802,31 @@ void SaleOff()
 
 void SaleOn()
 {
-	gc_iInvisible.IntValue = (gc_iInvisible.IntValue-((gc_iInvisible.IntValue/100)*gc_fSale.IntValue));
-	gc_iAWP.IntValue = (gc_iAWP.IntValue-((gc_iAWP.IntValue/100)*gc_fSale.IntValue));
-	gc_iNoDamage.IntValue = (gc_iNoDamage.IntValue-((gc_iNoDamage.IntValue/100)*gc_fSale.IntValue));
-	gc_iOpenCells.IntValue = (gc_iOpenCells.IntValue-((gc_iOpenCells.IntValue/100)*gc_fSale.IntValue));
-	gc_iVampire.IntValue = (gc_iVampire.IntValue-((gc_iVampire.IntValue/100)*gc_fSale.IntValue));
-	gc_iHealth.IntValue = (gc_iHealth.IntValue-((gc_iHealth.IntValue/100)*gc_fSale.IntValue));
-	gc_iDeagle.IntValue = (gc_iDeagle.IntValue-((gc_iDeagle.IntValue/100)*gc_fSale.IntValue));
-	gc_iKnife.IntValue = (gc_iKnife.IntValue-((gc_iKnife.IntValue/100)*gc_fSale.IntValue));
-	gc_iHeal.IntValue = (gc_iHeal.IntValue-((gc_iHeal.IntValue/100)*gc_fSale.IntValue));
-	gc_iMolotov.IntValue = (gc_iMolotov.IntValue-((gc_iMolotov.IntValue/100)*gc_fSale.IntValue));
-	gc_iFakeModel.IntValue = (gc_iFakeModel.IntValue-((gc_iFakeModel.IntValue/100)*gc_fSale.IntValue));
-	gc_iPoisonSmoke.IntValue = (gc_iPoisonSmoke.IntValue-((gc_iPoisonSmoke.IntValue/100)*gc_fSale.IntValue));
-	gc_iBird.IntValue = (gc_iBird.IntValue-((gc_iBird.IntValue/100)*gc_fSale.IntValue));
-	gc_iTeleportSmoke.IntValue = (gc_iTeleportSmoke.IntValue-((gc_iTeleportSmoke.IntValue/100)*gc_fSale.IntValue));
-	gc_iRevive.IntValue = (gc_iRevive.IntValue-((gc_iRevive.IntValue/100)*gc_fSale.IntValue));
-	gc_iFireHE.IntValue = (gc_iFireHE.IntValue-((gc_iFireHE.IntValue/100)*gc_fSale.IntValue));
-	gc_iBhop.IntValue = (gc_iBhop.IntValue-((gc_iBhop.IntValue/100)*gc_fSale.IntValue));
-	gc_iGravity.IntValue = (gc_iGravity.IntValue-((gc_iGravity.IntValue/100)*gc_fSale.IntValue));
-	gc_iTaser.IntValue = (gc_iTaser.IntValue-((gc_iTaser.IntValue/100)*gc_fSale.IntValue));
-	gc_iNoClip.IntValue = (gc_iNoClip.IntValue-((gc_iNoClip.IntValue/100)*gc_fSale.IntValue));
-	gc_iThrowKnife.IntValue = (gc_iThrowKnife.IntValue-((gc_iThrowKnife.IntValue/100)*gc_fSale.IntValue));
-	gc_iWallhack.IntValue = (gc_iWallhack.IntValue-((gc_iWallhack.IntValue/100)*gc_fSale.IntValue));
-	gc_iFroggyJump.IntValue = (gc_iFroggyJump.IntValue-((gc_iFroggyJump.IntValue/100)*gc_fSale.IntValue));
-	gc_iPaperClip.IntValue = (gc_iPaperClip.IntValue-((gc_iPaperClip.IntValue/100)*gc_fSale.IntValue));
+	gc_iInvisible.IntValue = (gc_iInvisible.IntValue - ((gc_iInvisible.IntValue / 100) * gc_fSale.IntValue));
+	gc_iAWP.IntValue = (gc_iAWP.IntValue - ((gc_iAWP.IntValue / 100) * gc_fSale.IntValue));
+	gc_iNoDamage.IntValue = (gc_iNoDamage.IntValue - ((gc_iNoDamage.IntValue / 100) * gc_fSale.IntValue));
+	gc_iOpenCells.IntValue = (gc_iOpenCells.IntValue - ((gc_iOpenCells.IntValue / 100) * gc_fSale.IntValue));
+	gc_iVampire.IntValue = (gc_iVampire.IntValue - ((gc_iVampire.IntValue / 100) * gc_fSale.IntValue));
+	gc_iHealth.IntValue = (gc_iHealth.IntValue - ((gc_iHealth.IntValue / 100) * gc_fSale.IntValue));
+	gc_iDeagle.IntValue = (gc_iDeagle.IntValue - ((gc_iDeagle.IntValue / 100) * gc_fSale.IntValue));
+	gc_iKnife.IntValue = (gc_iKnife.IntValue - ((gc_iKnife.IntValue / 100) * gc_fSale.IntValue));
+	gc_iHeal.IntValue = (gc_iHeal.IntValue - ((gc_iHeal.IntValue / 100) * gc_fSale.IntValue));
+	gc_iMolotov.IntValue = (gc_iMolotov.IntValue - ((gc_iMolotov.IntValue / 100) * gc_fSale.IntValue));
+	gc_iFakeModel.IntValue = (gc_iFakeModel.IntValue - ((gc_iFakeModel.IntValue / 100) * gc_fSale.IntValue));
+	gc_iPoisonSmoke.IntValue = (gc_iPoisonSmoke.IntValue - ((gc_iPoisonSmoke.IntValue / 100) * gc_fSale.IntValue));
+	gc_iBird.IntValue = (gc_iBird.IntValue - ((gc_iBird.IntValue / 100) * gc_fSale.IntValue));
+	gc_iTeleportSmoke.IntValue = (gc_iTeleportSmoke.IntValue - ((gc_iTeleportSmoke.IntValue / 100) * gc_fSale.IntValue));
+	gc_iRevive.IntValue = (gc_iRevive.IntValue - ((gc_iRevive.IntValue / 100) * gc_fSale.IntValue));
+	gc_iFireHE.IntValue = (gc_iFireHE.IntValue - ((gc_iFireHE.IntValue / 100) * gc_fSale.IntValue));
+	gc_iBhop.IntValue = (gc_iBhop.IntValue - ((gc_iBhop.IntValue / 100) * gc_fSale.IntValue));
+	gc_iGravity.IntValue = (gc_iGravity.IntValue - ((gc_iGravity.IntValue / 100) * gc_fSale.IntValue));
+	gc_iTaser.IntValue = (gc_iTaser.IntValue - ((gc_iTaser.IntValue / 100) * gc_fSale.IntValue));
+	gc_iNoClip.IntValue = (gc_iNoClip.IntValue - ((gc_iNoClip.IntValue / 100) * gc_fSale.IntValue));
+	gc_iThrowKnife.IntValue = (gc_iThrowKnife.IntValue - ((gc_iThrowKnife.IntValue / 100) * gc_fSale.IntValue));
+	gc_iWallhack.IntValue = (gc_iWallhack.IntValue - ((gc_iWallhack.IntValue / 100) * gc_fSale.IntValue));
+	gc_iFroggyJump.IntValue = (gc_iFroggyJump.IntValue - ((gc_iFroggyJump.IntValue / 100) * gc_fSale.IntValue));
+	gc_iPaperClip.IntValue = (gc_iPaperClip.IntValue - ((gc_iPaperClip.IntValue / 100) * gc_fSale.IntValue));
+	gc_iRandomTP.IntValue = (gc_iRandomTP.IntValue - ((gc_iRandomTP.IntValue / 100) * gc_fSale.IntValue));
 	
 	g_bSale = true;
 	CPrintToChatAll("%t %t", "shop_tag", "shop_saleon", gc_fSale.IntValue);
@@ -821,7 +834,7 @@ void SaleOn()
 
 public void TG_OnGamePrepare()
 {
-	for (int i = 1; i <= MaxClients; i++) 
+	for (int i = 1; i <= MaxClients; i++)
 	{
 		ResetPlayer(i);
 	}
@@ -929,20 +942,20 @@ public Action Command_SendCredits(int client, int args)
 	
 	int amount = StringToInt(arg2);
 	
-	char strTarget[32];GetCmdArg(1, strTarget, sizeof(strTarget));
+	char strTarget[32]; GetCmdArg(1, strTarget, sizeof(strTarget));
 	
 	char strTargetName[MAX_TARGET_LENGTH];
 	int TargetList[MAXPLAYERS], TargetCount;
 	bool TargetTranslate;
 	
-	if ((TargetCount = ProcessTargetString(strTarget, client, TargetList, MAXPLAYERS, COMMAND_FILTER_CONNECTED|COMMAND_FILTER_NO_IMMUNITY,
-		strTargetName, sizeof(strTargetName), TargetTranslate)) <= 0)
+	if ((TargetCount = ProcessTargetString(strTarget, client, TargetList, MAXPLAYERS, COMMAND_FILTER_CONNECTED | COMMAND_FILTER_NO_IMMUNITY, 
+				strTargetName, sizeof(strTargetName), TargetTranslate)) <= 0)
 	{
 		ReplyToTargetError(client, TargetCount);
 		return Plugin_Handled;
 	}
 	
-	for(int i = 0; i < TargetCount; i++)
+	for (int i = 0; i < TargetCount; i++)
 	{
 		int iClient = TargetList[i];
 		if (IsClientInGame(iClient) && amount > 0)
@@ -953,13 +966,13 @@ public Action Command_SendCredits(int client, int args)
 					ReplyToCommand(client, "%t %t", "shop_tag", "shop_missingcredits", Forward_OnGetCredits(client), amount);
 				else
 				{
-					Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-amount));
-					Forward_OnSetCredits(iClient,(Forward_OnGetCredits(iClient)+amount));
+					Forward_OnSetCredits(client, (Forward_OnGetCredits(client) - amount));
+					Forward_OnSetCredits(iClient, (Forward_OnGetCredits(iClient) + amount));
 					Forward_OnPlayerGetCredits(iClient, amount);
 					
 					CPrintToChat(client, "%t %t", "shop_tag", "shop_give", amount, iClient);
 					CPrintToChat(iClient, "%t %t", "shop_tag", "shop_get", amount, client);
-					if (gc_bLogging.BoolValue) LogToFileEx(g_sGiftLogFile, "Player %L has gift %i credits to %L ", client, amount, iClient);
+					if (gc_bLogging.BoolValue)LogToFileEx(g_sGiftLogFile, "Player %L has gift %i credits to %L ", client, amount, iClient);
 				}
 			}
 			CPrintToChat(client, "%t %t", "shop_tag", "shop_giftyourself");
@@ -970,7 +983,7 @@ public Action Command_SendCredits(int client, int args)
 
 
 // sm_jailcredits
-public Action Command_ShowCredits(int client, int args) 
+public Action Command_ShowCredits(int client, int args)
 {
 	if (!gc_bEnable.BoolValue) // if plugin is disbaled
 	{
@@ -981,9 +994,9 @@ public Action Command_ShowCredits(int client, int args)
 	char sName[MAX_NAME_LENGTH], sUserId[10];
 	
 	Menu menu = CreateMenu(Handler_ShowCredits);
-	SetMenuTitle(menu, "%t","shop_menu_playercredits");
+	SetMenuTitle(menu, "%t", "shop_menu_playercredits");
 	
-	for (int i = 1; i <= MaxClients; i++) if (IsValidClient(i, false, true))
+	for (int i = 1; i <= MaxClients; i++)if (IsValidClient(i, false, true))
 	{
 		GetClientName(i, sName, sizeof(sName));
 		IntToString(GetClientUserId(i), sUserId, sizeof(sUserId));
@@ -999,7 +1012,7 @@ public Action Command_ShowCredits(int client, int args)
 }
 
 
-public int Handler_ShowCredits(Menu menu, MenuAction action, int param1, int param2){}
+public int Handler_ShowCredits(Menu menu, MenuAction action, int param1, int param2) {  }
 
 
 // sm_jailset
@@ -1015,7 +1028,7 @@ public Action AdminCommand_SetCredits(int client, int args)
 		CReplyToCommand(client, "%t %t", "shop_tag", "shop_disabled");
 		return Plugin_Handled;
 	}
-	if (args < 2) 
+	if (args < 2)
 	{
 		CReplyToCommand(client, "%t Use: sm_jailset <#userid|name> [amount]", "shop_tag");
 		return Plugin_Handled;
@@ -1039,7 +1052,7 @@ public Action AdminCommand_SetCredits(int client, int args)
 		return Plugin_Handled;
 	}
 	
-	for(int i = 0; i < TargetCount; i++)
+	for (int i = 0; i < TargetCount; i++)
 	{
 		int iClient = TargetList[i];
 		if (IsClientInGame(iClient))
@@ -1049,7 +1062,7 @@ public Action AdminCommand_SetCredits(int client, int args)
 			
 			CPrintToChat(client, "%t %t", "shop_tag", "shop_set", amount, iClient);
 			CPrintToChat(iClient, "%t %t", "shop_tag", "shop_getset", amount, client);
-			if (gc_bLogging.BoolValue) LogToFileEx(g_sGiftLogFile, "Admin %L set %L credits to %i ", client, iClient, amount);
+			if (gc_bLogging.BoolValue)LogToFileEx(g_sGiftLogFile, "Admin %L set %L credits to %i ", client, iClient, amount);
 		}
 	}
 	return Plugin_Handled;
@@ -1069,7 +1082,7 @@ public Action AdminCommand_GiveCredits(int client, int args)
 		CReplyToCommand(client, "%t %t", "shop_tag", "shop_disabled");
 		return Plugin_Handled;
 	}
-	if (args < 2) 
+	if (args < 2)
 	{
 		CReplyToCommand(client, "%t Use: sm_jailgive <#userid|name> [amount]", "shop_tag");
 		return Plugin_Handled;
@@ -1080,27 +1093,27 @@ public Action AdminCommand_GiveCredits(int client, int args)
 	
 	int amount = StringToInt(arg2);
 	
-	char strTarget[32];GetCmdArg(1, strTarget, sizeof(strTarget));
+	char strTarget[32]; GetCmdArg(1, strTarget, sizeof(strTarget));
 	char strTargetName[MAX_TARGET_LENGTH];
 	
 	int TargetList[MAXPLAYERS], TargetCount;
 	bool TargetTranslate;
-	if ((TargetCount = ProcessTargetString(strTarget, client, TargetList, MAXPLAYERS, COMMAND_FILTER_CONNECTED, strTargetName, sizeof(strTargetName), TargetTranslate)) <= 0) 
+	if ((TargetCount = ProcessTargetString(strTarget, client, TargetList, MAXPLAYERS, COMMAND_FILTER_CONNECTED, strTargetName, sizeof(strTargetName), TargetTranslate)) <= 0)
 	{
 		ReplyToTargetError(client, TargetCount);
 		return Plugin_Handled;
 	}
-	for(int i = 0; i < TargetCount; i++) 
+	for (int i = 0; i < TargetCount; i++)
 	{
 		int iClient = TargetList[i];
 		if (IsClientInGame(iClient))
 		{
-			Forward_OnSetCredits(iClient,(Forward_OnGetCredits(iClient)+amount));
+			Forward_OnSetCredits(iClient, (Forward_OnGetCredits(iClient) + amount));
 			Forward_OnPlayerGetCredits(iClient, amount);
 			
 			CPrintToChat(client, "%t %t", "shop_tag", "shop_give", amount, iClient);
 			CPrintToChat(iClient, "%t %t", "shop_tag", "shop_get", amount, client);
-			if (gc_bLogging.BoolValue) LogToFileEx(g_sGiftLogFile, "Admin %L gifted %i credits to %L ", client, amount, iClient);
+			if (gc_bLogging.BoolValue)LogToFileEx(g_sGiftLogFile, "Admin %L gifted %i credits to %L ", client, amount, iClient);
 		}
 	}
 	return Plugin_Handled;
@@ -1117,10 +1130,10 @@ public Action Event_PlayerDeath(Event event, const char[] name, bool dontBroadca
 	int attacker = GetClientOfUserId(event.GetInt("attacker")); // get victim & attacker
 	int client = GetClientOfUserId(event.GetInt("userid"));
 	
-	if (!gc_bEnable.BoolValue) return; // if plugin is disbaled
+	if (!gc_bEnable.BoolValue)return; // if plugin is disbaled
 	
 	// Start timer: show !revive chat hint if enought credits & enabled
-	if ((Forward_OnGetCredits(client) >= gc_iRevive.IntValue) && (gc_iRevive.IntValue != 0)) CreateTimer(2.0, Timer_DeathMessage, client);
+	if ((Forward_OnGetCredits(client) >= gc_iRevive.IntValue) && (gc_iRevive.IntValue != 0))CreateTimer(2.0, Timer_DeathMessage, client);
 	
 	if (g_bFly[client]) // if player was a bird reset model, thirdperson and flymode
 	{
@@ -1142,18 +1155,18 @@ public Action Event_PlayerDeath(Event event, const char[] name, bool dontBroadca
 	if (gc_iCreditsKillT.IntValue == 0 && gc_iCreditsVIPKillT.IntValue == 0)
 		return;
 	
-	if (GetAllPlayersCount() >= gc_iMinPlayersToGetCredits.IntValue && (gc_bCreditsWarmup.BoolValue || GameRules_GetProp("m_bWarmupPeriod") != 1)) 
+	if (GetAllPlayersCount() >= gc_iMinPlayersToGetCredits.IntValue && (gc_bCreditsWarmup.BoolValue || GameRules_GetProp("m_bWarmupPeriod") != 1))
 	{
 		if (GetClientTeam(attacker) == CS_TEAM_CT)
 		{
 			if (IsPlayerReservationAdmin(attacker))
 			{
-				Forward_OnSetCredits(attacker,(Forward_OnGetCredits(attacker)+gc_iCreditsVIPKillCT.IntValue));
+				Forward_OnSetCredits(attacker, (Forward_OnGetCredits(attacker) + gc_iCreditsVIPKillCT.IntValue));
 				Forward_OnPlayerGetCredits(attacker, gc_iCreditsVIPKillCT.IntValue);
 			}
 			else
 			{
-				Forward_OnSetCredits(attacker,(Forward_OnGetCredits(attacker)+gc_iCreditsKillCT.IntValue));
+				Forward_OnSetCredits(attacker, (Forward_OnGetCredits(attacker) + gc_iCreditsKillCT.IntValue));
 				Forward_OnPlayerGetCredits(attacker, gc_iCreditsKillCT.IntValue);
 			}
 		}
@@ -1162,12 +1175,12 @@ public Action Event_PlayerDeath(Event event, const char[] name, bool dontBroadca
 		{
 			if (IsPlayerReservationAdmin(attacker))
 			{
-				Forward_OnSetCredits(attacker,(Forward_OnGetCredits(attacker)+gc_iCreditsVIPKillT.IntValue));
+				Forward_OnSetCredits(attacker, (Forward_OnGetCredits(attacker) + gc_iCreditsVIPKillT.IntValue));
 				Forward_OnPlayerGetCredits(attacker, gc_iCreditsVIPKillT.IntValue);
 			}
 			else
 			{
-				Forward_OnSetCredits(attacker,(Forward_OnGetCredits(attacker)+gc_iCreditsKillT.IntValue));
+				Forward_OnSetCredits(attacker, (Forward_OnGetCredits(attacker) + gc_iCreditsKillT.IntValue));
 				Forward_OnPlayerGetCredits(attacker, gc_iCreditsKillT.IntValue);
 			}
 		}
@@ -1182,16 +1195,16 @@ public Action Event_PlayerDeath(Event event, const char[] name, bool dontBroadca
 	if (!gc_bNotification.BoolValue)
 		return;
 	
-	if (GetAllPlayersCount() >= gc_iMinPlayersToGetCredits.IntValue && (gc_bCreditsWarmup.IntValue != 0 || GameRules_GetProp("m_bWarmupPeriod") != 1)) 
+	if (GetAllPlayersCount() >= gc_iMinPlayersToGetCredits.IntValue && (gc_bCreditsWarmup.IntValue != 0 || GameRules_GetProp("m_bWarmupPeriod") != 1))
 	{
 		if (GetClientTeam(attacker) == CS_TEAM_CT)
 		{
-			if (IsPlayerReservationAdmin(attacker)) CPrintToChat(attacker, "%t %t", "shop_tag", "shop_killedt", Forward_OnGetCredits(attacker), gc_iCreditsVIPKillCT.IntValue, client);
+			if (IsPlayerReservationAdmin(attacker))CPrintToChat(attacker, "%t %t", "shop_tag", "shop_killedt", Forward_OnGetCredits(attacker), gc_iCreditsVIPKillCT.IntValue, client);
 			else CPrintToChat(attacker, "%t %t", "shop_tag", "shop_killedt", Forward_OnGetCredits(attacker), gc_iCreditsKillCT.IntValue, client);
 		}
 		if (GetClientTeam(attacker) == CS_TEAM_T)
 		{
-			if (IsPlayerReservationAdmin(attacker)) CPrintToChat(attacker, "%t %t", "shop_tag", "shop_killedct", Forward_OnGetCredits(attacker), gc_iCreditsVIPKillT.IntValue, client);
+			if (IsPlayerReservationAdmin(attacker))CPrintToChat(attacker, "%t %t", "shop_tag", "shop_killedct", Forward_OnGetCredits(attacker), gc_iCreditsVIPKillT.IntValue, client);
 			else CPrintToChat(attacker, "%t %t", "shop_tag", "shop_killedct", Forward_OnGetCredits(attacker), gc_iCreditsKillT.IntValue, client);
 		}
 	}
@@ -1200,17 +1213,17 @@ public Action Event_PlayerDeath(Event event, const char[] name, bool dontBroadca
 
 public Action Event_PlayerHurt(Event event, const char[] name, bool dontBroadcast)
 {
-	int victim = GetClientOfUserId(GetEventInt(event,"userid")); // get victim & attacker
+	int victim = GetClientOfUserId(GetEventInt(event, "userid")); // get victim & attacker
 	int attacker = GetClientOfUserId(event.GetInt("attacker"));
 	
-	if (attacker == 0 || !g_bFireHE[attacker] || g_bIsLR) 
+	if (attacker == 0 || !g_bFireHE[attacker] || g_bIsLR)
 		return;
 	
-	if (victim != attacker && attacker !=0 && attacker <MAXPLAYERS)
+	if (victim != attacker && attacker != 0 && attacker < MAXPLAYERS)
 	{
 		char sWeaponUsed[50];
-		GetEventString(event,"weapon",sWeaponUsed,sizeof(sWeaponUsed));
-		if (StrEqual(sWeaponUsed,"hegrenade")) IgniteEntity(victim, 5.0);
+		GetEventString(event, "weapon", sWeaponUsed, sizeof(sWeaponUsed));
+		if (StrEqual(sWeaponUsed, "hegrenade"))IgniteEntity(victim, 5.0);
 	}
 	g_bFireHE[attacker] = false;
 }
@@ -1229,7 +1242,7 @@ public Action Event_SmokeGrenadeDetonate(Event event, const char[] name, bool do
 	{
 		g_bTeleportSmoke[client] = false;
 		if (IsClientInGame(client))
-		SetClientViewEntity(client, client);
+			SetClientViewEntity(client, client);
 		
 		TeleportEntity(client, DetonateOrigin, NULL_VECTOR, NULL_VECTOR);
 	}
@@ -1254,17 +1267,17 @@ public Action Event_SmokeGrenadeDetonate(Event event, const char[] name, bool do
 	SetEntPropEnt(iEntity, Prop_Send, "m_hOwnerEntity", client);
 	CreateTimer(17.0, Timer_Delete, iEntity, TIMER_FLAG_NO_MAPCHANGE);
 	
-	TE_SetupBeamRingPoint(DetonateOrigin, 99.0, 100.0, g_iBeamSprite, g_iHaloSprite, 0, 15, 20.0, 10.0, 220.0, {50, 255, 50, 255}, 10, 0);
+	TE_SetupBeamRingPoint(DetonateOrigin, 99.0, 100.0, g_iBeamSprite, g_iHaloSprite, 0, 15, 20.0, 10.0, 220.0, { 50, 255, 50, 255 }, 10, 0);
 	TE_SendToAll();
 	
-	TE_SetupBeamRingPoint(DetonateOrigin, 99.0, 100.0, g_iBeamSprite, g_iHaloSprite, 0, 15, 20.0, 10.0, 220.0, {50, 50, 255, 255}, 10, 0);
+	TE_SetupBeamRingPoint(DetonateOrigin, 99.0, 100.0, g_iBeamSprite, g_iHaloSprite, 0, 15, 20.0, 10.0, 220.0, { 50, 50, 255, 255 }, 10, 0);
 	TE_SendToAll();
 	
 	DispatchSpawn(iEntity);
 	TeleportEntity(iEntity, DetonateOrigin, NULL_VECTOR, NULL_VECTOR);
 	AcceptEntityInput(iEntity, "TurnOn");
 	
-	CreateTimer(1.0, Timer_CheckDamage, iEntity, TIMER_FLAG_NO_MAPCHANGE|TIMER_REPEAT);
+	CreateTimer(1.0, Timer_CheckDamage, iEntity, TIMER_FLAG_NO_MAPCHANGE | TIMER_REPEAT);
 	
 	g_bPoison[client] = false;
 }
@@ -1276,49 +1289,49 @@ public Action Event_RoundEnd(Event event, const char[] name, bool dontBroadcast)
 	
 	bool AliveValue;
 	
-	if (gc_bCreditsWinAlive.BoolValue) AliveValue = false;
-	else  AliveValue = true;
+	if (gc_bCreditsWinAlive.BoolValue)AliveValue = false;
+	else AliveValue = true;
 	
 	if (winner == CS_TEAM_T)
 	{
-		for (int i = 1; i <= MaxClients; i++) if (IsValidClient(i, false, AliveValue)) if (GetAllPlayersCount() >= gc_iMinPlayersToGetCredits.IntValue && (gc_bCreditsWarmup.BoolValue || GameRules_GetProp("m_bWarmupPeriod") != 1)) 
+		for (int i = 1; i <= MaxClients; i++)if (IsValidClient(i, false, AliveValue))if (GetAllPlayersCount() >= gc_iMinPlayersToGetCredits.IntValue && (gc_bCreditsWarmup.BoolValue || GameRules_GetProp("m_bWarmupPeriod") != 1))
 		{
 			if (IsPlayerReservationAdmin(i) && gc_iCreditsVIPWinT.IntValue != 0)
 			{
-				Forward_OnSetCredits(i,(Forward_OnGetCredits(i)+gc_iCreditsVIPWinT.IntValue));
-				if (gc_bNotification.BoolValue) CPrintToChat(i, "%t %t", "shop_tag", "shop_win", Forward_OnGetCredits(i), gc_iCreditsVIPWinT.IntValue);
+				Forward_OnSetCredits(i, (Forward_OnGetCredits(i) + gc_iCreditsVIPWinT.IntValue));
+				if (gc_bNotification.BoolValue)CPrintToChat(i, "%t %t", "shop_tag", "shop_win", Forward_OnGetCredits(i), gc_iCreditsVIPWinT.IntValue);
 				Forward_OnPlayerGetCredits(i, gc_iCreditsVIPWinT.IntValue);
 			}
 			else if (gc_iCreditsWinT.IntValue != 0)
 			{
-				Forward_OnSetCredits(i,(Forward_OnGetCredits(i)+gc_iCreditsWinT.IntValue));
-				if (gc_bNotification.BoolValue) CPrintToChat(i, "%t %t", "shop_tag", "shop_win", Forward_OnGetCredits(i), gc_iCreditsWinT.IntValue);
+				Forward_OnSetCredits(i, (Forward_OnGetCredits(i) + gc_iCreditsWinT.IntValue));
+				if (gc_bNotification.BoolValue)CPrintToChat(i, "%t %t", "shop_tag", "shop_win", Forward_OnGetCredits(i), gc_iCreditsWinT.IntValue);
 				Forward_OnPlayerGetCredits(i, gc_iCreditsWinT.IntValue);
 			}
 		}
 	}
 	if (winner == CS_TEAM_CT)
 	{
-		for (int i = 1; i <= MaxClients; i++) if (IsValidClient(i, false, AliveValue)) if (GetAllPlayersCount() >= gc_iMinPlayersToGetCredits.IntValue && (gc_bCreditsWarmup.BoolValue || GameRules_GetProp("m_bWarmupPeriod") != 1)) 
+		for (int i = 1; i <= MaxClients; i++)if (IsValidClient(i, false, AliveValue))if (GetAllPlayersCount() >= gc_iMinPlayersToGetCredits.IntValue && (gc_bCreditsWarmup.BoolValue || GameRules_GetProp("m_bWarmupPeriod") != 1))
 		{
 			if (IsPlayerReservationAdmin(i) && gc_iCreditsVIPWinCT.IntValue != 0)
 			{
-				Forward_OnSetCredits(i,(Forward_OnGetCredits(i)+gc_iCreditsVIPWinCT.IntValue));
-				if (gc_bNotification.BoolValue) CPrintToChat(i, "%t %t", "shop_tag", "shop_win", Forward_OnGetCredits(i), gc_iCreditsVIPWinCT.IntValue);
+				Forward_OnSetCredits(i, (Forward_OnGetCredits(i) + gc_iCreditsVIPWinCT.IntValue));
+				if (gc_bNotification.BoolValue)CPrintToChat(i, "%t %t", "shop_tag", "shop_win", Forward_OnGetCredits(i), gc_iCreditsVIPWinCT.IntValue);
 				Forward_OnPlayerGetCredits(i, gc_iCreditsVIPWinCT.IntValue);
 			}
 			else if (gc_iCreditsVIPWinCT.IntValue != 0)
 			{
-				Forward_OnSetCredits(i,(Forward_OnGetCredits(i)+gc_iCreditsWinCT.IntValue));
-				if (gc_bNotification.BoolValue) CPrintToChat(i, "%t %t", "shop_tag", "shop_win", Forward_OnGetCredits(i), gc_iCreditsWinCT.IntValue);
-			 	Forward_OnPlayerGetCredits(i, gc_iCreditsWinCT.IntValue);
+				Forward_OnSetCredits(i, (Forward_OnGetCredits(i) + gc_iCreditsWinCT.IntValue));
+				if (gc_bNotification.BoolValue)CPrintToChat(i, "%t %t", "shop_tag", "shop_win", Forward_OnGetCredits(i), gc_iCreditsWinCT.IntValue);
+				Forward_OnPlayerGetCredits(i, gc_iCreditsWinCT.IntValue);
 			}
 		}
 	}
-	for (int i = 1; i <= MaxClients; i++) if (IsValidClient(i, false, true))
+	for (int i = 1; i <= MaxClients; i++)if (IsValidClient(i, false, true))
 	{
 		ResetPlayer(i);
-		if (gc_bMySQL.BoolValue) DB_WriteCredits(i);
+		if (gc_bMySQL.BoolValue)DB_WriteCredits(i);
 	}
 	g_bIsLR = true;
 }
@@ -1330,7 +1343,7 @@ public Action Event_RoundStart(Event event, const char[] name, bool dontBroadcas
 	g_bCellsOpen = false;
 	g_bIsLR = false;
 	
-	if (gc_fBuyTime.FloatValue != 0) CreateTimer (gc_fBuyTime.FloatValue, Timer_BuyTime);
+	if (gc_fBuyTime.FloatValue != 0)CreateTimer(gc_fBuyTime.FloatValue, Timer_BuyTime);
 }
 
 
@@ -1339,11 +1352,11 @@ public void Event_WeaponFire(Event event, char[] name, bool dontBroadcast)
 	char weapon[20];
 	event.GetString("weapon", weapon, sizeof(weapon));
 	
-	if (StrContains(weapon, "knife", false) == -1) return;
+	if (StrContains(weapon, "knife", false) == -1)return;
 	
 	int client = GetClientOfUserId(event.GetInt("userid"));
 	
-	if (!g_bThrowingKnife[client]) return;
+	if (!g_bThrowingKnife[client])return;
 	
 	g_hTimerDelay[client] = CreateTimer(0.0, Timer_CreateKnife, client);
 }
@@ -1412,14 +1425,14 @@ public void OnMapStart()
 	PrecacheModel("models/chicken/chicken.mdl");
 	PrecacheModel(g_sModelPathFakeGuard);
 	
-	if (!g_bDBConnected && gc_bMySQL.BoolValue) DB_Connect();
+	if (!g_bDBConnected && gc_bMySQL.BoolValue)DB_Connect();
 	
-	if (gc_bMySQL.BoolValue) for (int i = 1; i <= MaxClients; i++) if (IsValidClient(i, false, true))
+	if (gc_bMySQL.BoolValue)for (int i = 1; i <= MaxClients; i++)if (IsValidClient(i, false, true))
 	{
 		DB_AddPlayer(i);
 		DB_FetchCredits(i);
 	}
-	if (gc_iCreditsTime.IntValue != 0) g_hTimerCredits = CreateTimer(gc_fCreditsTimeInterval.FloatValue, Timer_Credits, _, TIMER_REPEAT);
+	if (gc_iCreditsTime.IntValue != 0)g_hTimerCredits = CreateTimer(gc_fCreditsTimeInterval.FloatValue, Timer_Credits, _, TIMER_REPEAT);
 }
 
 
@@ -1433,7 +1446,7 @@ public void OnClientDisconnect(int client)
 	
 	if (gc_bMySQL.BoolValue)
 	{
-		if (!g_bDBConnected) DB_Connect();
+		if (!g_bDBConnected)DB_Connect();
 		DB_WriteCredits(client);
 	}
 	else if (AreClientCookiesCached(client))
@@ -1447,12 +1460,12 @@ public void OnClientDisconnect(int client)
 
 public void OnClientCookiesCached(int client)
 {
-	if (!gc_bCreditsSave.BoolValue) 
+	if (!gc_bCreditsSave.BoolValue)
 		return;
-
+	
 	if (gc_bMySQL.BoolValue)
 	{
-		if (!g_bDBConnected) DB_Connect();
+		if (!g_bDBConnected)DB_Connect();
 		DB_WriteCredits(client);
 	}
 	else
@@ -1470,13 +1483,13 @@ public void OnClientCookiesCached(int client)
 
 public void OnPluginEnd()
 {
-	if (!gc_bCreditsSave.BoolValue) return;
+	if (!gc_bCreditsSave.BoolValue)return;
 	
-	for (int i = 1; i <= MaxClients; i++) if (IsValidClient(i, false, true)) OnClientDisconnect(i);
+	for (int i = 1; i <= MaxClients; i++)if (IsValidClient(i, false, true))OnClientDisconnect(i);
 }
 
 
-public void OnEntityCreated(int iEntity, const char[] classname) 
+public void OnEntityCreated(int iEntity, const char[] classname)
 {
 	if (StrEqual(classname, "smokegrenade_projectile"))
 		SDKHook(iEntity, SDKHook_SpawnPost, Hook_OnEntitySpawned);
@@ -1513,6 +1526,8 @@ public void OnClientPostAdminCheck(int client)
 	g_bGravity[client] = false;
 	g_bMolotov[client] = false;
 	g_bHealth[client] = false;
+	g_bRandomTP[client] = false;
+	
 }
 
 
@@ -1539,11 +1554,11 @@ public void OnClientPutInServer(int client)
 	g_bOneBulletAWP[client] = false;
 	g_bOneMagDeagle[client] = false;
 	
-	if (gc_bWelcome.BoolValue) CreateTimer(5.0, Timer_WelcomeMessage, client);
+	if (gc_bWelcome.BoolValue)CreateTimer(5.0, Timer_WelcomeMessage, client);
 }
 
 
-public Action Hook_OnTakeDamage(int victim, int &attacker, int &inflictor, float &damage, int &damagetype)  // todo clean up a bit
+public Action Hook_OnTakeDamage(int victim, int &attacker, int &inflictor, float &damage, int &damagetype) // todo clean up a bit
 {
 	if (attacker > 0 && attacker <= MaxClients && victim > 0 && victim <= MaxClients)
 	{
@@ -1552,7 +1567,7 @@ public Action Hook_OnTakeDamage(int victim, int &attacker, int &inflictor, float
 			damage = 0.0;
 			return Plugin_Changed;
 		}
-		else if (IsValidClient(victim, true, false)|| attacker == victim || IsValidClient(attacker, true, false))
+		else if (IsValidClient(victim, true, false) || attacker == victim || IsValidClient(attacker, true, false))
 		{
 			ConVar g_bFF = FindConVar("mp_friendlyfire");
 			if ((g_bVampire[attacker] && GetClientTeam(victim) != GetClientTeam(attacker)) || (g_bVampire[attacker] && g_bFF.BoolValue))
@@ -1584,11 +1599,11 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 	int water = GetEntProp(client, Prop_Data, "m_nWaterLevel");
 	
 	// Last button
-	static bool bPressed[MAXPLAYERS+1] = false;
+	static bool bPressed[MAXPLAYERS + 1] = false;
 	
 	if (IsPlayerAlive(client))
 	{
-		if(g_bGravity[client])
+		if (g_bGravity[client])
 		{
 			if (GetEntityMoveType(client) == MOVETYPE_LADDER)
 			{
@@ -1620,11 +1635,11 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 					if (!(GetEntityMoveType(client) & MOVETYPE_LADDER))
 					{
 						SetEntPropFloat(client, Prop_Send, "m_flStamina", 0.0);
-						if (!(GetEntityFlags(client) & FL_ONGROUND) && g_bBhop[client]) buttons &= ~IN_JUMP;
+						if (!(GetEntityFlags(client) & FL_ONGROUND) && g_bBhop[client])buttons &= ~IN_JUMP;
 					}
 				}
 				
-				if (!g_bFroggyJump[client]) return Plugin_Continue;
+				if (!g_bFroggyJump[client])return Plugin_Continue;
 				
 				// For second time?
 				if (!bPressed[client] && g_iFroggyJumped[client]++ == 1)
@@ -1643,21 +1658,21 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 					velocity2_new = 200.0;
 					
 					// calculate new velocity^^
-					if (velocity2 < 150.0) velocity2_new = velocity2_new + 20.0;
+					if (velocity2 < 150.0)velocity2_new = velocity2_new + 20.0;
 					
-					if (velocity2 < 100.0) velocity2_new = velocity2_new + 30.0;
+					if (velocity2 < 100.0)velocity2_new = velocity2_new + 30.0;
 					
-					if (velocity2 < 50.0) velocity2_new = velocity2_new + 40.0;
+					if (velocity2 < 50.0)velocity2_new = velocity2_new + 40.0;
 					
-					if (velocity2 < 0.0) velocity2_new = velocity2_new + 50.0;
+					if (velocity2 < 0.0)velocity2_new = velocity2_new + 50.0;
 					
-					if (velocity2 < -50.0) velocity2_new = velocity2_new + 60.0;
+					if (velocity2 < -50.0)velocity2_new = velocity2_new + 60.0;
 					
-					if (velocity2 < -100.0) velocity2_new = velocity2_new + 70.0;
+					if (velocity2 < -100.0)velocity2_new = velocity2_new + 70.0;
 					
-					if (velocity2 < -150.0) velocity2_new = velocity2_new + 80.0;
+					if (velocity2 < -150.0)velocity2_new = velocity2_new + 80.0;
 					
-					if (velocity2 < -200.0) velocity2_new = velocity2_new + 90.0;
+					if (velocity2 < -200.0)velocity2_new = velocity2_new + 90.0;
 					
 					// Set new velocity
 					velocity[0] = velocity0 * 0.1;
@@ -1684,7 +1699,7 @@ public Action Hook_OnWeaponCanUse(int client, int weapon)
 		char sClassname[32];
 		GetEdictClassname(weapon, sClassname, sizeof(sClassname));
 		if (!StrEqual(sClassname, "weapon_knife"))
-		return Plugin_Handled;
+			return Plugin_Handled;
 	}
 	
 	if (g_bFly[client])
@@ -1692,7 +1707,7 @@ public Action Hook_OnWeaponCanUse(int client, int weapon)
 		char sClassname[32];
 		GetEdictClassname(weapon, sClassname, sizeof(sClassname));
 		if (!StrEqual(sClassname, "weapon_knife"))
-		return Plugin_Handled;
+			return Plugin_Handled;
 	}
 	return Plugin_Continue;
 }
@@ -1701,25 +1716,25 @@ public Action Hook_OnWeaponCanUse(int client, int weapon)
 public int OnAvailableLR(int Announced)
 {
 	g_bIsLR = true;
-	if (gc_bBuyOnLR.BoolValue) g_bAllowBuy = false;
+	if (gc_bBuyOnLR.BoolValue)g_bAllowBuy = false;
 	
-	for (int i = 1; i <= MaxClients; i++) if (IsValidClient(i, false, false)) if (GetClientTeam(i) == CS_TEAM_T && gc_bEnable.BoolValue)
+	for (int i = 1; i <= MaxClients; i++)if (IsValidClient(i, false, false))if (GetClientTeam(i) == CS_TEAM_T && gc_bEnable.BoolValue)
 	{
-		if (GetAllPlayersCount() >= gc_iMinPlayersToGetCredits.IntValue) 
+		if (GetAllPlayersCount() >= gc_iMinPlayersToGetCredits.IntValue)
 		{
 			if (IsPlayerReservationAdmin(i) && gc_iCreditsVIPLR.IntValue != 0)
 			{
-				Forward_OnSetCredits(i,(Forward_OnGetCredits(i)+gc_iCreditsVIPLR.IntValue));
+				Forward_OnSetCredits(i, (Forward_OnGetCredits(i) + gc_iCreditsVIPLR.IntValue));
 				Forward_OnPlayerGetCredits(i, gc_iCreditsVIPLR.IntValue);
 				
-				if (gc_bNotification.BoolValue) CPrintToChat(i, "%t %t", "shop_tag", "shop_lastrequest", Forward_OnGetCredits(i), gc_iCreditsVIPLR.IntValue);
+				if (gc_bNotification.BoolValue)CPrintToChat(i, "%t %t", "shop_tag", "shop_lastrequest", Forward_OnGetCredits(i), gc_iCreditsVIPLR.IntValue);
 			}
 			else if (gc_iCreditsLR.IntValue != 0)
 			{
-				Forward_OnSetCredits(i,(Forward_OnGetCredits(i)+gc_iCreditsLR.IntValue));
+				Forward_OnSetCredits(i, (Forward_OnGetCredits(i) + gc_iCreditsLR.IntValue));
 				Forward_OnPlayerGetCredits(i, gc_iCreditsLR.IntValue);
 				
-				if (gc_bNotification.BoolValue) CPrintToChat(i, "%t %t", "shop_tag", "shop_lastrequest", Forward_OnGetCredits(i), gc_iCreditsLR.IntValue);
+				if (gc_bNotification.BoolValue)CPrintToChat(i, "%t %t", "shop_tag", "shop_lastrequest", Forward_OnGetCredits(i), gc_iCreditsLR.IntValue);
 			}
 		}
 		if (gc_bRemoveOnLR.BoolValue)
@@ -1751,10 +1766,10 @@ public void SJD_DoorsClosed(int caller, int activator)
 
 public void OnEntityDestroyed(int entity)
 {
-	if (!IsValidEdict(entity)) return;
+	if (!IsValidEdict(entity))return;
 	
 	int index = FindValueInArray(g_hThrownKnives, EntIndexToEntRef(entity));
-	if (index != -1) RemoveFromArray(g_hThrownKnives, index);
+	if (index != -1)RemoveFromArray(g_hThrownKnives, index);
 }
 
 
@@ -1763,7 +1778,7 @@ public void OnEntityDestroyed(int entity)
 ******************************************************************************/
 
 
-stock void DealDamage(int victim,int  damage,int  attacker = 0,int  damagetype = DMG_GENERIC, char[] weapon = "")
+stock void DealDamage(int victim, int damage, int attacker = 0, int damagetype = DMG_GENERIC, char[] weapon = "")
 {
 	if (victim > 0 && IsValidEdict(victim) && IsClientInGame(victim) && IsPlayerAlive(victim) && damage > 0)
 	{
@@ -1780,7 +1795,7 @@ stock void DealDamage(int victim,int  damage,int  attacker = 0,int  damagetype =
 			DispatchKeyValue(EntityPointHurt, "DamageTarget", "hurtme");
 			DispatchKeyValue(EntityPointHurt, "Damage", sDamage);
 			DispatchKeyValue(EntityPointHurt, "DamageType", sDamageType);
-			if (!StrEqual(weapon, "")) DispatchKeyValue(EntityPointHurt, "classname", weapon);
+			if (!StrEqual(weapon, ""))DispatchKeyValue(EntityPointHurt, "classname", weapon);
 			DispatchSpawn(EntityPointHurt);
 			AcceptEntityInput(EntityPointHurt, "Hurt", (attacker != 0) ? attacker : -1);
 			DispatchKeyValue(EntityPointHurt, "classname", "point_hurt");
@@ -1793,7 +1808,7 @@ stock void DealDamage(int victim,int  damage,int  attacker = 0,int  damagetype =
 
 
 public Action Hook_SetTransmit(int entity, int client)
-{	
+{
 	if (entity != client)
 		return Plugin_Handled;
 	
@@ -1823,8 +1838,8 @@ public Action ResetPlayer(int client)
 		SDKUnhook(client, SDKHook_SetTransmit, Hook_SetTransmit);
 	}
 	
-	if (gp_bCustomPlayerSkins) UnhookWallhack(client);
-	if (gp_bMyIcons) MyIcons_BlockClientIcon(client, false);
+	if (gp_bCustomPlayerSkins)UnhookWallhack(client);
+	if (gp_bMyIcons)MyIcons_BlockClientIcon(client, false);
 	
 	g_bNoDamage[client] = false;
 	g_bPoison[client] = false;
@@ -1841,6 +1856,7 @@ public Action ResetPlayer(int client)
 	g_bOneMagDeagle[client] = false;
 	g_bMolotov[client] = false;
 	g_bHealth[client] = false;
+	g_bRandomTP[client] = false;
 }
 
 
@@ -1853,73 +1869,73 @@ public Action Menu_OpenShop(int client)
 {
 	char info[124];
 	Menu menu = CreateMenu(Handler_Menu_OpenShop);
-
+	
 	if (!g_bSale)
 	{
-		SetMenuTitle(menu, "%t","shop_menu_title", Forward_OnGetCredits(client));
+		SetMenuTitle(menu, "%t", "shop_menu_title", Forward_OnGetCredits(client));
 	}
 	else
 	{
-		SetMenuTitle(menu, "%t\n%t","shop_menu_title", Forward_OnGetCredits(client), "shop_menu_title_sale", gc_fSale.IntValue);
+		SetMenuTitle(menu, "%t\n%t", "shop_menu_title", Forward_OnGetCredits(client), "shop_menu_title_sale", gc_fSale.IntValue);
 	}
-
+	
 	if (GetClientTeam(client) == CS_TEAM_T)
 	{
 		if (gp_bSmartJailDoors)
 		{
-			Format(info, sizeof(info), "%T","shop_menu_openjail", client, gc_iOpenCells.IntValue);
+			Format(info, sizeof(info), "%T", "shop_menu_openjail", client, gc_iOpenCells.IntValue);
 			if (SJD_IsCurrentMapConfigured())
 			{
-				if (Forward_OnGetCredits(client) >= gc_iOpenCells.IntValue && gc_iOpenCells.IntValue != 0 && g_bAllowBuy && !g_bCellsOpen && CheckVipFlag(client, g_sOpenCellsFlag)) AddMenuItem(menu, "Doors", info);
-				else if (gc_iOpenCells.IntValue != 0 && CheckVipFlag(client, g_sOpenCellsFlag)) AddMenuItem(menu, "Doors", info, ITEMDRAW_DISABLED);
+				if (Forward_OnGetCredits(client) >= gc_iOpenCells.IntValue && gc_iOpenCells.IntValue != 0 && g_bAllowBuy && !g_bCellsOpen && CheckVipFlag(client, g_sOpenCellsFlag))AddMenuItem(menu, "Doors", info);
+				else if (gc_iOpenCells.IntValue != 0 && CheckVipFlag(client, g_sOpenCellsFlag))AddMenuItem(menu, "Doors", info, ITEMDRAW_DISABLED);
 			}
 		}
 		
-		Format(info, sizeof(info), "%T","shop_menu_heal", client, gc_iHeal.IntValue);
-		if (gc_iHealOnlyTeam.IntValue >= 1 && Forward_OnGetCredits(client) >= gc_iHeal.IntValue && gc_iHeal.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sHealFlag)) AddMenuItem(menu, "Heal", info);
-		else if (gc_iHealOnlyTeam.IntValue >= 1 && gc_iHeal.IntValue != 0 && CheckVipFlag(client, g_sHealFlag)) AddMenuItem(menu, "Heal", info, ITEMDRAW_DISABLED);
+		Format(info, sizeof(info), "%T", "shop_menu_heal", client, gc_iHeal.IntValue);
+		if (gc_iHealOnlyTeam.IntValue >= 1 && Forward_OnGetCredits(client) >= gc_iHeal.IntValue && gc_iHeal.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sHealFlag))AddMenuItem(menu, "Heal", info);
+		else if (gc_iHealOnlyTeam.IntValue >= 1 && gc_iHeal.IntValue != 0 && CheckVipFlag(client, g_sHealFlag))AddMenuItem(menu, "Heal", info, ITEMDRAW_DISABLED);
 		
-		Format(info, sizeof(info), "%T","shop_menu_health", client, gc_iHealth.IntValue, gc_iHealthExtra.IntValue);
-		if (gc_iHealthExtraOnlyTeam.IntValue >= 1 && Forward_OnGetCredits(client) >= gc_iHealth.IntValue && gc_iHealth.IntValue != 0 && g_bAllowBuy && !g_bHealth[client] && IsPlayerAlive(client) && CheckVipFlag(client, g_sHealthFlag)) AddMenuItem(menu, "Health", info);
-		else if (gc_iHealthExtraOnlyTeam.IntValue >= 1 && gc_iHealth.IntValue != 0 && CheckVipFlag(client, g_sHealthFlag)) AddMenuItem(menu, "Health", info, ITEMDRAW_DISABLED);
+		Format(info, sizeof(info), "%T", "shop_menu_health", client, gc_iHealth.IntValue, gc_iHealthExtra.IntValue);
+		if (gc_iHealthExtraOnlyTeam.IntValue >= 1 && Forward_OnGetCredits(client) >= gc_iHealth.IntValue && gc_iHealth.IntValue != 0 && g_bAllowBuy && !g_bHealth[client] && IsPlayerAlive(client) && CheckVipFlag(client, g_sHealthFlag))AddMenuItem(menu, "Health", info);
+		else if (gc_iHealthExtraOnlyTeam.IntValue >= 1 && gc_iHealth.IntValue != 0 && CheckVipFlag(client, g_sHealthFlag))AddMenuItem(menu, "Health", info, ITEMDRAW_DISABLED);
 		
-		Format(info, sizeof(info), "%T","shop_menu_revive", client, gc_iRevive.IntValue);
-		if (gc_iReviveOnlyTeam.IntValue >= 1 && Forward_OnGetCredits(client) >= gc_iRevive.IntValue && gc_iRevive.IntValue != 0 && !IsPlayerAlive(client) && !g_bIsLR && GetAliveTeamCount(GetClientTeam(client)) > 1 && CheckVipFlag(client, g_sReviveFlag)) AddMenuItem(menu, "Revive", info);
-		else if (gc_iReviveOnlyTeam.IntValue >= 1 && gc_iRevive.IntValue != 0 && CheckVipFlag(client, g_sReviveFlag)) AddMenuItem(menu, "Revive", info, ITEMDRAW_DISABLED);
+		Format(info, sizeof(info), "%T", "shop_menu_revive", client, gc_iRevive.IntValue);
+		if (gc_iReviveOnlyTeam.IntValue >= 1 && Forward_OnGetCredits(client) >= gc_iRevive.IntValue && gc_iRevive.IntValue != 0 && !IsPlayerAlive(client) && !g_bIsLR && GetAliveTeamCount(GetClientTeam(client)) > 1 && CheckVipFlag(client, g_sReviveFlag))AddMenuItem(menu, "Revive", info);
+		else if (gc_iReviveOnlyTeam.IntValue >= 1 && gc_iRevive.IntValue != 0 && CheckVipFlag(client, g_sReviveFlag))AddMenuItem(menu, "Revive", info, ITEMDRAW_DISABLED);
 		
-		Format(info, sizeof(info), "%T","shop_menu_vampire", client, gc_iVampire.IntValue);
-		if (Forward_OnGetCredits(client) >= gc_iVampire.IntValue && gc_iVampire.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sVampireFlag)) AddMenuItem(menu, "Vampire", info);
-		else if (gc_iVampire.IntValue != 0 && CheckVipFlag(client, g_sVampireFlag)) AddMenuItem(menu, "Vampire", info, ITEMDRAW_DISABLED);
+		Format(info, sizeof(info), "%T", "shop_menu_vampire", client, gc_iVampire.IntValue);
+		if (Forward_OnGetCredits(client) >= gc_iVampire.IntValue && gc_iVampire.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sVampireFlag))AddMenuItem(menu, "Vampire", info);
+		else if (gc_iVampire.IntValue != 0 && CheckVipFlag(client, g_sVampireFlag))AddMenuItem(menu, "Vampire", info, ITEMDRAW_DISABLED);
 		
-		Format(info, sizeof(info), "%T","shop_menu_bhop", client, gc_iBhop.IntValue);
-		if (gc_iBhopOnlyTeam.IntValue >= 1 && Forward_OnGetCredits(client) >= gc_iBhop.IntValue && gc_iBhop.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && !g_bFroggyJump[client] && CheckVipFlag(client, g_sBhopFlag)) AddMenuItem(menu, "Bhop", info);
-		else if (gc_iBhopOnlyTeam.IntValue >= 1 && gc_iBhop.IntValue != 0 && CheckVipFlag(client, g_sBhopFlag)) AddMenuItem(menu, "Bhop", info, ITEMDRAW_DISABLED);
+		Format(info, sizeof(info), "%T", "shop_menu_bhop", client, gc_iBhop.IntValue);
+		if (gc_iBhopOnlyTeam.IntValue >= 1 && Forward_OnGetCredits(client) >= gc_iBhop.IntValue && gc_iBhop.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && !g_bFroggyJump[client] && CheckVipFlag(client, g_sBhopFlag))AddMenuItem(menu, "Bhop", info);
+		else if (gc_iBhopOnlyTeam.IntValue >= 1 && gc_iBhop.IntValue != 0 && CheckVipFlag(client, g_sBhopFlag))AddMenuItem(menu, "Bhop", info, ITEMDRAW_DISABLED);
 		
-		Format(info, sizeof(info), "%T","shop_menu_froggyjump", client, gc_iFroggyJump.IntValue);
-		if (gc_iFroggyJumpOnlyTeam.IntValue >= 1 && Forward_OnGetCredits(client) >= gc_iFroggyJump.IntValue && gc_iFroggyJump.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && !g_bBhop[client] && CheckVipFlag(client, g_sFroggyJumpFlag)) AddMenuItem(menu, "FroggyJump", info);
-		else if (gc_iFroggyJumpOnlyTeam.IntValue >= 1 && gc_iFroggyJump.IntValue != 0 && CheckVipFlag(client, g_sFroggyJumpFlag)) AddMenuItem(menu, "FroggyJump", info, ITEMDRAW_DISABLED);
+		Format(info, sizeof(info), "%T", "shop_menu_froggyjump", client, gc_iFroggyJump.IntValue);
+		if (gc_iFroggyJumpOnlyTeam.IntValue >= 1 && Forward_OnGetCredits(client) >= gc_iFroggyJump.IntValue && gc_iFroggyJump.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && !g_bBhop[client] && CheckVipFlag(client, g_sFroggyJumpFlag))AddMenuItem(menu, "FroggyJump", info);
+		else if (gc_iFroggyJumpOnlyTeam.IntValue >= 1 && gc_iFroggyJump.IntValue != 0 && CheckVipFlag(client, g_sFroggyJumpFlag))AddMenuItem(menu, "FroggyJump", info, ITEMDRAW_DISABLED);
 		
-		Format(info, sizeof(info), "%T","shop_menu_gravity", client, gc_iGravity.IntValue);
-		if (gc_iGravOnlyTeam.IntValue >= 1 && Forward_OnGetCredits(client) >= gc_iGravity.IntValue && gc_iGravity.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && !g_bGravity[client] && CheckVipFlag(client, g_sGravityFlag)) AddMenuItem(menu, "Gravity", info);
-		else if (gc_iGravOnlyTeam.IntValue >= 1 && gc_iGravity.IntValue != 0 && CheckVipFlag(client, g_sGravityFlag)) AddMenuItem(menu, "Gravity", info, ITEMDRAW_DISABLED);
+		Format(info, sizeof(info), "%T", "shop_menu_gravity", client, gc_iGravity.IntValue);
+		if (gc_iGravOnlyTeam.IntValue >= 1 && Forward_OnGetCredits(client) >= gc_iGravity.IntValue && gc_iGravity.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && !g_bGravity[client] && CheckVipFlag(client, g_sGravityFlag))AddMenuItem(menu, "Gravity", info);
+		else if (gc_iGravOnlyTeam.IntValue >= 1 && gc_iGravity.IntValue != 0 && CheckVipFlag(client, g_sGravityFlag))AddMenuItem(menu, "Gravity", info, ITEMDRAW_DISABLED);
 		
-		Format(info, sizeof(info), "%T","shop_menu_invisible", client, gc_iInvisible.IntValue, RoundToCeil(gc_fInvisibleTime.FloatValue));
-		if (Forward_OnGetCredits(client) >= gc_iInvisible.IntValue && gc_iInvisible.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sInvisibleFlag)) AddMenuItem(menu, "Invisible", info);
+		Format(info, sizeof(info), "%T", "shop_menu_invisible", client, gc_iInvisible.IntValue, RoundToCeil(gc_fInvisibleTime.FloatValue));
+		if (Forward_OnGetCredits(client) >= gc_iInvisible.IntValue && gc_iInvisible.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sInvisibleFlag))AddMenuItem(menu, "Invisible", info);
 		else if (gc_iInvisible.IntValue != 0 && CheckVipFlag(client, g_sInvisibleFlag))AddMenuItem(menu, "Invisible", info, ITEMDRAW_DISABLED);
 		
-		Format(info, sizeof(info), "%T","shop_menu_nodamage", client, gc_iNoDamage.IntValue, RoundToCeil(gc_fNoDamageTime.FloatValue));
-		if (gc_iNoDamageOnlyTeam.IntValue >= 1 && Forward_OnGetCredits(client) >= gc_iNoDamage.IntValue && gc_iNoDamage.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sNoDamageFlag)) AddMenuItem(menu, "NoDamage", info);
-		else if (gc_iNoDamageOnlyTeam.IntValue >= 1 && gc_iNoDamage.IntValue != 0 && CheckVipFlag(client, g_sNoDamageFlag)) AddMenuItem(menu, "NoDamage", info, ITEMDRAW_DISABLED);
+		Format(info, sizeof(info), "%T", "shop_menu_nodamage", client, gc_iNoDamage.IntValue, RoundToCeil(gc_fNoDamageTime.FloatValue));
+		if (gc_iNoDamageOnlyTeam.IntValue >= 1 && Forward_OnGetCredits(client) >= gc_iNoDamage.IntValue && gc_iNoDamage.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sNoDamageFlag))AddMenuItem(menu, "NoDamage", info);
+		else if (gc_iNoDamageOnlyTeam.IntValue >= 1 && gc_iNoDamage.IntValue != 0 && CheckVipFlag(client, g_sNoDamageFlag))AddMenuItem(menu, "NoDamage", info, ITEMDRAW_DISABLED);
 		
-		Format(info, sizeof(info), "%T","shop_menu_noclip", client, gc_iNoClip.IntValue, RoundToCeil(gc_fNoClipTime.FloatValue));
-		if (Forward_OnGetCredits(client) >= gc_iNoClip.IntValue && gc_iNoClip.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sNoClipFlag)) AddMenuItem(menu, "NoClip", info);
-		else if (gc_iNoClip.IntValue != 0 && CheckVipFlag(client, g_sNoClipFlag)) AddMenuItem(menu, "NoClip", info, ITEMDRAW_DISABLED);
+		Format(info, sizeof(info), "%T", "shop_menu_noclip", client, gc_iNoClip.IntValue, RoundToCeil(gc_fNoClipTime.FloatValue));
+		if (Forward_OnGetCredits(client) >= gc_iNoClip.IntValue && gc_iNoClip.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sNoClipFlag))AddMenuItem(menu, "NoClip", info);
+		else if (gc_iNoClip.IntValue != 0 && CheckVipFlag(client, g_sNoClipFlag))AddMenuItem(menu, "NoClip", info, ITEMDRAW_DISABLED);
 		
 		if (gp_bCustomPlayerSkins)
 		{
-			Format(info, sizeof(info), "%T","shop_menu_wallhack", client, gc_iWallhack.IntValue);
-			if (gc_iWallhackOnlyTeam.IntValue >= 1 && Forward_OnGetCredits(client) >= gc_iWallhack.IntValue && gc_iWallhack.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sWallhackFlag)) AddMenuItem(menu, "Wallhack", info);
-			else if (gc_iWallhackOnlyTeam.IntValue >= 1 && gc_iWallhack.IntValue != 0 && CheckVipFlag(client, g_sWallhackFlag)) AddMenuItem(menu, "Wallhack", info, ITEMDRAW_DISABLED);
+			Format(info, sizeof(info), "%T", "shop_menu_wallhack", client, gc_iWallhack.IntValue);
+			if (gc_iWallhackOnlyTeam.IntValue >= 1 && Forward_OnGetCredits(client) >= gc_iWallhack.IntValue && gc_iWallhack.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sWallhackFlag))AddMenuItem(menu, "Wallhack", info);
+			else if (gc_iWallhackOnlyTeam.IntValue >= 1 && gc_iWallhack.IntValue != 0 && CheckVipFlag(client, g_sWallhackFlag))AddMenuItem(menu, "Wallhack", info, ITEMDRAW_DISABLED);
 		}
 		
 		if (gp_bWarden)
@@ -1928,92 +1944,96 @@ public Action Menu_OpenShop(int client)
 			{
 				if (g_bHandcuff.BoolValue)
 				{
-					Format(info, sizeof(info), "%T","shop_menu_paperclip", client, gc_iPaperClip.IntValue, gc_iPaperClipAmount.IntValue);
-					if (Forward_OnGetCredits(client) >= gc_iPaperClip.IntValue && gc_iPaperClip.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sPaperClipFlag)) AddMenuItem(menu, "PaperClip", info);
-					else if (gc_iPaperClip.IntValue != 0 && CheckVipFlag(client, g_sPaperClipFlag)) AddMenuItem(menu, "PaperClip", info, ITEMDRAW_DISABLED);
+					Format(info, sizeof(info), "%T", "shop_menu_paperclip", client, gc_iPaperClip.IntValue, gc_iPaperClipAmount.IntValue);
+					if (Forward_OnGetCredits(client) >= gc_iPaperClip.IntValue && gc_iPaperClip.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sPaperClipFlag))AddMenuItem(menu, "PaperClip", info);
+					else if (gc_iPaperClip.IntValue != 0 && CheckVipFlag(client, g_sPaperClipFlag))AddMenuItem(menu, "PaperClip", info, ITEMDRAW_DISABLED);
 				}
 			}
 		}
 		
-		Format(info, sizeof(info), "%T","shop_menu_model", client, gc_iFakeModel.IntValue);
-		if (Forward_OnGetCredits(client) >= gc_iFakeModel.IntValue && gc_iFakeModel.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sFakeModelFlag)) AddMenuItem(menu, "FakeModel", info);
-		else if (gc_iFakeModel.IntValue != 0 && CheckVipFlag(client, g_sFakeModelFlag)) AddMenuItem(menu, "FakeModel", info, ITEMDRAW_DISABLED);
+		Format(info, sizeof(info), "%T", "shop_menu_model", client, gc_iFakeModel.IntValue);
+		if (Forward_OnGetCredits(client) >= gc_iFakeModel.IntValue && gc_iFakeModel.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sFakeModelFlag))AddMenuItem(menu, "FakeModel", info);
+		else if (gc_iFakeModel.IntValue != 0 && CheckVipFlag(client, g_sFakeModelFlag))AddMenuItem(menu, "FakeModel", info, ITEMDRAW_DISABLED);
 		
-		Format(info, sizeof(info), "%T","shop_menu_teleportsmoke", client, gc_iTeleportSmoke.IntValue);
-		if (Forward_OnGetCredits(client) >= gc_iTeleportSmoke.IntValue && gc_iTeleportSmoke.IntValue != 0 && g_bAllowBuy && !g_bTeleportSmoke[client] && IsPlayerAlive(client) && CheckVipFlag(client, g_sTeleportSmokeFlag)) AddMenuItem(menu, "TeleportSmoke", info);
-		else if (gc_iTeleportSmoke.IntValue != 0 && CheckVipFlag(client, g_sTeleportSmokeFlag)) AddMenuItem(menu, "TeleportSmoke", info, ITEMDRAW_DISABLED);
+		Format(info, sizeof(info), "%T", "shop_menu_teleportsmoke", client, gc_iTeleportSmoke.IntValue);
+		if (Forward_OnGetCredits(client) >= gc_iTeleportSmoke.IntValue && gc_iTeleportSmoke.IntValue != 0 && g_bAllowBuy && !g_bTeleportSmoke[client] && IsPlayerAlive(client) && CheckVipFlag(client, g_sTeleportSmokeFlag))AddMenuItem(menu, "TeleportSmoke", info);
+		else if (gc_iTeleportSmoke.IntValue != 0 && CheckVipFlag(client, g_sTeleportSmokeFlag))AddMenuItem(menu, "TeleportSmoke", info, ITEMDRAW_DISABLED);
 		
-		Format(info, sizeof(info), "%T","shop_menu_poisonsmoke", client, gc_iPoisonSmoke.IntValue);
-		if (Forward_OnGetCredits(client) >= gc_iPoisonSmoke.IntValue && gc_iPoisonSmoke.IntValue != 0 && g_bAllowBuy && !g_bPoison[client] && IsPlayerAlive(client) && CheckVipFlag(client, g_sPoisonSmokeFlag)) AddMenuItem(menu, "PoisonSmoke", info);
-		else if (gc_iPoisonSmoke.IntValue != 0 && CheckVipFlag(client, g_sPoisonSmokeFlag)) AddMenuItem(menu, "PoisonSmoke", info, ITEMDRAW_DISABLED);
+		Format(info, sizeof(info), "%T", "shop_menu_poisonsmoke", client, gc_iPoisonSmoke.IntValue);
+		if (Forward_OnGetCredits(client) >= gc_iPoisonSmoke.IntValue && gc_iPoisonSmoke.IntValue != 0 && g_bAllowBuy && !g_bPoison[client] && IsPlayerAlive(client) && CheckVipFlag(client, g_sPoisonSmokeFlag))AddMenuItem(menu, "PoisonSmoke", info);
+		else if (gc_iPoisonSmoke.IntValue != 0 && CheckVipFlag(client, g_sPoisonSmokeFlag))AddMenuItem(menu, "PoisonSmoke", info, ITEMDRAW_DISABLED);
 		
-		Format(info, sizeof(info), "%T","shop_menu_firegrenade", client, gc_iFireHE.IntValue);
-		if (Forward_OnGetCredits(client) >= gc_iFireHE.IntValue && gc_iFireHE.IntValue != 0 && g_bAllowBuy && !g_bFireHE[client] && IsPlayerAlive(client) && CheckVipFlag(client, g_sFireHEFlag)) AddMenuItem(menu, "FireGrenade", info);
-		else if (gc_iFireHE.IntValue != 0 && CheckVipFlag(client, g_sFireHEFlag)) AddMenuItem(menu, "FireGrenade", info, ITEMDRAW_DISABLED);
+		Format(info, sizeof(info), "%T", "shop_menu_firegrenade", client, gc_iFireHE.IntValue);
+		if (Forward_OnGetCredits(client) >= gc_iFireHE.IntValue && gc_iFireHE.IntValue != 0 && g_bAllowBuy && !g_bFireHE[client] && IsPlayerAlive(client) && CheckVipFlag(client, g_sFireHEFlag))AddMenuItem(menu, "FireGrenade", info);
+		else if (gc_iFireHE.IntValue != 0 && CheckVipFlag(client, g_sFireHEFlag))AddMenuItem(menu, "FireGrenade", info, ITEMDRAW_DISABLED);
 		
-		Format(info, sizeof(info), "%T","shop_menu_awp", client, gc_iAWP.IntValue);
-		if (Forward_OnGetCredits(client) >= gc_iAWP.IntValue && gc_iAWP.IntValue != 0 && g_bAllowBuy && !g_bOneBulletAWP[client] && IsPlayerAlive(client) && CheckVipFlag(client, g_sAWPFlag)) AddMenuItem(menu, "AWP", info);
-		else if (gc_iAWP.IntValue != 0 && CheckVipFlag(client, g_sAWPFlag)) AddMenuItem(menu, "AWP", info, ITEMDRAW_DISABLED);
+		Format(info, sizeof(info), "%T", "shop_menu_awp", client, gc_iAWP.IntValue);
+		if (Forward_OnGetCredits(client) >= gc_iAWP.IntValue && gc_iAWP.IntValue != 0 && g_bAllowBuy && !g_bOneBulletAWP[client] && IsPlayerAlive(client) && CheckVipFlag(client, g_sAWPFlag))AddMenuItem(menu, "AWP", info);
+		else if (gc_iAWP.IntValue != 0 && CheckVipFlag(client, g_sAWPFlag))AddMenuItem(menu, "AWP", info, ITEMDRAW_DISABLED);
 		
-		Format(info, sizeof(info), "%T","shop_menu_deagle", client, gc_iDeagle.IntValue);
-		if (Forward_OnGetCredits(client) >= gc_iDeagle.IntValue && gc_iDeagle.IntValue != 0 && g_bAllowBuy && !g_bOneMagDeagle[client] && IsPlayerAlive(client) && CheckVipFlag(client, g_sDeagleFlag)) AddMenuItem(menu, "Deagle", info);
-		else if (gc_iDeagle.IntValue != 0 && CheckVipFlag(client, g_sDeagleFlag)) AddMenuItem(menu, "Deagle", info, ITEMDRAW_DISABLED);
+		Format(info, sizeof(info), "%T", "shop_menu_deagle", client, gc_iDeagle.IntValue);
+		if (Forward_OnGetCredits(client) >= gc_iDeagle.IntValue && gc_iDeagle.IntValue != 0 && g_bAllowBuy && !g_bOneMagDeagle[client] && IsPlayerAlive(client) && CheckVipFlag(client, g_sDeagleFlag))AddMenuItem(menu, "Deagle", info);
+		else if (gc_iDeagle.IntValue != 0 && CheckVipFlag(client, g_sDeagleFlag))AddMenuItem(menu, "Deagle", info, ITEMDRAW_DISABLED);
 		
-		Format(info, sizeof(info), "%T","shop_menu_knife", client, gc_iKnife.IntValue);
-		if (Forward_OnGetCredits(client) >= gc_iKnife.IntValue && gc_iKnife.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && !g_bSuperKnife[client] && CheckVipFlag(client, g_sKnifeFlag)) AddMenuItem(menu, "Knife", info);
-		else if (gc_iKnife.IntValue != 0 && CheckVipFlag(client, g_sKnifeFlag)) AddMenuItem(menu, "Knife", info, ITEMDRAW_DISABLED);
+		Format(info, sizeof(info), "%T", "shop_menu_knife", client, gc_iKnife.IntValue);
+		if (Forward_OnGetCredits(client) >= gc_iKnife.IntValue && gc_iKnife.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && !g_bSuperKnife[client] && CheckVipFlag(client, g_sKnifeFlag))AddMenuItem(menu, "Knife", info);
+		else if (gc_iKnife.IntValue != 0 && CheckVipFlag(client, g_sKnifeFlag))AddMenuItem(menu, "Knife", info, ITEMDRAW_DISABLED);
 		
-		Format(info, sizeof(info), "%T","shop_menu_throwingknife", client, gc_iThrowKnife.IntValue);
-		if (Forward_OnGetCredits(client) >= gc_iThrowKnife.IntValue && gc_iThrowKnife.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && !g_bThrowingKnife[client] && CheckVipFlag(client, g_sThrowKnifeFlag)) AddMenuItem(menu, "ThrowingKnife", info);
-		else if (gc_iThrowKnife.IntValue != 0 && CheckVipFlag(client, g_sThrowKnifeFlag)) AddMenuItem(menu, "ThrowingKnife", info, ITEMDRAW_DISABLED);
+		Format(info, sizeof(info), "%T", "shop_menu_throwingknife", client, gc_iThrowKnife.IntValue);
+		if (Forward_OnGetCredits(client) >= gc_iThrowKnife.IntValue && gc_iThrowKnife.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && !g_bThrowingKnife[client] && CheckVipFlag(client, g_sThrowKnifeFlag))AddMenuItem(menu, "ThrowingKnife", info);
+		else if (gc_iThrowKnife.IntValue != 0 && CheckVipFlag(client, g_sThrowKnifeFlag))AddMenuItem(menu, "ThrowingKnife", info, ITEMDRAW_DISABLED);
 		
-		Format(info, sizeof(info), "%T","shop_menu_taser", client, gc_iTaser.IntValue);
-		if (Forward_OnGetCredits(client) >= gc_iTaser.IntValue && gc_iTaser.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sTaserFlag)) AddMenuItem(menu, "Taser", info);
-		else if (gc_iTaser.IntValue != 0 && CheckVipFlag(client, g_sTaserFlag)) AddMenuItem(menu, "Taser", info, ITEMDRAW_DISABLED);
+		Format(info, sizeof(info), "%T", "shop_menu_taser", client, gc_iTaser.IntValue);
+		if (Forward_OnGetCredits(client) >= gc_iTaser.IntValue && gc_iTaser.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sTaserFlag))AddMenuItem(menu, "Taser", info);
+		else if (gc_iTaser.IntValue != 0 && CheckVipFlag(client, g_sTaserFlag))AddMenuItem(menu, "Taser", info, ITEMDRAW_DISABLED);
 		
-		Format(info, sizeof(info), "%T","shop_menu_molotov", client, gc_iMolotov.IntValue);
-		if (Forward_OnGetCredits(client) >= gc_iMolotov.IntValue && gc_iMolotov.IntValue != 0 && g_bAllowBuy && !g_bMolotov[client] && IsPlayerAlive(client) && CheckVipFlag(client, g_sMolotovFlag)) AddMenuItem(menu, "Molotov", info);
-		else if (gc_iMolotov.IntValue != 0 && CheckVipFlag(client, g_sMolotovFlag)) AddMenuItem(menu, "Molotov", info, ITEMDRAW_DISABLED);
+		Format(info, sizeof(info), "%T", "shop_menu_molotov", client, gc_iMolotov.IntValue);
+		if (Forward_OnGetCredits(client) >= gc_iMolotov.IntValue && gc_iMolotov.IntValue != 0 && g_bAllowBuy && !g_bMolotov[client] && IsPlayerAlive(client) && CheckVipFlag(client, g_sMolotovFlag))AddMenuItem(menu, "Molotov", info);
+		else if (gc_iMolotov.IntValue != 0 && CheckVipFlag(client, g_sMolotovFlag))AddMenuItem(menu, "Molotov", info, ITEMDRAW_DISABLED);
 		
-		Format(info, sizeof(info), "%T","shop_menu_bird", client, gc_iBird.IntValue);
-		if (Forward_OnGetCredits(client) >= gc_iBird.IntValue && gc_iBird.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sBirdFlag)) AddMenuItem(menu, "Bird", info);
-		else if (gc_iBird.IntValue != 0 && CheckVipFlag(client, g_sBirdFlag)) AddMenuItem(menu, "Bird", info, ITEMDRAW_DISABLED);
+		Format(info, sizeof(info), "%T", "shop_menu_bird", client, gc_iBird.IntValue);
+		if (Forward_OnGetCredits(client) >= gc_iBird.IntValue && gc_iBird.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sBirdFlag))AddMenuItem(menu, "Bird", info);
+		else if (gc_iBird.IntValue != 0 && CheckVipFlag(client, g_sBirdFlag))AddMenuItem(menu, "Bird", info, ITEMDRAW_DISABLED);
+		
+		Format(info, sizeof(info), "%T", "shop_menu_randomtp", client, gc_iRandomTP.IntValue);
+		if (Forward_OnGetCredits(client) >= gc_iRandomTP.IntValue && gc_iRandomTP.IntValue != 0 && g_bAllowBuy && !g_bRandomTP[client] && IsPlayerAlive(client) && CheckVipFlag(client, g_sRandomTPFlag))AddMenuItem(menu, "RandomTP", info);
+		else if (gc_iRandomTP.IntValue != 0 && CheckVipFlag(client, g_sRandomTPFlag))AddMenuItem(menu, "RandomTP", info, ITEMDRAW_DISABLED);
 	}
 	else if (GetClientTeam(client) == CS_TEAM_CT)
 	{
-		Format(info, sizeof(info), "%T","shop_menu_heal", client, gc_iHeal.IntValue);
-		if (gc_iHealOnlyTeam.IntValue <= 1 && Forward_OnGetCredits(client) >= gc_iHeal.IntValue && gc_iHeal.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sHealFlag)) AddMenuItem(menu, "Heal", info);
-		else if (gc_iHealOnlyTeam.IntValue <= 1 && gc_iHeal.IntValue != 0 && CheckVipFlag(client, g_sHealFlag)) AddMenuItem(menu, "Heal", info, ITEMDRAW_DISABLED);
+		Format(info, sizeof(info), "%T", "shop_menu_heal", client, gc_iHeal.IntValue);
+		if (gc_iHealOnlyTeam.IntValue <= 1 && Forward_OnGetCredits(client) >= gc_iHeal.IntValue && gc_iHeal.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sHealFlag))AddMenuItem(menu, "Heal", info);
+		else if (gc_iHealOnlyTeam.IntValue <= 1 && gc_iHeal.IntValue != 0 && CheckVipFlag(client, g_sHealFlag))AddMenuItem(menu, "Heal", info, ITEMDRAW_DISABLED);
 		
-		Format(info, sizeof(info), "%T","shop_menu_health", client, gc_iHealth.IntValue, gc_iHealthExtra.IntValue);
-		if (gc_iHealthExtraOnlyTeam.IntValue <= 1 && Forward_OnGetCredits(client) >= gc_iHealth.IntValue && gc_iHealth.IntValue != 0 && g_bAllowBuy && !g_bHealth[client] && IsPlayerAlive(client) && CheckVipFlag(client, g_sHealthFlag)) AddMenuItem(menu, "Health", info);
-		else if (gc_iHealthExtraOnlyTeam.IntValue <= 1 && gc_iHealth.IntValue != 0 && CheckVipFlag(client, g_sHealthFlag)) AddMenuItem(menu, "Health", info, ITEMDRAW_DISABLED);
+		Format(info, sizeof(info), "%T", "shop_menu_health", client, gc_iHealth.IntValue, gc_iHealthExtra.IntValue);
+		if (gc_iHealthExtraOnlyTeam.IntValue <= 1 && Forward_OnGetCredits(client) >= gc_iHealth.IntValue && gc_iHealth.IntValue != 0 && g_bAllowBuy && !g_bHealth[client] && IsPlayerAlive(client) && CheckVipFlag(client, g_sHealthFlag))AddMenuItem(menu, "Health", info);
+		else if (gc_iHealthExtraOnlyTeam.IntValue <= 1 && gc_iHealth.IntValue != 0 && CheckVipFlag(client, g_sHealthFlag))AddMenuItem(menu, "Health", info, ITEMDRAW_DISABLED);
 		
-		Format(info, sizeof(info), "%T","shop_menu_revive", client, gc_iRevive.IntValue);
-		if (gc_iReviveOnlyTeam.IntValue <= 1 && Forward_OnGetCredits(client) >= gc_iRevive.IntValue && gc_iRevive.IntValue != 0 && !IsPlayerAlive(client) && !g_bIsLR && GetAliveTeamCount(GetClientTeam(client)) > 1 && CheckVipFlag(client, g_sReviveFlag)) AddMenuItem(menu, "Revive", info);
-		else if (gc_iReviveOnlyTeam.IntValue <= 1 && gc_iRevive.IntValue != 0 && CheckVipFlag(client, g_sReviveFlag)) AddMenuItem(menu, "Revive", info, ITEMDRAW_DISABLED);
+		Format(info, sizeof(info), "%T", "shop_menu_revive", client, gc_iRevive.IntValue);
+		if (gc_iReviveOnlyTeam.IntValue <= 1 && Forward_OnGetCredits(client) >= gc_iRevive.IntValue && gc_iRevive.IntValue != 0 && !IsPlayerAlive(client) && !g_bIsLR && GetAliveTeamCount(GetClientTeam(client)) > 1 && CheckVipFlag(client, g_sReviveFlag))AddMenuItem(menu, "Revive", info);
+		else if (gc_iReviveOnlyTeam.IntValue <= 1 && gc_iRevive.IntValue != 0 && CheckVipFlag(client, g_sReviveFlag))AddMenuItem(menu, "Revive", info, ITEMDRAW_DISABLED);
 		
-		Format(info, sizeof(info), "%T","shop_menu_bhop", client, gc_iBhop.IntValue);
-		if (gc_iBhopOnlyTeam.IntValue <= 1 && Forward_OnGetCredits(client) >= gc_iBhop.IntValue && gc_iBhop.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && !g_bFroggyJump[client] && CheckVipFlag(client, g_sBhopFlag)) AddMenuItem(menu, "Bhop", info);
-		else if (gc_iBhopOnlyTeam.IntValue <= 1 && gc_iBhop.IntValue != 0 && CheckVipFlag(client, g_sBhopFlag)) AddMenuItem(menu, "Bhop", info, ITEMDRAW_DISABLED);
+		Format(info, sizeof(info), "%T", "shop_menu_bhop", client, gc_iBhop.IntValue);
+		if (gc_iBhopOnlyTeam.IntValue <= 1 && Forward_OnGetCredits(client) >= gc_iBhop.IntValue && gc_iBhop.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && !g_bFroggyJump[client] && CheckVipFlag(client, g_sBhopFlag))AddMenuItem(menu, "Bhop", info);
+		else if (gc_iBhopOnlyTeam.IntValue <= 1 && gc_iBhop.IntValue != 0 && CheckVipFlag(client, g_sBhopFlag))AddMenuItem(menu, "Bhop", info, ITEMDRAW_DISABLED);
 		
-		Format(info, sizeof(info), "%T","shop_menu_froggyjump", client, gc_iFroggyJump.IntValue);
-		if (gc_iFroggyJumpOnlyTeam.IntValue <= 1 && Forward_OnGetCredits(client) >= gc_iFroggyJump.IntValue && gc_iFroggyJump.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && !g_bBhop[client] && CheckVipFlag(client, g_sFroggyJumpFlag)) AddMenuItem(menu, "FroggyJump", info);
-		else if (gc_iFroggyJumpOnlyTeam.IntValue <= 1 && gc_iFroggyJump.IntValue != 0 && CheckVipFlag(client, g_sFroggyJumpFlag)) AddMenuItem(menu, "FroggyJump", info, ITEMDRAW_DISABLED);
+		Format(info, sizeof(info), "%T", "shop_menu_froggyjump", client, gc_iFroggyJump.IntValue);
+		if (gc_iFroggyJumpOnlyTeam.IntValue <= 1 && Forward_OnGetCredits(client) >= gc_iFroggyJump.IntValue && gc_iFroggyJump.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && !g_bBhop[client] && CheckVipFlag(client, g_sFroggyJumpFlag))AddMenuItem(menu, "FroggyJump", info);
+		else if (gc_iFroggyJumpOnlyTeam.IntValue <= 1 && gc_iFroggyJump.IntValue != 0 && CheckVipFlag(client, g_sFroggyJumpFlag))AddMenuItem(menu, "FroggyJump", info, ITEMDRAW_DISABLED);
 		
-		Format(info, sizeof(info), "%T","shop_menu_gravity", client, gc_iGravity.IntValue);
-		if (gc_iGravOnlyTeam.IntValue <= 1 && Forward_OnGetCredits(client) >= gc_iGravity.IntValue && gc_iGravity.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sGravityFlag)) AddMenuItem(menu, "Gravity", info);
-		else if (gc_iGravOnlyTeam.IntValue <= 1 && gc_iGravity.IntValue != 0 && CheckVipFlag(client, g_sGravityFlag)) AddMenuItem(menu, "Gravity", info, ITEMDRAW_DISABLED);
+		Format(info, sizeof(info), "%T", "shop_menu_gravity", client, gc_iGravity.IntValue);
+		if (gc_iGravOnlyTeam.IntValue <= 1 && Forward_OnGetCredits(client) >= gc_iGravity.IntValue && gc_iGravity.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sGravityFlag))AddMenuItem(menu, "Gravity", info);
+		else if (gc_iGravOnlyTeam.IntValue <= 1 && gc_iGravity.IntValue != 0 && CheckVipFlag(client, g_sGravityFlag))AddMenuItem(menu, "Gravity", info, ITEMDRAW_DISABLED);
 		
-		Format(info, sizeof(info), "%T","shop_menu_nodamage", client, gc_iNoDamage.IntValue, RoundToCeil(gc_fNoDamageTime.FloatValue));
-		if (gc_iNoDamageOnlyTeam.IntValue <= 1 && Forward_OnGetCredits(client) >= gc_iNoDamage.IntValue && gc_iNoDamage.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sNoDamageFlag)) AddMenuItem(menu, "NoDamage", info);
-		else if (gc_iNoDamageOnlyTeam.IntValue <= 1 && gc_iNoDamage.IntValue != 0 && CheckVipFlag(client, g_sNoDamageFlag)) AddMenuItem(menu, "NoDamage", info, ITEMDRAW_DISABLED);
+		Format(info, sizeof(info), "%T", "shop_menu_nodamage", client, gc_iNoDamage.IntValue, RoundToCeil(gc_fNoDamageTime.FloatValue));
+		if (gc_iNoDamageOnlyTeam.IntValue <= 1 && Forward_OnGetCredits(client) >= gc_iNoDamage.IntValue && gc_iNoDamage.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sNoDamageFlag))AddMenuItem(menu, "NoDamage", info);
+		else if (gc_iNoDamageOnlyTeam.IntValue <= 1 && gc_iNoDamage.IntValue != 0 && CheckVipFlag(client, g_sNoDamageFlag))AddMenuItem(menu, "NoDamage", info, ITEMDRAW_DISABLED);
 		
 		if (gp_bCustomPlayerSkins)
 		{
-			Format(info, sizeof(info), "%T","shop_menu_wallhack", client, gc_iWallhack.IntValue);
-			if (gc_iWallhackOnlyTeam.IntValue <= 1 && Forward_OnGetCredits(client) >= gc_iWallhack.IntValue && gc_iWallhack.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sWallhackFlag)) AddMenuItem(menu, "Wallhack", info);
-			else if (gc_iWallhackOnlyTeam.IntValue <= 1 && gc_iWallhack.IntValue != 0 && CheckVipFlag(client, g_sWallhackFlag)) AddMenuItem(menu, "Wallhack", info, ITEMDRAW_DISABLED);
+			Format(info, sizeof(info), "%T", "shop_menu_wallhack", client, gc_iWallhack.IntValue);
+			if (gc_iWallhackOnlyTeam.IntValue <= 1 && Forward_OnGetCredits(client) >= gc_iWallhack.IntValue && gc_iWallhack.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sWallhackFlag))AddMenuItem(menu, "Wallhack", info);
+			else if (gc_iWallhackOnlyTeam.IntValue <= 1 && gc_iWallhack.IntValue != 0 && CheckVipFlag(client, g_sWallhackFlag))AddMenuItem(menu, "Wallhack", info, ITEMDRAW_DISABLED);
 		}
 	}
 	
@@ -2024,7 +2044,7 @@ public Action Menu_OpenShop(int client)
 }
 
 
-public int Handler_Menu_OpenShop(Menu menu, MenuAction action, int client, int itemNum) 
+public int Handler_Menu_OpenShop(Menu menu, MenuAction action, int client, int itemNum)
 {
 	if (action == MenuAction_Select)
 	{
@@ -2042,101 +2062,105 @@ public int Handler_Menu_OpenShop(Menu menu, MenuAction action, int client, int i
 			char info[32];
 			menu.GetItem(itemNum, info, sizeof(info));
 			
-			if (strcmp(info,"Invisible") == 0)
+			if (strcmp(info, "Invisible") == 0)
 			{
 				Item_Invisible(client, info);
 			}
-			else if (strcmp(info,"AWP") == 0)
+			else if (strcmp(info, "AWP") == 0)
 			{
 				Item_AWP(client, info);
 			}
-			else if (strcmp(info,"NoDamage") == 0)
+			else if (strcmp(info, "NoDamage") == 0)
 			{
 				Item_NoDamage(client, info);
 			}
-			else if (strcmp(info,"Doors") == 0)
+			else if (strcmp(info, "Doors") == 0)
 			{
 				Item_Doors(client, info);
 			}
-			else if (strcmp(info,"Vampire") == 0)
+			else if (strcmp(info, "Vampire") == 0)
 			{
 				Item_Vampire(client, info);
 			}
-			else if (strcmp(info,"Health") == 0)
+			else if (strcmp(info, "Health") == 0)
 			{
 				Item_Health(client, info);
 			}
-			else if (strcmp(info,"Deagle") == 0)
+			else if (strcmp(info, "Deagle") == 0)
 			{
 				Item_Deagle(client, info);
 			}
-			else if (strcmp(info,"Knife") == 0)
+			else if (strcmp(info, "Knife") == 0)
 			{
 				Item_Knife(client, info);
 			}
-			else if (strcmp(info,"Heal") == 0)
+			else if (strcmp(info, "Heal") == 0)
 			{
 				Item_Heal(client, info);
 			}
-			else if (strcmp(info,"Molotov") == 0)
+			else if (strcmp(info, "Molotov") == 0)
 			{
 				Item_Molotov(client, info);
 			}
-			else if (strcmp(info,"FakeModel") == 0)
+			else if (strcmp(info, "FakeModel") == 0)
 			{
 				Item_FakeModel(client, info);
 			}
-			else if (strcmp(info,"PoisonSmoke") == 0)
+			else if (strcmp(info, "PoisonSmoke") == 0)
 			{
 				Item_PoisonSmoke(client, info);
 			}
-			else if (strcmp(info,"Bird") == 0)
+			else if (strcmp(info, "Bird") == 0)
 			{
 				Item_Bird(client, info);
 			}
-			else if (strcmp(info,"TeleportSmoke") == 0)
+			else if (strcmp(info, "TeleportSmoke") == 0)
 			{
 				Item_TeleportSmoke(client, info);
 			}
-			else if (strcmp(info,"FireGrenade") == 0)
+			else if (strcmp(info, "FireGrenade") == 0)
 			{
 				Item_FireGrenade(client, info);
 			}
-			else if (strcmp(info,"Bhop") == 0)
+			else if (strcmp(info, "Bhop") == 0)
 			{
 				Item_Bhop(client, info);
 			}
-			else if (strcmp(info,"Gravity") == 0)
+			else if (strcmp(info, "Gravity") == 0)
 			{
 				Item_Gravity(client, info);
 			}
-			else if (strcmp(info,"Taser") == 0)
+			else if (strcmp(info, "Taser") == 0)
 			{
 				Item_Taser(client, info);
 			}
-			else if (strcmp(info,"NoClip") == 0)
+			else if (strcmp(info, "NoClip") == 0)
 			{
 				Item_NoClip(client, info);
 			}
-			else if (strcmp(info,"Revive") == 0)
+			else if (strcmp(info, "Revive") == 0)
 			{
 				Item_Revive(client, info);
 			}
-			else if (strcmp(info,"Wallhack") == 0)
+			else if (strcmp(info, "Wallhack") == 0)
 			{
 				Item_Wallhack(client, info);
 			}
-			else if (strcmp(info,"ThrowingKnife") == 0)
+			else if (strcmp(info, "ThrowingKnife") == 0)
 			{
 				Item_ThrowingKnife(client, info);
 			}
-			else if (strcmp(info,"FroggyJump") == 0)
+			else if (strcmp(info, "FroggyJump") == 0)
 			{
 				Item_FroggyJump(client, info);
 			}
-			else if (strcmp(info,"PaperClip") == 0)
+			else if (strcmp(info, "PaperClip") == 0)
 			{
 				Item_PaperClip(client, info);
+			}
+			else if (strcmp(info, "RandomTP") == 0)
+			{
+				Item_RandomTP(client, info);
 			}
 			if (!gc_bClose.BoolValue)
 			{
@@ -2164,14 +2188,14 @@ void Item_Invisible(int client, char[] name)
 		StripAllPlayerWeapons(client);
 		GivePlayerItem(client, "weapon_knife");
 		
-		Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iInvisible.IntValue));
+		Forward_OnSetCredits(client, (Forward_OnGetCredits(client) - gc_iInvisible.IntValue));
 		Forward_OnPlayerBuyItem(client, name);
 		
-		if (gp_bMyIcons) MyIcons_BlockClientIcon(client, true);
+		if (gp_bMyIcons)MyIcons_BlockClientIcon(client, true);
 		
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_invisible", RoundToCeil(gc_fInvisibleTime.FloatValue));
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_iInvisible.IntValue);
-		if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Invisible", client);
+		if (gc_bLogging.BoolValue)LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Invisible", client);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
 }
@@ -2186,20 +2210,20 @@ void Item_AWP(int client, char[] name)
 	else if (IsPlayerAlive(client))
 	{
 		int weapon;
-		if ((weapon = GetPlayerWeaponSlot(client, CS_SLOT_PRIMARY)) != -1)   // if player has already a weapon
+		if ((weapon = GetPlayerWeaponSlot(client, CS_SLOT_PRIMARY)) != -1) // if player has already a weapon
 		{
 			SDKHooks_DropWeapon(client, weapon, NULL_VECTOR, NULL_VECTOR);
-			if (gc_bRemoveWeapon.BoolValue) AcceptEntityInput(weapon, "Kill");
+			if (gc_bRemoveWeapon.BoolValue)AcceptEntityInput(weapon, "Kill");
 		}
 		int iAWP = GivePlayerItem(client, "weapon_awp");
 		g_bOneBulletAWP[client] = true;
 		SetPlayerAmmo(client, iAWP, 1, 0);
-		Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iAWP.IntValue));
+		Forward_OnSetCredits(client, (Forward_OnGetCredits(client) - gc_iAWP.IntValue));
 		Forward_OnPlayerBuyItem(client, name);
 		
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_awp");
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_iAWP.IntValue);
-		if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: AWP", client);
+		if (gc_bLogging.BoolValue)LogToFileEx(g_sPurchaseLogFile, "Player %L bought: AWP", client);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
 }
@@ -2211,12 +2235,12 @@ void Item_NoDamage(int client, char[] name)
 	{
 		g_bNoDamage[client] = true;
 		CreateTimer(gc_fNoDamageTime.FloatValue, Timer_NoDamage, client);
-		Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iNoDamage.IntValue));
+		Forward_OnSetCredits(client, (Forward_OnGetCredits(client) - gc_iNoDamage.IntValue));
 		Forward_OnPlayerBuyItem(client, name);
 		
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_nodamage", RoundToCeil(gc_fNoDamageTime.FloatValue));
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_iNoDamage.IntValue);
-		if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: No Damage", client);
+		if (gc_bLogging.BoolValue)LogToFileEx(g_sPurchaseLogFile, "Player %L bought: No Damage", client);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
 }
@@ -2227,13 +2251,13 @@ void Item_Doors(int client, char[] name)
 	if (!g_bCellsOpen)
 	{
 		SJD_OpenDoors();
-		Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iOpenCells.IntValue));
+		Forward_OnSetCredits(client, (Forward_OnGetCredits(client) - gc_iOpenCells.IntValue));
 		Forward_OnPlayerBuyItem(client, name);
 		
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_opencell");
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_iOpenCells.IntValue);
 		CPrintToChatAll("%t %t", "shop_tag", "shop_opencellall", client);
-		if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Open cells", client);
+		if (gc_bLogging.BoolValue)LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Open cells", client);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alreadyopen");
 }
@@ -2244,13 +2268,13 @@ void Item_Vampire(int client, char[] name)
 	if (IsPlayerAlive(client))
 	{
 		SetEntPropFloat(client, Prop_Data, "m_flLaggedMovementValue", gc_fVampireSpeed.FloatValue);
-		Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iVampire.IntValue));
+		Forward_OnSetCredits(client, (Forward_OnGetCredits(client) - gc_iVampire.IntValue));
 		Forward_OnPlayerBuyItem(client, name);
 		g_bVampire[client] = true;
 		
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_vapire");
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_iVampire.IntValue);
-		if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Vampire", client);
+		if (gc_bLogging.BoolValue)LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Vampire", client);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
 }
@@ -2264,7 +2288,7 @@ void Item_Health(int client, char[] name)
 	}
 	else if (IsPlayerAlive(client))
 	{
-		Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iHealth.IntValue));
+		Forward_OnSetCredits(client, (Forward_OnGetCredits(client) - gc_iHealth.IntValue));
 		Forward_OnPlayerBuyItem(client, name);
 		
 		int health = (GetClientHealth(client) + gc_iHealthExtra.IntValue);
@@ -2275,7 +2299,7 @@ void Item_Health(int client, char[] name)
 		
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_health", gc_iHealthExtra.IntValue);
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_iHealth.IntValue);
-		if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Health", client);
+		if (gc_bLogging.BoolValue)LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Health", client);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
 }
@@ -2290,21 +2314,21 @@ void Item_Deagle(int client, char[] name)
 	else if (IsPlayerAlive(client))
 	{
 		int weapon;
-		if ((weapon = GetPlayerWeaponSlot(client, CS_SLOT_SECONDARY)) != -1)   // if player has already a weapon
+		if ((weapon = GetPlayerWeaponSlot(client, CS_SLOT_SECONDARY)) != -1) // if player has already a weapon
 		{
 			SDKHooks_DropWeapon(client, weapon, NULL_VECTOR, NULL_VECTOR);
-			if (gc_bRemoveWeapon.BoolValue) AcceptEntityInput(weapon, "Kill");
+			if (gc_bRemoveWeapon.BoolValue)AcceptEntityInput(weapon, "Kill");
 		}
 		int iDeagle = GivePlayerItem(client, "weapon_deagle");
 		g_bOneMagDeagle[client] = true;
 		SetPlayerAmmo(client, iDeagle, 7, 0);
 		
-		Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iDeagle.IntValue));
+		Forward_OnSetCredits(client, (Forward_OnGetCredits(client) - gc_iDeagle.IntValue));
 		Forward_OnPlayerBuyItem(client, name);
 		
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_deagle");
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_iDeagle.IntValue);
-		if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Deagle", client);
+		if (gc_bLogging.BoolValue)LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Deagle", client);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
 }
@@ -2325,12 +2349,12 @@ void Item_Knife(int client, char[] name)
 		EquipPlayerWeapon(client, iKnife);
 		
 		g_bSuperKnife[client] = true;
-		Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iKnife.IntValue));
+		Forward_OnSetCredits(client, (Forward_OnGetCredits(client) - gc_iKnife.IntValue));
 		Forward_OnPlayerBuyItem(client, name);
 		
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_knife");
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_iKnife.IntValue);
-		if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: One hit knife", client);
+		if (gc_bLogging.BoolValue)LogToFileEx(g_sPurchaseLogFile, "Player %L bought: One hit knife", client);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
 }
@@ -2349,13 +2373,13 @@ void Item_Heal(int client, char[] name)
 		else
 		{
 			SetEntityHealth(client, 100);
-			Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iHeal.IntValue));
+			Forward_OnSetCredits(client, (Forward_OnGetCredits(client) - gc_iHeal.IntValue));
 			Forward_OnPlayerBuyItem(client, name);
 			
 			EmitSoundToAll("medicsound/medic.wav");
 			CPrintToChat(client, "%t %t", "shop_tag", "shop_heal");
 			CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_iHeal.IntValue);
-			if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: heal", client);
+			if (gc_bLogging.BoolValue)LogToFileEx(g_sPurchaseLogFile, "Player %L bought: heal", client);
 		}
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
@@ -2374,12 +2398,12 @@ void Item_Molotov(int client, char[] name)
 		GivePlayerItem(client, "weapon_flashbang");
 		GivePlayerItem(client, "weapon_flashbang");
 		g_bMolotov[client] = true;
-		Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iMolotov.IntValue));
+		Forward_OnSetCredits(client, (Forward_OnGetCredits(client) - gc_iMolotov.IntValue));
 		Forward_OnPlayerBuyItem(client, name);
 		
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_molotov");
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_iMolotov.IntValue);
-		if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Molotov", client);
+		if (gc_bLogging.BoolValue)LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Molotov", client);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
 }
@@ -2389,7 +2413,7 @@ void Item_FakeModel(int client, char[] name)
 {
 	if (IsPlayerAlive(client))
 	{
-		Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iFakeModel.IntValue));
+		Forward_OnSetCredits(client, (Forward_OnGetCredits(client) - gc_iFakeModel.IntValue));
 		Forward_OnPlayerBuyItem(client, name);
 		
 		g_bFakeGuard[client] = true;
@@ -2399,8 +2423,8 @@ void Item_FakeModel(int client, char[] name)
 		
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_model");
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_iFakeModel.IntValue);
-		if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: FakeModel", client);
-		if (gp_bMyIcons) MyIcons_BlockClientIcon(client, true);
+		if (gc_bLogging.BoolValue)LogToFileEx(g_sPurchaseLogFile, "Player %L bought: FakeModel", client);
+		if (gp_bMyIcons)MyIcons_BlockClientIcon(client, true);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
 }
@@ -2410,7 +2434,7 @@ void Item_PoisonSmoke(int client, char[] name)
 {
 	if (IsPlayerAlive(client))
 	{
-		Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iPoisonSmoke.IntValue));
+		Forward_OnSetCredits(client, (Forward_OnGetCredits(client) - gc_iPoisonSmoke.IntValue));
 		Forward_OnPlayerBuyItem(client, name);
 		
 		GivePlayerItem(client, "weapon_smokegrenade");
@@ -2419,7 +2443,7 @@ void Item_PoisonSmoke(int client, char[] name)
 		
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_poisensmoke");
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_iPoisonSmoke.IntValue);
-		if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Poison smoke", client);
+		if (gc_bLogging.BoolValue)LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Poison smoke", client);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
 }
@@ -2429,22 +2453,22 @@ void Item_Bird(int client, char[] name)
 {
 	if (IsPlayerAlive(client))
 	{
-		Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iBird.IntValue));
+		Forward_OnSetCredits(client, (Forward_OnGetCredits(client) - gc_iBird.IntValue));
 		Forward_OnPlayerBuyItem(client, name);
 		
 		SetEntityMoveType(client, MOVETYPE_FLY);
 		ClientCommand(client, "thirdperson");
 		GetEntPropString(client, Prop_Data, "m_ModelName", g_sModelPathPrevious[client], sizeof(g_sModelPathPrevious[]));
-		if (gc_iBirdMode.IntValue == 1) SetEntityModel(client, "models/chicken/chicken.mdl");
-		if (gc_iBirdMode.IntValue == 2) SetEntityModel(client, "models/pigeon.mdl");
-		if (gc_iBirdMode.IntValue == 3) SetEntityModel(client, "models/crow.mdl");
+		if (gc_iBirdMode.IntValue == 1)SetEntityModel(client, "models/chicken/chicken.mdl");
+		if (gc_iBirdMode.IntValue == 2)SetEntityModel(client, "models/pigeon.mdl");
+		if (gc_iBirdMode.IntValue == 3)SetEntityModel(client, "models/crow.mdl");
 		
 		g_bFly[client] = true;
 		
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_bird");
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_iBird.IntValue);
-		if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: be a bird", client);
-		if (gp_bMyIcons) MyIcons_BlockClientIcon(client, true);
+		if (gc_bLogging.BoolValue)LogToFileEx(g_sPurchaseLogFile, "Player %L bought: be a bird", client);
+		if (gp_bMyIcons)MyIcons_BlockClientIcon(client, true);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
 }
@@ -2456,13 +2480,13 @@ void Item_TeleportSmoke(int client, char[] name)
 	{
 		GivePlayerItem(client, "weapon_smokegrenade");
 		
-		Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iTeleportSmoke.IntValue));
+		Forward_OnSetCredits(client, (Forward_OnGetCredits(client) - gc_iTeleportSmoke.IntValue));
 		Forward_OnPlayerBuyItem(client, name);
 		
 		g_bTeleportSmoke[client] = true;
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_teleportsmoke");
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_iTeleportSmoke.IntValue);
-		if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Teleport smoke", client);
+		if (gc_bLogging.BoolValue)LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Teleport smoke", client);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
 }
@@ -2474,13 +2498,13 @@ void Item_FireGrenade(int client, char[] name)
 	{
 		GivePlayerItem(client, "weapon_hegrenade");
 		
-		Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iFireHE.IntValue));
+		Forward_OnSetCredits(client, (Forward_OnGetCredits(client) - gc_iFireHE.IntValue));
 		Forward_OnPlayerBuyItem(client, name);
 		
 		g_bFireHE[client] = true;
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_firegrenade");
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_iFireHE.IntValue);
-		if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Fire HE", client);
+		if (gc_bLogging.BoolValue)LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Fire HE", client);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
 }
@@ -2490,14 +2514,14 @@ void Item_Gravity(int client, char[] name)
 {
 	if (IsPlayerAlive(client))
 	{
-		Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iGravity.IntValue));
+		Forward_OnSetCredits(client, (Forward_OnGetCredits(client) - gc_iGravity.IntValue));
 		Forward_OnPlayerBuyItem(client, name);
 		
 		g_bGravity[client] = true;
 		SetEntityGravity(client, gc_fGravValue.FloatValue);
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_gravity");
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_iGravity.IntValue);
-		if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Gravity", client);
+		if (gc_bLogging.BoolValue)LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Gravity", client);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
 }
@@ -2507,13 +2531,13 @@ void Item_Bhop(int client, char[] name)
 {
 	if (IsPlayerAlive(client))
 	{
-		Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iBhop.IntValue));
+		Forward_OnSetCredits(client, (Forward_OnGetCredits(client) - gc_iBhop.IntValue));
 		Forward_OnPlayerBuyItem(client, name);
 		
 		g_bBhop[client] = true;
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_bhop");
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_iBhop.IntValue);
-		if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Bhop", client);
+		if (gc_bLogging.BoolValue)LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Bhop", client);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
 }
@@ -2523,7 +2547,7 @@ void Item_Taser(int client, char[] name)
 {
 	if (IsPlayerAlive(client))
 	{
-		Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iBhop.IntValue));
+		Forward_OnSetCredits(client, (Forward_OnGetCredits(client) - gc_iBhop.IntValue));
 		Forward_OnPlayerBuyItem(client, name);
 		
 		int iTaser = GivePlayerItem(client, "weapon_taser");
@@ -2532,7 +2556,7 @@ void Item_Taser(int client, char[] name)
 		
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_taser");
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_iTaser.IntValue);
-		if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Taser", client);
+		if (gc_bLogging.BoolValue)LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Taser", client);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
 }
@@ -2545,12 +2569,12 @@ void Item_NoClip(int client, char[] name)
 		g_bNoClip[client] = true;
 		SetEntityMoveType(client, MOVETYPE_NOCLIP);
 		CreateTimer(gc_fNoClipTime.FloatValue, Timer_NoClip, client);
-		Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iNoClip.IntValue));
+		Forward_OnSetCredits(client, (Forward_OnGetCredits(client) - gc_iNoClip.IntValue));
 		Forward_OnPlayerBuyItem(client, name);
 		
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_noclip", RoundToCeil(gc_fNoClipTime.FloatValue));
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_iNoClip.IntValue);
-		if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: No clip", client);
+		if (gc_bLogging.BoolValue)LogToFileEx(g_sPurchaseLogFile, "Player %L bought: No clip", client);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
 }
@@ -2567,12 +2591,12 @@ void Item_ThrowingKnife(int client, char[] name)
 		g_bThrowingKnife[client] = true;
 		g_iKnifesThrown[client] = 0;
 		
-		Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iThrowKnife.IntValue));
+		Forward_OnSetCredits(client, (Forward_OnGetCredits(client) - gc_iThrowKnife.IntValue));
 		Forward_OnPlayerBuyItem(client, name);
 		
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_throwingknife");
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_iThrowKnife.IntValue);
-		if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Throw knife", client);
+		if (gc_bLogging.BoolValue)LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Throw knife", client);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
 }
@@ -2588,11 +2612,11 @@ void Item_Revive(int client, char[] name)
 			{
 				CS_RespawnPlayer(client);
 				
-				Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iRevive.IntValue));
+				Forward_OnSetCredits(client, (Forward_OnGetCredits(client) - gc_iRevive.IntValue));
 				Forward_OnPlayerBuyItem(client, name);
 				
 				CPrintToChatAll("%t %t", "shop_tag", "shop_revived", client);
-				if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Revive", client);
+				if (gc_bLogging.BoolValue)LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Revive", client);
 			}
 			else CPrintToChat(client, "%t %t", "shop_tag", "shop_missingcredits", Forward_OnGetCredits(client), gc_iRevive.IntValue);
 		}
@@ -2609,11 +2633,11 @@ void Item_FroggyJump(int client, char[] name)
 		{
 			g_bFroggyJump[client] = true;
 			
-			Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iFroggyJump.IntValue));
+			Forward_OnSetCredits(client, (Forward_OnGetCredits(client) - gc_iFroggyJump.IntValue));
 			Forward_OnPlayerBuyItem(client, name);
 			
 			CPrintToChat(client, "%t %t", "shop_tag", "shop_froggyjump", client);
-			if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: FroggyJump", client);
+			if (gc_bLogging.BoolValue)LogToFileEx(g_sPurchaseLogFile, "Player %L bought: FroggyJump", client);
 		}
 		else CPrintToChat(client, "%t %t", "shop_tag", "shop_missingcredits", Forward_OnGetCredits(client), gc_iFroggyJump.IntValue);
 	}
@@ -2629,11 +2653,11 @@ void Item_PaperClip(int client, char[] name)
 		{
 			warden_handcuffs_givepaperclip(client, gc_iPaperClipAmount.IntValue);
 			
-			Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iPaperClip.IntValue));
+			Forward_OnSetCredits(client, (Forward_OnGetCredits(client) - gc_iPaperClip.IntValue));
 			Forward_OnPlayerBuyItem(client, name);
 			
 			CPrintToChat(client, "%t %t", "shop_tag", "shop_paperclip", gc_iPaperClipAmount.IntValue);
-			if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Paperclip", client);
+			if (gc_bLogging.BoolValue)LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Paperclip", client);
 		}
 		else CPrintToChat(client, "%t %t", "shop_tag", "shop_missingcredits", Forward_OnGetCredits(client), gc_iPaperClip.IntValue);
 	}
@@ -2649,20 +2673,54 @@ void Item_Wallhack(int client, char[] name)
 		{
 			g_bWallhack[client] = true;
 			
-			for (int i = 1; i <= MaxClients; i++) if (IsClientInGame(i)) Setup_WallhackSkin(i);
+			for (int i = 1; i <= MaxClients; i++)if (IsClientInGame(i))Setup_WallhackSkin(i);
 			
-			CreateTimer (gc_fWallhackTime.FloatValue, Timer_Wallhack, client);
+			CreateTimer(gc_fWallhackTime.FloatValue, Timer_Wallhack, client);
 			
-			Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iWallhack.IntValue));
+			Forward_OnSetCredits(client, (Forward_OnGetCredits(client) - gc_iWallhack.IntValue));
 			
 			Forward_OnPlayerBuyItem(client, name);
 			
 			CPrintToChat(client, "%t %t", "shop_tag", "shop_wallhack", client);
-			if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Wallhack", client);
+			if (gc_bLogging.BoolValue)LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Wallhack", client);
 		}
 		else CPrintToChat(client, "%t %t", "shop_tag", "shop_missingcredits", Forward_OnGetCredits(client), gc_iWallhack.IntValue);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
+}
+
+void Item_RandomTP(int client, char[] name)
+{
+	if (IsPlayerAlive(client))
+	{
+		float fClientOrigin[3];
+		float fTeleportOrigin[3];
+		int iRandomClient = GetRandomPlayer(CS_TEAM_T);
+		while (client == iRandomClient)
+		{
+			iRandomClient = GetRandomPlayer(CS_TEAM_T);
+		}
+		GetClientAbsOrigin(iRandomClient, fClientOrigin);
+		
+		//Taken from hl_goto (by HeadLine)
+		fTeleportOrigin[0] = fClientOrigin[0];
+		fTeleportOrigin[1] = fClientOrigin[1];
+		fTeleportOrigin[2] = (fClientOrigin[2] + 73);
+		
+		TeleportEntity(client, fTeleportOrigin, NULL_VECTOR, NULL_VECTOR);
+		
+		Forward_OnSetCredits(client, (Forward_OnGetCredits(client) - gc_iRandomTP.IntValue));
+		Forward_OnPlayerBuyItem(client, name);
+		
+		
+		CPrintToChat(client, "%t %t", "shop_tag", "shop_randomtp", iRandomClient);
+		CPrintToChat(iRandomClient, "%t %t", "shop_tag", "shop_randomtp_teleported", client);
+		
+		g_bRandomTP[client] = true;
+		
+		if (gc_bLogging.BoolValue)LogToFileEx(g_sPurchaseLogFile, "Player %L bought: RandomTP", client);
+	}
+	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive"); 
 }
 
 
@@ -2697,8 +2755,8 @@ void Setup_Wallhack(int iSkin, int client)
 	int iGreen = 60;
 	int iBlue = 60;
 	
-	if (GetClientTeam(client) == CS_TEAM_CT) iBlue = 240;
-	if (GetClientTeam(client) == CS_TEAM_T) iRed = 240;
+	if (GetClientTeam(client) == CS_TEAM_CT)iBlue = 240;
+	if (GetClientTeam(client) == CS_TEAM_T)iRed = 240;
 	
 	SetEntData(iSkin, iOffset, iRed, _, true);
 	SetEntData(iSkin, iOffset + 1, iGreen, _, true);
@@ -2713,7 +2771,7 @@ public Action OnSetTransmit_Wallhack(int iSkin, int client)
 	if (!IsPlayerAlive(client))
 		return Plugin_Handled;
 	
-	for (int i = 1; i <= MaxClients; i++) if (IsClientInGame(i))
+	for (int i = 1; i <= MaxClients; i++)if (IsClientInGame(i))
 	{
 		if (!CPS_HasSkin(i))
 			continue;
@@ -2725,7 +2783,7 @@ public Action OnSetTransmit_Wallhack(int iSkin, int client)
 			continue;
 		
 		if (g_bWallhack[client])
-		
+			
 		return Plugin_Continue;
 	}
 	
@@ -2780,13 +2838,13 @@ public Action KnifeHit(int knife, int other)
 		
 		// damage values and type
 		float damage = 200.0;
-		int dmgtype = DMG_SLASH|DMG_NEVERGIB;
+		int dmgtype = DMG_SLASH | DMG_NEVERGIB; 
 		
 		// create damage
 		SDKHooks_TakeDamage(victim, inflictor, attacker, damage, dmgtype, knife, damageForce, damagePosition);
 		
 		// blood effect
-		int color[] = {255, 0, 0, 255};
+		int color[] =  { 255, 0, 0, 255 };
 		float dir[3];
 		
 		TE_SetupBloodSprite(damagePosition, dir, color, 1, PrecacheDecal("sprites/blood.vmt"), PrecacheDecal("sprites/blood.vmt"));
@@ -2843,19 +2901,19 @@ public Action Timer_NoClip(Handle timer, any client)
 
 public Action Timer_WelcomeMessage(Handle timer, any client)
 {
-	if (gc_bWelcome.BoolValue && IsClientInGame(client) && gc_bEnable.BoolValue) CPrintToChat(client, "%t %t", "shop_tag", "shop_welcome");
+	if (gc_bWelcome.BoolValue && IsClientInGame(client) && gc_bEnable.BoolValue)CPrintToChat(client, "%t %t", "shop_tag", "shop_welcome");
 }
 
 
 public Action Timer_DeathMessage(Handle timer, any client)
 {
-	if (IsClientInGame(client) && !g_bIsLR && GetAliveTeamCount(GetClientTeam(client)) > 1 && gc_bEnable.BoolValue) CPrintToChat(client, "%t %t", "shop_tag", "shop_revivehint", gc_iRevive.IntValue);
+	if (IsClientInGame(client) && !g_bIsLR && GetAliveTeamCount(GetClientTeam(client)) > 1 && gc_bEnable.BoolValue)CPrintToChat(client, "%t %t", "shop_tag", "shop_revivehint", gc_iRevive.IntValue);
 }
 
 
 public Action Timer_Delete(Handle timer, any entity)
 {
-	if (IsValidEdict(entity)) AcceptEntityInput(entity, "kill");
+	if (IsValidEdict(entity))AcceptEntityInput(entity, "kill");
 }
 
 
@@ -2872,34 +2930,34 @@ public Action Timer_CheckDamage(Handle timer, any iEntity)
 	float fSmokeOrigin[3], fOrigin[3];
 	GetEntPropVector(iEntity, Prop_Send, "m_vecOrigin", fSmokeOrigin);
 	
-	for (int i = 1; i <= MaxClients; i++) if (IsValidClient(i, true, true))
+	for (int i = 1; i <= MaxClients; i++)if (IsValidClient(i, true, true))
 	{
 		if (GetClientTeam(i) != GetClientTeam(client))
 		{
 			GetClientAbsOrigin(i, fOrigin);
-			if (GetVectorDistance(fSmokeOrigin, fOrigin) <= 220) DealDamage(i, 75, client, DMG_POISON, "weapon_smokegrenade");
+			if (GetVectorDistance(fSmokeOrigin, fOrigin) <= 220)DealDamage(i, 75, client, DMG_POISON, "weapon_smokegrenade");
 		}
 	}
 	return Plugin_Continue;
 }
 
 
-public Action Timer_Credits (Handle timer)
+public Action Timer_Credits(Handle timer)
 {
-	for (int i = 1; i <= MaxClients; i++) if (IsValidClient(i, false, true)) if (GetClientTeam(i) != CS_TEAM_SPECTATOR && gc_bEnable.BoolValue)
+	for (int i = 1; i <= MaxClients; i++)if (IsValidClient(i, false, true))if (GetClientTeam(i) != CS_TEAM_SPECTATOR && gc_bEnable.BoolValue)
 	{
-		if (GetAllPlayersCount() >= gc_iMinPlayersToGetCredits.IntValue && (gc_bCreditsWarmup.BoolValue || GameRules_GetProp("m_bWarmupPeriod") != 1)) 
+		if (GetAllPlayersCount() >= gc_iMinPlayersToGetCredits.IntValue && (gc_bCreditsWarmup.BoolValue || GameRules_GetProp("m_bWarmupPeriod") != 1))
 		{
 			if (IsPlayerReservationAdmin(i))
 			{
-				if (gc_bNotification.BoolValue) CPrintToChat(i, "%t %t", "shop_tag", "shop_playtime", gc_iCreditsVIPPerTime.IntValue);
-				Forward_OnSetCredits(i,(Forward_OnGetCredits(i)+gc_iCreditsVIPPerTime.IntValue));
+				if (gc_bNotification.BoolValue)CPrintToChat(i, "%t %t", "shop_tag", "shop_playtime", gc_iCreditsVIPPerTime.IntValue);
+				Forward_OnSetCredits(i, (Forward_OnGetCredits(i) + gc_iCreditsVIPPerTime.IntValue));
 				Forward_OnPlayerGetCredits(i, gc_iCreditsVIPPerTime.IntValue);
 			}
 			else
 			{
-				if (gc_bNotification.BoolValue) CPrintToChat(i, "%t %t", "shop_tag", "shop_playtime", gc_iCreditsTime.IntValue);
-				Forward_OnSetCredits(i,(Forward_OnGetCredits(i)+gc_iCreditsTime.IntValue));
+				if (gc_bNotification.BoolValue)CPrintToChat(i, "%t %t", "shop_tag", "shop_playtime", gc_iCreditsTime.IntValue);
+				Forward_OnSetCredits(i, (Forward_OnGetCredits(i) + gc_iCreditsTime.IntValue));
 				Forward_OnPlayerGetCredits(i, gc_iCreditsTime.IntValue);
 			}
 		}
@@ -2924,9 +2982,9 @@ public Action Timer_Wallhack(Handle timer, any client)
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_unwallhack");
 		g_bWallhack[client] = false;
 		
-		for (int i = 1; i <= MaxClients; i++) if (IsClientInGame(i))
+		for (int i = 1; i <= MaxClients; i++)if (IsClientInGame(i))
 		{
-			if (g_bWallhack[i]) return;
+			if (g_bWallhack[i])return;
 			UnhookWallhack(i);
 		}
 	}
@@ -2940,7 +2998,7 @@ public Action Timer_Invisible(Handle timer, any client)
 		g_bInvisible[client] = false;
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_visible");
 		SDKUnhook(client, SDKHook_SetTransmit, Hook_SetTransmit);
-		if (gp_bMyIcons) MyIcons_BlockClientIcon(client, false);
+		if (gp_bMyIcons)MyIcons_BlockClientIcon(client, false);
 	}
 }
 
@@ -2955,7 +3013,7 @@ public Action Timer_CreateKnife(Handle timer, any client)
 	
 	g_iKnifesThrown[client]++;
 	
-	if (g_iKnifesThrown[client] > gc_iThrowKnifeCount.IntValue) return;
+	if (g_iKnifesThrown[client] > gc_iThrowKnifeCount.IntValue)return;
 	
 	if (knife == -1 || !DispatchSpawn(knife))
 	{
@@ -3011,7 +3069,7 @@ public Action Timer_CreateKnife(Handle timer, any client)
 	AddVectors(velocity, player_velocity, velocity);
 	
 	// spin knive
-	float spin[] = {4000.0, 0.0, 0.0};
+	float spin[] =  { 4000.0, 0.0, 0.0 };
 	SetEntPropVector(knife, Prop_Data, "m_vecAngVelocity", spin);
 	
 	// Stop grenade detonate and Kill knive after 1 - 30 sec
@@ -3021,7 +3079,7 @@ public Action Timer_CreateKnife(Handle timer, any client)
 	DispatchKeyValue(knife, "OnUser1", buffer);
 	AcceptEntityInput(knife, "FireUser1");
 	
-	int color[4] = {255, ...};
+	int color[4] =  { 255, ... };
 	TE_SetupBeamFollow(knife, PrecacheModel("effects/blueblacklargebeam.vmt"), 0, 0.5, 1.0, 0.1, 0, color);
 	
 	TE_SendToAll();
@@ -3039,7 +3097,7 @@ public Action Timer_CreateKnife(Handle timer, any client)
 ******************************************************************************/
 
 
-public void OnMapEnd ()
+public void OnMapEnd()
 {
 	if (g_hTimerCredits != INVALID_HANDLE)
 	{
@@ -3049,9 +3107,9 @@ public void OnMapEnd ()
 	if (!g_bDBConnected && gc_bMySQL.BoolValue)
 		DB_Connect();
 	
-	for (int i = 1; i <= MaxClients; i++) if (IsValidClient(i, false, true))
+	for (int i = 1; i <= MaxClients; i++)if (IsValidClient(i, false, true))
 	{
-		if (gc_bMySQL.BoolValue) DB_WriteCredits(i);
+		if (gc_bMySQL.BoolValue)DB_WriteCredits(i);
 		OnClientDisconnect(i);
 	}
 }
@@ -3059,7 +3117,7 @@ public void OnMapEnd ()
 
 public void OnClientAuthorized(int client, const char[] auth)
 {
-	if (!g_bDBConnected && gc_bMySQL.BoolValue) DB_Connect();
+	if (!g_bDBConnected && gc_bMySQL.BoolValue)DB_Connect();
 	
 	if (gc_bMySQL.BoolValue && !IsFakeClient(client))
 	{
@@ -3075,10 +3133,10 @@ public Action Event_PlayerDisconnect(Event event, const char[] name, bool dontBr
 	
 	if (gc_bMySQL.BoolValue && client > 0 && !IsFakeClient(client))
 	{
-		if (!g_bDBConnected && gc_bMySQL.BoolValue) DB_Connect();
+		if (!g_bDBConnected && gc_bMySQL.BoolValue)DB_Connect();
 		DB_WriteCredits(client);
 	}
-	if (gp_bCustomPlayerSkins) UnhookWallhack(client);
+	if (gp_bCustomPlayerSkins)UnhookWallhack(client);
 	return Plugin_Continue;
 }
 
@@ -3087,7 +3145,7 @@ stock int GetAllPlayersCount()
 {
 	int iCount = 0;
 	
-	for (int i = 1; i <= MaxClients; i++) if (IsValidClient(i, false, true)) iCount++;
+	for (int i = 1; i <= MaxClients; i++)if (IsValidClient(i, false, true))iCount++;
 	
 	return iCount;
 }
@@ -3165,12 +3223,12 @@ public void DB_AddPlayer(int client)
 		GetClientAuthId(client, AuthId_Steam2, steamid, sizeof(steamid));
 		
 		// insert ifnot already in the table
-		Format(g_sSQLBuffer, sizeof(g_sSQLBuffer),
+		Format(g_sSQLBuffer, sizeof(g_sSQLBuffer), 
 			"INSERT IGNORE INTO myjs_credits (accountID,steamid,name,credits) VALUES (%d, '%s', '%s', 0);", id, steamid, sanitized_name);
 		SQL_TQuery(g_hDB, SQLErrorCheckCallback, g_sSQLBuffer);
 		
 		// update the player name
-		Format(g_sSQLBuffer, sizeof(g_sSQLBuffer),
+		Format(g_sSQLBuffer, sizeof(g_sSQLBuffer), 
 			"UPDATE myjs_credits SET name = '%s' WHERE accountID = %d", sanitized_name, id);
 		SQL_TQuery(g_hDB, SQLErrorCheckCallback, g_sSQLBuffer);
 	}
@@ -3187,7 +3245,7 @@ public void DB_FetchCredits(int client)
 	if (g_hDB != INVALID_HANDLE)
 	{
 		SQL_LockDatabase(g_hDB);
-		Format(g_sSQLBuffer, sizeof(g_sSQLBuffer),
+		Format(g_sSQLBuffer, sizeof(g_sSQLBuffer), 
 			"SELECT credits FROM myjs_credits WHERE accountID = %d", GetSteamAccountID(client));
 		Handle query = SQL_Query(g_hDB, g_sSQLBuffer);
 		
@@ -3199,7 +3257,7 @@ public void DB_FetchCredits(int client)
 			g_bDBConnected = false;
 			CloseHandle(g_hDB);
 		}
-		else if (SQL_FetchRow(query)) credits = SQL_FetchInt(query, 0);
+		else if (SQL_FetchRow(query))credits = SQL_FetchInt(query, 0);
 		else LogMessage("Couldn't fetchcredits for %N, probably it is first connection of client", client);
 		
 		CloseHandle(query);
