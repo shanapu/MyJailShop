@@ -313,7 +313,12 @@
 		"#format"	"{1:d}"
 		"en"		"Wallhack [{1}¢]"
 	}
-
+    
+    "shop_menu_randomtp"
+    {
+        "#format"   "{1:d}"
+        "en"        "Teleport to Random T [{1}¢]"
+    }
 	"shop_missingcredits"
 	{
 		"#format"	"{1:d},{2:d}"
@@ -453,7 +458,19 @@
 		"#format"	"{1:d}"
 		"en"		"You bought: {1} paperclip(s) for handcuffs!"
 	}
-
+    
+    "shop_randomtp"
+    {
+        "#format"   "{1:n}"
+        "en"         "You teleported to {1}!"
+    }
+    
+    "shop_randomtp_teleported"
+    {
+        "#format"   "{1:n}"
+        "en"        "{1} teleported to you!"
+    }
+    
 	"shop_unwallhack"
 	{
 		"en"		"Wallhack has ended!"
