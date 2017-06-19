@@ -140,6 +140,7 @@ ConVar gc_fWallhackTime;
 ConVar gc_iFroggyJump;
 ConVar gc_iPaperClip;
 ConVar gc_iPaperClipAmount;
+ConVar gc_iRandomTP;
 
 ConVar gc_sInvisibleFlag;
 ConVar gc_sAWPFlag;
@@ -165,6 +166,7 @@ ConVar gc_sThrowKnifeFlag;
 ConVar gc_sWallhackFlag;
 ConVar gc_sFroggyJumpFlag;
 ConVar gc_sPaperClipFlag;
+ConVar gc_sRandomTPFlag;
 
 // Custom Commands
 ConVar gc_sCustomCommandShop;
@@ -197,6 +199,7 @@ bool g_bFroggyJump[MAXPLAYERS+1] = false;
 bool g_bNoClip[MAXPLAYERS+1] = true;
 bool g_bThrowingKnife[MAXPLAYERS+1] = true;
 bool g_bGravity[MAXPLAYERS+1] = false;
+bool g_bRandomTP[MAXPLAYERS+1] = false;
 bool g_bLadder[MAXPLAYERS+1] = false;
 bool g_bDBConnected = false;
 bool g_bAllowBuy = true;
@@ -262,6 +265,7 @@ char g_sThrowKnifeFlag[4];
 char g_sWallhackFlag[4];
 char g_sFroggyJumpFlag[4];
 char g_sPaperClipFlag[4];
+char g_sRandomTPFlag[4];
 
 
 // Info
@@ -381,7 +385,7 @@ public void OnPluginStart()
 	gc_iFroggyJumpOnlyTeam = AutoExecConfig_CreateConVar("sm_jailshop_froggyjump_access", "1", "0 - guards only, 1 - guards & prisoner, 2 - prisoner only ", _, true, 0.0, true, 2.0);
 	gc_sFroggyJumpFlag = AutoExecConfig_CreateConVar("sm_jailshop_froggyjump_flag", "", "Set flag for admin/vip must have to get access to froggyjump. No flag = is available for all players!");
 	gc_iGravity = AutoExecConfig_CreateConVar("sm_jailshop_gravity_price", "2500", "0 - disabled, price of the 'Low Gravity' shop item", _, true, 0.0);
-	gc_fGravValue= AutoExecConfig_CreateConVar("sm_jailshop_gravity_value", "0.6", "Ratio for Gravity (1.0 earth, 0.5 moon)", _, true, 0.1, true, 1.0);
+	gc_fGravValue = AutoExecConfig_CreateConVar("sm_jailshop_gravity_value", "0.6", "Ratio for Gravity (1.0 earth, 0.5 moon)", _, true, 0.1, true, 1.0);
 	gc_iGravOnlyTeam = AutoExecConfig_CreateConVar("sm_jailshop_gravity_access", "1", "0 - guards only, 1 - guards & prisoner, 2 - prisoner only ", _, true, 0.0, true, 2.0);
 	gc_sGravityFlag = AutoExecConfig_CreateConVar("sm_jailshop_gravity_flag", "", "Set flag for admin/vip must have to get access to gravity. No flag = is available for all players!");
 	gc_iInvisible = AutoExecConfig_CreateConVar("sm_jailshop_invisible_price", "8000", "0 - disabled, price of the 'Invisible' shop item", _, true, 0.0);
@@ -426,6 +430,8 @@ public void OnPluginStart()
 	gc_sTaserFlag = AutoExecConfig_CreateConVar("sm_jailshop_taser_flag", "", "Set flag for admin/vip must have to get access to taser. No flag = is available for all players!");
 	gc_iMolotov = AutoExecConfig_CreateConVar("sm_jailshop_molotov_price", "2500", "0 - disabled, price of the 'Molotov & flashs' shop item", _, true, 0.0);
 	gc_sMolotovFlag = AutoExecConfig_CreateConVar("sm_jailshop_molotov_flag", "", "Set flag for admin/vip must have to get access to molotov. No flag = is available for all players!");
+	gc_iRandomTP = AutoExecConfig_CreateConVar("sm_jailshop_randomtp", "6500", "0 - disable, price of the 'Random teleport' shop item", _, true, 0.0);
+	gc_sRandomTPFlag = AutoExecConfig_CreateConVar("sm_jailshop_randomtp_flag", "", "Set flag for admin/vip must have to get accesso to RandomTP. No flag = is avaible for all players!");
 	
 	
 	AutoExecConfig_ExecuteFile();
@@ -435,7 +441,7 @@ public void OnPluginStart()
 	// Hooks
 	HookEvent("player_death", Event_PlayerDeath);
 	HookEvent("smokegrenade_detonate", Event_SmokeGrenadeDetonate, EventHookMode_Post);
-	HookEvent("player_hurt",Event_PlayerHurt, EventHookMode_Pre);
+	HookEvent("player_hurt", Event_PlayerHurt, EventHookMode_Pre);
 	HookEvent("round_end", Event_RoundEnd);
 	HookEvent("round_start", Event_RoundStart);
 	HookEvent("player_disconnect", Event_PlayerDisconnect, EventHookMode_Pre);
@@ -465,6 +471,7 @@ public void OnPluginStart()
 	HookConVarChange(gc_sWallhackFlag, OnSettingChanged);
 	HookConVarChange(gc_sFroggyJumpFlag, OnSettingChanged);
 	HookConVarChange(gc_sPaperClipFlag, OnSettingChanged);
+	HookConVarChange(gc_sRandomTPFlag, OnSettingChanged);
 	
 	
 	// FindConVar
@@ -493,6 +500,7 @@ public void OnPluginStart()
 	gc_sWallhackFlag.GetString(g_sWallhackFlag, sizeof(g_sWallhackFlag));
 	gc_sFroggyJumpFlag.GetString(g_sFroggyJumpFlag, sizeof(g_sFroggyJumpFlag));
 	gc_sPaperClipFlag.GetString(g_sPaperClipFlag, sizeof(g_sPaperClipFlag));
+	gc_sRandomTPFlag.GetString(g_sRandomTPFlag, sizeof(g_sRandomTPFlag));
 	
 	if (!g_bDBConnected && gc_bMySQL.BoolValue)
 		DB_Connect();
@@ -633,6 +641,11 @@ public int OnSettingChanged(Handle convar, const char[] oldValue, const char[] n
 		strcopy(g_sPaperClipFlag, sizeof(g_sPaperClipFlag), newValue);
 		PrecacheModel(g_sPaperClipFlag);
 	}
+	else if (convar == gc_sRandomTPFlag)
+	{
+		strcopy(g_sRandomTPFlag, sizeof(g_sRandomTPFlag), newValue);
+		PrecacheModel(g_sRandomTPFlag);
+	}
 }
 
 
@@ -758,7 +771,7 @@ public Action AdminCommand_Sale(int client, int args)
 		{
 			SaleOn();
 		}
-		else if (bOpenSale == 0  && g_bSale)
+		else if (bOpenSale == 0 && g_bSale)
 		{
 			SaleOff();
 		}
@@ -790,30 +803,31 @@ void SaleOff()
 
 void SaleOn()
 {
-	gc_iInvisible.IntValue = (gc_iInvisible.IntValue-((gc_iInvisible.IntValue/100)*gc_fSale.IntValue));
-	gc_iAWP.IntValue = (gc_iAWP.IntValue-((gc_iAWP.IntValue/100)*gc_fSale.IntValue));
-	gc_iNoDamage.IntValue = (gc_iNoDamage.IntValue-((gc_iNoDamage.IntValue/100)*gc_fSale.IntValue));
-	gc_iOpenCells.IntValue = (gc_iOpenCells.IntValue-((gc_iOpenCells.IntValue/100)*gc_fSale.IntValue));
-	gc_iVampire.IntValue = (gc_iVampire.IntValue-((gc_iVampire.IntValue/100)*gc_fSale.IntValue));
-	gc_iHealth.IntValue = (gc_iHealth.IntValue-((gc_iHealth.IntValue/100)*gc_fSale.IntValue));
-	gc_iDeagle.IntValue = (gc_iDeagle.IntValue-((gc_iDeagle.IntValue/100)*gc_fSale.IntValue));
-	gc_iKnife.IntValue = (gc_iKnife.IntValue-((gc_iKnife.IntValue/100)*gc_fSale.IntValue));
-	gc_iHeal.IntValue = (gc_iHeal.IntValue-((gc_iHeal.IntValue/100)*gc_fSale.IntValue));
-	gc_iMolotov.IntValue = (gc_iMolotov.IntValue-((gc_iMolotov.IntValue/100)*gc_fSale.IntValue));
-	gc_iFakeModel.IntValue = (gc_iFakeModel.IntValue-((gc_iFakeModel.IntValue/100)*gc_fSale.IntValue));
-	gc_iPoisonSmoke.IntValue = (gc_iPoisonSmoke.IntValue-((gc_iPoisonSmoke.IntValue/100)*gc_fSale.IntValue));
-	gc_iBird.IntValue = (gc_iBird.IntValue-((gc_iBird.IntValue/100)*gc_fSale.IntValue));
-	gc_iTeleportSmoke.IntValue = (gc_iTeleportSmoke.IntValue-((gc_iTeleportSmoke.IntValue/100)*gc_fSale.IntValue));
-	gc_iRevive.IntValue = (gc_iRevive.IntValue-((gc_iRevive.IntValue/100)*gc_fSale.IntValue));
-	gc_iFireHE.IntValue = (gc_iFireHE.IntValue-((gc_iFireHE.IntValue/100)*gc_fSale.IntValue));
-	gc_iBhop.IntValue = (gc_iBhop.IntValue-((gc_iBhop.IntValue/100)*gc_fSale.IntValue));
-	gc_iGravity.IntValue = (gc_iGravity.IntValue-((gc_iGravity.IntValue/100)*gc_fSale.IntValue));
-	gc_iTaser.IntValue = (gc_iTaser.IntValue-((gc_iTaser.IntValue/100)*gc_fSale.IntValue));
-	gc_iNoClip.IntValue = (gc_iNoClip.IntValue-((gc_iNoClip.IntValue/100)*gc_fSale.IntValue));
-	gc_iThrowKnife.IntValue = (gc_iThrowKnife.IntValue-((gc_iThrowKnife.IntValue/100)*gc_fSale.IntValue));
-	gc_iWallhack.IntValue = (gc_iWallhack.IntValue-((gc_iWallhack.IntValue/100)*gc_fSale.IntValue));
-	gc_iFroggyJump.IntValue = (gc_iFroggyJump.IntValue-((gc_iFroggyJump.IntValue/100)*gc_fSale.IntValue));
-	gc_iPaperClip.IntValue = (gc_iPaperClip.IntValue-((gc_iPaperClip.IntValue/100)*gc_fSale.IntValue));
+	gc_iInvisible.IntValue = (gc_iInvisible.IntValue - ((gc_iInvisible.IntValue / 100) * gc_fSale.IntValue));
+	gc_iAWP.IntValue = (gc_iAWP.IntValue - ((gc_iAWP.IntValue / 100) * gc_fSale.IntValue));
+	gc_iNoDamage.IntValue = (gc_iNoDamage.IntValue - ((gc_iNoDamage.IntValue / 100) * gc_fSale.IntValue));
+	gc_iOpenCells.IntValue = (gc_iOpenCells.IntValue - ((gc_iOpenCells.IntValue / 100) * gc_fSale.IntValue));
+	gc_iVampire.IntValue = (gc_iVampire.IntValue - ((gc_iVampire.IntValue / 100) * gc_fSale.IntValue));
+	gc_iHealth.IntValue = (gc_iHealth.IntValue - ((gc_iHealth.IntValue / 100) * gc_fSale.IntValue));
+	gc_iDeagle.IntValue = (gc_iDeagle.IntValue - ((gc_iDeagle.IntValue / 100) * gc_fSale.IntValue));
+	gc_iKnife.IntValue = (gc_iKnife.IntValue - ((gc_iKnife.IntValue / 100) * gc_fSale.IntValue));
+	gc_iHeal.IntValue = (gc_iHeal.IntValue - ((gc_iHeal.IntValue / 100) * gc_fSale.IntValue));
+	gc_iMolotov.IntValue = (gc_iMolotov.IntValue - ((gc_iMolotov.IntValue / 100) * gc_fSale.IntValue));
+	gc_iFakeModel.IntValue = (gc_iFakeModel.IntValue - ((gc_iFakeModel.IntValue / 100) * gc_fSale.IntValue));
+	gc_iPoisonSmoke.IntValue = (gc_iPoisonSmoke.IntValue - ((gc_iPoisonSmoke.IntValue / 100) * gc_fSale.IntValue));
+	gc_iBird.IntValue = (gc_iBird.IntValue - ((gc_iBird.IntValue / 100) * gc_fSale.IntValue));
+	gc_iTeleportSmoke.IntValue = (gc_iTeleportSmoke.IntValue - ((gc_iTeleportSmoke.IntValue / 100) * gc_fSale.IntValue));
+	gc_iRevive.IntValue = (gc_iRevive.IntValue - ((gc_iRevive.IntValue / 100) * gc_fSale.IntValue));
+	gc_iFireHE.IntValue = (gc_iFireHE.IntValue - ((gc_iFireHE.IntValue / 100) * gc_fSale.IntValue));
+	gc_iBhop.IntValue = (gc_iBhop.IntValue - ((gc_iBhop.IntValue / 100) * gc_fSale.IntValue));
+	gc_iGravity.IntValue = (gc_iGravity.IntValue - ((gc_iGravity.IntValue / 100) * gc_fSale.IntValue));
+	gc_iTaser.IntValue = (gc_iTaser.IntValue - ((gc_iTaser.IntValue / 100) * gc_fSale.IntValue));
+	gc_iNoClip.IntValue = (gc_iNoClip.IntValue - ((gc_iNoClip.IntValue / 100) * gc_fSale.IntValue));
+	gc_iThrowKnife.IntValue = (gc_iThrowKnife.IntValue - ((gc_iThrowKnife.IntValue / 100) * gc_fSale.IntValue));
+	gc_iWallhack.IntValue = (gc_iWallhack.IntValue - ((gc_iWallhack.IntValue / 100) * gc_fSale.IntValue));
+	gc_iFroggyJump.IntValue = (gc_iFroggyJump.IntValue - ((gc_iFroggyJump.IntValue / 100) * gc_fSale.IntValue));
+	gc_iPaperClip.IntValue = (gc_iPaperClip.IntValue - ((gc_iPaperClip.IntValue / 100) * gc_fSale.IntValue));
+	gc_iRandomTP.IntValue = (gc_iRandomTP.IntValue - ((gc_iRandomTP.IntValue / 100) * gc_fSale.IntValue));
 	
 	g_bSale = true;
 	CPrintToChatAll("%t %t", "shop_tag", "shop_saleon", gc_fSale.IntValue);
@@ -821,7 +835,7 @@ void SaleOn()
 
 public void TG_OnGamePrepare()
 {
-	for (int i = 1; i <= MaxClients; i++) 
+	for (int i = 1; i <= MaxClients; i++)
 	{
 		ResetPlayer(i);
 	}
@@ -929,7 +943,8 @@ public Action Command_SendCredits(int client, int args)
 	
 	int amount = StringToInt(arg2);
 	
-	char strTarget[32];GetCmdArg(1, strTarget, sizeof(strTarget));
+	char strTarget[32];
+	GetCmdArg(1, strTarget, sizeof(strTarget));
 	
 	char strTargetName[MAX_TARGET_LENGTH];
 	int TargetList[MAXPLAYERS], TargetCount;
@@ -942,7 +957,7 @@ public Action Command_SendCredits(int client, int args)
 		return Plugin_Handled;
 	}
 	
-	for(int i = 0; i < TargetCount; i++)
+	for (int i = 0; i < TargetCount; i++)
 	{
 		int iClient = TargetList[i];
 		if (IsClientInGame(iClient) && amount > 0)
@@ -1080,7 +1095,8 @@ public Action AdminCommand_GiveCredits(int client, int args)
 	
 	int amount = StringToInt(arg2);
 	
-	char strTarget[32];GetCmdArg(1, strTarget, sizeof(strTarget));
+	char strTarget[32];
+	GetCmdArg(1, strTarget, sizeof(strTarget));
 	char strTargetName[MAX_TARGET_LENGTH];
 	
 	int TargetList[MAXPLAYERS], TargetCount;
@@ -1978,6 +1994,10 @@ public Action Menu_OpenShop(int client)
 		Format(info, sizeof(info), "%T","shop_menu_bird", client, gc_iBird.IntValue);
 		if (Forward_OnGetCredits(client) >= gc_iBird.IntValue && gc_iBird.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sBirdFlag)) AddMenuItem(menu, "Bird", info);
 		else if (gc_iBird.IntValue != 0 && CheckVipFlag(client, g_sBirdFlag)) AddMenuItem(menu, "Bird", info, ITEMDRAW_DISABLED);
+		
+		Format(info, sizeof(info), "%T", "shop_menu_randomtp", client, gc_iRandomTP.IntValue);
+		if (Forward_OnGetCredits(client) >= gc_iRandomTP.IntValue && gc_iRandomTP.IntValue != 0 && g_bAllowBuy && !g_bRandomTP[client] && IsPlayerAlive(client) && CheckVipFlag(client, g_sRandomTPFlag))AddMenuItem(menu, "RandomTP", info);
+		else if (gc_iRandomTP.IntValue != 0 && CheckVipFlag(client, g_sRandomTPFlag))AddMenuItem(menu, "RandomTP", info, ITEMDRAW_DISABLED);
 	}
 	else if (GetClientTeam(client) == CS_TEAM_CT)
 	{
@@ -2138,6 +2158,11 @@ public int Handler_Menu_OpenShop(Menu menu, MenuAction action, int client, int i
 			{
 				Item_PaperClip(client, info);
 			}
+			else if (strcmp(info, "RandomTP") == 0)
+			{
+				Item_RandomTP(client, info);
+			}
+
 			if (!gc_bClose.BoolValue)
 			{
 				Menu_OpenShop(client);
@@ -2157,21 +2182,25 @@ void Item_Invisible(int client, char[] name)
 {
 	if (IsPlayerAlive(client))
 	{
-		SDKHook(client, SDKHook_SetTransmit, Hook_SetTransmit);
-		g_bInvisible[client] = true;
-		CreateTimer(gc_fInvisibleTime.FloatValue, Timer_Invisible, client);
-		
-		StripAllPlayerWeapons(client);
-		GivePlayerItem(client, "weapon_knife");
-		
-		Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iInvisible.IntValue));
-		Forward_OnPlayerBuyItem(client, name);
-		
-		if (gp_bMyIcons) MyIcons_BlockClientIcon(client, true);
-		
-		CPrintToChat(client, "%t %t", "shop_tag", "shop_invisible", RoundToCeil(gc_fInvisibleTime.FloatValue));
-		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_iInvisible.IntValue);
-		if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Invisible", client);
+		if (Forward_OnGetCredits(client) >= gc_iInvisible.IntValue)
+		{
+			SDKHook(client, SDKHook_SetTransmit, Hook_SetTransmit);
+			g_bInvisible[client] = true;
+			CreateTimer(gc_fInvisibleTime.FloatValue, Timer_Invisible, client);
+			
+			StripAllPlayerWeapons(client);
+			GivePlayerItem(client, "weapon_knife");
+			
+			Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iInvisible.IntValue));
+			Forward_OnPlayerBuyItem(client, name);
+			
+			if (gp_bMyIcons) MyIcons_BlockClientIcon(client, true);
+			
+			CPrintToChat(client, "%t %t", "shop_tag", "shop_invisible", RoundToCeil(gc_fInvisibleTime.FloatValue));
+			CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_iInvisible.IntValue);
+			if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Invisible", client);
+		}
+		else CPrintToChat(client, "%t %t", "shop_tag", "shop_missingcredits", Forward_OnGetCredits(client), gc_iInvisible.IntValue);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
 }
@@ -2185,21 +2214,25 @@ void Item_AWP(int client, char[] name)
 	}
 	else if (IsPlayerAlive(client))
 	{
-		int weapon;
-		if ((weapon = GetPlayerWeaponSlot(client, CS_SLOT_PRIMARY)) != -1)   // if player has already a weapon
+		if (Forward_OnGetCredits(client) >= gc_iAWP.IntValue)
 		{
-			SDKHooks_DropWeapon(client, weapon, NULL_VECTOR, NULL_VECTOR);
-			if (gc_bRemoveWeapon.BoolValue) AcceptEntityInput(weapon, "Kill");
+			int weapon;
+			if ((weapon = GetPlayerWeaponSlot(client, CS_SLOT_PRIMARY)) != -1)   // if player has already a weapon
+			{
+				SDKHooks_DropWeapon(client, weapon, NULL_VECTOR, NULL_VECTOR);
+				if (gc_bRemoveWeapon.BoolValue) AcceptEntityInput(weapon, "Kill");
+			}
+			int iAWP = GivePlayerItem(client, "weapon_awp");
+			g_bOneBulletAWP[client] = true;
+			SetPlayerAmmo(client, iAWP, 1, 0);
+			Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iAWP.IntValue));
+			Forward_OnPlayerBuyItem(client, name);
+			
+			CPrintToChat(client, "%t %t", "shop_tag", "shop_awp");
+			CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_iAWP.IntValue);
+			if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: AWP", client);
 		}
-		int iAWP = GivePlayerItem(client, "weapon_awp");
-		g_bOneBulletAWP[client] = true;
-		SetPlayerAmmo(client, iAWP, 1, 0);
-		Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iAWP.IntValue));
-		Forward_OnPlayerBuyItem(client, name);
-		
-		CPrintToChat(client, "%t %t", "shop_tag", "shop_awp");
-		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_iAWP.IntValue);
-		if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: AWP", client);
+		else CPrintToChat(client, "%t %t", "shop_tag", "shop_missingcredits", Forward_OnGetCredits(client), gc_iAWP.IntValue);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
 }
@@ -2209,14 +2242,18 @@ void Item_NoDamage(int client, char[] name)
 {
 	if (IsPlayerAlive(client))
 	{
-		g_bNoDamage[client] = true;
-		CreateTimer(gc_fNoDamageTime.FloatValue, Timer_NoDamage, client);
-		Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iNoDamage.IntValue));
-		Forward_OnPlayerBuyItem(client, name);
-		
-		CPrintToChat(client, "%t %t", "shop_tag", "shop_nodamage", RoundToCeil(gc_fNoDamageTime.FloatValue));
-		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_iNoDamage.IntValue);
-		if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: No Damage", client);
+		if (Forward_OnGetCredits(client) >= gc_iNoDamage.IntValue)
+		{
+			g_bNoDamage[client] = true;
+			CreateTimer(gc_fNoDamageTime.FloatValue, Timer_NoDamage, client);
+			Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iNoDamage.IntValue));
+			Forward_OnPlayerBuyItem(client, name);
+			
+			CPrintToChat(client, "%t %t", "shop_tag", "shop_nodamage", RoundToCeil(gc_fNoDamageTime.FloatValue));
+			CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_iNoDamage.IntValue);
+			if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: No Damage", client);
+		}
+		else CPrintToChat(client, "%t %t", "shop_tag", "shop_missingcredits", Forward_OnGetCredits(client), gc_iNoDamage.IntValue);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
 }
@@ -2226,14 +2263,18 @@ void Item_Doors(int client, char[] name)
 {
 	if (!g_bCellsOpen)
 	{
-		SJD_OpenDoors();
-		Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iOpenCells.IntValue));
-		Forward_OnPlayerBuyItem(client, name);
-		
-		CPrintToChat(client, "%t %t", "shop_tag", "shop_opencell");
-		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_iOpenCells.IntValue);
-		CPrintToChatAll("%t %t", "shop_tag", "shop_opencellall", client);
-		if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Open cells", client);
+		if (Forward_OnGetCredits(client) >= gc_iOpenCells.IntValue)
+		{
+			SJD_OpenDoors();
+			Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iOpenCells.IntValue));
+			Forward_OnPlayerBuyItem(client, name);
+			
+			CPrintToChat(client, "%t %t", "shop_tag", "shop_opencell");
+			CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_iOpenCells.IntValue);
+			CPrintToChatAll("%t %t", "shop_tag", "shop_opencellall", client);
+			if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Open cells", client);
+		}
+		else CPrintToChat(client, "%t %t", "shop_tag", "shop_missingcredits", Forward_OnGetCredits(client), gc_iOpenCells.IntValue);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alreadyopen");
 }
@@ -2243,14 +2284,18 @@ void Item_Vampire(int client, char[] name)
 {
 	if (IsPlayerAlive(client))
 	{
-		SetEntPropFloat(client, Prop_Data, "m_flLaggedMovementValue", gc_fVampireSpeed.FloatValue);
-		Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iVampire.IntValue));
-		Forward_OnPlayerBuyItem(client, name);
-		g_bVampire[client] = true;
-		
-		CPrintToChat(client, "%t %t", "shop_tag", "shop_vapire");
-		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_iVampire.IntValue);
-		if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Vampire", client);
+		if (Forward_OnGetCredits(client) >= gc_iVampire.IntValue)
+		{
+			SetEntPropFloat(client, Prop_Data, "m_flLaggedMovementValue", gc_fVampireSpeed.FloatValue);
+			Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iVampire.IntValue));
+			Forward_OnPlayerBuyItem(client, name);
+			g_bVampire[client] = true;
+			
+			CPrintToChat(client, "%t %t", "shop_tag", "shop_vapire");
+			CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_iVampire.IntValue);
+			if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Vampire", client);
+		}
+		else CPrintToChat(client, "%t %t", "shop_tag", "shop_missingcredits", Forward_OnGetCredits(client), gc_iVampire.IntValue);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
 }
@@ -2264,18 +2309,22 @@ void Item_Health(int client, char[] name)
 	}
 	else if (IsPlayerAlive(client))
 	{
-		Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iHealth.IntValue));
-		Forward_OnPlayerBuyItem(client, name);
-		
-		int health = (GetClientHealth(client) + gc_iHealthExtra.IntValue);
-		SetEntityHealth(client, health);
-		GivePlayerItem(client, "_assaultsuit");
-		SetEntProp(client, Prop_Send, "m_ArmorValue", 100, 1);
-		g_bHealth[client] = true;
-		
-		CPrintToChat(client, "%t %t", "shop_tag", "shop_health", gc_iHealthExtra.IntValue);
-		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_iHealth.IntValue);
-		if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Health", client);
+		if (Forward_OnGetCredits(client) >= gc_iHealth.IntValue)
+		{
+			Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iHealth.IntValue));
+			Forward_OnPlayerBuyItem(client, name);
+			
+			int health = (GetClientHealth(client) + gc_iHealthExtra.IntValue);
+			SetEntityHealth(client, health);
+			GivePlayerItem(client, "_assaultsuit");
+			SetEntProp(client, Prop_Send, "m_ArmorValue", 100, 1);
+			g_bHealth[client] = true;
+			
+			CPrintToChat(client, "%t %t", "shop_tag", "shop_health", gc_iHealthExtra.IntValue);
+			CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_iHealth.IntValue);
+			if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Health", client);
+		}
+		else CPrintToChat(client, "%t %t", "shop_tag", "shop_missingcredits", Forward_OnGetCredits(client), gc_iHealth.IntValue);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
 }
@@ -2289,22 +2338,26 @@ void Item_Deagle(int client, char[] name)
 	}
 	else if (IsPlayerAlive(client))
 	{
-		int weapon;
-		if ((weapon = GetPlayerWeaponSlot(client, CS_SLOT_SECONDARY)) != -1)   // if player has already a weapon
+		if (Forward_OnGetCredits(client) >= gc_iDeagle.IntValue)
 		{
-			SDKHooks_DropWeapon(client, weapon, NULL_VECTOR, NULL_VECTOR);
-			if (gc_bRemoveWeapon.BoolValue) AcceptEntityInput(weapon, "Kill");
+			int weapon;
+			if ((weapon = GetPlayerWeaponSlot(client, CS_SLOT_SECONDARY)) != -1)   // if player has already a weapon
+			{
+				SDKHooks_DropWeapon(client, weapon, NULL_VECTOR, NULL_VECTOR);
+				if (gc_bRemoveWeapon.BoolValue) AcceptEntityInput(weapon, "Kill");
+			}
+			int iDeagle = GivePlayerItem(client, "weapon_deagle");
+			g_bOneMagDeagle[client] = true;
+			SetPlayerAmmo(client, iDeagle, 7, 0);
+			
+			Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iDeagle.IntValue));
+			Forward_OnPlayerBuyItem(client, name);
+			
+			CPrintToChat(client, "%t %t", "shop_tag", "shop_deagle");
+			CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_iDeagle.IntValue);
+			if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Deagle", client);
 		}
-		int iDeagle = GivePlayerItem(client, "weapon_deagle");
-		g_bOneMagDeagle[client] = true;
-		SetPlayerAmmo(client, iDeagle, 7, 0);
-		
-		Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iDeagle.IntValue));
-		Forward_OnPlayerBuyItem(client, name);
-		
-		CPrintToChat(client, "%t %t", "shop_tag", "shop_deagle");
-		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_iDeagle.IntValue);
-		if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Deagle", client);
+		else CPrintToChat(client, "%t %t", "shop_tag", "shop_missingcredits", Forward_OnGetCredits(client), gc_iDeagle.IntValue);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
 }
@@ -2314,23 +2367,27 @@ void Item_Knife(int client, char[] name)
 {
 	if (IsPlayerAlive(client))
 	{
-		int currentknife = GetPlayerWeaponSlot(client, 2);
-		if (IsValidEntity(currentknife) && currentknife != INVALID_ENT_REFERENCE)
+		if (Forward_OnGetCredits(client) >= gc_iKnife.IntValue)
 		{
-			RemovePlayerItem(client, currentknife);
-			RemoveEdict(currentknife);
+			int currentknife = GetPlayerWeaponSlot(client, 2);
+			if (IsValidEntity(currentknife) && currentknife != INVALID_ENT_REFERENCE)
+			{
+				RemovePlayerItem(client, currentknife);
+				RemoveEdict(currentknife);
+			}
+			
+			int iKnife = GivePlayerItem(client, "weapon_knifegg");
+			EquipPlayerWeapon(client, iKnife);
+			
+			g_bSuperKnife[client] = true;
+			Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iKnife.IntValue));
+			Forward_OnPlayerBuyItem(client, name);
+			
+			CPrintToChat(client, "%t %t", "shop_tag", "shop_knife");
+			CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_iKnife.IntValue);
+			if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: One hit knife", client);
 		}
-		
-		int iKnife = GivePlayerItem(client, "weapon_knifegg");
-		EquipPlayerWeapon(client, iKnife);
-		
-		g_bSuperKnife[client] = true;
-		Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iKnife.IntValue));
-		Forward_OnPlayerBuyItem(client, name);
-		
-		CPrintToChat(client, "%t %t", "shop_tag", "shop_knife");
-		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_iKnife.IntValue);
-		if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: One hit knife", client);
+		else CPrintToChat(client, "%t %t", "shop_tag", "shop_missingcredits", Forward_OnGetCredits(client), gc_iKnife.IntValue);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
 }
@@ -2340,23 +2397,27 @@ void Item_Heal(int client, char[] name)
 {
 	if (IsPlayerAlive(client))
 	{
-		int health = GetEntProp(client, Prop_Send, "m_iHealth");
-		
-		if (health >= 100)
+		if (Forward_OnGetCredits(client) >= gc_iHeal.IntValue)
 		{
-			CPrintToChat(client, "%t %t", "shop_tag", "shop_fulllive");
-		}
-		else
-		{
-			SetEntityHealth(client, 100);
-			Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iHeal.IntValue));
-			Forward_OnPlayerBuyItem(client, name);
+			int health = GetEntProp(client, Prop_Send, "m_iHealth");
 			
-			EmitSoundToAll("medicsound/medic.wav");
-			CPrintToChat(client, "%t %t", "shop_tag", "shop_heal");
-			CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_iHeal.IntValue);
-			if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: heal", client);
+			if (health >= 100)
+			{
+				CPrintToChat(client, "%t %t", "shop_tag", "shop_fulllive");
+			}
+			else
+			{
+				SetEntityHealth(client, 100);
+				Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iHeal.IntValue));
+				Forward_OnPlayerBuyItem(client, name);
+				
+				EmitSoundToAll("medicsound/medic.wav");
+				CPrintToChat(client, "%t %t", "shop_tag", "shop_heal");
+				CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_iHeal.IntValue);
+				if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: heal", client);
+			}
 		}
+		else CPrintToChat(client, "%t %t", "shop_tag", "shop_missingcredits", Forward_OnGetCredits(client), gc_iHeal.IntValue);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
 }
@@ -2370,16 +2431,20 @@ void Item_Molotov(int client, char[] name)
 	}
 	else if (IsPlayerAlive(client))
 	{
-		GivePlayerItem(client, "weapon_molotov");
-		GivePlayerItem(client, "weapon_flashbang");
-		GivePlayerItem(client, "weapon_flashbang");
-		g_bMolotov[client] = true;
-		Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iMolotov.IntValue));
-		Forward_OnPlayerBuyItem(client, name);
-		
-		CPrintToChat(client, "%t %t", "shop_tag", "shop_molotov");
-		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_iMolotov.IntValue);
-		if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Molotov", client);
+		if (Forward_OnGetCredits(client) >= gc_iMolotov.IntValue)
+		{
+			GivePlayerItem(client, "weapon_molotov");
+			GivePlayerItem(client, "weapon_flashbang");
+			GivePlayerItem(client, "weapon_flashbang");
+			g_bMolotov[client] = true;
+			Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iMolotov.IntValue));
+			Forward_OnPlayerBuyItem(client, name);
+			
+			CPrintToChat(client, "%t %t", "shop_tag", "shop_molotov");
+			CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_iMolotov.IntValue);
+			if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Molotov", client);
+		}
+		else CPrintToChat(client, "%t %t", "shop_tag", "shop_missingcredits", Forward_OnGetCredits(client), gc_iMolotov.IntValue);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
 }
@@ -2389,18 +2454,22 @@ void Item_FakeModel(int client, char[] name)
 {
 	if (IsPlayerAlive(client))
 	{
-		Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iFakeModel.IntValue));
-		Forward_OnPlayerBuyItem(client, name);
-		
-		g_bFakeGuard[client] = true;
-		
-		GetEntPropString(client, Prop_Data, "m_ModelName", g_sModelPathPrevious[client], sizeof(g_sModelPathPrevious[]));
-		SetEntityModel(client, g_sModelPathFakeGuard);
-		
-		CPrintToChat(client, "%t %t", "shop_tag", "shop_model");
-		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_iFakeModel.IntValue);
-		if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: FakeModel", client);
-		if (gp_bMyIcons) MyIcons_BlockClientIcon(client, true);
+		if (Forward_OnGetCredits(client) >= gc_iFakeModel.IntValue)
+		{
+			Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iFakeModel.IntValue));
+			Forward_OnPlayerBuyItem(client, name);
+			
+			g_bFakeGuard[client] = true;
+			
+			GetEntPropString(client, Prop_Data, "m_ModelName", g_sModelPathPrevious[client], sizeof(g_sModelPathPrevious[]));
+			SetEntityModel(client, g_sModelPathFakeGuard);
+			
+			CPrintToChat(client, "%t %t", "shop_tag", "shop_model");
+			CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_iFakeModel.IntValue);
+			if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: FakeModel", client);
+			if (gp_bMyIcons) MyIcons_BlockClientIcon(client, true);
+		}
+		else CPrintToChat(client, "%t %t", "shop_tag", "shop_missingcredits", Forward_OnGetCredits(client), gc_iFakeModel.IntValue);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
 }
@@ -2410,16 +2479,20 @@ void Item_PoisonSmoke(int client, char[] name)
 {
 	if (IsPlayerAlive(client))
 	{
-		Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iPoisonSmoke.IntValue));
-		Forward_OnPlayerBuyItem(client, name);
-		
-		GivePlayerItem(client, "weapon_smokegrenade");
-		
-		g_bPoison[client] = true;
-		
-		CPrintToChat(client, "%t %t", "shop_tag", "shop_poisensmoke");
-		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_iPoisonSmoke.IntValue);
-		if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Poison smoke", client);
+		if (Forward_OnGetCredits(client) >= gc_iPoisonSmoke.IntValue)
+		{
+			Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iPoisonSmoke.IntValue));
+			Forward_OnPlayerBuyItem(client, name);
+			
+			GivePlayerItem(client, "weapon_smokegrenade");
+			
+			g_bPoison[client] = true;
+			
+			CPrintToChat(client, "%t %t", "shop_tag", "shop_poisensmoke");
+			CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_iPoisonSmoke.IntValue);
+			if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Poison smoke", client);
+		}
+		else CPrintToChat(client, "%t %t", "shop_tag", "shop_missingcredits", Forward_OnGetCredits(client), gc_iPoisonSmoke.IntValue);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
 }
@@ -2429,22 +2502,26 @@ void Item_Bird(int client, char[] name)
 {
 	if (IsPlayerAlive(client))
 	{
-		Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iBird.IntValue));
-		Forward_OnPlayerBuyItem(client, name);
-		
-		SetEntityMoveType(client, MOVETYPE_FLY);
-		ClientCommand(client, "thirdperson");
-		GetEntPropString(client, Prop_Data, "m_ModelName", g_sModelPathPrevious[client], sizeof(g_sModelPathPrevious[]));
-		if (gc_iBirdMode.IntValue == 1) SetEntityModel(client, "models/chicken/chicken.mdl");
-		if (gc_iBirdMode.IntValue == 2) SetEntityModel(client, "models/pigeon.mdl");
-		if (gc_iBirdMode.IntValue == 3) SetEntityModel(client, "models/crow.mdl");
-		
-		g_bFly[client] = true;
-		
-		CPrintToChat(client, "%t %t", "shop_tag", "shop_bird");
-		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_iBird.IntValue);
-		if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: be a bird", client);
-		if (gp_bMyIcons) MyIcons_BlockClientIcon(client, true);
+		if (Forward_OnGetCredits(client) >= gc_iBird.IntValue)
+		{
+			Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iBird.IntValue));
+			Forward_OnPlayerBuyItem(client, name);
+			
+			SetEntityMoveType(client, MOVETYPE_FLY);
+			ClientCommand(client, "thirdperson");
+			GetEntPropString(client, Prop_Data, "m_ModelName", g_sModelPathPrevious[client], sizeof(g_sModelPathPrevious[]));
+			if (gc_iBirdMode.IntValue == 1) SetEntityModel(client, "models/chicken/chicken.mdl");
+			if (gc_iBirdMode.IntValue == 2) SetEntityModel(client, "models/pigeon.mdl");
+			if (gc_iBirdMode.IntValue == 3) SetEntityModel(client, "models/crow.mdl");
+			
+			g_bFly[client] = true;
+			
+			CPrintToChat(client, "%t %t", "shop_tag", "shop_bird");
+			CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_iBird.IntValue);
+			if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: be a bird", client);
+			if (gp_bMyIcons) MyIcons_BlockClientIcon(client, true);
+		}
+		else CPrintToChat(client, "%t %t", "shop_tag", "shop_missingcredits", Forward_OnGetCredits(client), gc_iBird.IntValue);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
 }
@@ -2454,15 +2531,19 @@ void Item_TeleportSmoke(int client, char[] name)
 {
 	if (IsPlayerAlive(client))
 	{
-		GivePlayerItem(client, "weapon_smokegrenade");
-		
-		Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iTeleportSmoke.IntValue));
-		Forward_OnPlayerBuyItem(client, name);
-		
-		g_bTeleportSmoke[client] = true;
-		CPrintToChat(client, "%t %t", "shop_tag", "shop_teleportsmoke");
-		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_iTeleportSmoke.IntValue);
-		if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Teleport smoke", client);
+		if (Forward_OnGetCredits(client) >= gc_iTeleportSmoke.IntValue)
+		{
+			GivePlayerItem(client, "weapon_smokegrenade");
+			
+			Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iTeleportSmoke.IntValue));
+			Forward_OnPlayerBuyItem(client, name);
+			
+			g_bTeleportSmoke[client] = true;
+			CPrintToChat(client, "%t %t", "shop_tag", "shop_teleportsmoke");
+			CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_iTeleportSmoke.IntValue);
+			if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Teleport smoke", client);
+		}
+		else CPrintToChat(client, "%t %t", "shop_tag", "shop_missingcredits", Forward_OnGetCredits(client), gc_iTeleportSmoke.IntValue);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
 }
@@ -2472,15 +2553,19 @@ void Item_FireGrenade(int client, char[] name)
 {
 	if (IsPlayerAlive(client))
 	{
-		GivePlayerItem(client, "weapon_hegrenade");
-		
-		Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iFireHE.IntValue));
-		Forward_OnPlayerBuyItem(client, name);
-		
-		g_bFireHE[client] = true;
-		CPrintToChat(client, "%t %t", "shop_tag", "shop_firegrenade");
-		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_iFireHE.IntValue);
-		if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Fire HE", client);
+		if (Forward_OnGetCredits(client) >= gc_iFireHE.IntValue)
+		{
+			GivePlayerItem(client, "weapon_hegrenade");
+			
+			Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iFireHE.IntValue));
+			Forward_OnPlayerBuyItem(client, name);
+			
+			g_bFireHE[client] = true;
+			CPrintToChat(client, "%t %t", "shop_tag", "shop_firegrenade");
+			CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_iFireHE.IntValue);
+			if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Fire HE", client);
+		}
+		else CPrintToChat(client, "%t %t", "shop_tag", "shop_missingcredits", Forward_OnGetCredits(client), gc_iFireHE.IntValue);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
 }
@@ -2490,14 +2575,18 @@ void Item_Gravity(int client, char[] name)
 {
 	if (IsPlayerAlive(client))
 	{
-		Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iGravity.IntValue));
-		Forward_OnPlayerBuyItem(client, name);
-		
-		g_bGravity[client] = true;
-		SetEntityGravity(client, gc_fGravValue.FloatValue);
-		CPrintToChat(client, "%t %t", "shop_tag", "shop_gravity");
-		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_iGravity.IntValue);
-		if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Gravity", client);
+		if (Forward_OnGetCredits(client) >= gc_iGravity.IntValue)
+		{
+			Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iGravity.IntValue));
+			Forward_OnPlayerBuyItem(client, name);
+			
+			g_bGravity[client] = true;
+			SetEntityGravity(client, gc_fGravValue.FloatValue);
+			CPrintToChat(client, "%t %t", "shop_tag", "shop_gravity");
+			CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_iGravity.IntValue);
+			if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Gravity", client);
+		}
+		else CPrintToChat(client, "%t %t", "shop_tag", "shop_missingcredits", Forward_OnGetCredits(client), gc_iGravity.IntValue);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
 }
@@ -2507,13 +2596,17 @@ void Item_Bhop(int client, char[] name)
 {
 	if (IsPlayerAlive(client))
 	{
-		Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iBhop.IntValue));
-		Forward_OnPlayerBuyItem(client, name);
-		
-		g_bBhop[client] = true;
-		CPrintToChat(client, "%t %t", "shop_tag", "shop_bhop");
-		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_iBhop.IntValue);
-		if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Bhop", client);
+		if (Forward_OnGetCredits(client) >= gc_iBhop.IntValue)
+		{
+			Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iBhop.IntValue));
+			Forward_OnPlayerBuyItem(client, name);
+			
+			g_bBhop[client] = true;
+			CPrintToChat(client, "%t %t", "shop_tag", "shop_bhop");
+			CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_iBhop.IntValue);
+			if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Bhop", client);
+		}
+		else CPrintToChat(client, "%t %t", "shop_tag", "shop_missingcredits", Forward_OnGetCredits(client), gc_iBhop.IntValue);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
 }
@@ -2523,16 +2616,20 @@ void Item_Taser(int client, char[] name)
 {
 	if (IsPlayerAlive(client))
 	{
-		Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iBhop.IntValue));
-		Forward_OnPlayerBuyItem(client, name);
-		
-		int iTaser = GivePlayerItem(client, "weapon_taser");
-		SetEntProp(iTaser, Prop_Send, "m_iPrimaryReserveAmmoCount", 0);
-		SetEntProp(iTaser, Prop_Send, "m_iClip1", 3);
-		
-		CPrintToChat(client, "%t %t", "shop_tag", "shop_taser");
-		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_iTaser.IntValue);
-		if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Taser", client);
+		if (Forward_OnGetCredits(client) >= gc_iTaser.IntValue)
+		{
+			Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iTaser.IntValue));
+			Forward_OnPlayerBuyItem(client, name);
+			
+			int iTaser = GivePlayerItem(client, "weapon_taser");
+			SetEntProp(iTaser, Prop_Send, "m_iPrimaryReserveAmmoCount", 0);
+			SetEntProp(iTaser, Prop_Send, "m_iClip1", 3);
+			
+			CPrintToChat(client, "%t %t", "shop_tag", "shop_taser");
+			CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_iTaser.IntValue);
+			if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Taser", client);
+		}
+		else CPrintToChat(client, "%t %t", "shop_tag", "shop_missingcredits", Forward_OnGetCredits(client), gc_iTaser.IntValue);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
 }
@@ -2542,15 +2639,19 @@ void Item_NoClip(int client, char[] name)
 {
 	if (IsPlayerAlive(client))
 	{
-		g_bNoClip[client] = true;
-		SetEntityMoveType(client, MOVETYPE_NOCLIP);
-		CreateTimer(gc_fNoClipTime.FloatValue, Timer_NoClip, client);
-		Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iNoClip.IntValue));
-		Forward_OnPlayerBuyItem(client, name);
-		
-		CPrintToChat(client, "%t %t", "shop_tag", "shop_noclip", RoundToCeil(gc_fNoClipTime.FloatValue));
-		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_iNoClip.IntValue);
-		if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: No clip", client);
+		if (Forward_OnGetCredits(client) >= gc_iNoClip.IntValue)
+		{
+			g_bNoClip[client] = true;
+			SetEntityMoveType(client, MOVETYPE_NOCLIP);
+			CreateTimer(gc_fNoClipTime.FloatValue, Timer_NoClip, client);
+			Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iNoClip.IntValue));
+			Forward_OnPlayerBuyItem(client, name);
+			
+			CPrintToChat(client, "%t %t", "shop_tag", "shop_noclip", RoundToCeil(gc_fNoClipTime.FloatValue));
+			CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_iNoClip.IntValue);
+			if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: No clip", client);
+		}
+		else CPrintToChat(client, "%t %t", "shop_tag", "shop_missingcredits", Forward_OnGetCredits(client), gc_iNoClip.IntValue);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
 }
@@ -2562,17 +2663,21 @@ void Item_ThrowingKnife(int client, char[] name)
 	{
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_max");
 	}
-	else if (IsPlayerAlive(client) && !g_bThrowingKnife[client])
+	else if (IsPlayerAlive(client))
 	{
-		g_bThrowingKnife[client] = true;
-		g_iKnifesThrown[client] = 0;
-		
-		Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iThrowKnife.IntValue));
-		Forward_OnPlayerBuyItem(client, name);
-		
-		CPrintToChat(client, "%t %t", "shop_tag", "shop_throwingknife");
-		CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_iThrowKnife.IntValue);
-		if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Throw knife", client);
+		if (Forward_OnGetCredits(client) >= gc_iThrowKnife.IntValue)
+		{
+			g_bThrowingKnife[client] = true;
+			g_iKnifesThrown[client] = 0;
+			
+			Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iThrowKnife.IntValue));
+			Forward_OnPlayerBuyItem(client, name);
+			
+			CPrintToChat(client, "%t %t", "shop_tag", "shop_throwingknife");
+			CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_iThrowKnife.IntValue);
+			if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Throw knife", client);
+		}
+		else CPrintToChat(client, "%t %t", "shop_tag", "shop_missingcredits", Forward_OnGetCredits(client), gc_iThrowKnife.IntValue);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
 }
@@ -2663,6 +2768,48 @@ void Item_Wallhack(int client, char[] name)
 		else CPrintToChat(client, "%t %t", "shop_tag", "shop_missingcredits", Forward_OnGetCredits(client), gc_iWallhack.IntValue);
 	}
 	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
+}
+
+//by Hexer10
+void Item_RandomTP(int client, char[] name)
+{
+	if (IsPlayerAlive(client))
+	{
+		if (Forward_OnGetCredits(client) >= gc_iRandomTP.IntValue)
+		{
+			int iRandomClient = GetRandomPlayer(CS_TEAM_T);
+			while (client == iRandomClient)
+			{
+				iRandomClient = GetRandomPlayer(CS_TEAM_T);
+			}
+			
+			float origin[3];
+			GetClientAbsOrigin(iRandomClient, origin);
+			float location[3];
+			GetClientEyePosition(iRandomClient, location);
+			float ang[3];
+			GetClientEyeAngles(iRandomClient, ang);
+			float location2[3];
+			location2[0] = (location[0]+(100*((Cosine(DegToRad(ang[1]))) * (Cosine(DegToRad(ang[0]))))));
+			location2[1] = (location[1]+(100*((Sine(DegToRad(ang[1]))) * (Cosine(DegToRad(ang[0]))))));
+			ang[0] -= (2*ang[0]);
+			location2[2] = origin[2] += 5.0;
+			
+			TeleportEntity(client, location2, NULL_VECTOR, NULL_VECTOR);
+			
+			Forward_OnSetCredits(client, (Forward_OnGetCredits(client) - gc_iRandomTP.IntValue));
+			Forward_OnPlayerBuyItem(client, name);
+			
+			CPrintToChat(client, "%t %t", "shop_tag", "shop_randomtp", iRandomClient);
+			CPrintToChat(iRandomClient, "%t %t", "shop_tag", "shop_randomtp_teleported", client);
+			
+			g_bRandomTP[client] = true;
+			
+			if (gc_bLogging.BoolValue)LogToFileEx(g_sPurchaseLogFile, "Player %L bought: RandomTP", client);
+		}
+		else CPrintToChat(client, "%t %t", "shop_tag", "shop_missingcredits", Forward_OnGetCredits(client), gc_iRandomTP.IntValue);
+	}
+	else CPrintToChat(client, "%t %t", "shop_tag", "shop_alive"); 
 }
 
 
