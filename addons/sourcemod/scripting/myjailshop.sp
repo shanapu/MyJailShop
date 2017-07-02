@@ -2895,7 +2895,7 @@ void UnhookWallhack(int client)
 // awesome code by bacardi https:// forums.alliedmods.net/showthread.php?t=269846
 public Action KnifeHit(int knife, int other)
 {
-	if (0 < other <= MaxClients) // Hits player index
+	if ((0 < other <= MaxClients) && GetClientTeam(other) != CS_TEAM_T) // Hits player index
 	{
 		int victim = other;
 		
