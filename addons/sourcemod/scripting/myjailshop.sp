@@ -1900,7 +1900,7 @@ public Action Menu_OpenShop(int client)
 		else if (gc_iHealthExtraOnlyTeam.IntValue >= 1 && gc_iHealth.IntValue != 0 && CheckVipFlag(client, g_sHealthFlag)) AddMenuItem(menu, "Health", info, ITEMDRAW_DISABLED);
 		
 		Format(info, sizeof(info), "%T","shop_menu_revive", client, gc_iRevive.IntValue);
-		if (gc_iReviveOnlyTeam.IntValue >= 1 && Forward_OnGetCredits(client) >= gc_iRevive.IntValue && gc_iRevive.IntValue != 0 && !IsPlayerAlive(client) && !g_bIsLR && GetAliveTeamCount(GetClientTeam(client)) > 1 && CheckVipFlag(client, g_sReviveFlag)) AddMenuItem(menu, "Revive", info);
+		if (gc_iReviveOnlyTeam.IntValue >= 1 && Forward_OnGetCredits(client) >= gc_iRevive.IntValue && gc_iRevive.IntValue != 0 && !IsPlayerAlive(client) && !g_bIsLR && GetAlivePlayersCount(GetClientTeam(client)) > 1 && CheckVipFlag(client, g_sReviveFlag)) AddMenuItem(menu, "Revive", info);
 		else if (gc_iReviveOnlyTeam.IntValue >= 1 && gc_iRevive.IntValue != 0 && CheckVipFlag(client, g_sReviveFlag)) AddMenuItem(menu, "Revive", info, ITEMDRAW_DISABLED);
 		
 		Format(info, sizeof(info), "%T","shop_menu_vampire", client, gc_iVampire.IntValue);
@@ -2010,7 +2010,7 @@ public Action Menu_OpenShop(int client)
 		else if (gc_iHealthExtraOnlyTeam.IntValue <= 1 && gc_iHealth.IntValue != 0 && CheckVipFlag(client, g_sHealthFlag)) AddMenuItem(menu, "Health", info, ITEMDRAW_DISABLED);
 		
 		Format(info, sizeof(info), "%T","shop_menu_revive", client, gc_iRevive.IntValue);
-		if (gc_iReviveOnlyTeam.IntValue <= 1 && Forward_OnGetCredits(client) >= gc_iRevive.IntValue && gc_iRevive.IntValue != 0 && !IsPlayerAlive(client) && !g_bIsLR && GetAliveTeamCount(GetClientTeam(client)) > 1 && CheckVipFlag(client, g_sReviveFlag)) AddMenuItem(menu, "Revive", info);
+		if (gc_iReviveOnlyTeam.IntValue <= 1 && Forward_OnGetCredits(client) >= gc_iRevive.IntValue && gc_iRevive.IntValue != 0 && !IsPlayerAlive(client) && !g_bIsLR && GetAlivePlayersCount(GetClientTeam(client)) > 1 && CheckVipFlag(client, g_sReviveFlag)) AddMenuItem(menu, "Revive", info);
 		else if (gc_iReviveOnlyTeam.IntValue <= 1 && gc_iRevive.IntValue != 0 && CheckVipFlag(client, g_sReviveFlag)) AddMenuItem(menu, "Revive", info, ITEMDRAW_DISABLED);
 		
 		Format(info, sizeof(info), "%T","shop_menu_bhop", client, gc_iBhop.IntValue);
@@ -2687,7 +2687,7 @@ void Item_Revive(int client, char[] name)
 {
 	if (!IsPlayerAlive(client))
 	{
-		if (!g_bIsLR && GetAliveTeamCount(GetClientTeam(client)) > 1)
+		if (!g_bIsLR && GetAlivePlayersCount(GetClientTeam(client)) > 1)
 		{
 			if (Forward_OnGetCredits(client) >= gc_iRevive.IntValue)
 			{
@@ -2996,7 +2996,7 @@ public Action Timer_WelcomeMessage(Handle timer, any client)
 
 public Action Timer_DeathMessage(Handle timer, any client)
 {
-	if (IsClientInGame(client) && !g_bIsLR && GetAliveTeamCount(GetClientTeam(client)) > 1 && gc_bEnable.BoolValue) CPrintToChat(client, "%t %t", "shop_tag", "shop_revivehint", gc_iRevive.IntValue);
+	if (IsClientInGame(client) && !g_bIsLR && GetAlivePlayersCount(GetClientTeam(client)) > 1 && gc_bEnable.BoolValue) CPrintToChat(client, "%t %t", "shop_tag", "shop_revivehint", gc_iRevive.IntValue);
 }
 
 
@@ -3227,16 +3227,6 @@ public Action Event_PlayerDisconnect(Event event, const char[] name, bool dontBr
 	}
 	if (gp_bCustomPlayerSkins) UnhookWallhack(client);
 	return Plugin_Continue;
-}
-
-
-stock int GetAllPlayersCount()
-{
-	int iCount = 0;
-	
-	for (int i = 1; i <= MaxClients; i++) if (IsValidClient(i, false, true)) iCount++;
-	
-	return iCount;
 }
 
 
