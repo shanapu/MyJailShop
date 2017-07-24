@@ -510,4 +510,15 @@
 		"en"		"Teleport to Random T [{1}¢]"
 	}
 
+	"shop_menu_jetpack"
+	{
+		"#format"	"{1:d}"
+		"en"		"Jetpack [{1}¢]"
+	}
+
+	"shop_jetpack"
+	{
+		"en"		"You bought: Jetpack | press CTRL + SPACE (duck+jump)"
+	}
+
 }

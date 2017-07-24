@@ -3,13 +3,37 @@
 **[1.3.0]** - Sale, VIP Items & teamgames support
   
 *Added*
-
- * Sale - Discount all items with x percent on a sale - sale end on mapchange
- *  new command - sm_sale - Toggle Sale - discount all items 
- *  new cvars - sm_jailshop_sale_multi - How many percent discount on a sale!
- *  new cvars - sm_jailshop_**ITEMNAME**_flag - Set flag for admin/vip must have to get access to a item. No flag = is available for all players!
+ *  Sale - Discount all items with x percent on a sale - sale end on mapchange
+    *  new command - sm_sale - Toggle Sale - discount all items 
+    *  new cvar - sm_jailshop_sale_multi - How many percent discount on a sale!
+ *  new cvar - sm_jailshop_**ITEMNAME**_flag - Set flag for admin/vip must have to get access to a item. No flag = is available for all players!
  *  remove item perks (not the guns/nades) on TeamGames game start.
+ *  new item: Random Teleport - teleport to an random prisoner.
+    *  new cvar - sm_jailshop_randomtp - 0 disable, price of the 'Random teleport' shop item
+    *  new cvar - sm_jailshop_randomtp_flag - Set flag for admin/vip must have to get accesso to RandomTP. No flag = is avaible for all players!
+ *  New Shop Item as extra plugin Jetpack - (make your own custom items!) without editing MyJailShop see Developer stuff
+    *  new plugin - myjailshop_jetpack.smx
+        *  new cvar - sm_jailshop_jetpack_price - Price of the Jetpack perk
+        *  new cvar - sm_jailshop_jetpack_access - 0 - guards only, 1 - guards & prisoner, 2 - prisoner only
+        *  new cvar - sm_jailshop_jetpack_flags - Set flag for admin/vip must have to get access to Jetpack. No flag = is available for all players!
+        *  new cvar - sm_jailshop_jetpack_reloadtime - Time in seconds to reload JetPack. 0 = One time use, no reload
+        *  new cvar - sm_jailshop_jetpack_boost - The amount of boost to apply to JetPack.
+        *  new cvar - sm_jailshop_jetpack_angle - The angle of boost to apply to JetPack.
+        *  new cvar - sm_jailshop_jetpack_max - Time in seconds of using JetPacks.
   
+    
+*Changed*
+ *  Throwing knife now more team damage.
+ *  Gravity: new way for Ladderfix
+  
+  
+  
+*Developer stuff*
+ * New API to add custom item to shop!
+    *  new forward - MyJailShop_OnShopMenu(int client, Menu menu) - Called after the shop menu is built, but before it's displayed. 
+    *  new forward - MyJailShop_OnShopMenuHandler(Menu menu, MenuAction action, int client, int itemNum) - Called once a shop menu item has been selected 
+    *  new forward - MyJailShop_OnResetPlayer(int client) -  Called when a client should remove his items 
+    *  new native - bool MyJailShop_IsBuyTime() - Is buytime? - can player buy item or is shopping restricted
   
 **[1.2.1]** - fix
   
