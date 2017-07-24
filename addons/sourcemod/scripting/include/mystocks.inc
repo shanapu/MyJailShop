@@ -1,3 +1,24 @@
+/*
+ * MyStocks - include file - function libary.
+ * by: shanapu
+ * https://github.com/shanapu/
+ * 
+ * Copyright (C) 2016-2017 Thomas Schmidt (shanapu)
+ *
+ * Version 12.0
+ *
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, version 3.0, as published by the
+ * Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #if defined _mystocks_included_
 	#endinput
@@ -20,11 +41,6 @@ stock bool IsValidClient(int client, bool bAllowBots = false, bool bAllowDead = 
 	return true;
 }
 
-/*
-// Easy clean client loops
-#define LoopClients(%1) for (int %1 = 1; %1 <= MaxClients; %1++) if (IsClientInGame(%1))
-#define LoopValidClients(%1,%2,%3) for (int %1 = 1; %1 <= MaxClients; %1++) if (IsValidClient(%1,%2,%3))
-*/
 
 // Easy precache & prepare download for decals
 stock void PrecacheDecalAnyDownload(char[] sDecal)
@@ -34,7 +50,7 @@ stock void PrecacheDecalAnyDownload(char[] sDecal)
 	PrecacheDecal(sBuffer, true);
 	Format(sBuffer, sizeof(sBuffer), "materials/%s.vmt", sDecal);
 	AddFileToDownloadsTable(sBuffer);
-	
+
 	Format(sBuffer, sizeof(sBuffer), "%s.vtf", sDecal);
 	PrecacheDecal(sBuffer, true);
 	Format(sBuffer, sizeof(sBuffer), "materials/%s.vtf", sDecal);
@@ -73,54 +89,56 @@ stock void StripAllPlayerWeapons(int client)
 	{
 		if ((weapon = GetPlayerWeaponSlot(client, i)) != -1)
 		{
-//			CS_DropWeapon(client, weapon, false);
+			RemovePlayerItem(client, weapon);
 			AcceptEntityInput(weapon, "Kill");
 		}
 	}
 
 	if ((weapon = GetPlayerWeaponSlot(client, CS_SLOT_KNIFE)) != -1)   // strip knife slot 2 times for taser
 	{
-//		CS_DropWeapon(client, weapon, false);
+		RemovePlayerItem(client, weapon);
 		AcceptEntityInput(weapon, "Kill");
 	}
 }
 
 
-// Easy show overlay to a client with lifetime | 0.0 = no auto remove
+// Show overlay to a client with lifetime | 0.0 = no auto remove
 stock void ShowOverlay(int client, char[] path, float lifetime)
 {
-	if (IsValidClient(client, false, true))
-	{
-		int iFlag = GetCommandFlags("r_screenoverlay") & (~FCVAR_CHEAT);
-		SetCommandFlags("r_screenoverlay", iFlag);
-		ClientCommand(client, "r_screenoverlay \"%s.vtf\"", path);
-		if (lifetime != 0.0) CreateTimer(lifetime, DeleteOverlay, client);
-	}
+	if (!IsClientInGame(client) || IsFakeClient(client) || IsClientSourceTV(client) || IsClientReplay(client))
+		return;
+
+	ClientCommand(client, "r_screenoverlay \"%s.vtf\"", path);
+
+	if (lifetime != 0.0)
+		CreateTimer(lifetime, DeleteOverlay, GetClientUserId(client));
 }
 
 
-// Easy show overlay to all clients with lifetime | 0.0 = no auto remove
-stock void ShowOverlayAll(char[] path, float deletetime) 
+// Show overlay to all clients with lifetime | 0.0 = no auto remove
+stock void ShowOverlayAll(char[] path, float lifetime)
 {
-	for (int i = 1; i <= MaxClients; i++) if (IsValidClient(i, false, true))
+	for (int i = 1; i <= MaxClients; i++)
 	{
-		int iFlag = GetCommandFlags("r_screenoverlay") & (~FCVAR_CHEAT);
-		SetCommandFlags("r_screenoverlay", iFlag);
+		if (!IsClientInGame(i) || IsFakeClient(i) || IsClientSourceTV(i) || IsClientReplay(i))
+			continue;
+
 		ClientCommand(i, "r_screenoverlay \"%s.vtf\"", path);
-		if (deletetime != 0.0) CreateTimer(deletetime, DeleteOverlay, i);
+
+		if (lifetime != 0.0)
+			CreateTimer(lifetime, DeleteOverlay, GetClientUserId(i));
 	}
 }
 
 
 // Remove overlay from a client
-stock Action DeleteOverlay(Handle timer, any client) 
+stock Action DeleteOverlay(Handle timer, any userid)
 {
-	if (IsValidClient(client, false, true))
-	{
-		int iFlag = GetCommandFlags("r_screenoverlay") & (~FCVAR_CHEAT);
-		SetCommandFlags("r_screenoverlay", iFlag);
-		ClientCommand(client, "r_screenoverlay \"\"");
-	}
+	int client = GetClientOfUserId(userid);
+	if (client <= 0 || !IsClientInGame(client) || IsFakeClient(client) || IsClientSourceTV(client) || IsClientReplay(client))
+		return;
+
+	ClientCommand(client, "r_screenoverlay \"\"");
 }
 
 
@@ -209,7 +227,7 @@ stock Action Timer_RemoveColor(Handle timer, any client)
 }
 
 
-// Get random alive & non-rebeling player of a team - need hosties
+// Get random alive & non-rebeling player of a team (need lastrequest.inc)
 stock int GetRandomPlayerNonRebel(int team) 
 {
 	int[] clients = new int[MaxClients];
@@ -226,7 +244,7 @@ stock int GetRandomPlayerNonRebel(int team)
 	return (clientCount == 0) ? -1 : clients[GetRandomInt(0, clientCount-1)];
 }
 
-// Get random alive & non-rebeling player of a team
+// Get random alive player
 stock int GetRandomPlayer(int team) 
 {
 	int[] clients = new int[MaxClients];
@@ -244,7 +262,7 @@ stock int GetRandomPlayer(int team)
 }
 
 
-// Get alive & non-rebeling player count of a team
+// Get alive player count of a team
 stock int GetAlivePlayersCount(int team)
 {
 	int iCount, i; iCount = 0;
@@ -256,7 +274,8 @@ stock int GetAlivePlayersCount(int team)
 	return iCount;
 }
 
-// Get alive & non-rebeling player count of a team - need hosties
+
+// Get alive & non-rebeling player count of a team (need lastrequest.inc)
 stock int GetAlivePlayersCountNonRebel(int team)
 {
 	int iCount, i; iCount = 0;
@@ -269,21 +288,16 @@ stock int GetAlivePlayersCountNonRebel(int team)
 }
 
 
-// Get alive player count of a team
-stock int GetAliveTeamCount(int team)
+// Get all player count of a team
+stock int GetAllPlayersCount(int team)
 {
-	int number = 0;
-	for (int i = 1; i <= MaxClients; i++) if (IsClientInGame(i)) if (IsPlayerAlive(i) && GetClientTeam(i) == team) number++;
-	return number;
-}
+	int iCount, i; iCount = 0;
 
+	for (i = 1; i <= MaxClients; i++)
+		if (IsValidClient(i, true, true) && GetClientTeam(i) == team)
+		iCount++;
 
-// Get alive player count of a team
-stock int GetPlayerTeamCount(int team)
-{
-	int number = 0;
-	for (int i = 1; i <= MaxClients; i++) if (IsClientInGame(i)) if (GetClientTeam(i) == team) number++;
-	return number;
+	return iCount;
 }
 
 
@@ -322,14 +336,26 @@ stock int GetLastAlive(int team)
 
 
 // Get a player for a certain admin flag
-stock bool CheckVipFlag(int client, const char[] flagsNeed)
+stock bool CheckVipFlag(int client, char [] flagsNeed)
 {
-	if ((GetUserFlagBits(client) & ReadFlagString(flagsNeed) == ReadFlagString(flagsNeed)) || (GetUserFlagBits(client) & ADMFLAG_ROOT))
+	int iCount = 0;
+	char sflagNeed[22][8], sflagFormat[64];
+	bool bEntitled = false;
+
+	Format(sflagFormat, sizeof(sflagFormat), flagsNeed);
+	ReplaceString(sflagFormat, sizeof(sflagFormat), " ", "");
+	iCount = ExplodeString(sflagFormat, ",", sflagNeed, sizeof(sflagNeed), sizeof(sflagNeed[]));
+
+	for (int i = 0; i < iCount; i++)
 	{
-		return true;
+		if ((GetUserFlagBits(client) & ReadFlagString(sflagNeed[i]) == ReadFlagString(sflagNeed[i])) || (GetUserFlagBits(client) & ADMFLAG_ROOT))
+		{
+			bEntitled = true;
+			break;
+		}
 	}
 
-	return false;
+	return bEntitled;
 }
 
 
@@ -348,4 +374,17 @@ stock int Handler_NullCancel(Handle menu, MenuAction action, int param1, int par
 	}
 
 	return;
+}
+
+stock void StringToUpper(char [] sz)
+{
+	int len = strlen(sz);
+
+	for (int i = 0; i < len; i++)
+	{
+		if (IsCharLower(sz[i]))
+		{
+			sz[i] = CharToUpper(sz[i]);
+		}
+	}
 }
