@@ -43,6 +43,7 @@ public __pl_myjailshop_SetNTVOptional()
 {
 	MarkNativeAsOptional("MyJailShop_SetCredits");
 	MarkNativeAsOptional("MyJailShop_GetCredits");
+	MarkNativeAsOptional("MyJailShop_IsBuyTime");
 }
 #endif
 
@@ -54,6 +55,16 @@ public __pl_myjailshop_SetNTVOptional()
  * @Return				The credits of the client
  *********************************************************/
 forward int MyJailShop_OnGetCredits(int client);
+
+
+
+/*********************************************************
+ * Called when a client should remove his items
+ *
+ * @param client		The client to reset
+ * @NoReturn
+ *********************************************************/
+forward void MyJailShop_OnResetPlayer(int client);
 
 
 
@@ -88,6 +99,28 @@ forward void MyJailShop_OnPlayerGetCredits(int client, int extraCredits);
 forward void MyJailShop_OnPlayerBuyItem(int client, char[] item);
 
 
+/*********************************************************
+ * Called after the shop menu is built, but before it's displayed.
+ * This is where you can add custom shopitem. See MyJailShop_OnShopMenuHandler
+ *
+ * @param client		client Player's index.
+ * @param menu			Menu being displayed to the client.
+ * @NoReturn
+ *********************************************************/
+forward void MyJailShop_OnShopMenu(int client, Menu menu);
+
+
+/*********************************************************
+ * Called once a shop menu item has been selected
+ * @param menu Menu displayed
+ * @param action		Menu Action
+ * @param client		client index
+ * @param itemNum		selected item number
+ * @NoReturn
+ *********************************************************/
+forward void MyJailShop_OnShopMenuHandler(Menu menu, MenuAction action, int client, int itemNum);
+
+
 
 /*********************************************************
  * Get the Credits of the client
@@ -105,3 +138,12 @@ native int MyJailShop_GetCredits(int client);
  * @NoReturn
  *********************************************************/
 native void MyJailShop_SetCredits(int client, int newCredits);
+
+
+/*********************************************************
+ * Is buytime - can player buy item or is shopping restricted
+ *
+ * @param none
+ * @true on buying allowed, false if not
+ *********************************************************/
+native bool MyJailShop_IsBuyTime();

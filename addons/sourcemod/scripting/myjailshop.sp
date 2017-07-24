@@ -234,6 +234,11 @@ Handle g_hThrownKnives;
 Handle gF_hOnGetCredits;
 Handle gF_hOnSetCredits;
 
+Handle gF_hOnShopMenu;
+Handle gF_hOnShopMenuHandler;
+
+Handle gF_hOnResetPlayer;
+
 
 // Strings
 char g_sSQLBuffer[1024];
@@ -1857,6 +1862,8 @@ public Action ResetPlayer(int client)
 	g_bOneMagDeagle[client] = false;
 	g_bMolotov[client] = false;
 	g_bHealth[client] = false;
+	
+	Forward_OnResetPlayer(client);
 }
 
 
@@ -2037,6 +2044,11 @@ public Action Menu_OpenShop(int client)
 		}
 	}
 	
+	Call_StartForward(gF_hOnShopMenu);
+	Call_PushCell(client);
+	Call_PushCell(menu);
+	Call_Finish();
+	
 	menu.ExitButton = true;
 	menu.Display(client, MENU_TIME_FOREVER);
 	
@@ -2046,6 +2058,13 @@ public Action Menu_OpenShop(int client)
 
 public int Handler_Menu_OpenShop(Menu menu, MenuAction action, int client, int itemNum) 
 {
+	Call_StartForward(gF_hOnShopMenuHandler);
+	Call_PushCell(menu);
+	Call_PushCell(action);
+	Call_PushCell(client);
+	Call_PushCell(itemNum);
+	Call_Finish();
+	
 	if (action == MenuAction_Select)
 	{
 		if (g_bAllowBuy && gc_bEnable.BoolValue)
@@ -3368,14 +3387,17 @@ public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max
 	// Forwards
 	gF_hOnPlayerGetCredits = CreateGlobalForward("MyJailShop_OnPlayerGetCredits", ET_Ignore, Param_Cell, Param_Cell);
 	gF_hOnPlayerBuyItem = CreateGlobalForward("MyJailShop_OnPlayerBuyItem", ET_Ignore, Param_Cell, Param_String);
+	gF_hOnResetPlayer = CreateGlobalForward("MyJailShop_OnResetPlayer", ET_Ignore, Param_Cell);
 	
 	gF_hOnGetCredits = CreateGlobalForward("MyJailShop_OnGetCredits", ET_Event, Param_Cell);
 	gF_hOnSetCredits = CreateGlobalForward("MyJailShop_OnSetCredits", ET_Event, Param_Cell, Param_Cell);
-	
+	gF_hOnShopMenuHandler= CreateGlobalForward("MyJailShop_OnShopMenuHandler", ET_Ignore, Param_Cell, Param_Cell, Param_Cell, Param_Cell);
+	gF_hOnShopMenu = CreateGlobalForward("MyJailShop_OnShopMenu", ET_Ignore, Param_Cell, Param_Cell);
 	
 	// Natives
 	CreateNative("MyJailShop_SetCredits", Native_SetCredits);
 	CreateNative("MyJailShop_GetCredits", Native_GetCredits);
+	CreateNative("MyJailShop_IsBuyTime", Native_BuyTime);
 	
 	
 	if (GetEngineVersion() != Engine_CSGO)
@@ -3397,6 +3419,11 @@ public int Native_GetCredits(Handle plugin, int argc)
 		return -1;
 	}
 	return g_iCredits[client];
+}
+
+public int Native_BuyTime(Handle plugin, int argc)
+{
+	return g_bAllowBuy;
 }
 
 
@@ -3432,6 +3459,14 @@ void Forward_OnPlayerGetCredits(int client, int extraCredits)
 	Call_StartForward(gF_hOnPlayerGetCredits);
 	Call_PushCell(client);
 	Call_PushCell(extraCredits);
+	Call_Finish();
+}
+
+
+void Forward_OnResetPlayer(int client)
+{
+	Call_StartForward(gF_hOnResetPlayer);
+	Call_PushCell(client);
 	Call_Finish();
 }
 
