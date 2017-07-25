@@ -224,7 +224,7 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 		
 		if (target != -1)
 		{
-			char clsname[64], name[128];
+			char clsname[64];
 			GetEntityClassname(target, clsname, sizeof(clsname));
 			
 			if (StrContains(clsname, "func_door") || StrContains(clsname, "func_movelinear"))
