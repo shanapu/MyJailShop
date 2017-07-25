@@ -182,7 +182,7 @@ void Item_Jetpack(int client, char[] name)
 	Forward_OnPlayerBuyItem(client, name);
 
 	// announce it
-	CPrintToChat(client, "%t %s", "shop_tag", "shop_jetpack");
+	CPrintToChat(client, "%t %t", "shop_tag", "shop_jetpack");
 	CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", MyJailShop_GetCredits(client), gc_iItemPrice.IntValue);
 
 	// log it
