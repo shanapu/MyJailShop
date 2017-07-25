@@ -72,8 +72,8 @@ fi
 echo "Create clean build & sub folder"
 mkdir build
 
-echo "Move addons& cfg folder"
-mv addons cfg build
+echo "Move addons, cfg sound & fastdl folder"
+mv addons cfg sound fastDL build
 
 echo "Move license to build"
 mv install.txt license.txt CHANGELOG.md build/
