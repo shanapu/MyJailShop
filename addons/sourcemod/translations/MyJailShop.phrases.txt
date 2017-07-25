@@ -521,4 +521,15 @@
 		"en"		"You bought: Jetpack | press CTRL + SPACE (duck+jump)"
 	}
 
+	"shop_menu_jihad"
+	{
+		"#format"	"{1:d}"
+		"en"		"Jihad Bomb [{1}¢]"
+	}
+
+	"shop_jihad"
+	{
+		"en"		"You bought: Jihad Bomb | press Mouse1 + E (attack+use)"
+	}
+
 }
