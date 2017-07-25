@@ -538,4 +538,15 @@
 		"en"		"You bought: Jihad Bomb | press Mouse1 + E (attack+use)"
 	}
 
+	"shop_menu_door"
+	{
+		"#format"	"{1:d}"
+		"en"		"Open a door at view [{1}¢]"
+	}
+
+	"shop_door"
+	{
+		"en"		"You bought: Open a door at view | press E (use) while watching a door"
+	}
+
 }
