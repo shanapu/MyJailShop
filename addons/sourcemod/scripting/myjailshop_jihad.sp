@@ -125,7 +125,7 @@ public void MyJailShop_OnShopMenu(int client, Menu menu)
 	if (GetClientTeam(client) == CS_TEAM_T)
 	{
 		char info[64];
-		Format(info, sizeof(info), "%s", "shop_menu_jihad %i", client, gc_iItemPrice.IntValue);
+		Format(info, sizeof(info), "%t", "shop_menu_jihad", client, gc_iItemPrice.IntValue);
 
 		if (MyJailShop_GetCredits(client) >= gc_iItemPrice.IntValue && MyJailShop_IsBuyTime() && IsPlayerAlive(client) && CheckVipFlag(client, g_sJihadFlag)) 
 			AddMenuItem(menu, "Jihad", info);
