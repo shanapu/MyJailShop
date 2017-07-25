@@ -133,6 +133,7 @@ ConVar gc_iGravity;
 ConVar gc_fGravValue;
 ConVar gc_iTaser;
 ConVar gc_iNoClip;
+ConVar gc_bNoClipKill;
 ConVar gc_fNoClipTime;
 ConVar gc_iThrowKnife;
 ConVar gc_iWallhack;
