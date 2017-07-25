@@ -161,7 +161,7 @@ public void MyJailShop_OnShopMenuHandler(Menu menu, MenuAction action, int clien
 void Item_Jetpack(int client, char[] name)
 {
 	// is player alive?
-	if (IsPlayerAlive(client))
+	if (!IsPlayerAlive(client))
 	{
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_alive");
 		return;
