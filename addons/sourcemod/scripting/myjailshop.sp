@@ -406,6 +406,7 @@ public void OnPluginStart()
 	gc_iNoClip = AutoExecConfig_CreateConVar("sm_jailshop_noclip_price", "9000", "0 - disabled, price of the 'No Clip' shop item", _, true, 0.0);
 	gc_fNoClipTime = AutoExecConfig_CreateConVar("sm_jailshop_noclip_time", "5.0", "Time in seconds how long the player has noclip", _, true, 1.0);
 	gc_sNoClipFlag = AutoExecConfig_CreateConVar("sm_jailshop_noclip_flag", "", "Set flag for admin/vip must have to get access to noclip. No flag = is available for all players!");
+	gc_bNoClipKill = AutoExecConfig_CreateConVar("sm_jailshop_noclip_stuck", "1", "0 - disabled / 1 - kill player when stuck after noclip", _, true, 0.0, true, 1.0);
 	gc_iWallhack = AutoExecConfig_CreateConVar("sm_jailshop_wallhack_price", "25000", "0 - disabled, price of the 'Wallhack' shop item (only if CustomPlayerSkins is available)", _, true, 0.0);
 	gc_fWallhackTime = AutoExecConfig_CreateConVar("sm_jailshop_wallhack_time", "10.0", "Time in seconds how long the player has wallhack", _, true, 1.0);
 	gc_iWallhackOnlyTeam = AutoExecConfig_CreateConVar("sm_jailshop_wallhack_access", "1", "0 - guards only, 1 - guards & prisoner, 2 - prisoner only", _, true, 0.0, true, 2.0);
@@ -3003,6 +3004,26 @@ public Action Timer_NoClip(Handle timer, any client)
 	SetEntityMoveType(client, MOVETYPE_WALK);
 	CPrintToChat(client, "%t %t", "shop_tag", "shop_noclipend");
 	
+	if (IsClientStuck(client))
+	{
+		if (gc_bNoClipKill.BoolValue) CreateTimer(3.0, Timer_StuckNoClip, client);
+		CPrintToChatAll("%t %t", "shop_tag", "shop_noclipstuck");
+	}
+
+	return Plugin_Stop;
+}
+
+public Action Timer_StuckNoClip(Handle timer, any client)
+{
+	if (GetCommandFlags("sm_timebomb") != INVALID_FCVAR_FLAGS)
+	{
+		int randomnum = GetRandomInt(0, 1);
+
+		if (randomnum == 1) ServerCommand("sm_timebomb %N 1", client);
+		if (randomnum == 2) ServerCommand("sm_firebomb %N 1", client);
+	}
+	else ForcePlayerSuicide(client);
+
 	return Plugin_Stop;
 }
 
