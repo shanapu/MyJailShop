@@ -127,9 +127,9 @@ public void MyJailShop_OnShopMenu(int client, Menu menu)
 		char info[64];
 		Format(info, sizeof(info), "%s", "shop_menu_jihad %i", client, gc_iItemPrice.IntValue);
 
-		if (gc_iItemOnlyTeam.IntValue <= 1 && MyJailShop_GetCredits(client) >= gc_iItemPrice.IntValue && MyJailShop_IsBuyTime() && IsPlayerAlive(client) && CheckVipFlag(client, g_sJihadFlag)) 
+		if (MyJailShop_GetCredits(client) >= gc_iItemPrice.IntValue && MyJailShop_IsBuyTime() && IsPlayerAlive(client) && CheckVipFlag(client, g_sJihadFlag)) 
 			AddMenuItem(menu, "Jihad", info);
-		else if (gc_iItemOnlyTeam.IntValue <= 1 && CheckVipFlag(client, g_sJihadFlag)) 
+		else if (CheckVipFlag(client, g_sJihadFlag)) 
 			AddMenuItem(menu, "Jihad", info, ITEMDRAW_DISABLED);
 	}
 }
