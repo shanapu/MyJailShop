@@ -247,8 +247,6 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 	{
 		int iWeapon = GetEntPropEnt(client, Prop_Send, "m_hActiveWeapon");
 		char weaponName[64];
-		
-		PrintToChat(client, "debug use attack");
 
 		if (IsValidEdict(iWeapon))
 		{
