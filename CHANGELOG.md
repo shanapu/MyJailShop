@@ -11,7 +11,7 @@
  *  new item: Random Teleport - teleport to an random prisoner.
     *  new cvar - sm_jailshop_randomtp - 0 disable, price of the 'Random teleport' shop item
     *  new cvar - sm_jailshop_randomtp_flag - Set flag for admin/vip must have to get accesso to RandomTP. No flag = is avaible for all players!
- *  New Shop Item as extra plugin Jetpack - (make your own custom items!) without editing MyJailShop see Developer stuff
+ *  New Shop Item as extra plugin Jetpack - (yes, make your own custom items!) without editing MyJailShop see Developer stuff
     *  new plugin - myjailshop_jetpack.smx
         *  new cvar - sm_jailshop_jetpack_price - Price of the Jetpack perk
         *  new cvar - sm_jailshop_jetpack_access - 0 - guards only, 1 - guards & prisoner, 2 - prisoner only
@@ -19,12 +19,29 @@
         *  new cvar - sm_jailshop_jetpack_reloadtime - Time in seconds to reload JetPack. 0 = One time use, no reload
         *  new cvar - sm_jailshop_jetpack_boost - The amount of boost to apply to JetPack.
         *  new cvar - sm_jailshop_jetpack_angle - The angle of boost to apply to JetPack.
-        *  new cvar - sm_jailshop_jetpack_max - Time in seconds of using JetPacks.
+        *  new cvar - sm_jailshop_jetpack_max - Time in seconds of using JetPacks. 
+*  New Shop Item as extra plugin Jihad
+    *  new plugin - myjailshop_jihad.smx
+        *  new cvar - sm_jailshop_jihad_price - Price of the Jihad bomb
+        *  new cvar - sm_jailshop_jihad_flags - Set flag for admin/vip must have to get access to jihad. No flag = is available for all players!
+        *  new cvar - sm_jailshop_standstill - 0 - disabled, 1 - standstill(cant move) on Activate bomb
+        *  new cvar - sm_jailshop_bomb_radius - Radius for bomb damage
+*  New Shop Item as extra plugin ViewDoor - open a door by viewing on it.
+    *  new plugin - myjailshop_door.smx
+        *  new cvar - sm_jailshop_door_price - Price of the ViewDoor perk
+        *  new cvar - sm_jailshop_door_flags - Set flag for admin/vip must have to get access to view door. No flag = is available for all players!
+*  New Shop Item as extra plugin Blackout - darken the map for some time.
+    *  new plugin - myjailshop_door.smx
+        *  new cvar - sm_jailshop_blackout_price - Price of the Blackout perk
+        *  new cvar - sm_jailshop_blackout_flags - Set flag for admin/vip must have to get access to blackout. No flag = is available for all players!
+        *  new cvar - sm_jailshop_blackout_time - How many seconds the blackout should be?");
   
     
 *Changed*
  *  Throwing knife now more team damage.
  *  Gravity: new way for Ladderfix
+ *  NoClip: autoslay player when stuck.
+    *  new cvar - sm_jailshop_noclip_stuck - 0 - disabled / 1 - kill player when stuck after noclip
   
   
   

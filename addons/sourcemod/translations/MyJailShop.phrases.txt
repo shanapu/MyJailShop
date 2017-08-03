@@ -549,4 +549,20 @@
 		"en"		"You bought: Open a door at view | press E (use) while watching a door"
 	}
 
+	"shop_menu_blackout"
+	{
+		"#format"	"{1:d}"
+		"en"		"Blackout - darken the map [{1}¢]"
+	}
+
+	"shop_blackout"
+	{
+		"en"		"You bought: Blackout - Zzztt..."
+	}
+
+	"shop_blackout_all"
+	{
+		"en"		"We have a critical power outage!"
+	}
+
 }
