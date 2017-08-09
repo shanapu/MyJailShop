@@ -70,17 +70,17 @@ public void OnPluginStart()
 	// Translation
 	LoadTranslations("MyJailShop.phrases");
 
+	// Add new Convars to existing Items.cfg
+	AutoExecConfig_SetFile("Items", "MyJailShop");
+	AutoExecConfig_SetCreateFile(true);
+
 	// Register ConVars
 	gc_iItemPrice = AutoExecConfig_CreateConVar("sm_jailshop_door_price", "1000", "Price of the Door perk");
 	gc_sItemFlag = AutoExecConfig_CreateConVar("sm_jailshop_door_flag", "", "Set flag for admin/vip must have to get access to Door. No flag = is available for all players!");
-	
 
-	
 	// Add new Convars to existing Items.cfg
 	AutoExecConfig_ExecuteFile();
 	AutoExecConfig_CleanFile();
-	AutoExecConfig_SetFile("Items", "MyJailShop");
-	AutoExecConfig_SetCreateFile(true);
 
 	// Set file for Logs
 	SetLogFile(g_sPurchaseLogFile, "purchase", "MyJailShop");

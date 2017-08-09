@@ -71,6 +71,10 @@ public void OnPluginStart()
 	// Translation
 	LoadTranslations("MyJailShop.phrases");
 
+	// Add new Convars to existing Items.cfg
+	AutoExecConfig_SetFile("Items", "MyJailShop");
+	AutoExecConfig_SetCreateFile(true);
+
 	// Register ConVars
 	gc_iItemPrice = AutoExecConfig_CreateConVar("sm_jailshop_blackout_price", "1000", "Price of the Blackout perk");
 	gc_sItemFlag = AutoExecConfig_CreateConVar("sm_jailshop_blackout_flag", "", "Set flag for admin/vip must have to get access to Blackout. No flag = is available for all players!");
@@ -79,8 +83,6 @@ public void OnPluginStart()
 	// Add new Convars to existing Items.cfg
 	AutoExecConfig_ExecuteFile();
 	AutoExecConfig_CleanFile();
-	AutoExecConfig_SetFile("Items", "MyJailShop");
-	AutoExecConfig_SetCreateFile(true);
 
 	// Set file for Logs
 	SetLogFile(g_sPurchaseLogFile, "purchase", "MyJailShop");

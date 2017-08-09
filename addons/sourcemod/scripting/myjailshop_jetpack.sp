@@ -86,6 +86,10 @@ public void OnPluginStart()
 	// Translation
 	LoadTranslations("MyJailShop.phrases");
 
+	// Add new Convars to existing Items.cfg
+	AutoExecConfig_SetFile("Items", "MyJailShop");
+	AutoExecConfig_SetCreateFile(true);
+
 	// Register ConVars
 	gc_iItemPrice = AutoExecConfig_CreateConVar("sm_jailshop_jetpack_price", "20", "Price of the Jetpack perk");
 	gc_iItemOnlyTeam = AutoExecConfig_CreateConVar("sm_jailshop_jetpack_access", "1", "0 - guards only, 1 - guards & prisoner, 2 - prisoner only", _, true, 0.0, true, 2.0);
@@ -98,8 +102,6 @@ public void OnPluginStart()
 	// Add new Convars to existing Items.cfg
 	AutoExecConfig_ExecuteFile();
 	AutoExecConfig_CleanFile();
-	AutoExecConfig_SetFile("Items", "MyJailShop");
-	AutoExecConfig_SetCreateFile(true);
 
 	// Set file for Logs
 	SetLogFile(g_sPurchaseLogFile, "purchase", "MyJailShop");

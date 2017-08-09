@@ -86,22 +86,23 @@ public void OnPluginStart()
 	// Translation
 	LoadTranslations("MyJailShop.phrases");
 
+	// Add new Convars to existing Items.cfg
+	AutoExecConfig_SetFile("Items", "MyJailShop");
+	AutoExecConfig_SetCreateFile(true);
+
 	// Register ConVars
 	gc_iItemPrice = AutoExecConfig_CreateConVar("sm_jailshop_jihad_price", "20", "Price of the Jihad perk");
 	gc_sItemFlag = AutoExecConfig_CreateConVar("sm_jailshop_jihad_flag", "", "Set flag for admin/vip must have to get access to Jihad. No flag = is available for all players!");
-	
+
 	gc_bStandStill = AutoExecConfig_CreateConVar("sm_jailshop_standstill", "1", "0 - disabled, 1 - standstill(cant move) on Activate bomb", _, true, 0.0, true, 1.0);
 	gc_fBombRadius = AutoExecConfig_CreateConVar("sm_jailshop_bomb_radius", "200.0", "Radius for bomb damage", _, true, 10.0, true, 999.0);
-	
+
 	gc_sSoundSuicideBomberPath = AutoExecConfig_CreateConVar("sm_jailshop_sounds_jihad", "music/MyJailbreak/suicidebomber.mp3", "Path to the soundfile which should be played on activatebomb.");
 	gc_sSoundBoomPath = AutoExecConfig_CreateConVar("sm_jailshop_sounds_boom", "music/MyJailbreak/boom.mp3", "Path to the soundfile which should be played on detonation.");
-	
-	
+
 	// Add new Convars to existing Items.cfg
 	AutoExecConfig_ExecuteFile();
 	AutoExecConfig_CleanFile();
-	AutoExecConfig_SetFile("Items", "MyJailShop");
-	AutoExecConfig_SetCreateFile(true);
 
 	// Set file for Logs
 	SetLogFile(g_sPurchaseLogFile, "purchase", "MyJailShop");
