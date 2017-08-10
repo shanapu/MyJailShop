@@ -3009,7 +3009,7 @@ public Action Timer_NoClip(Handle timer, any client)
 	if (IsClientStuck(client))
 	{
 		if (gc_bNoClipKill.BoolValue) CreateTimer(3.0, Timer_StuckNoClip, client);
-		CPrintToChatAll("%t %t", "shop_tag", "shop_noclipstuck");
+		CPrintToChatAll("%t %t", "shop_tag", "shop_noclipstuck", client);
 	}
 
 	return Plugin_Stop;
@@ -3019,10 +3019,7 @@ public Action Timer_StuckNoClip(Handle timer, any client)
 {
 	if (GetCommandFlags("sm_timebomb") != INVALID_FCVAR_FLAGS)
 	{
-		int randomnum = GetRandomInt(0, 1);
-
-		if (randomnum == 1) ServerCommand("sm_timebomb %N 1", client);
-		if (randomnum == 2) ServerCommand("sm_firebomb %N 1", client);
+		ServerCommand("sm_timebomb %N 1", client);
 	}
 	else ForcePlayerSuicide(client);
 

@@ -341,7 +341,7 @@
 		"en"		"NoClip has ended!"
 	}
 
-	"shop_noclipend"
+	"shop_noclipstuck"
 	{
 		"#format"	"{1:N}"
 		"en"		"{1} is stuck with NoClip!"
