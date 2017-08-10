@@ -1849,6 +1849,7 @@ public Action ResetPlayer(int client)
 	if (gp_bCustomPlayerSkins) UnhookWallhack(client);
 	if (gp_bMyIcons) MyIcons_BlockClientIcon(client, false);
 	
+	g_bRandomTP[client] = false;
 	g_bNoDamage[client] = false;
 	g_bPoison[client] = false;
 	g_bVampire[client] = false;

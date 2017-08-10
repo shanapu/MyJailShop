@@ -500,13 +500,13 @@
 
 	"shop_randomtp"
 	{
-		"#format"	"{1:n}"
+		"#format"	"{1:N}"
 		"en"		"You teleported to {1}!"
 	}
 
 	"shop_randomtp_teleported"
 	{
-		"#format"	"{1:n}"
+		"#format"	"{1:N}"
 		"en"		"{1} teleported to you!"
 	}
 
