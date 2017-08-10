@@ -123,7 +123,7 @@ public void MyJailShop_OnShopMenu(int client, Menu menu)
 	if ((GetClientTeam(client) == CS_TEAM_CT && gc_iItemOnlyTeam.IntValue <= 1) || (GetClientTeam(client) == CS_TEAM_T && gc_iItemOnlyTeam.IntValue >= 1))
 	{
 		char info[64];
-		Format(info, sizeof(info), "%t", "shop_menu_jetpack", client, gc_iItemPrice.IntValue);
+		Format(info, sizeof(info), "%t", "shop_menu_jetpack", gc_iItemPrice.IntValue);
 
 		if (gc_iItemOnlyTeam.IntValue <= 1 && MyJailShop_GetCredits(client) >= gc_iItemPrice.IntValue && MyJailShop_IsBuyTime() && IsPlayerAlive(client) && CheckVipFlag(client, g_sJetpackFlag)) 
 			AddMenuItem(menu, "Jetpack", info);

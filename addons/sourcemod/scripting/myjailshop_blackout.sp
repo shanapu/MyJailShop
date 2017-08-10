@@ -103,7 +103,7 @@ public void MyJailShop_OnShopMenu(int client, Menu menu)
 	if (GetClientTeam(client) == CS_TEAM_T)
 	{
 		char info[64];
-		Format(info, sizeof(info), "%t", "shop_menu_blackout", client, gc_iItemPrice.IntValue);
+		Format(info, sizeof(info), "%t", "shop_menu_blackout", gc_iItemPrice.IntValue);
 
 		if (MyJailShop_GetCredits(client) >= gc_iItemPrice.IntValue && MyJailShop_IsBuyTime() && IsPlayerAlive(client) && CheckVipFlag(client, g_sItemFlag)) 
 			AddMenuItem(menu, "Blackout", info);
