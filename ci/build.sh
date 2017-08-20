@@ -73,11 +73,7 @@ mv install.txt license.txt CHANGELOG.md build/
 echo "Remove sourcemod folders"
 rm -r build/addons/metamod
 rm -r build/addons/sourcemod/bin
-rm -r build/addons/sourcemod/configs/geoip
-rm -r build/addons/sourcemod/configs/sql-init-scripts
-rm -r build/addons/sourcemod/configs/*.txt
-rm -r build/addons/sourcemod/configs/*.ini
-rm -r build/addons/sourcemod/configs/*.cfg
+rm -r build/addons/sourcemod/configs
 rm -r build/addons/sourcemod/data
 rm -r build/addons/sourcemod/extensions
 rm -r build/addons/sourcemod/gamedata
@@ -94,10 +90,6 @@ echo "Download source and move to folder"
 git clone --depth=50 --branch=$2 https://github.com/shanapu/MyJailShop.git source/MyJailShop
 mv source/MyJailShop/addons/sourcemod/scripting build/addons/sourcemod
 
-echo "Move FastDL folder"
-mkdir build/fastDL
-mv fastDL/sound build/fastDL
-
 echo "Create clean translation folder"
 mkdir build/addons/sourcemod/translations
 
@@ -113,7 +105,7 @@ echo "Go to build folder"
 cd build
 
 echo "Compress directories and files"
-zip -9rq $FILE addons cfg install.txt license.txt downloads.txt CHANGELOG.md
+zip -9rq $FILE addons fastDL cfg install.txt license.txt downloads.txt CHANGELOG.md
 
 echo "Upload file"
 lftp -c "set ftp:ssl-allow no; set ssl:verify-certificate no; open -u $USER,$PASS $HOST; put -O MyJailShop/downloads/SM$1/$2/ $FILE"
