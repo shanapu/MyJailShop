@@ -94,6 +94,10 @@ echo "Download source and move to folder"
 git clone --depth=50 --branch=$2 https://github.com/shanapu/MyJailShop.git source/MyJailShop
 mv source/MyJailShop/addons/sourcemod/scripting build/addons/sourcemod
 
+echo "Move FastDL folder"
+mkdir build/fastDL
+mv fastDL/sound build/fastDL
+
 echo "Create clean translation folder"
 mkdir build/addons/sourcemod/translations
 
