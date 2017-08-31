@@ -1893,9 +1893,9 @@ public Action Menu_OpenShop(int client)
 	{
 		if (gp_bSmartJailDoors)
 		{
-			Format(info, sizeof(info), "%T","shop_menu_openjail", client, gc_iOpenCells.IntValue);
 			if (SJD_IsCurrentMapConfigured())
 			{
+				Format(info, sizeof(info), "%T","shop_menu_openjail", client, gc_iOpenCells.IntValue);
 				if (Forward_OnGetCredits(client) >= gc_iOpenCells.IntValue && gc_iOpenCells.IntValue != 0 && g_bAllowBuy && !g_bCellsOpen && CheckVipFlag(client, g_sOpenCellsFlag)) AddMenuItem(menu, "Doors", info);
 				else if (gc_iOpenCells.IntValue != 0 && CheckVipFlag(client, g_sOpenCellsFlag)) AddMenuItem(menu, "Doors", info, ITEMDRAW_DISABLED);
 			}
@@ -2391,15 +2391,8 @@ void Item_Knife(int client, char[] name)
 	{
 		if (Forward_OnGetCredits(client) >= gc_iKnife.IntValue)
 		{
-			int currentknife = GetPlayerWeaponSlot(client, 2);
-			if (IsValidEntity(currentknife) && currentknife != INVALID_ENT_REFERENCE)
-			{
-				RemovePlayerItem(client, currentknife);
-				RemoveEdict(currentknife);
-			}
-			
-			int iKnife = GivePlayerItem(client, "weapon_knifegg");
-			EquipPlayerWeapon(client, iKnife);
+			StripAllPlayerWeapons(client);
+			EquipPlayerWeapon(client, "weapon_knifegg");
 			
 			g_bSuperKnife[client] = true;
 			Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iKnife.IntValue));
