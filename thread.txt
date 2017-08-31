@@ -1,3 +1,7 @@
+[URL="https://github.com/shanapu/MyJailShop/stargazers"][IMG]https://img.shields.io/github/stars/shanapu/MyJailShop.svg?style=flat-square[/IMG][/url]
+
+[URL="https://forums.alliedmods.net/showthread.php?p=2459493&nojs=1#goto_threadrating"]Rate Thread		 [IMG]https://forums.alliedmods.net/images/misc/menu_open.svg[/IMG][IMG]https://forums.alliedmods.net/images/rating/rating_5.svg[/IMG][/URL]
+
 [SIZE="5"][B]MyJailShop[/B][/SIZE] a redux rewrite of [URL="https://forums.alliedmods.net/showthread.php?t=247917"]Dkmuniz Jail Shop[/URL]
 
 MyJailShop provide you a high customizable shop with credits system intended for jailbreak server.
@@ -17,6 +21,7 @@ Earn credits for playtime, kills, your team won rounds &/or you reach last reque
 [*][B]Low Gravity[/B]
 [*][B]No Damage / Immortal[/B]
 [*][B]Wallhack for x sec.[/B] (optional - need CustomPlayerSkins)
+[*][B]Jetpack[/B]
 [/LIST]
 
 [u]Prisoner / Terrorist - only:[/u]
@@ -37,6 +42,9 @@ Earn credits for playtime, kills, your team won rounds &/or you reach last reque
 [*][B]Three bullets Taser[/B]
 [*][B]Molotov & flashs[/B]
 [*][B]Be a Bird[/B]
+[*][B]Blackout[/B]
+[*][B]Open door in sight[/B]
+[*][B]Jihad[/B]
 [/LIST]
 
 
@@ -52,6 +60,7 @@ Earn credits for playtime, kills, your team won rounds &/or you reach last reque
 [*]Colors
 [*]Natives & forwards - some gambling plugins coming soon!
 [*]VIP flags for items
+[*]great API to insert your own custom items
 [*]some other fancy stuff
 [/LIST]
 
@@ -195,6 +204,30 @@ set your own custom command. take a look at "[b]sm_jailshop_cmds_NAME[/b]"
 [b]sm_jailshop_paperclip_price[/b] - 0 - disabled, price of the 'PaperClips' shop item (only if myjb is available)
 [b]sm_jailshop_paperclip_flag[/b] - "Set flag for admin/vip must have to get access to paperclip. No flag = is a
 [b]sm_jailshop_paperclip_amount[/b] - Amount of paperclips a player get (only if myjb is available)
+[b]sm_jailshop_randomtp[/b] - 0 - disable, price of the 'Random teleport' shop item
+[b]sm_jailshop_randomtp_flag[/b] - Set flag for admin/vip must have to get accesso to RandomTP. No flag = is avaible for all players!
+[/QUOTE]
+[/SPOILER]
+
+[b]Shop Item ConVars for extra plugins:[/b]
+[SPOILER]
+[QUOTE]
+[b]sm_jailshop_jetpack_price[/b] - Price of the Jetpack perk
+[b]sm_jailshop_jetpack_access[/b] - 0 - guards only, 1 - guards & prisoner, 2 - prisoner only
+[b]sm_jailshop_jetpack_flags[/b] - Set flag for admin/vip must have to get access to Jetpack. No flag = is available for all players!
+[b]sm_jailshop_jetpack_reloadtime[/b] - Time in seconds to reload JetPack. 0 = One time use, no reload
+[b]sm_jailshop_jetpack_boost[/b] - The amount of boost to apply to JetPack.
+[b]sm_jailshop_jetpack_angle[/b] - The angle of boost to apply to JetPack.
+[b]sm_jailshop_jetpack_max[/b] - Time in seconds of using JetPacks. 
+[b]sm_jailshop_jihad_price[/b] - Price of the Jihad bomb
+[b]sm_jailshop_jihad_flags[/b] - Set flag for admin/vip must have to get access to jihad. No flag = is available for all players!
+[b]sm_jailshop_standstill[/b] - 0 - disabled, 1 - standstill(cant move) on Activate bomb
+[b]sm_jailshop_bomb_radius[/b] - Radius for bomb damage
+[b]sm_jailshop_door_price[/b] - Price of the ViewDoor perk
+[b]sm_jailshop_door_flags[/b] - Set flag for admin/vip must have to get access to view door. No flag = is available for all players!
+[b]sm_jailshop_blackout_price[/b] - Price of the Blackout perk
+[b]sm_jailshop_blackout_flags[/b] - Set flag for admin/vip must have to get access to blackout. No flag = is available for all players!
+[b]sm_jailshop_blackout_time[/b] - How many seconds the blackout should be?
 [/QUOTE]
 [/SPOILER]
 
@@ -212,7 +245,7 @@ set your own custom command. take a look at "[b]sm_jailshop_cmds_NAME[/b]"
 
 [*][url=https://forums.alliedmods.net/showthread.php?t=240703]CustomPlayerSkins[/url] - needed for shop item - Wallhackshowthread.php?t=264100]Smart Jail Doors[/url] - needed for shop item - Open Jail Doors
 
-[*][url=https://forums.alliedmods.net/showthread.php?p=2442992]TeamGames[/url] - remove for item persk on team game
+[*][url=https://forums.alliedmods.net/showthread.php?p=2442992]TeamGames[/url] - remove for item perks on a team game
 
 [/LIST]
 
@@ -221,7 +254,7 @@ set your own custom command. take a look at "[b]sm_jailshop_cmds_NAME[/b]"
 
 [*][url=https://forums.alliedmods.net/showthread.php?t=276677][ANY] Store by Zephyrus[/url] - use api plugin: zephyrus-store.smx
 
-[*][url=https://forums.alliedmods.net/showthread.php?t=255418]Sourcemod Store[/url - use api plugin: myjailshop-sm-store.smx
+[*][url=https://forums.alliedmods.net/showthread.php?t=255418]Sourcemod Store[/url] - use api plugin: myjailshop-sm-store.smx
 
 [*][url=http://hlmod.ru/resources/shop-core.182/]Shop by FrozDark[/url] - use api plugin: myjailshop-frozdark-shop.smx
 
@@ -246,6 +279,8 @@ set your own custom command. take a look at "[b]sm_jailshop_cmds_NAME[/b]"
 [*]smartjaildoors.inc [url]https://forums.alliedmods.net/showthread.php?p=2306289[/url]
 
 [*]CustomPlayerSkins.inc [url]https://forums.alliedmods.net/showthread.php?t=240703[/url]
+
+[*]myicons.inc [url]https://github.com/shanapu/MyJailbreak/blob/master/addons/sourcemod/scripting/include/myicons.inc[/url]
 [/LIST]
 [/SPOILER]
 
@@ -254,6 +289,37 @@ set your own custom command. take a look at "[b]sm_jailshop_cmds_NAME[/b]"
 [SPOILER]
 myjailshop.inc
 [php]
+/*********************************************************
+ * Called when a client get credits and sm_jailshop_credits_system "0"
+ *
+ * @param client		The client who get the credits
+ * @Return				The credits of the client
+ *********************************************************/
+forward int MyJailShop_OnGetCredits(int client);
+
+
+
+/*********************************************************
+ * Called when a client should remove his items
+ *
+ * @param client		The client to reset
+ * @NoReturn
+ *********************************************************/
+forward void MyJailShop_OnResetPlayer(int client);
+
+
+
+/*********************************************************
+ * Called when a clients credits are set and sm_jailshop_credits_system "0"
+ *
+ * @param client		The client who get the credits
+ * @param Credits	Amount of credits
+ * @NoReturn
+ *********************************************************/
+forward void MyJailShop_OnSetCredits(int client, int NewCreditsAmount);
+
+
+
 /*********************************************************
  * Called when a client get credits
  *
@@ -271,7 +337,29 @@ forward void MyJailShop_OnPlayerGetCredits(int client, int extraCredits);
  * @param item			The name of the item.
  * @NoReturn
  *********************************************************/
-forward void MyJailShop_OnPlayerBuyItem(int client, char [] item);
+forward void MyJailShop_OnPlayerBuyItem(int client, char[] item);
+
+
+/*********************************************************
+ * Called after the shop menu is built, but before it's displayed.
+ * This is where you can add custom shopitem. See MyJailShop_OnShopMenuHandler
+ *
+ * @param client		client Player's index.
+ * @param menu			Menu being displayed to the client.
+ * @NoReturn
+ *********************************************************/
+forward void MyJailShop_OnShopMenu(int client, Menu menu);
+
+
+/*********************************************************
+ * Called once a shop menu item has been selected
+ * @param menu Menu displayed
+ * @param action		Menu Action
+ * @param client		client index
+ * @param itemNum		selected item number
+ * @NoReturn
+ *********************************************************/
+forward void MyJailShop_OnShopMenuHandler(Menu menu, MenuAction action, int client, int itemNum);
 
 
 
@@ -291,6 +379,15 @@ native int MyJailShop_GetCredits(int client);
  * @NoReturn
  *********************************************************/
 native void MyJailShop_SetCredits(int client, int newCredits);
+
+
+/*********************************************************
+ * Is buytime - can player buy item or is shopping restricted
+ *
+ * @param none
+ * @true on buying allowed, false if not
+ *********************************************************/
+native bool MyJailShop_IsBuyTime();
 [/php]
 [/SPOILER]
 
@@ -332,77 +429,77 @@ native void MyJailShop_SetCredits(int client, int newCredits);
 
 
 [B][u]Latest Changes[/u][/B]
-
-[QUOTE] 
-[b][1.2.0][/B] - 3rd party credits, MyJailbreaks paperclips support & fixes 
+  [QUOTE] 
+[b][1.4.0][/B] - API for custom shop items & some examples
   
 [SPOILER] 
+  
 [i]Added[/i]
 [LIST]
-[*]new item: new item paperclips if MyJailBreaks Warden & Handcuffs available
+[*]new item: Random Teleport - teleport to an random prisoner. thx hexer10!
+[/LIST][INDENT][LIST]
+[*]new cvar - sm_jailshop_randomtp - 0 disable, price of the 'Random teleport' shop item
+[*]new cvar - sm_jailshop_randomtp_flag - Set flag for admin/vip must have to get accesso to RandomTP. No flag = is avaible for all players!
+[/LIST][/INDENT][LIST]
+[*]new shop item as extra plugin: Jetpack - (yes, make your own custom items! without editing MyJailShop.sp - see Developer stuff)
+[/LIST][INDENT][LIST]
+[*]new plugin - myjailshop_jetpack.smx
+[/LIST][INDENT][LIST]
+[*]new cvar - sm_jailshop_jetpack_price - Price of the Jetpack perk
+[*]new cvar - sm_jailshop_jetpack_access - 0 - guards only, 1 - guards & prisoner, 2 - prisoner only
+[*]new cvar - sm_jailshop_jetpack_flags - Set flag for admin/vip must have to get access to Jetpack. No flag = is available for all players!
+[*]new cvar - sm_jailshop_jetpack_reloadtime - Time in seconds to reload JetPack. 0 = One time use, no reload
+[*]new cvar - sm_jailshop_jetpack_boost - The amount of boost to apply to JetPack.
+[*]new cvar - sm_jailshop_jetpack_angle - The angle of boost to apply to JetPack.
+[*]new cvar - sm_jailshop_jetpack_max - Time in seconds of using JetPacks. 
+[/LIST][/INDENT][/INDENT][LIST]
+[*]new shop item as extra plugin: Jihad
+[/LIST][INDENT][LIST]
+[*]new plugin - myjailshop_jihad.smx
+[/LIST][INDENT][LIST]
+[*]new cvar - sm_jailshop_jihad_price - Price of the Jihad bomb
+[*]new cvar - sm_jailshop_jihad_flags - Set flag for admin/vip must have to get access to jihad. No flag = is available for all players!
+[*]new cvar - sm_jailshop_standstill - 0 - disabled, 1 - standstill(cant move) on Activate bomb
+[*]new cvar - sm_jailshop_bomb_radius - Radius for bomb damage
+[/LIST][/INDENT][/INDENT][LIST]
+[*]new shop item as extra plugin: ViewDoor - open a door by viewing on it.
+[/LIST][INDENT][LIST]
+[*]new plugin - myjailshop_door.smx
+[/LIST][INDENT][LIST]
+[*]new cvar - sm_jailshop_door_price - Price of the ViewDoor perk
+[*]new cvar - sm_jailshop_door_flags - Set flag for admin/vip must have to get access to view door. No flag = is available for all players!
+[/LIST][/INDENT][/INDENT][LIST]
+[*]new shop item as extra plugin: Blackout - darken the map for some time.
+[/LIST][INDENT][LIST]
+[*]new plugin - myjailshop_blackout.smx
+[/LIST][INDENT][LIST]
+[*]new cvar - sm_jailshop_blackout_price - Price of the Blackout perk
+[*]new cvar - sm_jailshop_blackout_flags - Set flag for admin/vip must have to get access to blackout. No flag = is available for all players!
+[*]new cvar - sm_jailshop_blackout_time - How many seconds the blackout should be?
+[/LIST][/INDENT][/INDENT][LIST]
 [/LIST]
-[INDENT][LIST]
-[*]new cvar - sm_jailshop_paperclip_price - 0 - disabled, price of the 'PaperClips' shop item (only if myjb is available)
-[*]new cvar - sm_jailshop_paperclip_amount - Amount of paperclips a player get (only if myjb is available)
-[/LIST][/INDENT] 
-[LIST]
-[*]Support for 3rd party store/shop plugins credit system (use their credits instead myjs credits)
-[/LIST]
-[INDENT][LIST]
-[*]new cvar - sm_jailshop_credits_system - 1 - MyJailShop Credits, 0 - Zephrus store or 'SM Store' or FrozDark shop (need extra support plugin)
-[*]new plugin - myjailshop-zephyrus-store.smx - Support plugin for Zephyrus store plugin
-[*]new plugin - myjailshop-sm-store.smx - Support plugin for 'sm store' plugin
-[*]new plugin - myjailshop-frozdark-shop.smx - Support plugin for FrozDarks shop plugin
-[/LIST][/INDENT] 
-[LIST]
-[*]new cvar - sm_jailshop_tag - Allow "MyJailShop" to be added to the server tags? So player will find servers with MyJailShop faster. it dont touch you sv_tags
-[*]new cvar - sm_jailshop_log - Allow MyJailShop to log purchases and gifts in logs/MyJailShop
-[*]new cvar - sm_jailshop_buy_lr - 0 - disabled, 1 - Restrict shopping on last request
-[*]new cvar - sm_jailshop_remove_lr - 0 - disabled, 1 - Remove the bought perks on a last request. (bought weapons stay)
-[*]RU transaltion - Thx include1!
-[*]IT transaltion - Thx Hexer10!
-[*]New builds system - sourcecode on github / binarys at http://shanapu.de/MyJailShop
-[/LIST]
-  
   
   
 [i]Changed[/i]
 [LIST]
-[*]Moved 'Be a Bird'-item to end of menu
-[*]Already buyed items are greyed out
-[*]When using MyJB, icons will be disabled on invisible, bird & fakeguard
-[*]MyJailbreak: remove players icon above heads on 'fakeguard' & 'be a bird'-items
-[/LIST]
+[*]Throwing knife no more team damage.
+[*]Gravity: new way for Ladderfix
+[*]NoClip: autoslay player when stuck.
+[/LIST][INDENT][LIST]
+[*]new cvar - sm_jailshop_noclip_stuck - 0 - disabled / 1 - kill player when stuck after noclip
+[/LIST][/INDENT]
   
   
-  
-[i]Fixed[/i]
+[i]Developer stuff[/i]
 [LIST]
-[*]Ammobug when a player already got a prim/sec weapon and buy deagle or awp
-[/LIST]
-[INDENT][LIST]
-[*]new cvar - sm_jailshop_removeweapon - 0 - disabled, 1 - When a player already got a prim/sec weapon and buy deagle or awp the current weapon disappear
-[/LIST][/INDENT] 
-[LIST]
-[*]Bug color in give/gift chat messages
-[*]Bug to get more bullets on deagle & awp Thx Jezis
-[*]Show chat message "You bought..." only to client.
-[*]Possibility for player to !jailgift credits to themself
-[*]Show wrong costs on Taser Thx Dkmuniz
-[*]minor fixes & small typos
-[/LIST]
-  
-  
-  
-[i]Developer stuff[i]
-[LIST]
-[*]Natives: Changed all native names by adding MyJailShop_* in front to avoid conflicts with 3rd party plugins
-[*]Forwards: Changed all forward names by adding MyJailShop_* in front to avoid conflicts with 3rd party plugins
-[/LIST]
-  
-[b][1.1.0][/b] - skipped
-  
-[b][1.0.0][/b] - initial release
+[*]new API to add custom item to shop! take a look to template plugins code of jetpack, jihad, doors & blackout
+[/LIST][INDENT][LIST]
+[*]new forward - MyJailShop_OnShopMenu(int client, Menu menu) - Called after the shop menu is built, but before it's displayed. 
+[*]new forward - MyJailShop_OnShopMenuHandler(Menu menu, MenuAction action, int client, int itemNum) - Called once a shop menu item has been selected 
+[*]new forward - MyJailShop_OnResetPlayer(int client) -  Called when a client should remove his items 
+[*]new native - bool MyJailShop_IsBuyTime() - Is buytime? - can player buy item or is shopping restricted
+[/LIST][/INDENT]
+[/SPOILER]
   
 [U][B]Full Change Log:[/B][/U]
 [url=https://github.com/shanapu/MyJailShop/blob/master/CHANGELOG.md]CHANGELOG.md[/url]
@@ -432,7 +529,7 @@ based/merged/used code/idea plugins:
 [/SPOILER]
 [SIZE="5"]THANKS FOR MAKING FREE SOFTWARE![/SIZE] :bacon!: :bacon!:
 [U]Much Thanks: [/U]
-Dkmuniz, Franc1sco, devu4, Weeeishy, Include1, KissLick, live4net, bacardi, TiBarification for testing & great ideas!
+Dkmuniz, Hexer10, Bchewy, Franc1sco, devu4, Weeeishy, Include1, KissLick, live4net, bacardi, TiBarification for testing & great ideas!
 
 
 
@@ -440,21 +537,20 @@ Dkmuniz, Franc1sco, devu4, Weeeishy, Include1, KissLick, live4net, bacardi, TiBa
 [rant]
 [B][U]What should I consider if I open a issue on github or post on forum?[/U][/B]
 [LIST]
-[*]Take a look to the [url=https://github.com/shanapu/MyJailbreak/wiki/Frequently-Asked-Questions]FAQ[/url].
 [*]Read the issues on github & posts on forums thread - maybe your request was already posted there.
 [*]Use descriptive topic titles & descriptions. "i have idea", "need Help", "Suggestion" or "don't work" isn't helpful & pleasant.
 [*]Try to explain your request with [U][b]so many details as you can.[/b][/U]
 [*][B]USE PROPER ENGLISH![/B]
-[*]Expound every single step to reproduce your train of thought. [U]We're all no clairvoyant or mindreaders.[U]
-[*]Explain like "I'm an idiot and never I used MyJailShop before".
+[*]Expound every single step to reproduce your train of thought. [U]We're all no clairvoyant or mindreaders.[/U]
+[*]Explain like "I'm an idiot and never I played MyJailbreak before".
 [*]Maybe take a screenshot or make a beautiful picture with paint.
 [*]Provide [U]so many infos as you can[/U]. Like your...
 [/LIST][INDENT][LIST=1]
 [*]sourcemod & metamod version
-[*]MyJailShop version
+[*]MyJailbreak version
 [*]sm plugins list server console output
 [*]plugin configs (.cfg)
-[*]error logs from .../csgo/addons/sourcemod/logs directory
+[*][U][B]error logs[/B][/U] from .../csgo/addons/sourcemod/logs directory
 [*]all other things that could help us helping you!
 [/LIST][/INDENT][LIST]
 [*]Please open [U]one Issue[/U] per request/errors/problems. Split many requests/errors/problems to different Issues. Thanks!
@@ -464,13 +560,14 @@ Dkmuniz, Franc1sco, devu4, Weeeishy, Include1, KissLick, live4net, bacardi, TiBa
 
 
 
-[B][U]Download release pack[/U][/B] new build system!
+[B][U]Download release pack[/U][/B]
 [url]https://shanapu.de/MyJailShop/[/url]
 
-[B][U]Sourcecode[/U][/B]
+[B][U]Sourcecode & miscellaneous at github[/U][/B]
 [url]https://github.com/shanapu/MyJailShop/[/url]
 
 
+ [URL="https://github.com/shanapu/MyJailShop/issues"][IMG]https://img.shields.io/github/issues-raw/shanapu/MyJailShop.svg?style=flat-square[/IMG][/url]
 [U][B]Report Bugs, Ideas, Requests & see todo:[/B][/U]
 [url]https://github.com/shanapu/MyJailShop/issues[/url]
 
@@ -488,5 +585,4 @@ coded with [IMG]http://shanapu.de/githearth-small.png[/IMG] free software
 Even if you are a beginner and willing to learn or you just want to [url=http://translator.mitchdempsey.com/users/378/sourcemod_plugins]help with translations.[/url][/b] 
 
 
-
-[SIZE="1"]my golden faucets not finance itself...[/SIZE] [URL="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=QT8TVRSYWP53J"] [IMG]http://shanapu.de/donate.gif[/IMG][/URL]
+[SIZE="1"]you can donate if you like my work for the community...[/SIZE] [URL="https://www.paypal.me/shanapu"] [IMG]https://www.paypalobjects.com/webstatic/en_US/i/btn/png/silver-rect-paypal-26px.png[/IMG][/URL]
