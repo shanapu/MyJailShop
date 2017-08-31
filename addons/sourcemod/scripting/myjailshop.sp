@@ -2391,8 +2391,13 @@ void Item_Knife(int client, char[] name)
 	{
 		if (Forward_OnGetCredits(client) >= gc_iKnife.IntValue)
 		{
-			StripAllPlayerWeapons(client);
-			EquipPlayerWeapon(client, "weapon_knifegg");
+			int currentknife = GetPlayerWeaponSlot(client, CS_SLOT_KNIFE);
+			if (IsValidEntity(currentknife) && currentknife != INVALID_ENT_REFERENCE)
+			{
+				RemovePlayerItem(client, currentknife);
+				RemoveEdict(currentknife);
+			}
+			GivePlayerItem(client, "weapon_knifegg");
 			
 			g_bSuperKnife[client] = true;
 			Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iKnife.IntValue));
