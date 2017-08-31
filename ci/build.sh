@@ -24,19 +24,13 @@ do
   rm output.txt
 done
 
-if [ $1 == "1.7" ]
-then echo "Fix include for SM1.7"
-for file in addons/sourcemod/scripting/include/mystocks.inc
-do
-  sed -i "s/stock int Handler_NullCancel(Handle menu, MenuAction action, int param1, int param2)/public int Handler_NullCancel(Handle menu, MenuAction action, int param1, int param2)/g" $file > output.txt
-  sed -i "s/stock Action DeleteOverlay(Handle timer, any client)/public Action DeleteOverlay(Handle timer, any client)/g" $file > output.txt
-  sed -i "s/stock Action Timer_RemoveColor(Handle timer, any client)/public Action Timer_RemoveColor(Handle timer, any client)/g" $file > output.txt
-  rm output.txt
-done
-fi
 
 echo "Compile MyJailShop plugins"
 addons/sourcemod/scripting/spcomp -E -v0 addons/sourcemod/scripting/myjailshop.sp
+addons/sourcemod/scripting/spcomp -E -v0 addons/sourcemod/scripting/myjailshop_door.sp
+addons/sourcemod/scripting/spcomp -E -v0 addons/sourcemod/scripting/myjailshop_blackout.sp
+addons/sourcemod/scripting/spcomp -E -v0 addons/sourcemod/scripting/myjailshop_jetpack.sp
+addons/sourcemod/scripting/spcomp -E -v0 addons/sourcemod/scripting/myjailshop_jihad.sp
 addons/sourcemod/scripting/spcomp -E -v0 addons/sourcemod/scripting/myjailshop-frozdark-shop.sp
 addons/sourcemod/scripting/spcomp -E -v0 addons/sourcemod/scripting/myjailshop-sm-store.sp
 addons/sourcemod/scripting/spcomp -E -v0 addons/sourcemod/scripting/myjailshop-zephyrus-store.sp
@@ -70,8 +64,8 @@ fi
 echo "Create clean build & sub folder"
 mkdir build
 
-echo "Move addons& cfg folder"
-mv addons cfg build
+echo "Move addons, cfg sound & fastdl folder"
+mv addons cfg sound fastDL build
 
 echo "Move license to build"
 mv install.txt license.txt CHANGELOG.md build/
@@ -79,11 +73,7 @@ mv install.txt license.txt CHANGELOG.md build/
 echo "Remove sourcemod folders"
 rm -r build/addons/metamod
 rm -r build/addons/sourcemod/bin
-rm -r build/addons/sourcemod/configs/geoip
-rm -r build/addons/sourcemod/configs/sql-init-scripts
-rm -r build/addons/sourcemod/configs/*.txt
-rm -r build/addons/sourcemod/configs/*.ini
-rm -r build/addons/sourcemod/configs/*.cfg
+rm -r build/addons/sourcemod/configs
 rm -r build/addons/sourcemod/data
 rm -r build/addons/sourcemod/extensions
 rm -r build/addons/sourcemod/gamedata
@@ -115,7 +105,7 @@ echo "Go to build folder"
 cd build
 
 echo "Compress directories and files"
-zip -9rq $FILE addons cfg install.txt license.txt downloads.txt CHANGELOG.md
+zip -9rq $FILE addons fastDL cfg install.txt license.txt downloads.txt CHANGELOG.md
 
 echo "Upload file"
 lftp -c "set ftp:ssl-allow no; set ssl:verify-certificate no; open -u $USER,$PASS $HOST; put -O MyJailShop/downloads/SM$1/$2/ $FILE"

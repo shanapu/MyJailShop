@@ -341,6 +341,12 @@
 		"en"		"NoClip has ended!"
 	}
 
+	"shop_noclipstuck"
+	{
+		"#format"	"{1:N}"
+		"en"		"{1} is stuck with NoClip!"
+	}
+
 	"shop_nodamage"
 	{
 		"#format"	"{1:d}"
@@ -473,6 +479,90 @@
 	"shop_onlyct"
 	{
 		"en"		"This item is only for guards!"
+	}
+
+	"shop_saleon"
+	{
+		"#format"	"{1:d}"
+		"en"		"Sale On! All items on {1}%% discount!"
+	}
+
+	"shop_saleend"
+	{
+		"en"		"Sale has ended!"
+	}
+
+	"shop_menu_title_sale"
+	{
+		"#format"	"{1:d}"
+		"en"		"%%SALE%% {1}%% discount!"
+	}
+
+	"shop_randomtp"
+	{
+		"#format"	"{1:N}"
+		"en"		"You teleported to {1}!"
+	}
+
+	"shop_randomtp_teleported"
+	{
+		"#format"	"{1:N}"
+		"en"		"{1} teleported to you!"
+	}
+
+	"shop_menu_randomtp"
+	{
+		"#format"	"{1:d}"
+		"en"		"Teleport to Random T [{1}¢]"
+	}
+
+	"shop_menu_jetpack"
+	{
+		"#format"	"{1:d}"
+		"en"		"Jetpack [{1}¢]"
+	}
+
+	"shop_jetpack"
+	{
+		"en"		"You bought: Jetpack | press CTRL + SPACE (duck+jump)"
+	}
+
+	"shop_menu_jihad"
+	{
+		"#format"	"{1:d}"
+		"en"		"Jihad Bomb [{1}¢]"
+	}
+
+	"shop_jihad"
+	{
+		"en"		"You bought: Jihad Bomb | press Mouse1 + E (attack+use)"
+	}
+
+	"shop_menu_door"
+	{
+		"#format"	"{1:d}"
+		"en"		"Open a door at view [{1}¢]"
+	}
+
+	"shop_door"
+	{
+		"en"		"You bought: Open a door at view | press E (use) while watching a door"
+	}
+
+	"shop_menu_blackout"
+	{
+		"#format"	"{1:d}"
+		"en"		"Blackout - darken the map [{1}¢]"
+	}
+
+	"shop_blackout"
+	{
+		"en"		"You bought: Blackout - Zzztt..."
+	}
+
+	"shop_blackout_all"
+	{
+		"en"		"We have a critical power outage!"
 	}
 
 }
