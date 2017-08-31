@@ -322,7 +322,7 @@ public void OnPluginStart()
 	gc_iMinPlayersToGetCredits = AutoExecConfig_CreateConVar("sm_jailshop_minplayers", "4", "Minimum players to earn credits", _, true, 0.0);
 	gc_bCreditsWarmup = AutoExecConfig_CreateConVar("sm_jailshop_warmupcredits", "1", "0 - disabled, 1 - enable players get credits on warmup", _, true, 0.0, true, 1.0);
 	
-	gc_iCreditsKillT = AutoExecConfig_CreateConVar("sm_jailshop_credits_kill_t", "150", "0 - disabled, amount of credits a prisoner earns when kill a Guard ()", _, true, 0.0);
+	gc_iCreditsKillT = AutoExecConfig_CreateConVar("sm_jailshop_credits_kill_t", "150", "0 - disabled, amount of credits a prisoner earns when kill a Guard", _, true, 0.0);
 	gc_iCreditsVIPKillT = AutoExecConfig_CreateConVar("sm_jailshop_credits_kill_t_vip", "200", "0 - disabled, amount of credits a VIP prisoner earns when kill a Guard", _, true, 0.0);
 	gc_iCreditsKillCT = AutoExecConfig_CreateConVar("sm_jailshop_credits_kill_ct", "15", "0 - disabled, amount of credits a guard earns when kill a prisoner", _, true, 0.0);
 	gc_iCreditsVIPKillCT = AutoExecConfig_CreateConVar("sm_jailshop_credits_kill_ct_vip", "20", "0 - disabled, amount of credits a VIP guard earns when kill a prisoner", _, true, 0.0);
@@ -1159,10 +1159,10 @@ public Action Event_PlayerDeath(Event event, const char[] name, bool dontBroadca
 	if (attacker == client)
 		return;
 	
-	if (gc_iCreditsKillCT.IntValue == 0 && gc_iCreditsVIPKillCT.IntValue == 0)
+	if (GetClientTeam(attacker) == CS_TEAM_CT && gc_iCreditsKillCT.IntValue == 0 && gc_iCreditsVIPKillCT.IntValue == 0)
 		return;
 	
-	if (gc_iCreditsKillT.IntValue == 0 && gc_iCreditsVIPKillT.IntValue == 0)
+	if (GetClientTeam(attacker) == CS_TEAM_T && gc_iCreditsKillT.IntValue == 0 && gc_iCreditsVIPKillT.IntValue == 0)
 		return;
 	
 	if (GetAllPlayersCount() >= gc_iMinPlayersToGetCredits.IntValue && (gc_bCreditsWarmup.BoolValue || GameRules_GetProp("m_bWarmupPeriod") != 1)) 
