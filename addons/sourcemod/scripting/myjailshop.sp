@@ -1590,7 +1590,7 @@ public Action Hook_OnTakeDamage(int victim, int &attacker, int &inflictor, float
 				char weaponName[255];
 				GetClientWeapon(attacker, weaponName, sizeof(weaponName));
 				
-				if (StrEqual(weaponName, "weapon_knifegg"))
+				if (StrContains(weaponName, "knife") != -1)
 				{
 					damage = 1000.0;
 					return Plugin_Changed;
