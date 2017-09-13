@@ -1,5 +1,16 @@
 ### Change Log
   
+**[1.4.1.dev]** - DEV
+  
+*Changed*
+ *  Allow admin commands from server console
+
+*Fixed*
+ *  Allow OneHit knife with any knife - Thx @hexah
+ *  Restrict player commands from server console
+  
+  
+  
 **[1.4.0]** - API for custom shop items & some examples
   
 *Added*

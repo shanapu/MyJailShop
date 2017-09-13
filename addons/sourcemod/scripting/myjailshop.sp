@@ -54,7 +54,7 @@
 
 
 // Defines
-#define VERSION "1.4.0-<COMMIT>"
+#define VERSION "1.4.1.dev-<COMMIT>"
 #define URL "https://github.com/shanapu/MyJailShop"
 
 
@@ -305,7 +305,7 @@ public void OnPluginStart()
 	// Admin Commands
 	RegAdminCmd("sm_sale", AdminCommand_Sale, ADMFLAG_ROOT, "Happy Hour");
 	RegAdminCmd("sm_jailgive", AdminCommand_GiveCredits, ADMFLAG_ROOT, "Give jail shop credits to a player - Use: sm_jailgive <#userid|name> [amount]");
-	RegAdminCmd("sm_jailset", AdminCommand_SetCredits, ADMFLAG_ROOT, "Set jail shop credits of a player - Use: sm_jailgift <#userid|name> [amount]");
+	RegAdminCmd("sm_jailset", AdminCommand_SetCredits, ADMFLAG_ROOT, "Set jail shop credits of a player - Use: sm_jailset <#userid|name> [amount]");
 	
 	
 	// AutoExecConfig
@@ -851,6 +851,11 @@ public void TG_OnGamePrepare()
 // sm_jailshop
 public Action Command_Menu_OpenShop(int client, int args)
 {
+	if (client == 0) // if client is server/serverconsole
+	{
+		CReplyToCommand(client, "%t", "Command is in-game only");
+		return Plugin_Handled;
+	}
 	if (!gc_bEnable.BoolValue) // if plugin is disbaled
 	{
 		CReplyToCommand(client, "%t %t", "shop_tag", "shop_disabled");
@@ -994,6 +999,11 @@ public Action Command_SendCredits(int client, int args)
 // sm_jailcredits
 public Action Command_ShowCredits(int client, int args) 
 {
+	if (client == 0) // if client is server/serverconsole
+	{
+		CReplyToCommand(client, "%t", "Command is in-game only");
+		return Plugin_Handled;
+	}
 	if (!gc_bEnable.BoolValue) // if plugin is disbaled
 	{
 		CReplyToCommand(client, "%t %t", "shop_tag", "shop_disabled");
@@ -1027,11 +1037,6 @@ public int Handler_ShowCredits(Menu menu, MenuAction action, int param1, int par
 // sm_jailset
 public Action AdminCommand_SetCredits(int client, int args)
 {
-	if (client == 0) // if client is server/serverconsole
-	{
-		CReplyToCommand(client, "%t", "Command is in-game only");
-		return Plugin_Handled;
-	}
 	if (!gc_bEnable.BoolValue) // if plugin is disbaled
 	{
 		CReplyToCommand(client, "%t %t", "shop_tag", "shop_disabled");
@@ -1081,11 +1086,6 @@ public Action AdminCommand_SetCredits(int client, int args)
 // sm_jailgive
 public Action AdminCommand_GiveCredits(int client, int args)
 {
-	if (client == 0) // if client is server/serverconsole
-	{
-		CReplyToCommand(client, "%t", "Command is in-game only");
-		return Plugin_Handled;
-	}
 	if (!gc_bEnable.BoolValue) // if plugin is disbaled
 	{
 		CReplyToCommand(client, "%t %t", "shop_tag", "shop_disabled");
