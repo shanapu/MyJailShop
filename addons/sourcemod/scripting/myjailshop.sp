@@ -1074,7 +1074,7 @@ public Action AdminCommand_SetCredits(int client, int args)
 			Forward_OnSetCredits(iClient, amount);
 			Forward_OnPlayerGetCredits(iClient, amount);
 			
-			CPrintToChat(client, "%t %t", "shop_tag", "shop_set", amount, iClient);
+			CReplyToCommand(client, "%t %t", "shop_tag", "shop_set", amount, iClient);
 			CPrintToChat(iClient, "%t %t", "shop_tag", "shop_getset", amount, client);
 			if (gc_bLogging.BoolValue) LogToFileEx(g_sGiftLogFile, "Admin %L set %L credits to %i ", client, iClient, amount);
 		}
