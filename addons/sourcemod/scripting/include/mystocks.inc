@@ -45,6 +45,9 @@ stock bool IsValidClient(int client, bool bAllowBots = false, bool bAllowDead = 
 // Easy precache & prepare download for decals
 stock void PrecacheDecalAnyDownload(char[] sDecal)
 {
+	if (strlen(sDecal) == 0)
+		return;
+
 	char sBuffer[256];
 	Format(sBuffer, sizeof(sBuffer), "%s.vmt", sDecal);
 	PrecacheDecal(sBuffer, true);
@@ -61,6 +64,9 @@ stock void PrecacheDecalAnyDownload(char[] sDecal)
 // Easy precache & prepare download for models (icons)
 stock void PrecacheModelAnyDownload(char[] sModel)
 {
+	if (strlen(sModel) == 0)
+		return;
+
 	char sBuffer[256];
 	Format(sBuffer, sizeof(sBuffer), "materials/%s.vmt", sModel);
 	AddFileToDownloadsTable(sBuffer);
@@ -74,6 +80,9 @@ stock void PrecacheModelAnyDownload(char[] sModel)
 // Easy precache & prepare download for sounds
 stock void PrecacheSoundAnyDownload(char[] sSound)
 {
+	if (strlen(sSound) == 0)
+		return;
+
 	char sBuffer[256];
 	PrecacheSoundAny(sSound);
 	Format(sBuffer, sizeof(sBuffer), "sound/%s", sSound);
@@ -403,9 +412,7 @@ stock void StringToUpper(char [] sz)
 
 stock bool IsClientStuck(int client)
 {
-	float vOrigin[3];
-	float vMins[3];
-	float vMaxs[3];
+	float vOrigin[3], float vMins[3], float vMaxs[3];
 
 	GetClientAbsOrigin(client, vOrigin);
 
@@ -419,8 +426,90 @@ stock bool IsClientStuck(int client)
 
 stock bool FilterOnlyPlayers(int entity, int contentsMask, any data)
 {
-	if(entity != data && entity > 0 && entity <= MaxClients)
+	if(entity != data && entity > 0 && entity <= MaxClients) 
 		return true;
 	
 	return false;
+}
+
+stock void DarkenScreen(int client, bool darkOn)
+{
+	Handle hFadeClient = StartMessageOne("Fade", client);
+	PbSetInt(hFadeClient, "duration", 1);
+	PbSetInt(hFadeClient, "hold_time", 3);
+	if(!darkOn)
+	{
+		PbSetInt(hFadeClient, "flags", 0x0010); // FFADE_STAYOUT	0x0008		ignores the duration, stays faded out until new ScreenFade message received
+	}
+	else
+	{
+		PbSetInt(hFadeClient, "flags", 0x0008); // FFADE_PURGE		0x0010		Purges all other fades, replacing them with this one
+	}
+	PbSetColor(hFadeClient, "clr", {0, 0, 0, 255});
+	EndMessage();
+}
+
+stock int GetRandomPlayerInView(int team, int client)
+{
+	int[] clients = new int[MaxClients];
+	int clientCount;
+
+	for (int i = 1; i <= MaxClients; i++) if (IsClientInGame(i))
+	{
+		if ((GetClientTeam(i) == team) && IsPlayerAlive(i))
+		{
+			if (!ClientViews(client, i))
+				continue;
+
+			clients[clientCount++] = i;
+		}
+	}
+
+	return (clientCount == 0) ? -1 : clients[GetRandomInt(0, clientCount-1)];
+}
+
+stock bool ClientViews(int viewer, int target, float fMaxDistance=0.0, float fThreshold=0.73)
+{
+	// Retrieve view and target eyes position
+	float fViewPos[3];  GetClientEyePosition(viewer, fViewPos);
+	float fViewAng[3];  GetClientEyeAngles(viewer, fViewAng);
+	float fViewDir[3];
+	float fTargetPos[3];GetClientEyePosition(target, fTargetPos);
+	float fTargetDir[3];
+	float fDistance[3];
+
+	// Calculate view direction
+	fViewAng[0] = fViewAng[2] = 0.0;
+	GetAngleVectors(fViewAng, fViewDir, NULL_VECTOR, NULL_VECTOR);
+
+	// Calculate distance to viewer to see if it can be seen.
+	fDistance[0] = fTargetPos[0]-fViewPos[0];
+	fDistance[1] = fTargetPos[1]-fViewPos[1];
+	fDistance[2] = 0.0;
+	if (fMaxDistance != 0.0)
+	{
+		if (((fDistance[0]*fDistance[0])+(fDistance[1]*fDistance[1])) >= (fMaxDistance*fMaxDistance))
+			return false;
+	}
+
+	// Check dot product. If it's negative, that means the viewer is facing
+	// backwards to the target.
+	NormalizeVector(fDistance, fTargetDir);
+	if (GetVectorDotProduct(fViewDir, fTargetDir) < fThreshold) return false;
+
+	// Now check if there are no obstacles in between through raycasting
+	Handle hTrace = TR_TraceRayFilterEx(fViewPos, fTargetPos, MASK_PLAYERSOLID_BRUSHONLY, RayType_EndPoint, ClientViewsFilter);
+	if (TR_DidHit(hTrace)) { CloseHandle(hTrace);return false;}
+	CloseHandle(hTrace);
+
+	// Done, it's visible
+	return true;
+}
+
+stock bool ClientViewsFilter(int Entity, int Mask, any Junk)
+{
+	if (Entity >= 1 && Entity <= MaxClients) 
+		return false;
+
+	return true;
 }
