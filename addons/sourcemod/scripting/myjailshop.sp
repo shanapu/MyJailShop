@@ -865,6 +865,10 @@ public Action Command_Menu_OpenShop(int client, int args)
 // sm_revive
 public Action Command_Revive(int client, int args)
 {
+	if (gc_iRevive.IntValue == 0)
+	{
+		return Plugin_Handled;
+	}
 	if (client == 0) // if client is server/serverconsole
 	{
 		CReplyToCommand(client, "%t", "Command is in-game only");
