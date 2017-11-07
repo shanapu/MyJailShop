@@ -546,112 +546,90 @@ public int OnSettingChanged(Handle convar, const char[] oldValue, const char[] n
 	else if (convar == gc_sInvisibleFlag)
 	{
 		strcopy(g_sInvisibleFlag, sizeof(g_sInvisibleFlag), newValue);
-		PrecacheModel(g_sInvisibleFlag);
 	}
 	else if (convar == gc_sAWPFlag)
 	{
 		strcopy(g_sAWPFlag, sizeof(g_sAWPFlag), newValue);
-		PrecacheModel(g_sAWPFlag);
 	}
 	else if (convar == gc_sNoDamageFlag)
 	{
 		strcopy(g_sNoDamageFlag, sizeof(g_sNoDamageFlag), newValue);
-		PrecacheModel(g_sNoDamageFlag);
 	}
 	else if (convar == gc_sOpenCellsFlag)
 	{
 		strcopy(g_sOpenCellsFlag, sizeof(g_sOpenCellsFlag), newValue);
-		PrecacheModel(g_sOpenCellsFlag);
 	}
 	else if (convar == gc_sVampireFlag)
 	{
 		strcopy(g_sVampireFlag, sizeof(g_sVampireFlag), newValue);
-		PrecacheModel(g_sVampireFlag);
 	}
 	else if (convar == gc_sHealthFlag)
 	{
 		strcopy(g_sHealthFlag, sizeof(g_sHealthFlag), newValue);
-		PrecacheModel(g_sHealthFlag);
 	}
 	else if (convar == gc_sMolotovFlag)
 	{
 		strcopy(g_sMolotovFlag, sizeof(g_sMolotovFlag), newValue);
-		PrecacheModel(g_sMolotovFlag);
 	}
 	else if (convar == gc_sFakeModelFlag)
 	{
 		strcopy(g_sFakeModelFlag, sizeof(g_sFakeModelFlag), newValue);
-		PrecacheModel(g_sFakeModelFlag);
 	}
 	else if (convar == gc_sPoisonSmokeFlag)
 	{
 		strcopy(g_sPoisonSmokeFlag, sizeof(g_sPoisonSmokeFlag), newValue);
-		PrecacheModel(g_sPoisonSmokeFlag);
 	}
 	else if (convar == gc_sBirdFlag)
 	{
 		strcopy(g_sBirdFlag, sizeof(g_sBirdFlag), newValue);
-		PrecacheModel(g_sBirdFlag);
 	}
 	else if (convar == gc_sTeleportSmokeFlag)
 	{
 		strcopy(g_sTeleportSmokeFlag, sizeof(g_sTeleportSmokeFlag), newValue);
-		PrecacheModel(g_sTeleportSmokeFlag);
 	}
 	else if (convar == gc_sReviveFlag)
 	{
 		strcopy(g_sReviveFlag, sizeof(g_sReviveFlag), newValue);
-		PrecacheModel(g_sReviveFlag);
 	}
 	else if (convar == gc_sFireHEFlag)
 	{
 		strcopy(g_sFireHEFlag, sizeof(g_sFireHEFlag), newValue);
-		PrecacheModel(g_sFireHEFlag);
 	}
 	else if (convar == gc_sBhopFlag)
 	{
 		strcopy(g_sBhopFlag, sizeof(g_sBhopFlag), newValue);
-		PrecacheModel(g_sBhopFlag);
 	}
 	else if (convar == gc_sGravityFlag)
 	{
 		strcopy(g_sGravityFlag, sizeof(g_sGravityFlag), newValue);
-		PrecacheModel(g_sGravityFlag);
 	}
 	else if (convar == gc_sTaserFlag)
 	{
 		strcopy(g_sTaserFlag, sizeof(g_sTaserFlag), newValue);
-		PrecacheModel(g_sTaserFlag);
 	}
 	else if (convar == gc_sNoClipFlag)
 	{
 		strcopy(g_sNoClipFlag, sizeof(g_sNoClipFlag), newValue);
-		PrecacheModel(g_sNoClipFlag);
 	}
 	else if (convar == gc_sThrowKnifeFlag)
 	{
 		strcopy(g_sThrowKnifeFlag, sizeof(g_sThrowKnifeFlag), newValue);
-		PrecacheModel(g_sThrowKnifeFlag);
 	}
 	else if (convar == gc_sWallhackFlag)
 	{
 		strcopy(g_sWallhackFlag, sizeof(g_sWallhackFlag), newValue);
-		PrecacheModel(g_sWallhackFlag);
 	}
 	else if (convar == gc_sFroggyJumpFlag)
 	{
 		strcopy(g_sFroggyJumpFlag, sizeof(g_sFroggyJumpFlag), newValue);
-		PrecacheModel(g_sFroggyJumpFlag);
 	}
 	else if (convar == gc_sPaperClipFlag)
 	{
 		strcopy(g_sPaperClipFlag, sizeof(g_sPaperClipFlag), newValue);
-		PrecacheModel(g_sPaperClipFlag);
 	}
 	else if (convar == gc_sRandomTPFlag)
 	{
 		strcopy(g_sRandomTPFlag, sizeof(g_sRandomTPFlag), newValue);
-		PrecacheModel(g_sRandomTPFlag);
 	}
 }
 
