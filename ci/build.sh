@@ -105,7 +105,7 @@ echo "Go to build folder"
 cd build
 
 echo "Compress directories and files"
-zip -9rq $FILE addons fastDL cfg sounds install.txt license.txt downloads.txt CHANGELOG.md
+zip -9rq $FILE addons fastDL cfg sound install.txt license.txt downloads.txt CHANGELOG.md
 
 echo "Upload file"
 lftp -c "set ftp:ssl-allow no; set ssl:verify-certificate no; open -u $USER,$PASS $HOST; put -O MyJailShop/downloads/SM$1/$2/ $FILE"
