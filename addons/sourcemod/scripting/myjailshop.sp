@@ -43,7 +43,7 @@
 #include <smartjaildoors>
 #include <myjailbreak>
 #include <CustomPlayerSkins>
-#include <warden>
+#include <myjbwarden>
 #include <myicons>
 #define REQUIRE_PLUGIN
 
@@ -211,7 +211,7 @@ bool g_bSale = false;
 bool gp_bSmartJailDoors = false;
 bool gp_bMyJailBreak = false;
 bool gp_bCustomPlayerSkins = false;
-bool gp_bWarden = false;
+bool gp_bMyJBWarden = false;
 bool gp_bMyIcons = false;
 
 
@@ -1365,7 +1365,7 @@ public void OnAllPluginsLoaded()
 	gp_bSmartJailDoors = LibraryExists("smartjaildoors");
 	gp_bMyJailBreak = LibraryExists("myjailbreak");
 	gp_bCustomPlayerSkins = LibraryExists("CustomPlayerSkins");
-	gp_bWarden = LibraryExists("warden");
+	gp_bMyJBWarden = LibraryExists("myjbwarden");
 	gp_bMyIcons = LibraryExists("myicons");
 	
 	g_bHandcuff = FindConVar("sm_warden_handcuffs");
@@ -1383,8 +1383,8 @@ public void OnLibraryRemoved(const char[] name)
 	if (StrEqual(name, "CustomPlayerSkins"))
 		gp_bCustomPlayerSkins = false;
 	
-	if (StrEqual(name, "warden"))
-		gp_bWarden = false;
+	if (StrEqual(name, "myjbwarden"))
+		gp_bMyJBWarden = false;
 	
 	if (StrEqual(name, "myicons"))
 		gp_bMyIcons = false;
@@ -1402,8 +1402,8 @@ public void OnLibraryAdded(const char[] name)
 	if (StrEqual(name, "CustomPlayerSkins"))
 		gp_bCustomPlayerSkins = true;
 	
-	if (StrEqual(name, "warden"))
-		gp_bWarden = true;
+	if (StrEqual(name, "myjbwarden"))
+		gp_bMyJBWarden = true;
 	
 	if (StrEqual(name, "myicons"))
 		gp_bMyIcons = true;
@@ -1930,7 +1930,7 @@ public Action Menu_OpenShop(int client)
 			else if (gc_iWallhackOnlyTeam.IntValue >= 1 && gc_iWallhack.IntValue != 0 && CheckVipFlag(client, g_sWallhackFlag)) AddMenuItem(menu, "Wallhack", info, ITEMDRAW_DISABLED);
 		}
 		
-		if (gp_bWarden)
+		if (gp_bMyJBWarden)
 		{
 			if (g_bHandcuff != null)
 			{
