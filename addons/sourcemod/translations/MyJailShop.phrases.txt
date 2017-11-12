@@ -565,4 +565,15 @@
 		"en"		"We have a critical power outage!"
 	}
 
+	"shop_menu_freeday"
+	{
+		"#format"	"{1:d}"
+		"en"		"Freeday next round [{1}¢]"
+	}
+
+	"shop_freeday"
+	{
+		"en"		"You bought: a Freeday for the next round"
+	}
+
 }
