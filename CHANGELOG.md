@@ -2,12 +2,19 @@
   
 **[1.4.1.dev]** - DEV
   
+*Added*
+ *  new shop item as extra plugin:  Buy a Freeday for the next round - requires MyJB warden
+    *  new cvar - sm_jailshop_freeday_price - 0 disable, price of the 'Freeday' shop item
+    *  new cvar - sm_jailshop_freeday_flag - Set flag for admin/vip must have to get accesso to Freeday. No flag = is avaible for all players!
+  
+  
 *Changed*
  *  Allow admin commands from server console
-
+  
 *Fixed*
  *  Allow OneHit knife with any knife - Thx @hexah
  *  Restrict player commands from server console
+ *  Minor issues
   
   
   

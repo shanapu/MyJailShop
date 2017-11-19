@@ -309,6 +309,8 @@ public void OnPluginStart()
 	
 	
 	// AutoExecConfig
+	DirExistsEx("cfg/MyJailShop");
+
 	AutoExecConfig_SetFile("Settings", "MyJailShop");
 	AutoExecConfig_SetCreateFile(true);
 	
@@ -529,7 +531,11 @@ public void OnPluginStart()
 	}
 	
 	g_hThrownKnives = CreateArray();
-	
+
+	char sBuffer[256];
+	BuildPath(Path_SM, sBuffer, sizeof(sBuffer), "logs/MyJailShop");
+	DirExistsEx(sBuffer);
+
 	SetLogFile(g_sPurchaseLogFile, "purchase", "MyJailShop");
 	SetLogFile(g_sGiftLogFile, "gift", "MyJailShop");
 }
