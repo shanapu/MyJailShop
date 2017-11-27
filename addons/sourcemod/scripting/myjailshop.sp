@@ -3424,7 +3424,17 @@ public int Native_GetCredits(Handle plugin, int argc)
 	{
 		return -1;
 	}
-	return g_iCredits[client];
+
+	int credits = 0;
+	if (!gc_bCreditSystem.BoolValue)
+	{
+		Call_StartForward(gF_hOnGetCredits);
+		Call_PushCell(client);
+		Call_Finish(credits);
+	}
+	else credits = g_iCredits[client];
+
+	return credits;
 }
 
 public int Native_BuyTime(Handle plugin, int argc)
