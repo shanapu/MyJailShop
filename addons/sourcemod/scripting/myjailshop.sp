@@ -1994,7 +1994,7 @@ public Action Menu_OpenShop(int client)
 		else if (gc_iBird.IntValue != 0 && CheckVipFlag(client, g_sBirdFlag)) AddMenuItem(menu, "Bird", info, ITEMDRAW_DISABLED);
 		
 		Format(info, sizeof(info), "%T", "shop_menu_randomtp", client, gc_iRandomTP.IntValue);
-		if (Forward_OnGetCredits(client) >= gc_iRandomTP.IntValue && gc_iRandomTP.IntValue != 0 && g_bAllowBuy && !g_bRandomTP[client] && IsPlayerAlive(client) && CheckVipFlag(client, g_sRandomTPFlag))AddMenuItem(menu, "RandomTP", info);
+		if (Forward_OnGetCredits(client) >= gc_iRandomTP.IntValue && gc_iRandomTP.IntValue != 0 && g_bAllowBuy && !g_bRandomTP[client] && IsPlayerAlive(client) && CheckVipFlag(client, g_sRandomTPFlag) && GetAlivePlayersCount(CS_TEAM_T) > 1) AddMenuItem(menu, "RandomTP", info);
 		else if (gc_iRandomTP.IntValue != 0 && CheckVipFlag(client, g_sRandomTPFlag))AddMenuItem(menu, "RandomTP", info, ITEMDRAW_DISABLED);
 	}
 	else if (GetClientTeam(client) == CS_TEAM_CT)
@@ -2785,6 +2785,12 @@ void Item_RandomTP(int client, char[] name)
 	{
 		if (Forward_OnGetCredits(client) >= gc_iRandomTP.IntValue)
 		{
+			if (GetAlivePlayersCount(CS_TEAM_T) < 2)
+			{
+				CPrintToChat(client, "%t %t", "shop_tag", "shop_randomtp_fail");
+				return;
+			}
+			
 			int iRandomClient = GetRandomPlayer(CS_TEAM_T);
 			while (client == iRandomClient)
 			{

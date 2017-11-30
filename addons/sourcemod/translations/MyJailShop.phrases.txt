@@ -516,6 +516,12 @@
 		"en"		"Teleport to Random T [{1}¢]"
 	}
 
+	"shop_randomtp_fail"
+	{
+		"#format"	"{1:d}"
+		"en"		"There is no alive prisoner to teleport too."
+	}
+
 	"shop_menu_jetpack"
 	{
 		"#format"	"{1:d}"
