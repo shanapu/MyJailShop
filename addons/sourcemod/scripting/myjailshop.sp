@@ -3425,16 +3425,7 @@ public int Native_GetCredits(Handle plugin, int argc)
 		return -1;
 	}
 
-	int credits = 0;
-	if (!gc_bCreditSystem.BoolValue)
-	{
-		Call_StartForward(gF_hOnGetCredits);
-		Call_PushCell(client);
-		Call_Finish(credits);
-	}
-	else credits = g_iCredits[client];
-
-	return credits;
+	return Forward_OnGetCredits(client);
 }
 
 public int Native_BuyTime(Handle plugin, int argc)
@@ -3448,20 +3439,22 @@ public int Native_SetCredits(Handle plugin, int argc)
 	int client = GetNativeCell(1);
 	if (!IsValidClient(client, false, true))
 	{
-		return 0;
+		return;
 	}
+
 	int iCredits = GetNativeCell(2);
 	if (0 > iCredits)
 	{
 		iCredits = 0;
 	}
+
 	if (iCredits > gc_iCreditsMax.IntValue)
 	{
 		iCredits = gc_iCreditsMax.IntValue;
 	}
-	g_iCredits[client] = iCredits;
+
+	Forward_OnSetCredits(client, iCredits);
 	Forward_OnPlayerGetCredits(client, iCredits);
-	return g_iCredits[client];
 }
 
 
