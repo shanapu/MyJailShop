@@ -1867,14 +1867,15 @@ public Action Menu_OpenShop(int client)
 {
 	char info[124];
 	Menu menu = CreateMenu(Handler_Menu_OpenShop);
+	int iCredits = Forward_OnGetCredits(client);
 
 	if (!g_bSale)
 	{
-		SetMenuTitle(menu, "%t","shop_menu_title", Forward_OnGetCredits(client));
+		SetMenuTitle(menu, "%t","shop_menu_title", iCredits);
 	}
 	else
 	{
-		SetMenuTitle(menu, "%t\n%t","shop_menu_title", Forward_OnGetCredits(client), "shop_menu_title_sale", gc_fSale.IntValue);
+		SetMenuTitle(menu, "%t\n%t","shop_menu_title", iCredits, "shop_menu_title_sale", gc_fSale.IntValue);
 	}
 
 	if (GetClientTeam(client) == CS_TEAM_T)
@@ -1884,55 +1885,55 @@ public Action Menu_OpenShop(int client)
 			if (SJD_IsCurrentMapConfigured())
 			{
 				Format(info, sizeof(info), "%T","shop_menu_openjail", client, gc_iOpenCells.IntValue);
-				if (Forward_OnGetCredits(client) >= gc_iOpenCells.IntValue && gc_iOpenCells.IntValue != 0 && g_bAllowBuy && !g_bCellsOpen && CheckVipFlag(client, g_sOpenCellsFlag)) AddMenuItem(menu, "Doors", info);
+				if (iCredits >= gc_iOpenCells.IntValue && gc_iOpenCells.IntValue != 0 && g_bAllowBuy && !g_bCellsOpen && CheckVipFlag(client, g_sOpenCellsFlag)) AddMenuItem(menu, "Doors", info);
 				else if (gc_iOpenCells.IntValue != 0 && CheckVipFlag(client, g_sOpenCellsFlag)) AddMenuItem(menu, "Doors", info, ITEMDRAW_DISABLED);
 			}
 		}
 		
 		Format(info, sizeof(info), "%T","shop_menu_heal", client, gc_iHeal.IntValue);
-		if (gc_iHealOnlyTeam.IntValue >= 1 && Forward_OnGetCredits(client) >= gc_iHeal.IntValue && gc_iHeal.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sHealFlag)) AddMenuItem(menu, "Heal", info);
+		if (gc_iHealOnlyTeam.IntValue >= 1 && iCredits >= gc_iHeal.IntValue && gc_iHeal.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sHealFlag)) AddMenuItem(menu, "Heal", info);
 		else if (gc_iHealOnlyTeam.IntValue >= 1 && gc_iHeal.IntValue != 0 && CheckVipFlag(client, g_sHealFlag)) AddMenuItem(menu, "Heal", info, ITEMDRAW_DISABLED);
 		
 		Format(info, sizeof(info), "%T","shop_menu_health", client, gc_iHealth.IntValue, gc_iHealthExtra.IntValue);
-		if (gc_iHealthExtraOnlyTeam.IntValue >= 1 && Forward_OnGetCredits(client) >= gc_iHealth.IntValue && gc_iHealth.IntValue != 0 && g_bAllowBuy && !g_bHealth[client] && IsPlayerAlive(client) && CheckVipFlag(client, g_sHealthFlag)) AddMenuItem(menu, "Health", info);
+		if (gc_iHealthExtraOnlyTeam.IntValue >= 1 && iCredits >= gc_iHealth.IntValue && gc_iHealth.IntValue != 0 && g_bAllowBuy && !g_bHealth[client] && IsPlayerAlive(client) && CheckVipFlag(client, g_sHealthFlag)) AddMenuItem(menu, "Health", info);
 		else if (gc_iHealthExtraOnlyTeam.IntValue >= 1 && gc_iHealth.IntValue != 0 && CheckVipFlag(client, g_sHealthFlag)) AddMenuItem(menu, "Health", info, ITEMDRAW_DISABLED);
 		
 		Format(info, sizeof(info), "%T","shop_menu_revive", client, gc_iRevive.IntValue);
-		if (gc_iReviveOnlyTeam.IntValue >= 1 && Forward_OnGetCredits(client) >= gc_iRevive.IntValue && gc_iRevive.IntValue != 0 && !IsPlayerAlive(client) && !g_bIsLR && GetAlivePlayersCount(GetClientTeam(client)) > 1 && CheckVipFlag(client, g_sReviveFlag)) AddMenuItem(menu, "Revive", info);
+		if (gc_iReviveOnlyTeam.IntValue >= 1 && iCredits >= gc_iRevive.IntValue && gc_iRevive.IntValue != 0 && !IsPlayerAlive(client) && !g_bIsLR && GetAlivePlayersCount(GetClientTeam(client)) > 1 && CheckVipFlag(client, g_sReviveFlag)) AddMenuItem(menu, "Revive", info);
 		else if (gc_iReviveOnlyTeam.IntValue >= 1 && gc_iRevive.IntValue != 0 && CheckVipFlag(client, g_sReviveFlag)) AddMenuItem(menu, "Revive", info, ITEMDRAW_DISABLED);
 		
 		Format(info, sizeof(info), "%T","shop_menu_vampire", client, gc_iVampire.IntValue);
-		if (Forward_OnGetCredits(client) >= gc_iVampire.IntValue && gc_iVampire.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sVampireFlag)) AddMenuItem(menu, "Vampire", info);
+		if (iCredits >= gc_iVampire.IntValue && gc_iVampire.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sVampireFlag)) AddMenuItem(menu, "Vampire", info);
 		else if (gc_iVampire.IntValue != 0 && CheckVipFlag(client, g_sVampireFlag)) AddMenuItem(menu, "Vampire", info, ITEMDRAW_DISABLED);
 		
 		Format(info, sizeof(info), "%T","shop_menu_bhop", client, gc_iBhop.IntValue);
-		if (gc_iBhopOnlyTeam.IntValue >= 1 && Forward_OnGetCredits(client) >= gc_iBhop.IntValue && gc_iBhop.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && !g_bFroggyJump[client] && CheckVipFlag(client, g_sBhopFlag)) AddMenuItem(menu, "Bhop", info);
+		if (gc_iBhopOnlyTeam.IntValue >= 1 && iCredits >= gc_iBhop.IntValue && gc_iBhop.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && !g_bFroggyJump[client] && CheckVipFlag(client, g_sBhopFlag)) AddMenuItem(menu, "Bhop", info);
 		else if (gc_iBhopOnlyTeam.IntValue >= 1 && gc_iBhop.IntValue != 0 && CheckVipFlag(client, g_sBhopFlag)) AddMenuItem(menu, "Bhop", info, ITEMDRAW_DISABLED);
 		
 		Format(info, sizeof(info), "%T","shop_menu_froggyjump", client, gc_iFroggyJump.IntValue);
-		if (gc_iFroggyJumpOnlyTeam.IntValue >= 1 && Forward_OnGetCredits(client) >= gc_iFroggyJump.IntValue && gc_iFroggyJump.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && !g_bBhop[client] && CheckVipFlag(client, g_sFroggyJumpFlag)) AddMenuItem(menu, "FroggyJump", info);
+		if (gc_iFroggyJumpOnlyTeam.IntValue >= 1 && iCredits >= gc_iFroggyJump.IntValue && gc_iFroggyJump.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && !g_bBhop[client] && CheckVipFlag(client, g_sFroggyJumpFlag)) AddMenuItem(menu, "FroggyJump", info);
 		else if (gc_iFroggyJumpOnlyTeam.IntValue >= 1 && gc_iFroggyJump.IntValue != 0 && CheckVipFlag(client, g_sFroggyJumpFlag)) AddMenuItem(menu, "FroggyJump", info, ITEMDRAW_DISABLED);
 		
 		Format(info, sizeof(info), "%T","shop_menu_gravity", client, gc_iGravity.IntValue);
-		if (gc_iGravOnlyTeam.IntValue >= 1 && Forward_OnGetCredits(client) >= gc_iGravity.IntValue && gc_iGravity.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && !g_bGravity[client] && CheckVipFlag(client, g_sGravityFlag)) AddMenuItem(menu, "Gravity", info);
+		if (gc_iGravOnlyTeam.IntValue >= 1 && iCredits >= gc_iGravity.IntValue && gc_iGravity.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && !g_bGravity[client] && CheckVipFlag(client, g_sGravityFlag)) AddMenuItem(menu, "Gravity", info);
 		else if (gc_iGravOnlyTeam.IntValue >= 1 && gc_iGravity.IntValue != 0 && CheckVipFlag(client, g_sGravityFlag)) AddMenuItem(menu, "Gravity", info, ITEMDRAW_DISABLED);
 		
 		Format(info, sizeof(info), "%T","shop_menu_invisible", client, gc_iInvisible.IntValue, RoundToCeil(gc_fInvisibleTime.FloatValue));
-		if (Forward_OnGetCredits(client) >= gc_iInvisible.IntValue && gc_iInvisible.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sInvisibleFlag)) AddMenuItem(menu, "Invisible", info);
+		if (iCredits >= gc_iInvisible.IntValue && gc_iInvisible.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sInvisibleFlag)) AddMenuItem(menu, "Invisible", info);
 		else if (gc_iInvisible.IntValue != 0 && CheckVipFlag(client, g_sInvisibleFlag))AddMenuItem(menu, "Invisible", info, ITEMDRAW_DISABLED);
 		
 		Format(info, sizeof(info), "%T","shop_menu_nodamage", client, gc_iNoDamage.IntValue, RoundToCeil(gc_fNoDamageTime.FloatValue));
-		if (gc_iNoDamageOnlyTeam.IntValue >= 1 && Forward_OnGetCredits(client) >= gc_iNoDamage.IntValue && gc_iNoDamage.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sNoDamageFlag)) AddMenuItem(menu, "NoDamage", info);
+		if (gc_iNoDamageOnlyTeam.IntValue >= 1 && iCredits >= gc_iNoDamage.IntValue && gc_iNoDamage.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sNoDamageFlag)) AddMenuItem(menu, "NoDamage", info);
 		else if (gc_iNoDamageOnlyTeam.IntValue >= 1 && gc_iNoDamage.IntValue != 0 && CheckVipFlag(client, g_sNoDamageFlag)) AddMenuItem(menu, "NoDamage", info, ITEMDRAW_DISABLED);
 		
 		Format(info, sizeof(info), "%T","shop_menu_noclip", client, gc_iNoClip.IntValue, RoundToCeil(gc_fNoClipTime.FloatValue));
-		if (Forward_OnGetCredits(client) >= gc_iNoClip.IntValue && gc_iNoClip.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sNoClipFlag)) AddMenuItem(menu, "NoClip", info);
+		if (iCredits >= gc_iNoClip.IntValue && gc_iNoClip.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sNoClipFlag)) AddMenuItem(menu, "NoClip", info);
 		else if (gc_iNoClip.IntValue != 0 && CheckVipFlag(client, g_sNoClipFlag)) AddMenuItem(menu, "NoClip", info, ITEMDRAW_DISABLED);
 		
 		if (gp_bCustomPlayerSkins)
 		{
 			Format(info, sizeof(info), "%T","shop_menu_wallhack", client, gc_iWallhack.IntValue);
-			if (gc_iWallhackOnlyTeam.IntValue >= 1 && Forward_OnGetCredits(client) >= gc_iWallhack.IntValue && gc_iWallhack.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sWallhackFlag)) AddMenuItem(menu, "Wallhack", info);
+			if (gc_iWallhackOnlyTeam.IntValue >= 1 && iCredits >= gc_iWallhack.IntValue && gc_iWallhack.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sWallhackFlag)) AddMenuItem(menu, "Wallhack", info);
 			else if (gc_iWallhackOnlyTeam.IntValue >= 1 && gc_iWallhack.IntValue != 0 && CheckVipFlag(client, g_sWallhackFlag)) AddMenuItem(menu, "Wallhack", info, ITEMDRAW_DISABLED);
 		}
 		
@@ -1943,94 +1944,94 @@ public Action Menu_OpenShop(int client)
 				if (g_bHandcuff.BoolValue)
 				{
 					Format(info, sizeof(info), "%T","shop_menu_paperclip", client, gc_iPaperClip.IntValue, gc_iPaperClipAmount.IntValue);
-					if (Forward_OnGetCredits(client) >= gc_iPaperClip.IntValue && gc_iPaperClip.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sPaperClipFlag)) AddMenuItem(menu, "PaperClip", info);
+					if (iCredits >= gc_iPaperClip.IntValue && gc_iPaperClip.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sPaperClipFlag)) AddMenuItem(menu, "PaperClip", info);
 					else if (gc_iPaperClip.IntValue != 0 && CheckVipFlag(client, g_sPaperClipFlag)) AddMenuItem(menu, "PaperClip", info, ITEMDRAW_DISABLED);
 				}
 			}
 		}
 		
 		Format(info, sizeof(info), "%T","shop_menu_model", client, gc_iFakeModel.IntValue);
-		if (Forward_OnGetCredits(client) >= gc_iFakeModel.IntValue && gc_iFakeModel.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sFakeModelFlag)) AddMenuItem(menu, "FakeModel", info);
+		if (iCredits >= gc_iFakeModel.IntValue && gc_iFakeModel.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sFakeModelFlag)) AddMenuItem(menu, "FakeModel", info);
 		else if (gc_iFakeModel.IntValue != 0 && CheckVipFlag(client, g_sFakeModelFlag)) AddMenuItem(menu, "FakeModel", info, ITEMDRAW_DISABLED);
 		
 		Format(info, sizeof(info), "%T","shop_menu_teleportsmoke", client, gc_iTeleportSmoke.IntValue);
-		if (Forward_OnGetCredits(client) >= gc_iTeleportSmoke.IntValue && gc_iTeleportSmoke.IntValue != 0 && g_bAllowBuy && !g_bTeleportSmoke[client] && IsPlayerAlive(client) && CheckVipFlag(client, g_sTeleportSmokeFlag)) AddMenuItem(menu, "TeleportSmoke", info);
+		if (iCredits >= gc_iTeleportSmoke.IntValue && gc_iTeleportSmoke.IntValue != 0 && g_bAllowBuy && !g_bTeleportSmoke[client] && IsPlayerAlive(client) && CheckVipFlag(client, g_sTeleportSmokeFlag)) AddMenuItem(menu, "TeleportSmoke", info);
 		else if (gc_iTeleportSmoke.IntValue != 0 && CheckVipFlag(client, g_sTeleportSmokeFlag)) AddMenuItem(menu, "TeleportSmoke", info, ITEMDRAW_DISABLED);
 		
 		Format(info, sizeof(info), "%T","shop_menu_poisonsmoke", client, gc_iPoisonSmoke.IntValue);
-		if (Forward_OnGetCredits(client) >= gc_iPoisonSmoke.IntValue && gc_iPoisonSmoke.IntValue != 0 && g_bAllowBuy && !g_bPoison[client] && IsPlayerAlive(client) && CheckVipFlag(client, g_sPoisonSmokeFlag)) AddMenuItem(menu, "PoisonSmoke", info);
+		if (iCredits >= gc_iPoisonSmoke.IntValue && gc_iPoisonSmoke.IntValue != 0 && g_bAllowBuy && !g_bPoison[client] && IsPlayerAlive(client) && CheckVipFlag(client, g_sPoisonSmokeFlag)) AddMenuItem(menu, "PoisonSmoke", info);
 		else if (gc_iPoisonSmoke.IntValue != 0 && CheckVipFlag(client, g_sPoisonSmokeFlag)) AddMenuItem(menu, "PoisonSmoke", info, ITEMDRAW_DISABLED);
 		
 		Format(info, sizeof(info), "%T","shop_menu_firegrenade", client, gc_iFireHE.IntValue);
-		if (Forward_OnGetCredits(client) >= gc_iFireHE.IntValue && gc_iFireHE.IntValue != 0 && g_bAllowBuy && !g_bFireHE[client] && IsPlayerAlive(client) && CheckVipFlag(client, g_sFireHEFlag)) AddMenuItem(menu, "FireGrenade", info);
+		if (iCredits >= gc_iFireHE.IntValue && gc_iFireHE.IntValue != 0 && g_bAllowBuy && !g_bFireHE[client] && IsPlayerAlive(client) && CheckVipFlag(client, g_sFireHEFlag)) AddMenuItem(menu, "FireGrenade", info);
 		else if (gc_iFireHE.IntValue != 0 && CheckVipFlag(client, g_sFireHEFlag)) AddMenuItem(menu, "FireGrenade", info, ITEMDRAW_DISABLED);
 		
 		Format(info, sizeof(info), "%T","shop_menu_awp", client, gc_iAWP.IntValue);
-		if (Forward_OnGetCredits(client) >= gc_iAWP.IntValue && gc_iAWP.IntValue != 0 && g_bAllowBuy && !g_bOneBulletAWP[client] && IsPlayerAlive(client) && CheckVipFlag(client, g_sAWPFlag)) AddMenuItem(menu, "AWP", info);
+		if (iCredits >= gc_iAWP.IntValue && gc_iAWP.IntValue != 0 && g_bAllowBuy && !g_bOneBulletAWP[client] && IsPlayerAlive(client) && CheckVipFlag(client, g_sAWPFlag)) AddMenuItem(menu, "AWP", info);
 		else if (gc_iAWP.IntValue != 0 && CheckVipFlag(client, g_sAWPFlag)) AddMenuItem(menu, "AWP", info, ITEMDRAW_DISABLED);
 		
 		Format(info, sizeof(info), "%T","shop_menu_deagle", client, gc_iDeagle.IntValue);
-		if (Forward_OnGetCredits(client) >= gc_iDeagle.IntValue && gc_iDeagle.IntValue != 0 && g_bAllowBuy && !g_bOneMagDeagle[client] && IsPlayerAlive(client) && CheckVipFlag(client, g_sDeagleFlag)) AddMenuItem(menu, "Deagle", info);
+		if (iCredits >= gc_iDeagle.IntValue && gc_iDeagle.IntValue != 0 && g_bAllowBuy && !g_bOneMagDeagle[client] && IsPlayerAlive(client) && CheckVipFlag(client, g_sDeagleFlag)) AddMenuItem(menu, "Deagle", info);
 		else if (gc_iDeagle.IntValue != 0 && CheckVipFlag(client, g_sDeagleFlag)) AddMenuItem(menu, "Deagle", info, ITEMDRAW_DISABLED);
 		
 		Format(info, sizeof(info), "%T","shop_menu_knife", client, gc_iKnife.IntValue);
-		if (Forward_OnGetCredits(client) >= gc_iKnife.IntValue && gc_iKnife.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && !g_bSuperKnife[client] && CheckVipFlag(client, g_sKnifeFlag)) AddMenuItem(menu, "Knife", info);
+		if (iCredits >= gc_iKnife.IntValue && gc_iKnife.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && !g_bSuperKnife[client] && CheckVipFlag(client, g_sKnifeFlag)) AddMenuItem(menu, "Knife", info);
 		else if (gc_iKnife.IntValue != 0 && CheckVipFlag(client, g_sKnifeFlag)) AddMenuItem(menu, "Knife", info, ITEMDRAW_DISABLED);
 		
 		Format(info, sizeof(info), "%T","shop_menu_throwingknife", client, gc_iThrowKnife.IntValue);
-		if (Forward_OnGetCredits(client) >= gc_iThrowKnife.IntValue && gc_iThrowKnife.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && !g_bThrowingKnife[client] && CheckVipFlag(client, g_sThrowKnifeFlag)) AddMenuItem(menu, "ThrowingKnife", info);
+		if (iCredits >= gc_iThrowKnife.IntValue && gc_iThrowKnife.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && !g_bThrowingKnife[client] && CheckVipFlag(client, g_sThrowKnifeFlag)) AddMenuItem(menu, "ThrowingKnife", info);
 		else if (gc_iThrowKnife.IntValue != 0 && CheckVipFlag(client, g_sThrowKnifeFlag)) AddMenuItem(menu, "ThrowingKnife", info, ITEMDRAW_DISABLED);
 		
 		Format(info, sizeof(info), "%T","shop_menu_taser", client, gc_iTaser.IntValue);
-		if (Forward_OnGetCredits(client) >= gc_iTaser.IntValue && gc_iTaser.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sTaserFlag)) AddMenuItem(menu, "Taser", info);
+		if (iCredits >= gc_iTaser.IntValue && gc_iTaser.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sTaserFlag)) AddMenuItem(menu, "Taser", info);
 		else if (gc_iTaser.IntValue != 0 && CheckVipFlag(client, g_sTaserFlag)) AddMenuItem(menu, "Taser", info, ITEMDRAW_DISABLED);
 		
 		Format(info, sizeof(info), "%T","shop_menu_molotov", client, gc_iMolotov.IntValue);
-		if (Forward_OnGetCredits(client) >= gc_iMolotov.IntValue && gc_iMolotov.IntValue != 0 && g_bAllowBuy && !g_bMolotov[client] && IsPlayerAlive(client) && CheckVipFlag(client, g_sMolotovFlag)) AddMenuItem(menu, "Molotov", info);
+		if (iCredits >= gc_iMolotov.IntValue && gc_iMolotov.IntValue != 0 && g_bAllowBuy && !g_bMolotov[client] && IsPlayerAlive(client) && CheckVipFlag(client, g_sMolotovFlag)) AddMenuItem(menu, "Molotov", info);
 		else if (gc_iMolotov.IntValue != 0 && CheckVipFlag(client, g_sMolotovFlag)) AddMenuItem(menu, "Molotov", info, ITEMDRAW_DISABLED);
 		
 		Format(info, sizeof(info), "%T","shop_menu_bird", client, gc_iBird.IntValue);
-		if (Forward_OnGetCredits(client) >= gc_iBird.IntValue && gc_iBird.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sBirdFlag)) AddMenuItem(menu, "Bird", info);
+		if (iCredits >= gc_iBird.IntValue && gc_iBird.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sBirdFlag)) AddMenuItem(menu, "Bird", info);
 		else if (gc_iBird.IntValue != 0 && CheckVipFlag(client, g_sBirdFlag)) AddMenuItem(menu, "Bird", info, ITEMDRAW_DISABLED);
 		
 		Format(info, sizeof(info), "%T", "shop_menu_randomtp", client, gc_iRandomTP.IntValue);
-		if (Forward_OnGetCredits(client) >= gc_iRandomTP.IntValue && gc_iRandomTP.IntValue != 0 && g_bAllowBuy && !g_bRandomTP[client] && IsPlayerAlive(client) && CheckVipFlag(client, g_sRandomTPFlag) && GetAlivePlayersCount(CS_TEAM_T) > 1) AddMenuItem(menu, "RandomTP", info);
+		if (iCredits >= gc_iRandomTP.IntValue && gc_iRandomTP.IntValue != 0 && g_bAllowBuy && !g_bRandomTP[client] && IsPlayerAlive(client) && CheckVipFlag(client, g_sRandomTPFlag) && GetAlivePlayersCount(CS_TEAM_T) > 1) AddMenuItem(menu, "RandomTP", info);
 		else if (gc_iRandomTP.IntValue != 0 && CheckVipFlag(client, g_sRandomTPFlag))AddMenuItem(menu, "RandomTP", info, ITEMDRAW_DISABLED);
 	}
 	else if (GetClientTeam(client) == CS_TEAM_CT)
 	{
 		Format(info, sizeof(info), "%T","shop_menu_heal", client, gc_iHeal.IntValue);
-		if (gc_iHealOnlyTeam.IntValue <= 1 && Forward_OnGetCredits(client) >= gc_iHeal.IntValue && gc_iHeal.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sHealFlag)) AddMenuItem(menu, "Heal", info);
+		if (gc_iHealOnlyTeam.IntValue <= 1 && iCredits >= gc_iHeal.IntValue && gc_iHeal.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sHealFlag)) AddMenuItem(menu, "Heal", info);
 		else if (gc_iHealOnlyTeam.IntValue <= 1 && gc_iHeal.IntValue != 0 && CheckVipFlag(client, g_sHealFlag)) AddMenuItem(menu, "Heal", info, ITEMDRAW_DISABLED);
 		
 		Format(info, sizeof(info), "%T","shop_menu_health", client, gc_iHealth.IntValue, gc_iHealthExtra.IntValue);
-		if (gc_iHealthExtraOnlyTeam.IntValue <= 1 && Forward_OnGetCredits(client) >= gc_iHealth.IntValue && gc_iHealth.IntValue != 0 && g_bAllowBuy && !g_bHealth[client] && IsPlayerAlive(client) && CheckVipFlag(client, g_sHealthFlag)) AddMenuItem(menu, "Health", info);
+		if (gc_iHealthExtraOnlyTeam.IntValue <= 1 && iCredits >= gc_iHealth.IntValue && gc_iHealth.IntValue != 0 && g_bAllowBuy && !g_bHealth[client] && IsPlayerAlive(client) && CheckVipFlag(client, g_sHealthFlag)) AddMenuItem(menu, "Health", info);
 		else if (gc_iHealthExtraOnlyTeam.IntValue <= 1 && gc_iHealth.IntValue != 0 && CheckVipFlag(client, g_sHealthFlag)) AddMenuItem(menu, "Health", info, ITEMDRAW_DISABLED);
 		
 		Format(info, sizeof(info), "%T","shop_menu_revive", client, gc_iRevive.IntValue);
-		if (gc_iReviveOnlyTeam.IntValue <= 1 && Forward_OnGetCredits(client) >= gc_iRevive.IntValue && gc_iRevive.IntValue != 0 && !IsPlayerAlive(client) && !g_bIsLR && GetAlivePlayersCount(GetClientTeam(client)) > 1 && CheckVipFlag(client, g_sReviveFlag)) AddMenuItem(menu, "Revive", info);
+		if (gc_iReviveOnlyTeam.IntValue <= 1 && iCredits >= gc_iRevive.IntValue && gc_iRevive.IntValue != 0 && !IsPlayerAlive(client) && !g_bIsLR && GetAlivePlayersCount(GetClientTeam(client)) > 1 && CheckVipFlag(client, g_sReviveFlag)) AddMenuItem(menu, "Revive", info);
 		else if (gc_iReviveOnlyTeam.IntValue <= 1 && gc_iRevive.IntValue != 0 && CheckVipFlag(client, g_sReviveFlag)) AddMenuItem(menu, "Revive", info, ITEMDRAW_DISABLED);
 		
 		Format(info, sizeof(info), "%T","shop_menu_bhop", client, gc_iBhop.IntValue);
-		if (gc_iBhopOnlyTeam.IntValue <= 1 && Forward_OnGetCredits(client) >= gc_iBhop.IntValue && gc_iBhop.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && !g_bFroggyJump[client] && CheckVipFlag(client, g_sBhopFlag)) AddMenuItem(menu, "Bhop", info);
+		if (gc_iBhopOnlyTeam.IntValue <= 1 && iCredits >= gc_iBhop.IntValue && gc_iBhop.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && !g_bFroggyJump[client] && CheckVipFlag(client, g_sBhopFlag)) AddMenuItem(menu, "Bhop", info);
 		else if (gc_iBhopOnlyTeam.IntValue <= 1 && gc_iBhop.IntValue != 0 && CheckVipFlag(client, g_sBhopFlag)) AddMenuItem(menu, "Bhop", info, ITEMDRAW_DISABLED);
 		
 		Format(info, sizeof(info), "%T","shop_menu_froggyjump", client, gc_iFroggyJump.IntValue);
-		if (gc_iFroggyJumpOnlyTeam.IntValue <= 1 && Forward_OnGetCredits(client) >= gc_iFroggyJump.IntValue && gc_iFroggyJump.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && !g_bBhop[client] && CheckVipFlag(client, g_sFroggyJumpFlag)) AddMenuItem(menu, "FroggyJump", info);
+		if (gc_iFroggyJumpOnlyTeam.IntValue <= 1 && iCredits >= gc_iFroggyJump.IntValue && gc_iFroggyJump.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && !g_bBhop[client] && CheckVipFlag(client, g_sFroggyJumpFlag)) AddMenuItem(menu, "FroggyJump", info);
 		else if (gc_iFroggyJumpOnlyTeam.IntValue <= 1 && gc_iFroggyJump.IntValue != 0 && CheckVipFlag(client, g_sFroggyJumpFlag)) AddMenuItem(menu, "FroggyJump", info, ITEMDRAW_DISABLED);
 		
 		Format(info, sizeof(info), "%T","shop_menu_gravity", client, gc_iGravity.IntValue);
-		if (gc_iGravOnlyTeam.IntValue <= 1 && Forward_OnGetCredits(client) >= gc_iGravity.IntValue && gc_iGravity.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sGravityFlag)) AddMenuItem(menu, "Gravity", info);
+		if (gc_iGravOnlyTeam.IntValue <= 1 && iCredits >= gc_iGravity.IntValue && gc_iGravity.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sGravityFlag)) AddMenuItem(menu, "Gravity", info);
 		else if (gc_iGravOnlyTeam.IntValue <= 1 && gc_iGravity.IntValue != 0 && CheckVipFlag(client, g_sGravityFlag)) AddMenuItem(menu, "Gravity", info, ITEMDRAW_DISABLED);
 		
 		Format(info, sizeof(info), "%T","shop_menu_nodamage", client, gc_iNoDamage.IntValue, RoundToCeil(gc_fNoDamageTime.FloatValue));
-		if (gc_iNoDamageOnlyTeam.IntValue <= 1 && Forward_OnGetCredits(client) >= gc_iNoDamage.IntValue && gc_iNoDamage.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sNoDamageFlag)) AddMenuItem(menu, "NoDamage", info);
+		if (gc_iNoDamageOnlyTeam.IntValue <= 1 && iCredits >= gc_iNoDamage.IntValue && gc_iNoDamage.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sNoDamageFlag)) AddMenuItem(menu, "NoDamage", info);
 		else if (gc_iNoDamageOnlyTeam.IntValue <= 1 && gc_iNoDamage.IntValue != 0 && CheckVipFlag(client, g_sNoDamageFlag)) AddMenuItem(menu, "NoDamage", info, ITEMDRAW_DISABLED);
 		
 		if (gp_bCustomPlayerSkins)
 		{
 			Format(info, sizeof(info), "%T","shop_menu_wallhack", client, gc_iWallhack.IntValue);
-			if (gc_iWallhackOnlyTeam.IntValue <= 1 && Forward_OnGetCredits(client) >= gc_iWallhack.IntValue && gc_iWallhack.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sWallhackFlag)) AddMenuItem(menu, "Wallhack", info);
+			if (gc_iWallhackOnlyTeam.IntValue <= 1 && iCredits >= gc_iWallhack.IntValue && gc_iWallhack.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sWallhackFlag)) AddMenuItem(menu, "Wallhack", info);
 			else if (gc_iWallhackOnlyTeam.IntValue <= 1 && gc_iWallhack.IntValue != 0 && CheckVipFlag(client, g_sWallhackFlag)) AddMenuItem(menu, "Wallhack", info, ITEMDRAW_DISABLED);
 		}
 	}
