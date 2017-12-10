@@ -582,4 +582,9 @@
 		"en"		"You bought: a Freeday for the next round"
 	}
 
+	"shop_shield"
+	{
+		"en"		"You bought: a Tactical shield"
+	}
+
 }
