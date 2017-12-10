@@ -6,14 +6,21 @@
  *  new shop item as extra plugin:  Buy a Freeday for the next round - requires MyJB warden
     *  new cvar - sm_jailshop_freeday_price - 0 disable, price of the 'Freeday' shop item
     *  new cvar - sm_jailshop_freeday_flag - Set flag for admin/vip must have to get accesso to Freeday. No flag = is avaible for all players!
+ *  new shop item as extra plugin:  Buy a tactical shield - requires https://github.com/Keplyx/TacticalShield/
+    *  new cvar - sm_jailshop_shield_price - 0 disable, price of the 'Freeday' shop item
+    *  new cvar - sm_jailshop_shield_flag - Set flag for admin/vip must have to get accesso to Freeday. No flag = is avaible for all players!
+    *  new cvar - sm_jailshop_shield_access", "1", "0 - guards only, 1 - guards & prisoner, 2 - prisoner only
   
   
 *Changed*
  *  Allow admin commands from server console
+ *  More resource-saving menu
   
 *Fixed*
  *  Allow OneHit knife with any knife - Thx @hexah
  *  Restrict player commands from server console
+ *  Natives Get/SetCredits
+ *  Prohibit Random TP when there is no other terror
  *  Minor issues
   
   
