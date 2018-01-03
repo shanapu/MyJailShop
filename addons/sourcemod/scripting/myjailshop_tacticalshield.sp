@@ -42,6 +42,7 @@
 ConVar gc_iItemPrice;
 ConVar gc_sItemFlag;
 ConVar gc_iItemOnlyTeam;
+ConVar gc_sWeapon;
 
 
 // Strings shop specific
@@ -77,6 +78,7 @@ public void OnPluginStart()
 	gc_iItemPrice = AutoExecConfig_CreateConVar("sm_jailshop_shield_price", "5000", "Price of a Shield");
 	gc_sItemFlag = AutoExecConfig_CreateConVar("sm_jailshop_shield_flag", "", "Set flag for admin/vip must have to get access to shield. No flag = is available for all players!");
 	gc_iItemOnlyTeam = AutoExecConfig_CreateConVar("sm_jailshop_shield_access", "1", "0 - guards only, 1 - guards & prisoner, 2 - prisoner only", _, true, 0.0, true, 2.0);
+	gc_sWeapon = AutoExecConfig_CreateConVar("sm_jailshop_shield_pistol", "weapon_usp_silencer", "Give player this pistol with one magazin if he havn't already a pistol, leave blank '' for no pistol with shield", _, true, 0.0, true, 2.0);
 
 	// Add new Convars to existing Items.cfg
 	AutoExecConfig_ExecuteFile();
@@ -155,6 +157,20 @@ void Item_Shield(int client, char[] name)
 	// now we take his money & push the forward
 	MyJailShop_SetCredits(client,(MyJailShop_GetCredits(client) - gc_iItemPrice.IntValue));
 	Forward_OnPlayerBuyItem(client, name);
+
+
+	char sBuffer[32];
+	gc_sWeapon.GetString(sBuffer, sizeof(sBuffer));
+	if (strlen(sBuffer) != 0)
+	{
+		int weapon;
+		if ((weapon = GetPlayerWeaponSlot(client, CS_SLOT_SECONDARY)) == -1)
+		{
+			weapon = GivePlayerItem(client, sBuffer);
+		//	SetEntProp(weapon, Prop_Data, "m_iClip1", 12);
+			SetEntProp(weapon, Prop_Send, "m_iSecondaryReserveAmmoCount", 0);
+		}
+	}
 
 	// here he get the item with native
 	OverridePlayerShield(client, 2);
