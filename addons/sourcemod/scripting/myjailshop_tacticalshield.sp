@@ -158,7 +158,6 @@ void Item_Shield(int client, char[] name)
 	MyJailShop_SetCredits(client,(MyJailShop_GetCredits(client) - gc_iItemPrice.IntValue));
 	Forward_OnPlayerBuyItem(client, name);
 
-
 	char sBuffer[32];
 	gc_sWeapon.GetString(sBuffer, sizeof(sBuffer));
 	if (strlen(sBuffer) != 0)
@@ -167,8 +166,7 @@ void Item_Shield(int client, char[] name)
 		if ((weapon = GetPlayerWeaponSlot(client, CS_SLOT_SECONDARY)) == -1)
 		{
 			weapon = GivePlayerItem(client, sBuffer);
-		//	SetEntProp(weapon, Prop_Data, "m_iClip1", 12);
-			SetEntProp(weapon, Prop_Send, "m_iSecondaryReserveAmmoCount", 0);
+			SetEntProp(weapon, Prop_Send, "m_iPrimaryReserveAmmoCount", 0);
 		}
 	}
 
