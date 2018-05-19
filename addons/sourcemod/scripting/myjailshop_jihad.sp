@@ -258,7 +258,7 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 				if (StrEqual(weaponName, "weapon_c4"))
 				{
 					EmitSoundToAllAny(g_sSoundSuicideBomberPath);
-					CreateTimer(1.0, Timer_DetonateBomb, client);
+					CreateTimer(1.0, Timer_DetonateBomb, GetClientUserId(client));
 					if (gc_bStandStill.BoolValue)
 					{
 						SetEntityMoveType(client, MOVETYPE_NONE);
@@ -272,8 +272,10 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 }
 
 // Detonate Bomb / Kill Player
-public Action Timer_DetonateBomb(Handle timer, any client)
+public Action Timer_DetonateBomb(Handle timer, int userid)
 {
+	int client = GetClientOfUserId(userid);
+
 	EmitSoundToAllAny(g_sSoundBoomPath);
 
 	float suicide_bomber_vec[3];

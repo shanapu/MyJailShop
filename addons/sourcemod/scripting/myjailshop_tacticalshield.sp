@@ -59,7 +59,7 @@ public Plugin myinfo =
 {
 	name = "Shield for MyJailShop",
 	author = "shanapu",
-	description = "Buy a Tactical Shield item for next round",
+	description = "Buy a Tactical Shield item",
 	version = "1.0",
 	url = "https://github.com/shanapu"
 };

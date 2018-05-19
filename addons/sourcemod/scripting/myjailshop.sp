@@ -1127,12 +1127,16 @@ public Action Event_PlayerDeath(Event event, const char[] name, bool dontBroadca
 {
 	int attacker = GetClientOfUserId(event.GetInt("attacker")); // get victim & attacker
 	int client = GetClientOfUserId(event.GetInt("userid"));
-	
-	if (!gc_bEnable.BoolValue) return; // if plugin is disbaled
-	
+
+	if (!gc_bEnable.BoolValue) // if plugin is disbaled
+		return;
+
 	// Start timer: show !revive chat hint if enought credits & enabled
-	if ((Forward_OnGetCredits(client) >= gc_iRevive.IntValue) && (gc_iRevive.IntValue != 0)) CreateTimer(2.0, Timer_DeathMessage, client);
-	
+	if ((Forward_OnGetCredits(client) >= gc_iRevive.IntValue) && gc_iRevive.IntValue != 0)
+	{
+		CreateTimer(2.0, Timer_DeathMessage, GetClientUserId(client));
+	}
+
 	if (g_bFly[client]) // if player was a bird reset model, thirdperson and flymode
 	{
 		g_bFly[client] = false;
@@ -1140,31 +1144,31 @@ public Action Event_PlayerDeath(Event event, const char[] name, bool dontBroadca
 		SetEntityModel(client, g_sModelPathPrevious[client]);
 		SetEntityMoveType(client, MOVETYPE_WALK);
 	}
-	
+
 	if (!attacker)
 		return;
-	
+
 	if (attacker == client)
 		return;
-	
+
 	if (GetClientTeam(attacker) == CS_TEAM_CT && gc_iCreditsKillCT.IntValue == 0 && gc_iCreditsVIPKillCT.IntValue == 0)
 		return;
-	
+
 	if (GetClientTeam(attacker) == CS_TEAM_T && gc_iCreditsKillT.IntValue == 0 && gc_iCreditsVIPKillT.IntValue == 0)
 		return;
-	
+
 	if (GetAllPlayersCount() >= gc_iMinPlayersToGetCredits.IntValue && (gc_bCreditsWarmup.BoolValue || GameRules_GetProp("m_bWarmupPeriod") != 1)) 
 	{
 		if (GetClientTeam(attacker) == CS_TEAM_CT)
 		{
 			if (IsPlayerReservationAdmin(attacker))
 			{
-				Forward_OnSetCredits(attacker,(Forward_OnGetCredits(attacker)+gc_iCreditsVIPKillCT.IntValue));
+				Forward_OnSetCredits(attacker,(Forward_OnGetCredits(attacker) + gc_iCreditsVIPKillCT.IntValue));
 				Forward_OnPlayerGetCredits(attacker, gc_iCreditsVIPKillCT.IntValue);
 			}
 			else
 			{
-				Forward_OnSetCredits(attacker,(Forward_OnGetCredits(attacker)+gc_iCreditsKillCT.IntValue));
+				Forward_OnSetCredits(attacker,(Forward_OnGetCredits(attacker) + gc_iCreditsKillCT.IntValue));
 				Forward_OnPlayerGetCredits(attacker, gc_iCreditsKillCT.IntValue);
 			}
 		}
@@ -1173,37 +1177,49 @@ public Action Event_PlayerDeath(Event event, const char[] name, bool dontBroadca
 		{
 			if (IsPlayerReservationAdmin(attacker))
 			{
-				Forward_OnSetCredits(attacker,(Forward_OnGetCredits(attacker)+gc_iCreditsVIPKillT.IntValue));
+				Forward_OnSetCredits(attacker,(Forward_OnGetCredits(attacker) + gc_iCreditsVIPKillT.IntValue));
 				Forward_OnPlayerGetCredits(attacker, gc_iCreditsVIPKillT.IntValue);
 			}
 			else
 			{
-				Forward_OnSetCredits(attacker,(Forward_OnGetCredits(attacker)+gc_iCreditsKillT.IntValue));
+				Forward_OnSetCredits(attacker,(Forward_OnGetCredits(attacker) + gc_iCreditsKillT.IntValue));
 				Forward_OnPlayerGetCredits(attacker, gc_iCreditsKillT.IntValue);
 			}
 		}
 	}
-	
+
 	if (Forward_OnGetCredits(attacker) > gc_iCreditsMax.IntValue)
 	{
 		Forward_OnSetCredits(attacker, gc_iCreditsMax.IntValue);
 		CPrintToChat(attacker, "%t %t", "shop_tag", "shop_maxcredits", Forward_OnGetCredits(attacker));
 	}
-	
+
 	if (!gc_bNotification.BoolValue)
 		return;
-	
+
 	if (GetAllPlayersCount() >= gc_iMinPlayersToGetCredits.IntValue && (gc_bCreditsWarmup.IntValue != 0 || GameRules_GetProp("m_bWarmupPeriod") != 1)) 
 	{
 		if (GetClientTeam(attacker) == CS_TEAM_CT)
 		{
-			if (IsPlayerReservationAdmin(attacker)) CPrintToChat(attacker, "%t %t", "shop_tag", "shop_killedt", Forward_OnGetCredits(attacker), gc_iCreditsVIPKillCT.IntValue, client);
-			else CPrintToChat(attacker, "%t %t", "shop_tag", "shop_killedt", Forward_OnGetCredits(attacker), gc_iCreditsKillCT.IntValue, client);
+			if (IsPlayerReservationAdmin(attacker))
+			{
+				CPrintToChat(attacker, "%t %t", "shop_tag", "shop_killedt", Forward_OnGetCredits(attacker), gc_iCreditsVIPKillCT.IntValue, client);
+			}
+			else
+			{
+				CPrintToChat(attacker, "%t %t", "shop_tag", "shop_killedt", Forward_OnGetCredits(attacker), gc_iCreditsKillCT.IntValue, client);
+			}
 		}
-		if (GetClientTeam(attacker) == CS_TEAM_T)
+		else if (GetClientTeam(attacker) == CS_TEAM_T)
 		{
-			if (IsPlayerReservationAdmin(attacker)) CPrintToChat(attacker, "%t %t", "shop_tag", "shop_killedct", Forward_OnGetCredits(attacker), gc_iCreditsVIPKillT.IntValue, client);
-			else CPrintToChat(attacker, "%t %t", "shop_tag", "shop_killedct", Forward_OnGetCredits(attacker), gc_iCreditsKillT.IntValue, client);
+			if (IsPlayerReservationAdmin(attacker))
+			{
+				CPrintToChat(attacker, "%t %t", "shop_tag", "shop_killedct", Forward_OnGetCredits(attacker), gc_iCreditsVIPKillT.IntValue, client);
+			}
+			else
+			{
+				CPrintToChat(attacker, "%t %t", "shop_tag", "shop_killedct", Forward_OnGetCredits(attacker), gc_iCreditsKillT.IntValue, client);
+			}
 		}
 	}
 }
@@ -1213,16 +1229,21 @@ public Action Event_PlayerHurt(Event event, const char[] name, bool dontBroadcas
 {
 	int victim = GetClientOfUserId(GetEventInt(event,"userid")); // get victim & attacker
 	int attacker = GetClientOfUserId(event.GetInt("attacker"));
-	
+
 	if (attacker == 0 || !g_bFireHE[attacker] || g_bIsLR) 
 		return;
-	
+
 	if (victim != attacker && attacker !=0 && attacker <MAXPLAYERS)
 	{
 		char sWeaponUsed[50];
 		GetEventString(event,"weapon",sWeaponUsed,sizeof(sWeaponUsed));
-		if (StrEqual(sWeaponUsed,"hegrenade")) IgniteEntity(victim, 5.0);
+
+		if (StrEqual(sWeaponUsed,"hegrenade"))
+		{
+			IgniteEntity(victim, 5.0);
+		}
 	}
+
 	g_bFireHE[attacker] = false;
 }
 
@@ -1233,27 +1254,28 @@ public Action Event_SmokeGrenadeDetonate(Event event, const char[] name, bool do
 	DetonateOrigin[0] = event.GetFloat("x");
 	DetonateOrigin[1] = event.GetFloat("y");
 	DetonateOrigin[2] = event.GetFloat("z");
-	
+
 	int client = GetClientOfUserId(event.GetInt("userid"));
-	
+
 	if (g_bTeleportSmoke[client])
 	{
 		g_bTeleportSmoke[client] = false;
 		if (IsClientInGame(client))
-		SetClientViewEntity(client, client);
-		
+		{
+			SetClientViewEntity(client, client);
+		}
+
 		TeleportEntity(client, DetonateOrigin, NULL_VECTOR, NULL_VECTOR);
 	}
-	
+
 	if (!g_bPoison[client])
 		return;
-	
+
 	int iEntity = CreateEntityByName("light_dynamic");
-	
+
 	if (iEntity == -1)
-	{
 		return;
-	}
+
 	DispatchKeyValue(iEntity, "inner_cone", "0");
 	DispatchKeyValue(iEntity, "cone", "80");
 	DispatchKeyValue(iEntity, "brightness", "5");
@@ -1264,19 +1286,19 @@ public Action Event_SmokeGrenadeDetonate(Event event, const char[] name, bool do
 	DispatchKeyValueFloat(iEntity, "distance", 256.0);
 	SetEntPropEnt(iEntity, Prop_Send, "m_hOwnerEntity", client);
 	CreateTimer(17.0, Timer_Delete, iEntity, TIMER_FLAG_NO_MAPCHANGE);
-	
+
 	TE_SetupBeamRingPoint(DetonateOrigin, 99.0, 100.0, g_iBeamSprite, g_iHaloSprite, 0, 15, 20.0, 10.0, 220.0, {50, 255, 50, 255}, 10, 0);
 	TE_SendToAll();
-	
+
 	TE_SetupBeamRingPoint(DetonateOrigin, 99.0, 100.0, g_iBeamSprite, g_iHaloSprite, 0, 15, 20.0, 10.0, 220.0, {50, 50, 255, 255}, 10, 0);
 	TE_SendToAll();
-	
+
 	DispatchSpawn(iEntity);
 	TeleportEntity(iEntity, DetonateOrigin, NULL_VECTOR, NULL_VECTOR);
 	AcceptEntityInput(iEntity, "TurnOn");
-	
+
 	CreateTimer(1.0, Timer_CheckDamage, iEntity, TIMER_FLAG_NO_MAPCHANGE|TIMER_REPEAT);
-	
+
 	g_bPoison[client] = false;
 }
 
@@ -1284,53 +1306,73 @@ public Action Event_SmokeGrenadeDetonate(Event event, const char[] name, bool do
 public Action Event_RoundEnd(Event event, const char[] name, bool dontBroadcast)
 {
 	int winner = event.GetInt("winner");
-	
-	bool AliveValue;
-	
-	if (gc_bCreditsWinAlive.BoolValue) AliveValue = false;
-	else  AliveValue = true;
-	
+
 	if (winner == CS_TEAM_T)
 	{
-		for (int i = 1; i <= MaxClients; i++) if (IsValidClient(i, false, AliveValue)) if (GetAllPlayersCount() >= gc_iMinPlayersToGetCredits.IntValue && (gc_bCreditsWarmup.BoolValue || GameRules_GetProp("m_bWarmupPeriod") != 1)) 
+		for (int i = 1; i <= MaxClients; i++) if (IsValidClient(i, false, gc_bCreditsWinAlive.BoolValue)) if (GetAllPlayersCount() >= gc_iMinPlayersToGetCredits.IntValue && (gc_bCreditsWarmup.BoolValue || GameRules_GetProp("m_bWarmupPeriod") != 1)) 
 		{
 			if (IsPlayerReservationAdmin(i) && gc_iCreditsVIPWinT.IntValue != 0)
 			{
-				Forward_OnSetCredits(i,(Forward_OnGetCredits(i)+gc_iCreditsVIPWinT.IntValue));
-				if (gc_bNotification.BoolValue) CPrintToChat(i, "%t %t", "shop_tag", "shop_win", Forward_OnGetCredits(i), gc_iCreditsVIPWinT.IntValue);
+				Forward_OnSetCredits(i, (Forward_OnGetCredits(i) + gc_iCreditsVIPWinT.IntValue));
 				Forward_OnPlayerGetCredits(i, gc_iCreditsVIPWinT.IntValue);
+
+				if (gc_bNotification.BoolValue)
+				{
+					CPrintToChat(i, "%t %t", "shop_tag", "shop_win", Forward_OnGetCredits(i), gc_iCreditsVIPWinT.IntValue);
+				}
 			}
 			else if (gc_iCreditsWinT.IntValue != 0)
 			{
-				Forward_OnSetCredits(i,(Forward_OnGetCredits(i)+gc_iCreditsWinT.IntValue));
-				if (gc_bNotification.BoolValue) CPrintToChat(i, "%t %t", "shop_tag", "shop_win", Forward_OnGetCredits(i), gc_iCreditsWinT.IntValue);
+				Forward_OnSetCredits(i, (Forward_OnGetCredits(i) + gc_iCreditsWinT.IntValue));
 				Forward_OnPlayerGetCredits(i, gc_iCreditsWinT.IntValue);
+
+				if (gc_bNotification.BoolValue)
+				{
+					CPrintToChat(i, "%t %t", "shop_tag", "shop_win", Forward_OnGetCredits(i), gc_iCreditsWinT.IntValue);
+				}
 			}
 		}
 	}
-	if (winner == CS_TEAM_CT)
+	else if (winner == CS_TEAM_CT)
 	{
-		for (int i = 1; i <= MaxClients; i++) if (IsValidClient(i, false, AliveValue)) if (GetAllPlayersCount() >= gc_iMinPlayersToGetCredits.IntValue && (gc_bCreditsWarmup.BoolValue || GameRules_GetProp("m_bWarmupPeriod") != 1)) 
+		for (int i = 1; i <= MaxClients; i++) if (IsValidClient(i, false, gc_bCreditsWinAlive.BoolValue)) if (GetAllPlayersCount() >= gc_iMinPlayersToGetCredits.IntValue && (gc_bCreditsWarmup.BoolValue || GameRules_GetProp("m_bWarmupPeriod") != 1)) 
 		{
 			if (IsPlayerReservationAdmin(i) && gc_iCreditsVIPWinCT.IntValue != 0)
 			{
-				Forward_OnSetCredits(i,(Forward_OnGetCredits(i)+gc_iCreditsVIPWinCT.IntValue));
-				if (gc_bNotification.BoolValue) CPrintToChat(i, "%t %t", "shop_tag", "shop_win", Forward_OnGetCredits(i), gc_iCreditsVIPWinCT.IntValue);
+				Forward_OnSetCredits(i,(Forward_OnGetCredits(i) + gc_iCreditsVIPWinCT.IntValue));
 				Forward_OnPlayerGetCredits(i, gc_iCreditsVIPWinCT.IntValue);
+
+				if (gc_bNotification.BoolValue)
+				{
+					CPrintToChat(i, "%t %t", "shop_tag", "shop_win", Forward_OnGetCredits(i), gc_iCreditsVIPWinCT.IntValue);
+				}
 			}
 			else if (gc_iCreditsVIPWinCT.IntValue != 0)
 			{
-				Forward_OnSetCredits(i,(Forward_OnGetCredits(i)+gc_iCreditsWinCT.IntValue));
-				if (gc_bNotification.BoolValue) CPrintToChat(i, "%t %t", "shop_tag", "shop_win", Forward_OnGetCredits(i), gc_iCreditsWinCT.IntValue);
-			 	Forward_OnPlayerGetCredits(i, gc_iCreditsWinCT.IntValue);
+				Forward_OnSetCredits(i,(Forward_OnGetCredits(i) + gc_iCreditsWinCT.IntValue));
+				Forward_OnPlayerGetCredits(i, gc_iCreditsWinCT.IntValue);
+
+				if (gc_bNotification.BoolValue)
+				{
+					CPrintToChat(i, "%t %t", "shop_tag", "shop_win", Forward_OnGetCredits(i), gc_iCreditsWinCT.IntValue);
+				}
 			}
 		}
 	}
-	for (int i = 1; i <= MaxClients; i++) if (IsValidClient(i, false, true))
+
+	for (int i = 1; i <= MaxClients; i++)
 	{
+		if (!IsValidClient(i, false, true))
+			continue;
+
 		ResetPlayer(i);
-		if (gc_bMySQL.BoolValue) DB_WriteCredits(i);
+
+		if (gc_bMySQL.BoolValue)
+		{
+			DB_WriteCredits(i);
+		}
 	}
+
 	g_bIsLR = true;
 }
 
@@ -1340,8 +1382,11 @@ public Action Event_RoundStart(Event event, const char[] name, bool dontBroadcas
 	g_bAllowBuy = true;
 	g_bCellsOpen = false;
 	g_bIsLR = false;
-	
-	if (gc_fBuyTime.FloatValue != 0) CreateTimer (gc_fBuyTime.FloatValue, Timer_BuyTime);
+
+	if (gc_fBuyTime.FloatValue != 0)
+	{
+		CreateTimer (gc_fBuyTime.FloatValue, Timer_BuyTime);
+	}
 }
 
 
@@ -1349,14 +1394,16 @@ public void Event_WeaponFire(Event event, char[] name, bool dontBroadcast)
 {
 	char weapon[20];
 	event.GetString("weapon", weapon, sizeof(weapon));
-	
-	if (StrContains(weapon, "knife", false) == -1) return;
-	
+
+	if (StrContains(weapon, "knife", false) == -1)
+		return;
+
 	int client = GetClientOfUserId(event.GetInt("userid"));
-	
-	if (!g_bThrowingKnife[client]) return;
-	
-	g_hTimerDelay[client] = CreateTimer(0.0, Timer_CreateKnife, client);
+
+	if (!g_bThrowingKnife[client])
+		return;
+
+	g_hTimerDelay[client] = CreateTimer(0.0, Timer_CreateKnife, GetClientUserId(client));
 }
 
 
@@ -1373,7 +1420,7 @@ public void OnAllPluginsLoaded()
 	gp_bCustomPlayerSkins = LibraryExists("CustomPlayerSkins");
 	gp_bMyJBWarden = LibraryExists("myjbwarden");
 	gp_bMyIcons = LibraryExists("myicons");
-	
+
 	g_bHandcuff = FindConVar("sm_warden_handcuffs");
 }
 
@@ -1382,16 +1429,16 @@ public void OnLibraryRemoved(const char[] name)
 {
 	if (StrEqual(name, "smartjaildoors"))
 		gp_bSmartJailDoors = false;
-	
+
 	if (StrEqual(name, "myjailbreak"))
 		gp_bMyJailBreak = false;
-	
+
 	if (StrEqual(name, "CustomPlayerSkins"))
 		gp_bCustomPlayerSkins = false;
-	
+
 	if (StrEqual(name, "myjbwarden"))
 		gp_bMyJBWarden = false;
-	
+
 	if (StrEqual(name, "myicons"))
 		gp_bMyIcons = false;
 }
@@ -1401,16 +1448,16 @@ public void OnLibraryAdded(const char[] name)
 {
 	if (StrEqual(name, "smartjaildoors"))
 		gp_bSmartJailDoors = true;
-	
+
 	if (StrEqual(name, "myjailbreak"))
 		gp_bMyJailBreak = true;
-	
+
 	if (StrEqual(name, "CustomPlayerSkins"))
 		gp_bCustomPlayerSkins = true;
-	
+
 	if (StrEqual(name, "myjbwarden"))
 		gp_bMyJBWarden = true;
-	
+
 	if (StrEqual(name, "myicons"))
 		gp_bMyIcons = true;
 }
@@ -1422,15 +1469,22 @@ public void OnMapStart()
 	g_iHaloSprite = PrecacheModel("materials/sprites/halo.vmt", true);
 	PrecacheModel("models/chicken/chicken.mdl");
 	PrecacheModel(g_sModelPathFakeGuard);
-	
-	if (!g_bDBConnected && gc_bMySQL.BoolValue) DB_Connect();
-	
+
+	if (!g_bDBConnected && gc_bMySQL.BoolValue)
+	{
+		DB_Connect();
+	}
+
 	if (gc_bMySQL.BoolValue) for (int i = 1; i <= MaxClients; i++) if (IsValidClient(i, false, true))
 	{
 		DB_AddPlayer(i);
 		DB_FetchCredits(i);
 	}
-	if (gc_iCreditsTime.IntValue != 0) g_hTimerCredits = CreateTimer(gc_fCreditsTimeInterval.FloatValue, Timer_Credits, _, TIMER_REPEAT);
+
+	if (gc_iCreditsTime.IntValue != 0)
+	{
+		g_hTimerCredits = CreateTimer(gc_fCreditsTimeInterval.FloatValue, Timer_Credits, _, TIMER_REPEAT);
+	}
 }
 
 
@@ -1441,10 +1495,14 @@ public void OnClientDisconnect(int client)
 		g_iCredits[client] = 0;
 		return;
 	}
-	
+
 	if (gc_bMySQL.BoolValue)
 	{
-		if (!g_bDBConnected) DB_Connect();
+		if (!g_bDBConnected)
+		{
+			DB_Connect();
+		}
+
 		DB_WriteCredits(client);
 	}
 	else if (AreClientCookiesCached(client))
@@ -1463,7 +1521,11 @@ public void OnClientCookiesCached(int client)
 
 	if (gc_bMySQL.BoolValue)
 	{
-		if (!g_bDBConnected) DB_Connect();
+		if (!g_bDBConnected)
+		{
+			DB_Connect();
+		}
+
 		DB_WriteCredits(client);
 	}
 	else
@@ -1472,6 +1534,7 @@ public void OnClientCookiesCached(int client)
 		GetClientCookie(client, g_hCookieCredits, CreditsString, sizeof(CreditsString));
 		g_iCredits[client] = StringToInt(CreditsString);
 	}
+
 	if (!gc_bCreditSystem.BoolValue)
 	{
 		g_iCredits[client] = Forward_OnGetCredits(client);
@@ -1481,25 +1544,36 @@ public void OnClientCookiesCached(int client)
 
 public void OnPluginEnd()
 {
-	if (!gc_bCreditsSave.BoolValue) return;
-	
-	for (int i = 1; i <= MaxClients; i++) if (IsValidClient(i, false, true)) OnClientDisconnect(i);
+	if (!gc_bCreditsSave.BoolValue)
+		return;
+
+	for (int i = 1; i <= MaxClients; i++)
+	{
+		if (!IsValidClient(i, false, true))
+		continue;
+
+		OnClientDisconnect(i);
+	}
 }
 
 
 public void OnEntityCreated(int iEntity, const char[] classname) 
 {
 	if (StrEqual(classname, "smokegrenade_projectile"))
+	{
 		SDKHook(iEntity, SDKHook_SpawnPost, Hook_OnEntitySpawned);
+	}
 }
 
 
 public void Hook_OnEntitySpawned(int iGrenade)
 {
 	int client = GetEntPropEnt(iGrenade, Prop_Send, "m_hOwnerEntity");
-	
+
 	if (IsValidClient(client, true, true) && g_bTeleportSmoke[client])
+	{
 		SetClientViewEntity(client, iGrenade);
+	}
 }
 
 
@@ -1531,7 +1605,7 @@ public void OnClientPutInServer(int client)
 {
 	SDKHook(client, SDKHook_OnTakeDamage, Hook_OnTakeDamage);
 	SDKHook(client, SDKHook_WeaponCanUse, Hook_OnWeaponCanUse);
-	
+
 	g_bNoDamage[client] = false;
 	g_bInvisible[client] = false;
 	g_bPoison[client] = false;
@@ -1549,8 +1623,11 @@ public void OnClientPutInServer(int client)
 	g_bHealth[client] = false;
 	g_bOneBulletAWP[client] = false;
 	g_bOneMagDeagle[client] = false;
-	
-	if (gc_bWelcome.BoolValue) CreateTimer(5.0, Timer_WelcomeMessage, client);
+
+	if (gc_bWelcome.BoolValue)
+	{
+		CreateTimer(5.0, Timer_WelcomeMessage, GetClientUserId(client));
+	}
 }
 
 
@@ -1593,10 +1670,10 @@ public Action Hook_OnTakeDamage(int victim, int &attacker, int &inflictor, float
 public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3], float angles[3], int &weapon)
 {
 	int water = GetEntProp(client, Prop_Data, "m_nWaterLevel");
-	
+
 	// Last button
 	static bool bPressed[MAXPLAYERS+1] = false;
-	
+
 	if (IsPlayerAlive(client))
 	{
 		if(g_bGravity[client])
@@ -1614,7 +1691,7 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 				}
 			}
 		}
-		
+
 		// Reset when on Ground
 		if (GetEntityFlags(client) & FL_ONGROUND)
 		{
@@ -1634,9 +1711,10 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 						if (!(GetEntityFlags(client) & FL_ONGROUND) && g_bBhop[client]) buttons &= ~IN_JUMP;
 					}
 				}
-				
-				if (!g_bFroggyJump[client]) return Plugin_Continue;
-				
+
+				if (!g_bFroggyJump[client])
+					return Plugin_Continue;
+
 				// For second time?
 				if (!bPressed[client] && g_iFroggyJumped[client]++ == 1)
 				{
@@ -1645,14 +1723,14 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 					float velocity1;
 					float velocity2;
 					float velocity2_new;
-					
+
 					// Get player velocity
 					velocity0 = GetEntPropFloat(client, Prop_Send, "m_vecVelocity[0]");
 					velocity1 = GetEntPropFloat(client, Prop_Send, "m_vecVelocity[1]");
 					velocity2 = GetEntPropFloat(client, Prop_Send, "m_vecVelocity[2]");
-					
+
 					velocity2_new = 200.0;
-					
+
 					// calculate new velocity^^
 					if (velocity2 < 150.0) velocity2_new = velocity2_new + 20.0;
 					
@@ -1669,21 +1747,22 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 					if (velocity2 < -150.0) velocity2_new = velocity2_new + 80.0;
 					
 					if (velocity2 < -200.0) velocity2_new = velocity2_new + 90.0;
-					
+
 					// Set new velocity
 					velocity[0] = velocity0 * 0.1;
 					velocity[1] = velocity1 * 0.1;
 					velocity[2] = velocity2_new;
-					
+
 					// Double Jump
 					SetEntPropVector(client, Prop_Send, "m_vecBaseVelocity", velocity);
 				}
-				
+
 				bPressed[client] = true;
 			}
 			else bPressed[client] = false;
 		}
 	}
+
 	return Plugin_Continue;
 }
 
@@ -1697,7 +1776,7 @@ public Action Hook_OnWeaponCanUse(int client, int weapon)
 		if (!StrEqual(sClassname, "weapon_knife"))
 		return Plugin_Handled;
 	}
-	
+
 	if (g_bFly[client])
 	{
 		char sClassname[32];
@@ -1705,6 +1784,7 @@ public Action Hook_OnWeaponCanUse(int client, int weapon)
 		if (!StrEqual(sClassname, "weapon_knife"))
 		return Plugin_Handled;
 	}
+
 	return Plugin_Continue;
 }
 
@@ -1712,8 +1792,12 @@ public Action Hook_OnWeaponCanUse(int client, int weapon)
 public int OnAvailableLR(int Announced)
 {
 	g_bIsLR = true;
-	if (gc_bBuyOnLR.BoolValue) g_bAllowBuy = false;
-	
+
+	if (gc_bBuyOnLR.BoolValue)
+	{
+		g_bAllowBuy = false;
+	}
+
 	for (int i = 1; i <= MaxClients; i++) if (IsValidClient(i, false, false)) if (GetClientTeam(i) == CS_TEAM_T && gc_bEnable.BoolValue)
 	{
 		if (GetAllPlayersCount() >= gc_iMinPlayersToGetCredits.IntValue) 
@@ -1750,6 +1834,7 @@ public void SJD_DoorsOpened(int caller, int activator)
 		g_bAllowBuy = false;
 		CPrintToChatAll("%t %t", "shop_tag", "shop_buytime");
 	}
+
 	g_bCellsOpen = true;
 }
 
@@ -1763,9 +1848,12 @@ public void SJD_DoorsClosed(int caller, int activator)
 public void OnEntityDestroyed(int entity)
 {
 	if (!IsValidEdict(entity)) return;
-	
+
 	int index = FindValueInArray(g_hThrownKnives, EntIndexToEntRef(entity));
-	if (index != -1) RemoveFromArray(g_hThrownKnives, index);
+	if (index != -1)
+	{
+		RemoveFromArray(g_hThrownKnives, index);
+	}
 }
 
 
@@ -1783,20 +1871,23 @@ stock void DealDamage(int victim,int  damage,int  attacker = 0,int  damagetype =
 		{
 			char sDamage[16];
 			IntToString(damage, sDamage, sizeof(sDamage));
-			
+
 			char sDamageType[32];
 			IntToString(damagetype, sDamageType, sizeof(sDamageType));
-			
+
 			DispatchKeyValue(victim, "targetname", "hurtme");
 			DispatchKeyValue(EntityPointHurt, "DamageTarget", "hurtme");
 			DispatchKeyValue(EntityPointHurt, "Damage", sDamage);
 			DispatchKeyValue(EntityPointHurt, "DamageType", sDamageType);
-			if (!StrEqual(weapon, "")) DispatchKeyValue(EntityPointHurt, "classname", weapon);
+			if (!StrEqual(weapon, ""))
+			{
+				DispatchKeyValue(EntityPointHurt, "classname", weapon);
+			}
 			DispatchSpawn(EntityPointHurt);
 			AcceptEntityInput(EntityPointHurt, "Hurt", (attacker != 0) ? attacker : -1);
 			DispatchKeyValue(EntityPointHurt, "classname", "point_hurt");
 			DispatchKeyValue(victim, "targetname", "donthurtme");
-			
+
 			RemoveEdict(EntityPointHurt);
 		}
 	}
@@ -1804,10 +1895,10 @@ stock void DealDamage(int victim,int  damage,int  attacker = 0,int  damagetype =
 
 
 public Action Hook_SetTransmit(int entity, int client)
-{	
+{
 	if (entity != client)
 		return Plugin_Handled;
-	
+
 	return Plugin_Continue;
 }
 
@@ -1821,22 +1912,29 @@ public Action ResetPlayer(int client)
 		SetEntityModel(client, g_sModelPathPrevious[client]);
 		SetEntityMoveType(client, MOVETYPE_WALK);
 	}
-	
+
 	if (g_bFakeGuard[client])
 	{
 		g_bFakeGuard[client] = false;
 		SetEntityModel(client, g_sModelPathPrevious[client]);
 	}
-	
+
 	if (g_bInvisible[client])
 	{
 		g_bInvisible[client] = false;
 		SDKUnhook(client, SDKHook_SetTransmit, Hook_SetTransmit);
 	}
-	
-	if (gp_bCustomPlayerSkins) UnhookWallhack(client);
-	if (gp_bMyIcons) MyIcons_BlockClientIcon(client, false);
-	
+
+	if (gp_bCustomPlayerSkins)
+	{
+		UnhookWallhack(client);
+	}
+
+	if (gp_bMyIcons)
+	{
+		MyIcons_BlockClientIcon(client, false);
+	}
+
 	g_bRandomTP[client] = false;
 	g_bNoDamage[client] = false;
 	g_bPoison[client] = false;
@@ -1853,7 +1951,7 @@ public Action ResetPlayer(int client)
 	g_bOneMagDeagle[client] = false;
 	g_bMolotov[client] = false;
 	g_bHealth[client] = false;
-	
+
 	Forward_OnResetPlayer(client);
 }
 
@@ -1889,54 +1987,54 @@ public Action Menu_OpenShop(int client)
 				else if (gc_iOpenCells.IntValue != 0 && CheckVipFlag(client, g_sOpenCellsFlag)) AddMenuItem(menu, "Doors", info, ITEMDRAW_DISABLED);
 			}
 		}
-		
+
 		Format(info, sizeof(info), "%T","shop_menu_heal", client, gc_iHeal.IntValue);
 		if (gc_iHealOnlyTeam.IntValue >= 1 && iCredits >= gc_iHeal.IntValue && gc_iHeal.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sHealFlag)) AddMenuItem(menu, "Heal", info);
 		else if (gc_iHealOnlyTeam.IntValue >= 1 && gc_iHeal.IntValue != 0 && CheckVipFlag(client, g_sHealFlag)) AddMenuItem(menu, "Heal", info, ITEMDRAW_DISABLED);
-		
+
 		Format(info, sizeof(info), "%T","shop_menu_health", client, gc_iHealth.IntValue, gc_iHealthExtra.IntValue);
 		if (gc_iHealthExtraOnlyTeam.IntValue >= 1 && iCredits >= gc_iHealth.IntValue && gc_iHealth.IntValue != 0 && g_bAllowBuy && !g_bHealth[client] && IsPlayerAlive(client) && CheckVipFlag(client, g_sHealthFlag)) AddMenuItem(menu, "Health", info);
 		else if (gc_iHealthExtraOnlyTeam.IntValue >= 1 && gc_iHealth.IntValue != 0 && CheckVipFlag(client, g_sHealthFlag)) AddMenuItem(menu, "Health", info, ITEMDRAW_DISABLED);
-		
+
 		Format(info, sizeof(info), "%T","shop_menu_revive", client, gc_iRevive.IntValue);
 		if (gc_iReviveOnlyTeam.IntValue >= 1 && iCredits >= gc_iRevive.IntValue && gc_iRevive.IntValue != 0 && !IsPlayerAlive(client) && !g_bIsLR && GetAlivePlayersCount(GetClientTeam(client)) > 1 && CheckVipFlag(client, g_sReviveFlag)) AddMenuItem(menu, "Revive", info);
 		else if (gc_iReviveOnlyTeam.IntValue >= 1 && gc_iRevive.IntValue != 0 && CheckVipFlag(client, g_sReviveFlag)) AddMenuItem(menu, "Revive", info, ITEMDRAW_DISABLED);
-		
+
 		Format(info, sizeof(info), "%T","shop_menu_vampire", client, gc_iVampire.IntValue);
 		if (iCredits >= gc_iVampire.IntValue && gc_iVampire.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sVampireFlag)) AddMenuItem(menu, "Vampire", info);
 		else if (gc_iVampire.IntValue != 0 && CheckVipFlag(client, g_sVampireFlag)) AddMenuItem(menu, "Vampire", info, ITEMDRAW_DISABLED);
-		
+
 		Format(info, sizeof(info), "%T","shop_menu_bhop", client, gc_iBhop.IntValue);
 		if (gc_iBhopOnlyTeam.IntValue >= 1 && iCredits >= gc_iBhop.IntValue && gc_iBhop.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && !g_bFroggyJump[client] && CheckVipFlag(client, g_sBhopFlag)) AddMenuItem(menu, "Bhop", info);
 		else if (gc_iBhopOnlyTeam.IntValue >= 1 && gc_iBhop.IntValue != 0 && CheckVipFlag(client, g_sBhopFlag)) AddMenuItem(menu, "Bhop", info, ITEMDRAW_DISABLED);
-		
+
 		Format(info, sizeof(info), "%T","shop_menu_froggyjump", client, gc_iFroggyJump.IntValue);
 		if (gc_iFroggyJumpOnlyTeam.IntValue >= 1 && iCredits >= gc_iFroggyJump.IntValue && gc_iFroggyJump.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && !g_bBhop[client] && CheckVipFlag(client, g_sFroggyJumpFlag)) AddMenuItem(menu, "FroggyJump", info);
 		else if (gc_iFroggyJumpOnlyTeam.IntValue >= 1 && gc_iFroggyJump.IntValue != 0 && CheckVipFlag(client, g_sFroggyJumpFlag)) AddMenuItem(menu, "FroggyJump", info, ITEMDRAW_DISABLED);
-		
+
 		Format(info, sizeof(info), "%T","shop_menu_gravity", client, gc_iGravity.IntValue);
 		if (gc_iGravOnlyTeam.IntValue >= 1 && iCredits >= gc_iGravity.IntValue && gc_iGravity.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && !g_bGravity[client] && CheckVipFlag(client, g_sGravityFlag)) AddMenuItem(menu, "Gravity", info);
 		else if (gc_iGravOnlyTeam.IntValue >= 1 && gc_iGravity.IntValue != 0 && CheckVipFlag(client, g_sGravityFlag)) AddMenuItem(menu, "Gravity", info, ITEMDRAW_DISABLED);
-		
+
 		Format(info, sizeof(info), "%T","shop_menu_invisible", client, gc_iInvisible.IntValue, RoundToCeil(gc_fInvisibleTime.FloatValue));
 		if (iCredits >= gc_iInvisible.IntValue && gc_iInvisible.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sInvisibleFlag)) AddMenuItem(menu, "Invisible", info);
 		else if (gc_iInvisible.IntValue != 0 && CheckVipFlag(client, g_sInvisibleFlag))AddMenuItem(menu, "Invisible", info, ITEMDRAW_DISABLED);
-		
+
 		Format(info, sizeof(info), "%T","shop_menu_nodamage", client, gc_iNoDamage.IntValue, RoundToCeil(gc_fNoDamageTime.FloatValue));
 		if (gc_iNoDamageOnlyTeam.IntValue >= 1 && iCredits >= gc_iNoDamage.IntValue && gc_iNoDamage.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sNoDamageFlag)) AddMenuItem(menu, "NoDamage", info);
 		else if (gc_iNoDamageOnlyTeam.IntValue >= 1 && gc_iNoDamage.IntValue != 0 && CheckVipFlag(client, g_sNoDamageFlag)) AddMenuItem(menu, "NoDamage", info, ITEMDRAW_DISABLED);
-		
+
 		Format(info, sizeof(info), "%T","shop_menu_noclip", client, gc_iNoClip.IntValue, RoundToCeil(gc_fNoClipTime.FloatValue));
 		if (iCredits >= gc_iNoClip.IntValue && gc_iNoClip.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sNoClipFlag)) AddMenuItem(menu, "NoClip", info);
 		else if (gc_iNoClip.IntValue != 0 && CheckVipFlag(client, g_sNoClipFlag)) AddMenuItem(menu, "NoClip", info, ITEMDRAW_DISABLED);
-		
+
 		if (gp_bCustomPlayerSkins)
 		{
 			Format(info, sizeof(info), "%T","shop_menu_wallhack", client, gc_iWallhack.IntValue);
 			if (gc_iWallhackOnlyTeam.IntValue >= 1 && iCredits >= gc_iWallhack.IntValue && gc_iWallhack.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sWallhackFlag)) AddMenuItem(menu, "Wallhack", info);
 			else if (gc_iWallhackOnlyTeam.IntValue >= 1 && gc_iWallhack.IntValue != 0 && CheckVipFlag(client, g_sWallhackFlag)) AddMenuItem(menu, "Wallhack", info, ITEMDRAW_DISABLED);
 		}
-		
+
 		if (gp_bMyJBWarden)
 		{
 			if (g_bHandcuff != null)
@@ -1949,51 +2047,51 @@ public Action Menu_OpenShop(int client)
 				}
 			}
 		}
-		
+
 		Format(info, sizeof(info), "%T","shop_menu_model", client, gc_iFakeModel.IntValue);
 		if (iCredits >= gc_iFakeModel.IntValue && gc_iFakeModel.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sFakeModelFlag)) AddMenuItem(menu, "FakeModel", info);
 		else if (gc_iFakeModel.IntValue != 0 && CheckVipFlag(client, g_sFakeModelFlag)) AddMenuItem(menu, "FakeModel", info, ITEMDRAW_DISABLED);
-		
+
 		Format(info, sizeof(info), "%T","shop_menu_teleportsmoke", client, gc_iTeleportSmoke.IntValue);
 		if (iCredits >= gc_iTeleportSmoke.IntValue && gc_iTeleportSmoke.IntValue != 0 && g_bAllowBuy && !g_bTeleportSmoke[client] && IsPlayerAlive(client) && CheckVipFlag(client, g_sTeleportSmokeFlag)) AddMenuItem(menu, "TeleportSmoke", info);
 		else if (gc_iTeleportSmoke.IntValue != 0 && CheckVipFlag(client, g_sTeleportSmokeFlag)) AddMenuItem(menu, "TeleportSmoke", info, ITEMDRAW_DISABLED);
-		
+
 		Format(info, sizeof(info), "%T","shop_menu_poisonsmoke", client, gc_iPoisonSmoke.IntValue);
 		if (iCredits >= gc_iPoisonSmoke.IntValue && gc_iPoisonSmoke.IntValue != 0 && g_bAllowBuy && !g_bPoison[client] && IsPlayerAlive(client) && CheckVipFlag(client, g_sPoisonSmokeFlag)) AddMenuItem(menu, "PoisonSmoke", info);
 		else if (gc_iPoisonSmoke.IntValue != 0 && CheckVipFlag(client, g_sPoisonSmokeFlag)) AddMenuItem(menu, "PoisonSmoke", info, ITEMDRAW_DISABLED);
-		
+
 		Format(info, sizeof(info), "%T","shop_menu_firegrenade", client, gc_iFireHE.IntValue);
 		if (iCredits >= gc_iFireHE.IntValue && gc_iFireHE.IntValue != 0 && g_bAllowBuy && !g_bFireHE[client] && IsPlayerAlive(client) && CheckVipFlag(client, g_sFireHEFlag)) AddMenuItem(menu, "FireGrenade", info);
 		else if (gc_iFireHE.IntValue != 0 && CheckVipFlag(client, g_sFireHEFlag)) AddMenuItem(menu, "FireGrenade", info, ITEMDRAW_DISABLED);
-		
+
 		Format(info, sizeof(info), "%T","shop_menu_awp", client, gc_iAWP.IntValue);
 		if (iCredits >= gc_iAWP.IntValue && gc_iAWP.IntValue != 0 && g_bAllowBuy && !g_bOneBulletAWP[client] && IsPlayerAlive(client) && CheckVipFlag(client, g_sAWPFlag)) AddMenuItem(menu, "AWP", info);
 		else if (gc_iAWP.IntValue != 0 && CheckVipFlag(client, g_sAWPFlag)) AddMenuItem(menu, "AWP", info, ITEMDRAW_DISABLED);
-		
+
 		Format(info, sizeof(info), "%T","shop_menu_deagle", client, gc_iDeagle.IntValue);
 		if (iCredits >= gc_iDeagle.IntValue && gc_iDeagle.IntValue != 0 && g_bAllowBuy && !g_bOneMagDeagle[client] && IsPlayerAlive(client) && CheckVipFlag(client, g_sDeagleFlag)) AddMenuItem(menu, "Deagle", info);
 		else if (gc_iDeagle.IntValue != 0 && CheckVipFlag(client, g_sDeagleFlag)) AddMenuItem(menu, "Deagle", info, ITEMDRAW_DISABLED);
-		
+
 		Format(info, sizeof(info), "%T","shop_menu_knife", client, gc_iKnife.IntValue);
 		if (iCredits >= gc_iKnife.IntValue && gc_iKnife.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && !g_bSuperKnife[client] && CheckVipFlag(client, g_sKnifeFlag)) AddMenuItem(menu, "Knife", info);
 		else if (gc_iKnife.IntValue != 0 && CheckVipFlag(client, g_sKnifeFlag)) AddMenuItem(menu, "Knife", info, ITEMDRAW_DISABLED);
-		
+
 		Format(info, sizeof(info), "%T","shop_menu_throwingknife", client, gc_iThrowKnife.IntValue);
 		if (iCredits >= gc_iThrowKnife.IntValue && gc_iThrowKnife.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && !g_bThrowingKnife[client] && CheckVipFlag(client, g_sThrowKnifeFlag)) AddMenuItem(menu, "ThrowingKnife", info);
 		else if (gc_iThrowKnife.IntValue != 0 && CheckVipFlag(client, g_sThrowKnifeFlag)) AddMenuItem(menu, "ThrowingKnife", info, ITEMDRAW_DISABLED);
-		
+
 		Format(info, sizeof(info), "%T","shop_menu_taser", client, gc_iTaser.IntValue);
 		if (iCredits >= gc_iTaser.IntValue && gc_iTaser.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sTaserFlag)) AddMenuItem(menu, "Taser", info);
 		else if (gc_iTaser.IntValue != 0 && CheckVipFlag(client, g_sTaserFlag)) AddMenuItem(menu, "Taser", info, ITEMDRAW_DISABLED);
-		
+
 		Format(info, sizeof(info), "%T","shop_menu_molotov", client, gc_iMolotov.IntValue);
 		if (iCredits >= gc_iMolotov.IntValue && gc_iMolotov.IntValue != 0 && g_bAllowBuy && !g_bMolotov[client] && IsPlayerAlive(client) && CheckVipFlag(client, g_sMolotovFlag)) AddMenuItem(menu, "Molotov", info);
 		else if (gc_iMolotov.IntValue != 0 && CheckVipFlag(client, g_sMolotovFlag)) AddMenuItem(menu, "Molotov", info, ITEMDRAW_DISABLED);
-		
+
 		Format(info, sizeof(info), "%T","shop_menu_bird", client, gc_iBird.IntValue);
 		if (iCredits >= gc_iBird.IntValue && gc_iBird.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sBirdFlag)) AddMenuItem(menu, "Bird", info);
 		else if (gc_iBird.IntValue != 0 && CheckVipFlag(client, g_sBirdFlag)) AddMenuItem(menu, "Bird", info, ITEMDRAW_DISABLED);
-		
+
 		Format(info, sizeof(info), "%T", "shop_menu_randomtp", client, gc_iRandomTP.IntValue);
 		if (iCredits >= gc_iRandomTP.IntValue && gc_iRandomTP.IntValue != 0 && g_bAllowBuy && !g_bRandomTP[client] && IsPlayerAlive(client) && CheckVipFlag(client, g_sRandomTPFlag) && GetAlivePlayersCount(CS_TEAM_T) > 1) AddMenuItem(menu, "RandomTP", info);
 		else if (gc_iRandomTP.IntValue != 0 && CheckVipFlag(client, g_sRandomTPFlag))AddMenuItem(menu, "RandomTP", info, ITEMDRAW_DISABLED);
@@ -2003,31 +2101,31 @@ public Action Menu_OpenShop(int client)
 		Format(info, sizeof(info), "%T","shop_menu_heal", client, gc_iHeal.IntValue);
 		if (gc_iHealOnlyTeam.IntValue <= 1 && iCredits >= gc_iHeal.IntValue && gc_iHeal.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sHealFlag)) AddMenuItem(menu, "Heal", info);
 		else if (gc_iHealOnlyTeam.IntValue <= 1 && gc_iHeal.IntValue != 0 && CheckVipFlag(client, g_sHealFlag)) AddMenuItem(menu, "Heal", info, ITEMDRAW_DISABLED);
-		
+
 		Format(info, sizeof(info), "%T","shop_menu_health", client, gc_iHealth.IntValue, gc_iHealthExtra.IntValue);
 		if (gc_iHealthExtraOnlyTeam.IntValue <= 1 && iCredits >= gc_iHealth.IntValue && gc_iHealth.IntValue != 0 && g_bAllowBuy && !g_bHealth[client] && IsPlayerAlive(client) && CheckVipFlag(client, g_sHealthFlag)) AddMenuItem(menu, "Health", info);
 		else if (gc_iHealthExtraOnlyTeam.IntValue <= 1 && gc_iHealth.IntValue != 0 && CheckVipFlag(client, g_sHealthFlag)) AddMenuItem(menu, "Health", info, ITEMDRAW_DISABLED);
-		
+
 		Format(info, sizeof(info), "%T","shop_menu_revive", client, gc_iRevive.IntValue);
 		if (gc_iReviveOnlyTeam.IntValue <= 1 && iCredits >= gc_iRevive.IntValue && gc_iRevive.IntValue != 0 && !IsPlayerAlive(client) && !g_bIsLR && GetAlivePlayersCount(GetClientTeam(client)) > 1 && CheckVipFlag(client, g_sReviveFlag)) AddMenuItem(menu, "Revive", info);
 		else if (gc_iReviveOnlyTeam.IntValue <= 1 && gc_iRevive.IntValue != 0 && CheckVipFlag(client, g_sReviveFlag)) AddMenuItem(menu, "Revive", info, ITEMDRAW_DISABLED);
-		
+
 		Format(info, sizeof(info), "%T","shop_menu_bhop", client, gc_iBhop.IntValue);
 		if (gc_iBhopOnlyTeam.IntValue <= 1 && iCredits >= gc_iBhop.IntValue && gc_iBhop.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && !g_bFroggyJump[client] && CheckVipFlag(client, g_sBhopFlag)) AddMenuItem(menu, "Bhop", info);
 		else if (gc_iBhopOnlyTeam.IntValue <= 1 && gc_iBhop.IntValue != 0 && CheckVipFlag(client, g_sBhopFlag)) AddMenuItem(menu, "Bhop", info, ITEMDRAW_DISABLED);
-		
+
 		Format(info, sizeof(info), "%T","shop_menu_froggyjump", client, gc_iFroggyJump.IntValue);
 		if (gc_iFroggyJumpOnlyTeam.IntValue <= 1 && iCredits >= gc_iFroggyJump.IntValue && gc_iFroggyJump.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && !g_bBhop[client] && CheckVipFlag(client, g_sFroggyJumpFlag)) AddMenuItem(menu, "FroggyJump", info);
 		else if (gc_iFroggyJumpOnlyTeam.IntValue <= 1 && gc_iFroggyJump.IntValue != 0 && CheckVipFlag(client, g_sFroggyJumpFlag)) AddMenuItem(menu, "FroggyJump", info, ITEMDRAW_DISABLED);
-		
+
 		Format(info, sizeof(info), "%T","shop_menu_gravity", client, gc_iGravity.IntValue);
 		if (gc_iGravOnlyTeam.IntValue <= 1 && iCredits >= gc_iGravity.IntValue && gc_iGravity.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sGravityFlag)) AddMenuItem(menu, "Gravity", info);
 		else if (gc_iGravOnlyTeam.IntValue <= 1 && gc_iGravity.IntValue != 0 && CheckVipFlag(client, g_sGravityFlag)) AddMenuItem(menu, "Gravity", info, ITEMDRAW_DISABLED);
-		
+
 		Format(info, sizeof(info), "%T","shop_menu_nodamage", client, gc_iNoDamage.IntValue, RoundToCeil(gc_fNoDamageTime.FloatValue));
 		if (gc_iNoDamageOnlyTeam.IntValue <= 1 && iCredits >= gc_iNoDamage.IntValue && gc_iNoDamage.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sNoDamageFlag)) AddMenuItem(menu, "NoDamage", info);
 		else if (gc_iNoDamageOnlyTeam.IntValue <= 1 && gc_iNoDamage.IntValue != 0 && CheckVipFlag(client, g_sNoDamageFlag)) AddMenuItem(menu, "NoDamage", info, ITEMDRAW_DISABLED);
-		
+
 		if (gp_bCustomPlayerSkins)
 		{
 			Format(info, sizeof(info), "%T","shop_menu_wallhack", client, gc_iWallhack.IntValue);
@@ -2035,15 +2133,15 @@ public Action Menu_OpenShop(int client)
 			else if (gc_iWallhackOnlyTeam.IntValue <= 1 && gc_iWallhack.IntValue != 0 && CheckVipFlag(client, g_sWallhackFlag)) AddMenuItem(menu, "Wallhack", info, ITEMDRAW_DISABLED);
 		}
 	}
-	
+
 	Call_StartForward(gF_hOnShopMenu);
 	Call_PushCell(client);
 	Call_PushCell(menu);
 	Call_Finish();
-	
+
 	menu.ExitButton = true;
 	menu.Display(client, MENU_TIME_FOREVER);
-	
+
 	return Plugin_Handled;
 }
 
@@ -2056,7 +2154,7 @@ public int Handler_Menu_OpenShop(Menu menu, MenuAction action, int client, int i
 	Call_PushCell(client);
 	Call_PushCell(itemNum);
 	Call_Finish();
-	
+
 	if (action == MenuAction_Select)
 	{
 		if (g_bAllowBuy && gc_bEnable.BoolValue)
@@ -2069,10 +2167,10 @@ public int Handler_Menu_OpenShop(Menu menu, MenuAction action, int client, int i
 					return;
 				}
 			}
-			
+
 			char info[32];
 			menu.GetItem(itemNum, info, sizeof(info));
-			
+
 			if (strcmp(info,"Invisible") == 0)
 			{
 				Item_Invisible(client, info);
@@ -2197,7 +2295,7 @@ void Item_Invisible(int client, char[] name)
 		{
 			SDKHook(client, SDKHook_SetTransmit, Hook_SetTransmit);
 			g_bInvisible[client] = true;
-			CreateTimer(gc_fInvisibleTime.FloatValue, Timer_Invisible, client);
+			CreateTimer(gc_fInvisibleTime.FloatValue, Timer_Invisible, GetClientUserId(client));
 			
 			StripAllPlayerWeapons(client);
 			GivePlayerItem(client, "weapon_knife");
@@ -2256,7 +2354,7 @@ void Item_NoDamage(int client, char[] name)
 		if (Forward_OnGetCredits(client) >= gc_iNoDamage.IntValue)
 		{
 			g_bNoDamage[client] = true;
-			CreateTimer(gc_fNoDamageTime.FloatValue, Timer_NoDamage, client);
+			CreateTimer(gc_fNoDamageTime.FloatValue, Timer_NoDamage, GetClientUserId(client));
 			Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iNoDamage.IntValue));
 			Forward_OnPlayerBuyItem(client, name);
 			
@@ -2652,7 +2750,7 @@ void Item_NoClip(int client, char[] name)
 		{
 			g_bNoClip[client] = true;
 			SetEntityMoveType(client, MOVETYPE_NOCLIP);
-			CreateTimer(gc_fNoClipTime.FloatValue, Timer_NoClip, client);
+			CreateTimer(gc_fNoClipTime.FloatValue, Timer_NoClip, GetClientUserId(client));
 			Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iNoClip.IntValue));
 			Forward_OnPlayerBuyItem(client, name);
 			
@@ -2765,7 +2863,7 @@ void Item_Wallhack(int client, char[] name)
 			
 			for (int i = 1; i <= MaxClients; i++) if (IsClientInGame(i)) Setup_WallhackSkin(i);
 			
-			CreateTimer (gc_fWallhackTime.FloatValue, Timer_Wallhack, client);
+			CreateTimer (gc_fWallhackTime.FloatValue, Timer_Wallhack, GetClientUserId(client));
 			
 			Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iWallhack.IntValue));
 			
@@ -2993,23 +3091,27 @@ public Action Timer_BuyTime(Handle timer)
 }
 
 
-public Action Timer_NoClip(Handle timer, any client)
+public Action Timer_NoClip(Handle timer, int userid)
 {
+	int client = GetClientOfUserId(userid);
+
 	g_bNoClip[client] = false;
 	SetEntityMoveType(client, MOVETYPE_WALK);
 	CPrintToChat(client, "%t %t", "shop_tag", "shop_noclipend");
 	
 	if (IsClientStuck(client))
 	{
-		if (gc_bNoClipKill.BoolValue) CreateTimer(3.0, Timer_StuckNoClip, client);
+		if (gc_bNoClipKill.BoolValue) CreateTimer(3.0, Timer_StuckNoClip, userid);
 		CPrintToChatAll("%t %t", "shop_tag", "shop_noclipstuck", client);
 	}
 
 	return Plugin_Stop;
 }
 
-public Action Timer_StuckNoClip(Handle timer, any client)
+public Action Timer_StuckNoClip(Handle timer, int userid)
 {
+	int client = GetClientOfUserId(userid);
+
 	if (GetCommandFlags("sm_timebomb") != INVALID_FCVAR_FLAGS)
 	{
 		ServerCommand("sm_timebomb %N 1", client);
@@ -3020,14 +3122,18 @@ public Action Timer_StuckNoClip(Handle timer, any client)
 }
 
 
-public Action Timer_WelcomeMessage(Handle timer, any client)
+public Action Timer_WelcomeMessage(Handle timer, int userid)
 {
+	int client = GetClientOfUserId(userid);
+
 	if (gc_bWelcome.BoolValue && IsClientInGame(client) && gc_bEnable.BoolValue) CPrintToChat(client, "%t %t", "shop_tag", "shop_welcome");
 }
 
 
-public Action Timer_DeathMessage(Handle timer, any client)
+public Action Timer_DeathMessage(Handle timer, int userid)
 {
+	int client = GetClientOfUserId(userid);
+
 	if (IsClientInGame(client) && !g_bIsLR && GetAlivePlayersCount(GetClientTeam(client)) > 1 && gc_bEnable.BoolValue) CPrintToChat(client, "%t %t", "shop_tag", "shop_revivehint", gc_iRevive.IntValue);
 }
 
@@ -3086,8 +3192,10 @@ public Action Timer_Credits (Handle timer)
 }
 
 
-public Action Timer_NoDamage(Handle timer, any client)
+public Action Timer_NoDamage(Handle timer, int userid)
 {
+	int client = GetClientOfUserId(userid);
+
 	if (IsClientInGame(client) && IsPlayerAlive(client))
 	{
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_unnodamage");
@@ -3096,8 +3204,10 @@ public Action Timer_NoDamage(Handle timer, any client)
 	
 }
 
-public Action Timer_Wallhack(Handle timer, any client)
+public Action Timer_Wallhack(Handle timer, int userid)
 {
+	int client = GetClientOfUserId(userid);
+
 	if (IsClientInGame(client) && IsPlayerAlive(client))
 	{
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_unwallhack");
@@ -3112,8 +3222,10 @@ public Action Timer_Wallhack(Handle timer, any client)
 }
 
 
-public Action Timer_Invisible(Handle timer, any client)
+public Action Timer_Invisible(Handle timer, int userid)
 {
+	int client = GetClientOfUserId(userid);
+
 	if (IsClientInGame(client) && IsPlayerAlive(client))
 	{
 		g_bInvisible[client] = false;
@@ -3125,8 +3237,10 @@ public Action Timer_Invisible(Handle timer, any client)
 
 
 // awesome code by bacardi https:// forums.alliedmods.net/showthread.php?t=269846
-public Action Timer_CreateKnife(Handle timer, any client)
+public Action Timer_CreateKnife(Handle timer, int userid)
 {
+	int client = GetClientOfUserId(userid);
+
 	g_hTimerDelay[client] = INVALID_HANDLE;
 	
 	int slot_knife = GetPlayerWeaponSlot(client, CS_SLOT_KNIFE);
