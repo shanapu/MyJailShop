@@ -3,27 +3,14 @@
 **[1.4.1.dev]** - DEV
   
 *Added*
- *  new shop item as extra plugin: Buy a Freeday for the next round - requires MyJB warden
-    *  new plugin - myjailshop_freeday.smx
+ *  new shop item as extra plugin:  Buy a Freeday for the next round - requires MyJB warden
     *  new cvar - sm_jailshop_freeday_price - 0 disable, price of the 'Freeday' shop item
     *  new cvar - sm_jailshop_freeday_flag - Set flag for admin/vip must have to get accesso to Freeday. No flag = is avaible for all players!
- *  new shop item as extra plugin: Buy a tactical shield - requires https://github.com/Keplyx/TacticalShield/
-    *  new plugin - myjailshop_tacticalshield.smx
+ *  new shop item as extra plugin:  Buy a tactical shield - requires https://github.com/Keplyx/TacticalShield/
     *  new cvar - sm_jailshop_shield_price - 0 disable, price of the 'Freeday' shop item
     *  new cvar - sm_jailshop_shield_flag - Set flag for admin/vip must have to get accesso to Freeday. No flag = is avaible for all players!
-    *  new cvar - sm_jailshop_shield_access - 0 - guards only, 1 - guards & prisoner, 2 - prisoner only
-    *  new cvar - sm_jailshop_shield_pistol - Give player this pistol with one magazin if he havn't already a pistol, leave blank '' for no pistol with shield
- *  new feature as extra plugin: Show credits in HUD 
-    *  new plugin - myjailshop_hud.smx
-    *  new cvar - sm_jailshop_hud_enable - 0 - disabled, 1 - enable this MyJailShop Module
-    *  new cvar - sm_jailshop_hud_alive - 0 - show hud only to alive player, 1 - show hud to dead & alive player
-    *  new cvar - sm_jailshop_hud_x - x coordinate, from 0 to 1. -1.0 is the center
-    *  new cvar - sm_jailshop_hud_y - y coordinate, from 0 to 1. -1.0 is the center
-    *  new cvar - sm_jailshop_hud_red - Color of sm_hud_type '1' (set R, G and B values to 255 to disable) (Rgb): x - red value
-    *  new cvar - sm_jailshop_hud_green - Color of sm_hud_type '1' (set R, G and B values to 255 to disable) (rGb): x - green value
-    *  new cvar - sm_jailshop_hud_blue - Color of sm_hud_type '1' (set R, G and B values to 255 to disable) (rgB): x - blue value
-    *  new cvar - sm_jailshop_hud_alpha - Alpha value of sm_hud_type '1' (set value to 255 to disable for transparency)
- 
+    *  new cvar - sm_jailshop_shield_access", "1", "0 - guards only, 1 - guards & prisoner, 2 - prisoner only
+  
   
 *Changed*
  *  Allow admin commands from server console
@@ -34,7 +21,7 @@
  *  Restrict player commands from server console
  *  Natives Get/SetCredits
  *  Prohibit Random TP when there is no other terror
- *  Minor issues/improvements
+ *  Minor issues
   
   
   

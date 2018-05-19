@@ -29,7 +29,6 @@ echo "Compile MyJailShop plugins"
 addons/sourcemod/scripting/spcomp -E -v0 addons/sourcemod/scripting/myjailshop.sp
 addons/sourcemod/scripting/spcomp -E -v0 addons/sourcemod/scripting/myjailshop_door.sp
 addons/sourcemod/scripting/spcomp -E -v0 addons/sourcemod/scripting/myjailshop_freeday.sp
-addons/sourcemod/scripting/spcomp -E -v0 addons/sourcemod/scripting/myjailshop_hud.sp
 addons/sourcemod/scripting/spcomp -E -v0 addons/sourcemod/scripting/myjailshop_blackout.sp
 addons/sourcemod/scripting/spcomp -E -v0 addons/sourcemod/scripting/myjailshop_jetpack.sp
 addons/sourcemod/scripting/spcomp -E -v0 addons/sourcemod/scripting/myjailshop_jihad.sp
