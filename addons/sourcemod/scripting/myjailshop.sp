@@ -1862,7 +1862,7 @@ public void OnEntityDestroyed(int entity)
 ******************************************************************************/
 
 
-stock void DealDamage(int victim,int  damage,int  attacker = 0,int  damagetype = DMG_GENERIC, char[] weapon = "")
+void DealDamage(int victim,int  damage,int  attacker = 0,int  damagetype = DMG_GENERIC, char[] weapon = "")
 {
 	if (victim > 0 && IsValidEdict(victim) && IsClientInGame(victim) && IsPlayerAlive(victim) && damage > 0)
 	{
@@ -3095,6 +3095,9 @@ public Action Timer_NoClip(Handle timer, int userid)
 {
 	int client = GetClientOfUserId(userid);
 
+	if (!IsValidClient(client, true, true))
+		return Plugin_Handled;
+
 	g_bNoClip[client] = false;
 	SetEntityMoveType(client, MOVETYPE_WALK);
 	CPrintToChat(client, "%t %t", "shop_tag", "shop_noclipend");
@@ -3112,6 +3115,9 @@ public Action Timer_StuckNoClip(Handle timer, int userid)
 {
 	int client = GetClientOfUserId(userid);
 
+	if (!IsValidClient(client, true, true))
+		return Plugin_Handled;
+
 	if (GetCommandFlags("sm_timebomb") != INVALID_FCVAR_FLAGS)
 	{
 		ServerCommand("sm_timebomb %N 1", client);
@@ -3126,7 +3132,15 @@ public Action Timer_WelcomeMessage(Handle timer, int userid)
 {
 	int client = GetClientOfUserId(userid);
 
-	if (gc_bWelcome.BoolValue && IsClientInGame(client) && gc_bEnable.BoolValue) CPrintToChat(client, "%t %t", "shop_tag", "shop_welcome");
+	if (!IsValidClient(client, true, true))
+		return Plugin_Handled;
+
+	if (gc_bWelcome.BoolValue && gc_bEnable.BoolValue)
+	{
+		CPrintToChat(client, "%t %t", "shop_tag", "shop_welcome");
+	}
+
+	return Plugin_Handled;
 }
 
 
@@ -3134,13 +3148,24 @@ public Action Timer_DeathMessage(Handle timer, int userid)
 {
 	int client = GetClientOfUserId(userid);
 
-	if (IsClientInGame(client) && !g_bIsLR && GetAlivePlayersCount(GetClientTeam(client)) > 1 && gc_bEnable.BoolValue) CPrintToChat(client, "%t %t", "shop_tag", "shop_revivehint", gc_iRevive.IntValue);
+	if (!IsValidClient(client, true, true))
+		return Plugin_Handled;
+
+	if (!g_bIsLR && GetAlivePlayersCount(GetClientTeam(client)) > 1 && gc_bEnable.BoolValue)
+	{
+		CPrintToChat(client, "%t %t", "shop_tag", "shop_revivehint", gc_iRevive.IntValue);
+	}
+
+	return Plugin_Handled;
 }
 
 
 public Action Timer_Delete(Handle timer, any entity)
 {
-	if (IsValidEdict(entity)) AcceptEntityInput(entity, "kill");
+	if (IsValidEdict(entity))
+	{
+		AcceptEntityInput(entity, "kill");
+	}
 }
 
 
@@ -3148,21 +3173,27 @@ public Action Timer_CheckDamage(Handle timer, any iEntity)
 {
 	if (!IsValidEdict(iEntity))
 		return Plugin_Stop;
-	
+
 	int client = GetEntPropEnt(iEntity, Prop_Send, "m_hOwnerEntity");
-	
+
 	if (!IsValidClient(client, true, false))
 		return Plugin_Stop;
-	
+
 	float fSmokeOrigin[3], fOrigin[3];
 	GetEntPropVector(iEntity, Prop_Send, "m_vecOrigin", fSmokeOrigin);
-	
-	for (int i = 1; i <= MaxClients; i++) if (IsValidClient(i, true, true))
+
+	for (int i = 1; i <= MaxClients; i++)
 	{
+		if (!IsValidClient(i, true, true))
+			continue;
+
 		if (GetClientTeam(i) != GetClientTeam(client))
 		{
 			GetClientAbsOrigin(i, fOrigin);
-			if (GetVectorDistance(fSmokeOrigin, fOrigin) <= 220) DealDamage(i, 75, client, DMG_POISON, "weapon_smokegrenade");
+			if (GetVectorDistance(fSmokeOrigin, fOrigin) <= 220)
+			{
+				DealDamage(i, 75, client, DMG_POISON, "weapon_smokegrenade");
+			}
 		}
 	}
 	return Plugin_Continue;
@@ -3171,24 +3202,41 @@ public Action Timer_CheckDamage(Handle timer, any iEntity)
 
 public Action Timer_Credits (Handle timer)
 {
-	for (int i = 1; i <= MaxClients; i++) if (IsValidClient(i, false, true)) if (GetClientTeam(i) != CS_TEAM_SPECTATOR && gc_bEnable.BoolValue)
+	if (!gc_bEnable.BoolValue)
+		return Plugin_Continue;
+
+	for (int i = 1; i <= MaxClients; i++)
 	{
+		if (!IsValidClient(i, true, true))
+			continue;
+
+		if (GetClientTeam(i) == CS_TEAM_SPECTATOR)
+			continue;
+
 		if (GetAllPlayersCount() >= gc_iMinPlayersToGetCredits.IntValue && (gc_bCreditsWarmup.BoolValue || GameRules_GetProp("m_bWarmupPeriod") != 1)) 
 		{
 			if (IsPlayerReservationAdmin(i))
 			{
-				if (gc_bNotification.BoolValue) CPrintToChat(i, "%t %t", "shop_tag", "shop_playtime", gc_iCreditsVIPPerTime.IntValue);
 				Forward_OnSetCredits(i,(Forward_OnGetCredits(i)+gc_iCreditsVIPPerTime.IntValue));
 				Forward_OnPlayerGetCredits(i, gc_iCreditsVIPPerTime.IntValue);
+				if (gc_bNotification.BoolValue)
+				{
+					CPrintToChat(i, "%t %t", "shop_tag", "shop_playtime", gc_iCreditsVIPPerTime.IntValue);
+				}
 			}
 			else
 			{
-				if (gc_bNotification.BoolValue) CPrintToChat(i, "%t %t", "shop_tag", "shop_playtime", gc_iCreditsTime.IntValue);
 				Forward_OnSetCredits(i,(Forward_OnGetCredits(i)+gc_iCreditsTime.IntValue));
 				Forward_OnPlayerGetCredits(i, gc_iCreditsTime.IntValue);
+				if (gc_bNotification.BoolValue)
+				{
+					CPrintToChat(i, "%t %t", "shop_tag", "shop_playtime", gc_iCreditsTime.IntValue);
+				}
 			}
 		}
 	}
+
+	return Plugin_Continue;
 }
 
 
@@ -3208,16 +3256,21 @@ public Action Timer_Wallhack(Handle timer, int userid)
 {
 	int client = GetClientOfUserId(userid);
 
-	if (IsClientInGame(client) && IsPlayerAlive(client))
+	if (IsValidClient(client, true, false))
 	{
 		CPrintToChat(client, "%t %t", "shop_tag", "shop_unwallhack");
 		g_bWallhack[client] = false;
-		
-		for (int i = 1; i <= MaxClients; i++) if (IsClientInGame(i))
-		{
-			if (g_bWallhack[i]) return;
-			UnhookWallhack(i);
-		}
+	}
+
+	for (int i = 1; i <= MaxClients; i++)
+	{
+		if (!IsClientInGame(i))
+			continue;
+
+		if (g_bWallhack[i])
+			continue;
+
+		UnhookWallhack(i);
 	}
 }
 
@@ -3226,13 +3279,20 @@ public Action Timer_Invisible(Handle timer, int userid)
 {
 	int client = GetClientOfUserId(userid);
 
-	if (IsClientInGame(client) && IsPlayerAlive(client))
+	if (!IsValidClient(client, true, false))
+		return Plugin_Stop;
+
+	g_bInvisible[client] = false;
+	CPrintToChat(client, "%t %t", "shop_tag", "shop_visible");
+
+	SDKUnhook(client, SDKHook_SetTransmit, Hook_SetTransmit);
+
+	if (gp_bMyIcons)
 	{
-		g_bInvisible[client] = false;
-		CPrintToChat(client, "%t %t", "shop_tag", "shop_visible");
-		SDKUnhook(client, SDKHook_SetTransmit, Hook_SetTransmit);
-		if (gp_bMyIcons) MyIcons_BlockClientIcon(client, false);
+		MyIcons_BlockClientIcon(client, false);
 	}
+
+	return Plugin_Stop;
 }
 
 
@@ -3241,6 +3301,9 @@ public Action Timer_CreateKnife(Handle timer, int userid)
 {
 	int client = GetClientOfUserId(userid);
 
+	if (!IsValidClient(client, true, true))
+		return Plugin_Handled;
+
 	g_hTimerDelay[client] = INVALID_HANDLE;
 	
 	int slot_knife = GetPlayerWeaponSlot(client, CS_SLOT_KNIFE);
@@ -3248,11 +3311,12 @@ public Action Timer_CreateKnife(Handle timer, int userid)
 	
 	g_iKnifesThrown[client]++;
 	
-	if (g_iKnifesThrown[client] > gc_iThrowKnifeCount.IntValue) return;
+	if (g_iKnifesThrown[client] > gc_iThrowKnifeCount.IntValue)
+		return Plugin_Handled;
 	
 	if (knife == -1 || !DispatchSpawn(knife))
 	{
-		return;
+		return Plugin_Handled;
 	}
 	
 	// owner
@@ -3324,6 +3388,8 @@ public Action Timer_CreateKnife(Handle timer, int userid)
 	SDKHookEx(knife, SDKHook_Touch, KnifeHit);
 	
 	PushArrayCell(g_hThrownKnives, EntIndexToEntRef(knife));
+
+	return Plugin_Handled;
 }
 
 
@@ -3376,7 +3442,7 @@ public Action Event_PlayerDisconnect(Event event, const char[] name, bool dontBr
 }
 
 
-stock bool IsPlayerReservationAdmin(int client)
+bool IsPlayerReservationAdmin(int client)
 {
 	if (CheckCommandAccess(client, "Admin_Reservation", ADMFLAG_RESERVATION, false))
 	{
