@@ -587,4 +587,21 @@
 		"en"		"You bought: a Tactical shield"
 	}
 
+	"shop_menu_shield"
+	{
+		"#format"	"{1:d}"
+		"en"		"Tactical shield [{1}¢]"
+	}
+
+	"shop_menu_icegrenade"
+	{
+		"#format"	"{1:d}"
+		"en"		"Ice Grenade [{1}¢]"
+	}
+
+	"shop_icegrenade"
+	{
+		"en"		"You bought: Ice Grenade"
+	}
+
 }

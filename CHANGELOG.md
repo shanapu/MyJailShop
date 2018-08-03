@@ -23,7 +23,15 @@
     *  new cvar - sm_jailshop_hud_green - Color of sm_hud_type '1' (set R, G and B values to 255 to disable) (rGb): x - green value
     *  new cvar - sm_jailshop_hud_blue - Color of sm_hud_type '1' (set R, G and B values to 255 to disable) (rgB): x - blue value
     *  new cvar - sm_jailshop_hud_alpha - Alpha value of sm_hud_type '1' (set value to 255 to disable for transparency)
- 
+ *  new shop item as extra plugin: Buy a ice grenade and form player in icecubes
+    *  new plugin - myjailshop_icegrenade.smx
+    *  new cvar - sm_jailshop_icegrenade_price - Price of the IceGrenade perk
+    *  new cvar - sm_jailshop_icegrenade_flag - Set flag for admin/vip must have to get access to IceGrenade. No flag = is available for all players!
+    *  new cvar - sm_jailshop_icegrenade_access - 0 - guards only, 1 - guards & prisoner, 2 - prisoner only
+    *  new cvar - sm_jailshop_icegrenade_radius - Radius to freeze?
+    *  new cvar - sm_jailshop_icegrenade_affect - 0 - freeze only guards in radius , 1 - freeze guards & prisoner in radius
+    *  new cvar - sm_jailshop_icegrenade_time - How many seconds the IceGrenade freeze?
+    *  new cvar - sm_jailshop_icegrenade_model - path to the ice model
   
 *Changed*
  *  Allow admin commands from server console

@@ -37,6 +37,7 @@ addons/sourcemod/scripting/spcomp -E -v0 addons/sourcemod/scripting/myjailshop-f
 addons/sourcemod/scripting/spcomp -E -v0 addons/sourcemod/scripting/myjailshop-sm-store.sp
 addons/sourcemod/scripting/spcomp -E -v0 addons/sourcemod/scripting/myjailshop-zephyrus-store.sp
 addons/sourcemod/scripting/spcomp -E -v0 addons/sourcemod/scripting/myjailshop_tacticalshield.sp
+addons/sourcemod/scripting/spcomp -E -v0 addons/sourcemod/scripting/myjailshop_icegrenade.sp
 
 
 
@@ -59,6 +60,7 @@ echo "Move all optional binary files to plugins disabled folder"
   mv addons/sourcemod/plugins/myjailshop-frozdark-shop.smx addons/sourcemod/plugins/disabled
   mv addons/sourcemod/plugins/myjailshop-sm-store.smx addons/sourcemod/plugins/disabled
   mv addons/sourcemod/plugins/myjailshop-zephyrus-store.smx addons/sourcemod/plugins/disabled
+  mv addons/sourcemod/plugins/myjailshop-tacticalshield.smx addons/sourcemod/plugins/disabled
 
 echo "Remove build folder if exists"
 if [ -d "build" ]; then
