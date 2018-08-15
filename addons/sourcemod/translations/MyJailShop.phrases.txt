@@ -604,4 +604,15 @@
 		"en"		"You bought: Ice Grenade"
 	}
 
+	"shop_parachute"
+	{
+		"en"		"You bought: Parachute"
+	}
+
+	"shop_menu_parachute"
+	{
+		"#format"	"{1:d}"
+		"en"		"Parachute [{1}¢]"
+	}
+
 }

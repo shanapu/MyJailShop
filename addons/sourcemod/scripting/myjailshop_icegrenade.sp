@@ -101,19 +101,18 @@ public void OnPluginStart()
 	SetLogFile(g_sPurchaseLogFile, "purchase", "MyJailShop");
 }
 
-public void OnMapStart()
-{
-	gc_sItemModel.GetString(g_sItemModel, sizeof(g_sItemModel));
-	Downloader_AddFileToDownloadsTable(g_sItemModel);
-	PrecacheModel(g_sItemModel);
-
-	PrecacheSoundAnyDownload(FREEZE_SOUND);
-}
-
-
 public void OnConfigsExecuted()
 {
 	gc_sItemFlag.GetString(g_sItemFlag, sizeof(g_sItemFlag));
+	gc_sItemModel.GetString(g_sItemModel, sizeof(g_sItemModel));
+
+	if (!IsModelPrecached(g_sItemModel))
+	{
+		PrecacheModel(g_sItemModel);
+	}
+	Downloader_AddFileToDownloadsTable(g_sItemModel);
+
+	PrecacheSoundAnyDownload(FREEZE_SOUND);
 }
 
 

@@ -31,7 +31,16 @@
     *  new cvar - sm_jailshop_icegrenade_radius - Radius to freeze?
     *  new cvar - sm_jailshop_icegrenade_affect - 0 - freeze only guards in radius , 1 - freeze guards & prisoner in radius
     *  new cvar - sm_jailshop_icegrenade_time - How many seconds the IceGrenade freeze?
-    *  new cvar - sm_jailshop_icegrenade_model - path to the ice model
+    *  new cvar - sm_jailshop_icegrenade_model - path to the ice model 
+ *  new shop item as extra plugin: Buy an parachute
+    *  new plugin - myjailshop_parachute.smx
+    *  new cvar - sm_jailshop_parachute_price - Price of a parachute
+    *  new cvar - sm_jailshop_parachute_flag - Set flag for admin/vip must have to get access to shield. No flag = is available for all players!
+    *  new cvar - sm_jailshop_parachute_access - 0 - guards only, 1 - guards & prisoner, 2 - prisoner only
+    *  new cvar - sm_jailshop_parachute_shooting - 0 - disabled / 1 - enable shooting while fly with parachute
+    *  new cvar - sm_jailshop_parachute_fallspeed - max fall speed
+    *  new cvar - sm_jailshop_parachute_model - path to the parachute model
+
   
 *Changed*
  *  Allow admin commands from server console
