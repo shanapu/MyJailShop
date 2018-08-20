@@ -1,5 +1,60 @@
 ### Change Log
   
+**[1.4.1.dev]** - DEV
+  
+*Added*
+ *  new shop item as extra plugin: Buy a Freeday for the next round - requires MyJB warden
+    *  new plugin - myjailshop_freeday.smx
+    *  new cvar - sm_jailshop_freeday_price - 0 disable, price of the 'Freeday' shop item
+    *  new cvar - sm_jailshop_freeday_flag - Set flag for admin/vip must have to get accesso to Freeday. No flag = is avaible for all players!
+ *  new shop item as extra plugin: Buy a tactical shield - requires https://github.com/Keplyx/TacticalShield/
+    *  new plugin - myjailshop_tacticalshield.smx
+    *  new cvar - sm_jailshop_shield_price - 0 disable, price of the 'Freeday' shop item
+    *  new cvar - sm_jailshop_shield_flag - Set flag for admin/vip must have to get accesso to Freeday. No flag = is avaible for all players!
+    *  new cvar - sm_jailshop_shield_access - 0 - guards only, 1 - guards & prisoner, 2 - prisoner only
+    *  new cvar - sm_jailshop_shield_pistol - Give player this pistol with one magazin if he havn't already a pistol, leave blank '' for no pistol with shield
+ *  new feature as extra plugin: Show credits in HUD 
+    *  new plugin - myjailshop_hud.smx
+    *  new cvar - sm_jailshop_hud_enable - 0 - disabled, 1 - enable this MyJailShop Module
+    *  new cvar - sm_jailshop_hud_alive - 0 - show hud only to alive player, 1 - show hud to dead & alive player
+    *  new cvar - sm_jailshop_hud_x - x coordinate, from 0 to 1. -1.0 is the center
+    *  new cvar - sm_jailshop_hud_y - y coordinate, from 0 to 1. -1.0 is the center
+    *  new cvar - sm_jailshop_hud_red - Color of sm_hud_type '1' (set R, G and B values to 255 to disable) (Rgb): x - red value
+    *  new cvar - sm_jailshop_hud_green - Color of sm_hud_type '1' (set R, G and B values to 255 to disable) (rGb): x - green value
+    *  new cvar - sm_jailshop_hud_blue - Color of sm_hud_type '1' (set R, G and B values to 255 to disable) (rgB): x - blue value
+    *  new cvar - sm_jailshop_hud_alpha - Alpha value of sm_hud_type '1' (set value to 255 to disable for transparency)
+ *  new shop item as extra plugin: Buy a ice grenade and form player in icecubes
+    *  new plugin - myjailshop_icegrenade.smx
+    *  new cvar - sm_jailshop_icegrenade_price - Price of the IceGrenade perk
+    *  new cvar - sm_jailshop_icegrenade_flag - Set flag for admin/vip must have to get access to IceGrenade. No flag = is available for all players!
+    *  new cvar - sm_jailshop_icegrenade_access - 0 - guards only, 1 - guards & prisoner, 2 - prisoner only
+    *  new cvar - sm_jailshop_icegrenade_radius - Radius to freeze?
+    *  new cvar - sm_jailshop_icegrenade_affect - 0 - freeze only guards in radius , 1 - freeze guards & prisoner in radius
+    *  new cvar - sm_jailshop_icegrenade_time - How many seconds the IceGrenade freeze?
+    *  new cvar - sm_jailshop_icegrenade_model - path to the ice model 
+ *  new shop item as extra plugin: Buy an parachute
+    *  new plugin - myjailshop_parachute.smx
+    *  new cvar - sm_jailshop_parachute_price - Price of a parachute
+    *  new cvar - sm_jailshop_parachute_flag - Set flag for admin/vip must have to get access to shield. No flag = is available for all players!
+    *  new cvar - sm_jailshop_parachute_access - 0 - guards only, 1 - guards & prisoner, 2 - prisoner only
+    *  new cvar - sm_jailshop_parachute_shooting - 0 - disabled / 1 - enable shooting while fly with parachute
+    *  new cvar - sm_jailshop_parachute_fallspeed - max fall speed
+    *  new cvar - sm_jailshop_parachute_model - path to the parachute model
+
+  
+*Changed*
+ *  Allow admin commands from server console
+ *  More resource-saving menu
+  
+*Fixed*
+ *  Allow OneHit knife with any knife - Thx @hexah
+ *  Restrict player commands from server console
+ *  Natives Get/SetCredits
+ *  Prohibit Random TP when there is no other terror
+ *  Minor issues/improvements
+  
+  
+  
 **[1.4.0]** - API for custom shop items & some examples
   
 *Added*

@@ -281,7 +281,7 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 			TeleportEntity(client, NULL_VECTOR, NULL_VECTOR, Velocity);
 			
 			g_bDelay[client] = true;
-			CreateTimer(0.1, Timer_DelayOff, client);
+			CreateTimer(0.1, Timer_DelayOff, GetClientUserId(client));
 			
 			CreateEffect(client, ClientAbsOrigin, ClientEyeAngle);
 			
@@ -289,7 +289,7 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 			{
 				if(gc_fJetpackDelay.FloatValue != 0.0)
 				{
-					g_hTimer[client] = CreateTimer(gc_fJetpackDelay.FloatValue, Timer_Reload, client);
+					g_hTimer[client] = CreateTimer(gc_fJetpackDelay.FloatValue, Timer_Reload, GetClientUserId(client));
 				}
 				PrintCenterText(client, "Jetpack Empty");
 			}
@@ -384,13 +384,17 @@ public Action Killfire(Handle timer, Handle firedata)
 	}
 }
 
-public Action Timer_DelayOff(Handle timer, any client)
+public Action Timer_DelayOff(Handle timer, int userid)
 {
+	int client = GetClientOfUserId(userid);
+
 	g_bDelay[client] = false;
 }
 
-public Action Timer_Reload(Handle timer, any client)
+public Action Timer_Reload(Handle timer, int userid)
 {
+	int client = GetClientOfUserId(userid);
+
 	if (g_hTimer[client] != INVALID_HANDLE)
 	{
 		g_iJumps[client] = 0;

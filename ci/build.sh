@@ -28,12 +28,18 @@ done
 echo "Compile MyJailShop plugins"
 addons/sourcemod/scripting/spcomp -E -v0 addons/sourcemod/scripting/myjailshop.sp
 addons/sourcemod/scripting/spcomp -E -v0 addons/sourcemod/scripting/myjailshop_door.sp
+addons/sourcemod/scripting/spcomp -E -v0 addons/sourcemod/scripting/myjailshop_freeday.sp
+addons/sourcemod/scripting/spcomp -E -v0 addons/sourcemod/scripting/myjailshop_hud.sp
 addons/sourcemod/scripting/spcomp -E -v0 addons/sourcemod/scripting/myjailshop_blackout.sp
 addons/sourcemod/scripting/spcomp -E -v0 addons/sourcemod/scripting/myjailshop_jetpack.sp
 addons/sourcemod/scripting/spcomp -E -v0 addons/sourcemod/scripting/myjailshop_jihad.sp
 addons/sourcemod/scripting/spcomp -E -v0 addons/sourcemod/scripting/myjailshop-frozdark-shop.sp
 addons/sourcemod/scripting/spcomp -E -v0 addons/sourcemod/scripting/myjailshop-sm-store.sp
 addons/sourcemod/scripting/spcomp -E -v0 addons/sourcemod/scripting/myjailshop-zephyrus-store.sp
+addons/sourcemod/scripting/spcomp -E -v0 addons/sourcemod/scripting/myjailshop_tacticalshield.sp
+addons/sourcemod/scripting/spcomp -E -v0 addons/sourcemod/scripting/myjailshop_icegrenade.sp
+addons/sourcemod/scripting/spcomp -E -v0 addons/sourcemod/scripting/myjailshop_parachute.sp
+
 
 
 echo "Remove plugins folder if exists"
@@ -55,6 +61,7 @@ echo "Move all optional binary files to plugins disabled folder"
   mv addons/sourcemod/plugins/myjailshop-frozdark-shop.smx addons/sourcemod/plugins/disabled
   mv addons/sourcemod/plugins/myjailshop-sm-store.smx addons/sourcemod/plugins/disabled
   mv addons/sourcemod/plugins/myjailshop-zephyrus-store.smx addons/sourcemod/plugins/disabled
+  mv addons/sourcemod/plugins/myjailshop_tacticalshield.smx addons/sourcemod/plugins/disabled
 
 echo "Remove build folder if exists"
 if [ -d "build" ]; then

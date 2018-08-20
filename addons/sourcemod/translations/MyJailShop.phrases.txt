@@ -516,6 +516,12 @@
 		"en"		"Teleport to Random T [{1}¢]"
 	}
 
+	"shop_randomtp_fail"
+	{
+		"#format"	"{1:d}"
+		"en"		"There is no alive prisoner to teleport too."
+	}
+
 	"shop_menu_jetpack"
 	{
 		"#format"	"{1:d}"
@@ -563,6 +569,50 @@
 	"shop_blackout_all"
 	{
 		"en"		"We have a critical power outage!"
+	}
+
+	"shop_menu_freeday"
+	{
+		"#format"	"{1:d}"
+		"en"		"Freeday next round [{1}¢]"
+	}
+
+	"shop_freeday"
+	{
+		"en"		"You bought: a Freeday for the next round"
+	}
+
+	"shop_shield"
+	{
+		"en"		"You bought: a Tactical shield"
+	}
+
+	"shop_menu_shield"
+	{
+		"#format"	"{1:d}"
+		"en"		"Tactical shield [{1}¢]"
+	}
+
+	"shop_menu_icegrenade"
+	{
+		"#format"	"{1:d}"
+		"en"		"Ice Grenade [{1}¢]"
+	}
+
+	"shop_icegrenade"
+	{
+		"en"		"You bought: Ice Grenade"
+	}
+
+	"shop_parachute"
+	{
+		"en"		"You bought: Parachute"
+	}
+
+	"shop_menu_parachute"
+	{
+		"#format"	"{1:d}"
+		"en"		"Parachute [{1}¢]"
 	}
 
 }

@@ -1,10 +1,32 @@
-#if defined _warden_included
+/*
+ * MyJailbreak - Warden Include File.
+ * by: shanapu
+ * https://github.com/shanapu/MyJailbreak/
+ *
+ * This file is part of the MyJailbreak SourceMod Plugin.
+ * 
+ * Copyright (C) 2016-2017 Thomas Schmidt (shanapu)
+ *
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, version 3.0, as published by the
+ * Free Software Foundation.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+#if defined _myjbwarden_included
   #endinput
 #endif
-#define _warden_included
+#define _myjbwarden_included
 
 
-public SharedPlugin:__pl_warden =
+public SharedPlugin __pl_myjbwarden =
 {
 	name = "warden",
 	file = "warden.smx",
@@ -18,12 +40,8 @@ public SharedPlugin:__pl_warden =
 
 
 #if !defined REQUIRE_PLUGIN
-public __pl_warden_SetNTVOptional()
+public __pl_myjbwarden_SetNTVOptional()
 {
-	MarkNativeAsOptional("warden_exist");
-	MarkNativeAsOptional("warden_iswarden");
-	MarkNativeAsOptional("warden_set");
-	MarkNativeAsOptional("warden_remove");
 	MarkNativeAsOptional("warden_get");
 	MarkNativeAsOptional("warden_getlast");
 
@@ -49,15 +67,16 @@ public __pl_warden_SetNTVOptional()
  * By player, admin, randomchoose...
  *
  * @param client		The client who try to become warden
+ * @param caller		The client who called the set or become warden command
  * @return 				Return Plugin_Handled to block & Plugin_Continue to pass the client.
  *********************************************************/
-forward Action warden_OnWardenCreate(int client);
+forward Action warden_OnWardenCreate(int client, int caller);
 
 
 /*********************************************************
  * Called when a client become new warden
  *
- * @param client		The client who was warden
+ * @param client		The client who is new warden
  * @NoReturn
  *********************************************************/
 forward void warden_OnWardenCreatedByUser(int client);
@@ -66,26 +85,16 @@ forward void warden_OnWardenCreatedByUser(int client);
 /*********************************************************
  * Called when a admin set a new warden
  *
- * @param client		The client who was warden
+ * @param client		The client is new warden
  * @NoReturn
  *********************************************************/
 forward void warden_OnWardenCreatedByAdmin(int client);
 
 
 /*********************************************************
- * Called everytime the warden position become free.
- * On wardens dead, disconnect, removed...
- * 
- * @param client		The client who was warden
- * @NoReturn
- *********************************************************/
-forward void warden_OnWardenRemoved(int client);
-
-
-/*********************************************************
  * Called when a the warden was removed by an admin
  *
- * @param client		The client who was warden
+ * @param client		The admin who removed the warden
  * @NoReturn
  *********************************************************/
 forward void warden_OnWardenRemovedByAdmin(int client);
@@ -141,48 +150,12 @@ forward void warden_OnDeputyCreated(int client);
 
 
 /*********************************************************
- * Checks if any warden exist
- *
- *
- * @true on match, false if not
- *********************************************************/
-native warden_exist();
-
-
-/*********************************************************
- * returns if client is warden
- *
- * @param client		The client to run the check on
- * @true on match, false if not
- *********************************************************/
-native warden_iswarden(int client);
-
-
-/*********************************************************
- * Set a client as warden
- *
- * @param client		The client to set as warden
- * @NoReturn
- *********************************************************/
-native warden_set(int client);
-
-
-/*********************************************************
- * Removes the current warden if he exists
- *
- * @param client		The warden client to remove
- * @NoReturn
- *********************************************************/
-native warden_remove(int client);
-
-
-/*********************************************************
  * get the current warden if he exists
  *
  *
  * @Return				Client Index of warden
  *********************************************************/
-native warden_get();
+native int warden_get();
 
 
 /*********************************************************
@@ -191,7 +164,7 @@ native warden_get();
  *
  * @Return				Client Index of last warden
  *********************************************************/
-native warden_getlast();
+native int warden_getlast();
 
 
 
@@ -199,18 +172,18 @@ native warden_getlast();
  * Checks if any Deputy exist
  *
  *
- * @true on match, false if not
+ * @Return				true on match, false if not
  *********************************************************/
-native warden_deputy_exist();
+native bool warden_deputy_exist();
 
 
 /*********************************************************
  * returns if client is Deputy
  *
  * @param client		The client to run the check on
- * @true on match, false if not
+ * @Return 				true on match, false if not
  *********************************************************/
-native warden_deputy_isdeputy(int client);
+native bool warden_deputy_isdeputy(int client);
 
 
 /*********************************************************
@@ -219,7 +192,7 @@ native warden_deputy_isdeputy(int client);
  * @param client		The client to set as Deputy
  * @NoReturn
  *********************************************************/
-native warden_deputy_set(int client);
+native void warden_deputy_set(int client);
 
 
 /*********************************************************
@@ -228,7 +201,7 @@ native warden_deputy_set(int client);
  * @param client		The Deputy client to remove
  * @NoReturn
  *********************************************************/
-native warden_deputy_remove(int client);
+native void warden_deputy_remove(int client);
 
 
 /*********************************************************
@@ -237,7 +210,7 @@ native warden_deputy_remove(int client);
  *
  * @Return				Client index of deputy
  *********************************************************/
-native warden_deputy_get();
+native int warden_deputy_get();
 
 
 /*********************************************************
@@ -246,7 +219,7 @@ native warden_deputy_get();
  *
  * @Return				Client Index of last deputy
  *********************************************************/
-native warden_deputy_getlast();
+native int warden_deputy_getlast();
 
 
 
@@ -257,16 +230,16 @@ native warden_deputy_getlast();
  * @param amount		The amount of paperclips
  * @NoReturn
  *********************************************************/
-native warden_handcuffs_givepaperclip(int client, int amount);
+native void warden_handcuffs_givepaperclip(int client, int amount);
 
 
 /*********************************************************
  * returns if client is in handcuffs
  *
  * @param client		The client to run the check on
- * @true on match, false if not
+ * @Retrun 				true on match, false if not
  *********************************************************/
-native warden_handcuffs_iscuffed(int client);
+native bool warden_handcuffs_iscuffed(int client);
 
 
 
@@ -274,15 +247,15 @@ native warden_handcuffs_iscuffed(int client);
  * Set the client get a freeday
  *
  * @param client		The client to run the check on
- * @no return
+ * @NoReturn
  *********************************************************/
-native warden_freeday_set(int client);
+native void warden_freeday_set(int client);
 
 
 /*********************************************************
  * returns if client has a freeday now
  *
  * @param client		The client to run the check on
- * @true on match, false if not
+ * @Return 				true on match, false if not
  *********************************************************/
-native warden_freeday_has(int client);
+native bool warden_freeday_has(int client);
