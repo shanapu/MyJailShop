@@ -1,6 +1,6 @@
 ### Change Log
   
-**[1.4.1.dev]** - DEV
+**[1.5.0]** - DEV
   
 *Added*
  *  new shop item as extra plugin: Buy a Freeday for the next round - requires MyJB warden
