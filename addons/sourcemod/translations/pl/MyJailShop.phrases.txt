@@ -1,5 +1,5 @@
 // Exported from SourceMod Translator
-// Date: 2017-02-20 16:12:11 UTC
+// Date: 2018-08-20 21:17:56 UTC
 // Language: Polish (pl)
 // 
 // To view other translations for this plugin, please visit:
@@ -426,6 +426,91 @@
 	"shop_onlyct"
 	{
 		"pl"		"Ten przedmiot jest tylko dla strażników!"
+	}
+
+	"shop_saleon"
+	{
+		"pl"		"Wyprzedaż! Wszystkie przedmioty mają {1}%% zniżki!"
+	}
+
+	"shop_saleend"
+	{
+		"pl"		"Wyprzedaż zakończyła się!"
+	}
+
+	"shop_randomtp"
+	{
+		"pl"		"Zostałeś przeteleportowany do {1}!"
+	}
+
+	"shop_randomtp_teleported"
+	{
+		"pl"		"{1} teleportował się do Ciebie!"
+	}
+
+	"shop_menu_randomtp"
+	{
+		"pl"		"Teleportacja do losowego terrorysty [{1}¢]"
+	}
+
+	"shop_menu_jetpack"
+	{
+		"pl"		"Jetpack [{1}¢]"
+	}
+
+	"shop_jetpack"
+	{
+		"pl"		"Kupiłeś: Jetpack | naciśnij CTRL + SPACJA "
+	}
+
+	"shop_menu_jihad"
+	{
+		"pl"		"Jihad Bomb [{1}¢]"
+	}
+
+	"shop_jihad"
+	{
+		"pl"		"Kupiłeś: Jihad Bomb | naciśnij Mouse1 + E"
+	}
+
+	"shop_blackout"
+	{
+		"pl"		"Kupiłeś: Blackout - Zzztt..."
+	}
+
+	"shop_menu_freeday"
+	{
+		"pl"		"Freeday w następnej rundzie [{1}¢]"
+	}
+
+	"shop_freeday"
+	{
+		"pl"		"Kupiłeś: Freeday na następną rundę"
+	}
+
+	"shop_randomtp_fail"
+	{
+		"pl"		"Nie ma żadnego żywego więźnia, do którego mógłbyś się przeteleportować"
+	}
+
+	"shop_shield"
+	{
+		"pl"		"Kupiłeś: Tarcza Taktyczna"
+	}
+
+	"shop_menu_shield"
+	{
+		"pl"		"Tarcza taktyczna [{1}¢]"
+	}
+
+	"shop_menu_icegrenade"
+	{
+		"pl"		"Granat Lodowy [{1}¢]"
+	}
+
+	"shop_icegrenade"
+	{
+		"pl"		"Kupiłeś: Granat Lodowy"
 	}
 
 }

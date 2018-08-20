@@ -1,5 +1,5 @@
 // Exported from SourceMod Translator
-// Date: 2017-02-20 16:12:11 UTC
+// Date: 2018-08-20 21:17:57 UTC
 // Language: Russian (ru)
 // 
 // To view other translations for this plugin, please visit:
@@ -426,6 +426,126 @@
 	"shop_onlyct"
 	{
 		"ru"		"Этот товар только для охраны!"
+	}
+
+	"shop_saleon"
+	{
+		"ru"		"Распродажа! Все товары на скидке {1}%%!"
+	}
+
+	"shop_saleend"
+	{
+		"ru"		"Распродажа закончена!"
+	}
+
+	"shop_menu_title_sale"
+	{
+		"ru"		"%%РАСПРОДАЖА%% скидка {1}%%!"
+	}
+
+	"shop_randomtp"
+	{
+		"ru"		"Вы телепортированы к {1}!"
+	}
+
+	"shop_randomtp_teleported"
+	{
+		"ru"		"{1} телепортировался к вам!"
+	}
+
+	"shop_menu_randomtp"
+	{
+		"ru"		"Телепортироваться к случайному Т [{1}¢]"
+	}
+
+	"shop_menu_jetpack"
+	{
+		"ru"		"Джетпак [{1}¢]"
+	}
+
+	"shop_jetpack"
+	{
+		"ru"		"Вы приобрели: Джетпак | нажмите CTRL + SPACE (duck+jump)"
+	}
+
+	"shop_menu_jihad"
+	{
+		"ru"		"Джихад бомба [{1}¢]"
+	}
+
+	"shop_jihad"
+	{
+		"ru"		"Вы приобрели: Джихад бомбу | нажмите Mouse1 + E (аттаку+активировать)"
+	}
+
+	"shop_jihad"
+	{
+		"ru"		"Вы приобрели: Джихад бомбу | нажми Mouse1 + E (аттаку+активировать)"
+	}
+
+	"shop_menu_door"
+	{
+		"ru"		" Открыть дверь в поле зрения [{1}¢]"
+	}
+
+	"shop_door"
+	{
+		"ru"		"Вы приобрели: Открыть дверь в поле зрения | нажмите E (использовать), наблюдая за дверью"
+	}
+
+	"shop_menu_blackout"
+	{
+		"ru"		"Затмение - затемнить карту [{1}¢]"
+	}
+
+	"shop_blackout"
+	{
+		"ru"		"Вы приобрели: Затмение - Zzztt..."
+	}
+
+	"shop_blackout_all"
+	{
+		"ru"		"Критическое отключение питания!"
+	}
+
+	"shop_noclipstuck"
+	{
+		"ru"		"{1} застрял с NoClip!"
+	}
+
+	"shop_menu_freeday"
+	{
+		"ru"		"Фридей следующий раунд [{1}¢]"
+	}
+
+	"shop_freeday"
+	{
+		"ru"		"Вы купили: Фридей на следующий раунд"
+	}
+
+	"shop_randomtp_fail"
+	{
+		"ru"		"Нет живых игроков для телепортации."
+	}
+
+	"shop_shield"
+	{
+		"ru"		"Вы купили: Тактический щит"
+	}
+
+	"shop_menu_shield"
+	{
+		"ru"		"Тактический щит [{1}¢]"
+	}
+
+	"shop_menu_icegrenade"
+	{
+		"ru"		"Ледяная граната [{1}¢]"
+	}
+
+	"shop_icegrenade"
+	{
+		"ru"		"Вы купили: Ледяная граната"
 	}
 
 }

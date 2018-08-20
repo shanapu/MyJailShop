@@ -1,0 +1,21 @@
+// Exported from SourceMod Translator
+// Date: 2018-08-20 21:17:56 UTC
+// Language: French (fr)
+// 
+// To view other translations for this plugin, please visit:
+// http://translator.mitchdempsey.com/sourcemod_plugins/268
+//
+"Phrases"
+{
+
+	"shop_throwingknife"
+	{
+		"fr"		" Tu as acheté: couteau de lancer"
+	}
+
+	"shop_giftyourself"
+	{
+		"fr"		"Tu ne peux pas te donner"
+	}
+
+}

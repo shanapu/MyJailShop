@@ -1,0 +1,281 @@
+// Exported from SourceMod Translator
+// Date: 2018-08-20 21:17:57 UTC
+// Language: Korean (ko)
+// 
+// To view other translations for this plugin, please visit:
+// http://translator.mitchdempsey.com/sourcemod_plugins/268
+//
+"Phrases"
+{
+
+	"shop_alive"
+	{
+		"ko"		"살아있을때에만 아이템들을 구매할 수 있습니다."
+	}
+
+	"shop_alreadyopen"
+	{
+		"ko"		"감옥 문이 이미 열렸습니다."
+	}
+
+	"shop_awp"
+	{
+		"ko"		"구매하였습니다. : AWP는 한발이면 충분하지!"
+	}
+
+	"shop_bhop"
+	{
+		"ko"		"이제 당신은 버니합을 할 수 있습니다. 즐기세요!"
+	}
+
+	"shop_bird"
+	{
+		"ko"		"당신은 새가 되었습니다. +dropweapon (기본G키) 로 날 수 있습니다."
+	}
+
+	"shop_buytime"
+	{
+		"ko"		"구입 시간이 지났습니다. 다음 라운드부터 다시 구입을 할 수 있습니다."
+	}
+
+	"shop_costs"
+	{
+		"ko"		"가격 : {2} 크레딧. 이제 당신은 {1} 크레딧 입니다."
+	}
+
+	"shop_credits"
+	{
+		"ko"		"당신의 현재 크레딧 : {1}!"
+	}
+
+	"shop_dead"
+	{
+		"ko"		"이 아이템을 사용하려면 죽어있는 상태이어야 합니다."
+	}
+
+	"shop_fulllive"
+	{
+		"ko"		"당신은 이미 체력이 가득 찼습니다!"
+	}
+
+	"shop_get"
+	{
+		"ko"		"당신은 당신 스스로에게 선물할 수 없습니다."
+	}
+
+	"shop_heal"
+	{
+		"ko"		"당신은 치료되었습니다."
+	}
+
+	"shop_health"
+	{
+		"ko"		"당신은 이제 +{1}HP 와 방탄복 및 헬멧을 가졌습니다."
+	}
+
+	"shop_invisible"
+	{
+		"ko"		"당신은 {1} 초 동안 보이지 않습니다."
+	}
+
+	"shop_lastrequest"
+	{
+		"ko"		"Last Request 로 당신은 {2} 크레딧을 얻었습니다. 당신의 크레딧 : {1}¢"
+	}
+
+	"shop_menu_armor"
+	{
+		"ko"		"방어구 [{1}¢]"
+	}
+
+	"shop_menu_awp"
+	{
+		"ko"		"AWP (한발) [{1}¢]"
+	}
+
+	"shop_menu_bhop"
+	{
+		"ko"		"버니합 [{1}¢]"
+	}
+
+	"shop_menu_bird"
+	{
+		"ko"		"새가 되려면 [{1}¢]"
+	}
+
+	"shop_menu_deagle"
+	{
+		"ko"		"데저트 이글 (7발) [{1}¢]"
+	}
+
+	"shop_menu_froggyjump"
+	{
+		"ko"		"개구리 점프 [{1}¢]"
+	}
+
+	"shop_menu_gravity"
+	{
+		"ko"		"낮은 중력 [{1}]"
+	}
+
+	"shop_menu_health"
+	{
+		"ko"		"+{2}HP 와 방어구 [{1}¢]"
+	}
+
+	"shop_menu_invisible"
+	{
+		"ko"		"{2} 초 동안 보이지 않습니다.. [{1}¢]"
+	}
+
+	"shop_menu_model"
+	{
+		"ko"		"간수 모델 [{1}¢]"
+	}
+
+	"shop_menu_nodamage"
+	{
+		"ko"		"20초 동안 무적 [{1}¢]"
+	}
+
+	"shop_menu_openjail"
+	{
+		"ko"		"감옥 문 열기 [{1}¢]"
+	}
+
+	"shop_menu_poisonsmoke"
+	{
+		"ko"		"독 연막탄 [{1}¢]"
+	}
+
+	"shop_menu_taser"
+	{
+		"ko"		"테이저 3발 [{1}¢]"
+	}
+
+	"shop_menu_vampire"
+	{
+		"ko"		"뱀파이어 [{1}¢]"
+	}
+
+	"shop_menu_vampire"
+	{
+		"ko"		"뱀파이어 [{1}¢]"
+	}
+
+	"shop_missingcredits"
+	{
+		"ko"		"당신의 크레딧 : {1} (크레딧이 충분하지 않습니다. {2} 크레딧이 더 필요합니다.)"
+	}
+
+	"shop_molotov"
+	{
+		"ko"		"구매하였습니다 : 화염병 + 2 섬광탄"
+	}
+
+	"shop_noclip"
+	{
+		"ko"		"당신은 이제 {1} 초 동안 자유롭게 날아다닐 수 있습니다."
+	}
+
+	"shop_noclipend"
+	{
+		"ko"		"NoClip이 끝났습니다."
+	}
+
+	"shop_nodamage"
+	{
+		"ko"		"당신은 이제 {1} 초 동안 불사신 입니다!"
+	}
+
+	"shop_onlyt"
+	{
+		"ko"		"이 아이템은 죄수만 사용할 수 있습니다!"
+	}
+
+	"shop_opencell"
+	{
+		"ko"		"감옥 문을 열었습니다."
+	}
+
+	"shop_opencellall"
+	{
+		"ko"		"{1} 님이 모든 문을 상점 구매로 열었습니다."
+	}
+
+	"shop_playtime"
+	{
+		"ko"		"서버 플레이 보상으로  {1} 크레딧을 얻었습니다."
+	}
+
+	"shop_poisensmoke"
+	{
+		"ko"		"아이템을 구매했습니다 : 독 연막탄"
+	}
+
+	"shop_revived"
+	{
+		"ko"		"{1} 을 받았습니다. "
+	}
+
+	"shop_revivehint"
+	{
+		"ko"		"!revive 명령어로 {1} 크레딧에 부활할 수 있습니다!"
+	}
+
+	"shop_set"
+	{
+		"ko"		"당신은 {1} 님의 크레딧을 {2} 으로 설정하였습니다."
+	}
+
+	"shop_tag"
+	{
+		"ko"		"[{green}감옥 상점{default}]"
+	}
+
+	"shop_taser"
+	{
+		"ko"		"구매하였습니다 : 테이저 (3발)"
+	}
+
+	"shop_throwingknife"
+	{
+		"ko"		"당신은 구매하였습니다. : 던지는 칼!"
+	}
+
+	"shop_unnodamage"
+	{
+		"ko"		"당신은 이제 죽을 수 있습니다!"
+	}
+
+	"shop_vapire"
+	{
+		"ko"		"이제 당신은 뱀파이어 입니다."
+	}
+
+	"shop_welcome"
+	{
+		"ko"		"!jailshop 을 입력하면 상점을 열 수 있습니다. 크레딧을 얻으려면 킬/승리/플레이로 얻을 수 있습니다."
+	}
+
+	"shop_unwallhack"
+	{
+		"ko"		"월핵이 끝났습니다!"
+	}
+
+	"shop_win"
+	{
+		"ko"		"라운드를 승리 보상으로 {2} 크레딧을 획득하였습니다. 당신의 크레딧 : {1}¢"
+	}
+
+	"shop_onlyct"
+	{
+		"ko"		"이 아이템은 간수만 사용할 수 있습니다."
+	}
+
+	"shop_randomtp_teleported"
+	{
+		"ko"		"{1} 님이 당신을 순간이동 시켰습니다."
+	}
+
+}

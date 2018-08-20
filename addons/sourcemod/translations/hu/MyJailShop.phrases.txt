@@ -1,0 +1,506 @@
+// Exported from SourceMod Translator
+// Date: 2018-08-20 21:17:57 UTC
+// Language: Hungarian (hu)
+// 
+// To view other translations for this plugin, please visit:
+// http://translator.mitchdempsey.com/sourcemod_plugins/268
+//
+"Phrases"
+{
+
+	"shop_alive"
+	{
+		"hu"		"Életben kell legyél ,hogy ezt a tárgyat megvedd!"
+	}
+
+	"shop_alreadyopen"
+	{
+		"hu"		"A cellák kivannak nyitva."
+	}
+
+	"shop_awp"
+	{
+		"hu"		"Megvásároltad: AWP egy darab lőszerrel!"
+	}
+
+	"shop_bhop"
+	{
+		"hu"		"A BunnyHop-od aktiv!"
+	}
+
+	"shop_bird"
+	{
+		"hu"		"Egy madár lettél! (+dropweapon (Konzolba))"
+	}
+
+	"shop_buytime"
+	{
+		"hu"		"A vásárlási idő lejárt. A következő körben újra elérhető lesz."
+	}
+
+	"shop_costs"
+	{
+		"hu"		"Költöttél: {2} ¢reditet. Most {1} ¢redited van."
+	}
+
+	"shop_credits"
+	{
+		"hu"		"Jelenlegi ¢rediteid: {1}!"
+	}
+
+	"shop_dead"
+	{
+		"hu"		"Halottnak kell lenned ,hogy újraéledj!"
+	}
+
+	"shop_deagle"
+	{
+		"hu"		"Vásároltál: Deagle 7 lőszerrel."
+	}
+
+	"shop_disabled"
+	{
+		"hu"		"A !shop jelenleg {red}nem aktiv{default}!"
+	}
+
+	"shop_firegrenade"
+	{
+		"hu"		"Vásároltál: Gyújtógránát."
+	}
+
+	"shop_froggyjump"
+	{
+		"hu"		"Elérhető a békaugrásod!"
+	}
+
+	"shop_fulllive"
+	{
+		"hu"		"Az életerőd maximális!"
+	}
+
+	"shop_get"
+	{
+		"hu"		"Nem adhatod magadnak."
+	}
+
+	"shop_getset"
+	{
+		"hu"		"A ¢rediteid beállitva {1}. Beállitotta {2}"
+	}
+
+	"shop_give"
+	{
+		"hu"		"A gravitációd szintje kisebbítve."
+	}
+
+	"shop_gravity"
+	{
+		"hu"		"A gravitációd szintje kisebbítve."
+	}
+
+	"shop_heal"
+	{
+		"hu"		"Az életerőd megnövelve!"
+	}
+
+	"shop_health"
+	{
+		"hu"		"Kaptál +{1}HP -t és +100ARMOR-t!"
+	}
+
+	"shop_invisible"
+	{
+		"hu"		"Láthatatlan lettél {1} másodpercig!"
+	}
+
+	"shop_killedct"
+	{
+		"hu"		"Kaptál {2} ¢reditet ,mert megölted {3} őrt. Most {1} ¢redited van"
+	}
+
+	"shop_killedt"
+	{
+		"hu"		"Kaptál {2} ¢reditet ,mert megölted {3} rabot. Jelenleg {1} ¢redited van"
+	}
+
+	"shop_knife"
+	{
+		"hu"		"Vásároltál: Egy ütéses kést!"
+	}
+
+	"shop_lastrequest"
+	{
+		"hu"		"Kaptál {2} ¢reditet ,mert eljutottál az lr-ig. Jelenleg: {1} ¢redited van."
+	}
+
+	"shop_max"
+	{
+		"hu"		"Már vásároltál ebből a tárgyból a kör folyamán, várj a következő körig."
+	}
+
+	"shop_maxcredits"
+	{
+		"hu"		"A ¢rediteid: {1}, elérted a maximumot!"
+	}
+
+	"shop_menu_armor"
+	{
+		"hu"		"Páncél [{1}¢]"
+	}
+
+	"shop_menu_awp"
+	{
+		"hu"		"AWP 1 lőszerrel [{1}¢]"
+	}
+
+	"shop_menu_bhop"
+	{
+		"hu"		"BunnyHop [{1}¢]"
+	}
+
+	"shop_menu_bird"
+	{
+		"hu"		"Legyél madár [{1}¢]"
+	}
+
+	"shop_menu_deagle"
+	{
+		"hu"		"Deagle 1 tárral [{1}¢]"
+	}
+
+	"shop_menu_firegrenade"
+	{
+		"hu"		"Gyújtógránát"
+	}
+
+	"shop_menu_froggyjump"
+	{
+		"hu"		"Béka ugrás [{1}¢]"
+	}
+
+	"shop_menu_gravity"
+	{
+		"hu"		"Kissebb gravitáció [{1}¢]"
+	}
+
+	"shop_menu_heal"
+	{
+		"hu"		"Élet [{1}¢]"
+	}
+
+	"shop_menu_health"
+	{
+		"hu"		"+{2}hp és armor [{1}¢]"
+	}
+
+	"shop_menu_invisible"
+	{
+		"hu"		"Láthatatlanság {2} másodpercre. [{1}¢]"
+	}
+
+	"shop_menu_knife"
+	{
+		"hu"		"Egy ütéses kés [{1}¢]"
+	}
+
+	"shop_menu_model"
+	{
+		"hu"		"Őr modell [{1}¢]"
+	}
+
+	"shop_menu_molotov"
+	{
+		"hu"		"Molotov + 2 flash [{1}¢]"
+	}
+
+	"shop_menu_noclip"
+	{
+		"hu"		"Végtelen tár {2} másodpercig. [{1}¢]"
+	}
+
+	"shop_menu_nodamage"
+	{
+		"hu"		"Sebezhetetlenség 20 másodpercig [{1}¢]"
+	}
+
+	"shop_menu_openjail"
+	{
+		"hu"		"Cellák kinyitása [{1}¢]"
+	}
+
+	"shop_menu_playercredits"
+	{
+		"hu"		"Játékosok ¢reditei a boltban:"
+	}
+
+	"shop_menu_player¢redits"
+	{
+		"hu"		"Játékos ¢reditei a boltban:"
+	}
+
+	"shop_menu_poisonsmoke"
+	{
+		"hu"		"Mérgező füstgránát [{1}¢]"
+	}
+
+	"shop_menu_revive"
+	{
+		"hu"		"Újraéledés [{1}¢]"
+	}
+
+	"shop_menu_taser"
+	{
+		"hu"		"Sokkoló 3 tölténnyel [{1}¢]"
+	}
+
+	"shop_menu_teleportsmoke"
+	{
+		"hu"		"Teleportáló füstgránát [{1}¢]"
+	}
+
+	"shop_menu_throwingknife"
+	{
+		"hu"		"Egy ütéses kés [{1}¢]"
+	}
+
+	"shop_menu_title"
+	{
+		"hu"		"Shop. Neked {1}¢redited van"
+	}
+
+	"shop_menu_vampire"
+	{
+		"hu"		"Gyorsaság + Nagyobb sebzés [{1}¢]"
+	}
+
+	"shop_menu_wallhack"
+	{
+		"hu"		"Wallhack [{1}¢]"
+	}
+
+	"shop_missingcredits"
+	{
+		"hu"		"A ¢rediteid: {1} (Nincs elég ¢redited. Kell: {2} ¢redit)"
+	}
+
+	"shop_model"
+	{
+		"hu"		"Álcázva lettél őrként legyél óvatos a nametag-ed észrevehetik. Csak a kinézeted változott!"
+	}
+
+	"shop_molotov"
+	{
+		"hu"		"Vásároltál: Molotov + 2 flash!"
+	}
+
+	"shop_noclip"
+	{
+		"hu"		"Végtelen tár {1} másodpercig!"
+	}
+
+	"shop_nodamage"
+	{
+		"hu"		"Halhatatlan lettél {1} másodpercre."
+	}
+
+	"shop_onlyt"
+	{
+		"hu"		"Ez a tárgy csak raboknak elérhető!"
+	}
+
+	"shop_opencell"
+	{
+		"hu"		"Kinyitottad a cellákat!"
+	}
+
+	"shop_opencellall"
+	{
+		"hu"		"{1} kinyitotta a cella ajtókat."
+	}
+
+	"shop_playtime"
+	{
+		"hu"		"Kaptál {1} ¢reditet a szerveren eltöltött idődért"
+	}
+
+	"shop_poisensmoke"
+	{
+		"hu"		"Vásároltál: Mérgező füstgránát."
+	}
+
+	"shop_revived"
+	{
+		"hu"		"{1} újraélesztve!"
+	}
+
+	"shop_revivehint"
+	{
+		"hu"		"Meghaltál, használhatod a !revive -ot {1} creditért!"
+	}
+
+	"shop_set"
+	{
+		"hu"		"Beállitottad {2} ¢rediteit erre: {1}"
+	}
+
+	"shop_tag"
+	{
+		"hu"		"[{green}shop{default}]"
+	}
+
+	"shop_taser"
+	{
+		"hu"		"Vásároltál: Sokkoló 3 lövéssel."
+	}
+
+	"shop_teleportsmoke"
+	{
+		"hu"		"Vásároltál: Teleportáló füstgránát!"
+	}
+
+	"shop_throwingknife"
+	{
+		"hu"		"Vásároltál: Dobókés."
+	}
+
+	"shop_tonly"
+	{
+		"hu"		"A bolt csak bűnözőknek elérhető!"
+	}
+
+	"shop_unnodamage"
+	{
+		"hu"		"Mostmár újra sebezhető vagy!"
+	}
+
+	"shop_vapire"
+	{
+		"hu"		"Gyorsaság és Nagyobb sebzés aktiválva!"
+	}
+
+	"shop_vapire"
+	{
+		"hu"		"Gyorsagá"
+	}
+
+	"shop_visible"
+	{
+		"hu"		"Most már újra látható vagy!"
+	}
+
+	"shop_wallhack"
+	{
+		"hu"		"Most aktiv a wallhack-ed!"
+	}
+
+	"shop_welcome"
+	{
+		"hu"		"A vásárlás elérhető a rabok számára: !shop a chat-be. Ölj/Nyerj/Játssz ,hogy ¢reditet szerezz a vásárláshoz!"
+	}
+
+	"shop_menu_paperclip"
+	{
+		"hu"		"Kapsz {2} paperclip. [{1}¢]"
+	}
+
+	"shop_paperclip"
+	{
+		"hu"		"Vásároltál {1} paperclip-et bilincshez!"
+	}
+
+	"shop_unwallhack"
+	{
+		"hu"		"A Wallhack lejárt!"
+	}
+
+	"shop_win"
+	{
+		"hu"		"Kaptál {2} ¢reditet ,mert megnyerted a kört. Jelenleg {1} ¢redited van."
+	}
+
+	"shop_giftyourself"
+	{
+		"hu"		"Nem adhatod magadnak."
+	}
+
+	"shop_onlyct"
+	{
+		"hu"		"Ez a vásárlás csak az őröknek elérhető!"
+	}
+
+	"shop_saleon"
+	{
+		"hu"		"Minden tárgy eladó {1}% kedvezményben!"
+	}
+
+	"shop_saleend"
+	{
+		"hu"		"Eladás befejezve!"
+	}
+
+	"shop_menu_title_sale"
+	{
+		"hu"		"%%Eladás%% {1}%% kedvezmény!"
+	}
+
+	"shop_randomtp"
+	{
+		"hu"		"Teleportáltak: {1}!"
+	}
+
+	"shop_randomtp_teleported"
+	{
+		"hu"		"{1} hozzád teleportált!"
+	}
+
+	"shop_menu_randomtp"
+	{
+		"hu"		"Teleportálás egy véletlenszerű rabhoz [{1}¢]"
+	}
+
+	"shop_menu_jetpack"
+	{
+		"hu"		"Jetpack [{1}¢]"
+	}
+
+	"shop_jetpack"
+	{
+		"hu"		"Vásároltál: Jetpack | Nyomd meg a CTRL + SPACE"
+	}
+
+	"shop_menu_jihad"
+	{
+		"hu"		"Jihad bomba [{1}¢]"
+	}
+
+	"shop_jihad"
+	{
+		"hu"		"Vásároltál: Jihad bomba | Nyomd meg a Mouse1 + E"
+	}
+
+	"shop_menu_door"
+	{
+		"hu"		"Ajtó nyitás [{1}¢]"
+	}
+
+	"shop_door"
+	{
+		"hu"		"Vásároltál: Nyisd ki az ajtót nézetben | nyomd meg az E-betűt miközben nézed az ajtót."
+	}
+
+	"shop_menu_blackout"
+	{
+		"hu"		"Map besötétités [{1}¢]"
+	}
+
+	"shop_blackout"
+	{
+		"hu"		"Vásároltál: Blackout"
+	}
+
+	"shop_blackout_all"
+	{
+		"hu"		"Van egy kritikus áramkimaradás!"
+	}
+
+}

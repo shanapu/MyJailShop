@@ -1,5 +1,5 @@
 // Exported from SourceMod Translator
-// Date: 2017-02-20 16:12:11 UTC
+// Date: 2018-08-20 21:17:57 UTC
 // Language: English (en)
 // 
 // To view other translations for this plugin, please visit:
@@ -338,13 +338,8 @@
 
 	"shop_noclipend"
 	{
-		"en"		"NoClip has ended!"
-	}
-
-	"shop_noclipstuck"
-	{
 		"#format"	"{1:N}"
-		"en"		"{1} is stuck with NoClip!"
+		"en"		"NoClip has ended!"
 	}
 
 	"shop_nodamage"
@@ -516,12 +511,6 @@
 		"en"		"Teleport to Random T [{1}¢]"
 	}
 
-	"shop_randomtp_fail"
-	{
-		"#format"	"{1:d}"
-		"en"		"There is no alive prisoner to teleport too."
-	}
-
 	"shop_menu_jetpack"
 	{
 		"#format"	"{1:d}"
@@ -571,6 +560,12 @@
 		"en"		"We have a critical power outage!"
 	}
 
+	"shop_noclipstuck"
+	{
+		"#format"	"{1:N}"
+		"en"		"{1} is stuck with NoClip!"
+	}
+
 	"shop_menu_freeday"
 	{
 		"#format"	"{1:d}"
@@ -580,6 +575,12 @@
 	"shop_freeday"
 	{
 		"en"		"You bought: a Freeday for the next round"
+	}
+
+	"shop_randomtp_fail"
+	{
+		"#format"	"{1:d}"
+		"en"		"There is no alive prisoner to teleport too."
 	}
 
 	"shop_shield"

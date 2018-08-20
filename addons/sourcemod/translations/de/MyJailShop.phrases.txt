@@ -1,5 +1,5 @@
 // Exported from SourceMod Translator
-// Date: 2017-02-20 16:12:10 UTC
+// Date: 2018-08-20 21:17:56 UTC
 // Language: German (de)
 // 
 // To view other translations for this plugin, please visit:
@@ -8,9 +8,94 @@
 "Phrases"
 {
 
+	"shop_credits"
+	{
+		"de"		"Du hast {1} ¢redits!"
+	}
+
+	"shop_credits"
+	{
+		"de"		"Du hast {1} ¢redits!"
+	}
+
+	"shop_credits"
+	{
+		"de"		"Du hast {1] ¢redits are: {1}!"
+	}
+
 	"shop_disabled"
 	{
 		"de"		"Jail shop ist vorrübergehend {purple}ausgeschaltet{default}."
+	}
+
+	"shop_fulllive"
+	{
+		"de"		"Du hast bereits volles Leben!"
+	}
+
+	"shop_get"
+	{
+		"de"		"Du kannst dich nicht selbst beschenken."
+	}
+
+	"shop_health"
+	{
+		"de"		"Du hast nun +{1}HP und Kevlar + Helm!"
+	}
+
+	"shop_invisible"
+	{
+		"de"		"Du bist unsichtbar für {1} Sekunden!"
+	}
+
+	"shop_menu_awp"
+	{
+		"de"		"AWP mit 1 Kugel [{1}¢]"
+	}
+
+	"shop_menu_deagle"
+	{
+		"de"		"Deagle mit 1 Magazin [{1}¢]"
+	}
+
+	"shop_menu_gravity"
+	{
+		"de"		"Geringe Schwerkraft [{1}¢]"
+	}
+
+	"shop_menu_health"
+	{
+		"de"		"+{2}HP und Rüstung [{1}¢]"
+	}
+
+	"shop_menu_invisible"
+	{
+		"de"		"Unsichtbar für {2} Sek. [{1}¢]"
+	}
+
+	"shop_menu_poisonsmoke"
+	{
+		"de"		"Giftrauch [{1}¢]"
+	}
+
+	"shop_noclip"
+	{
+		"de"		"Deine Kollisionsabfrage ist {1} Sekunden lang deaktiviert!"
+	}
+
+	"shop_noclipend"
+	{
+		"de"		"Kollisionsabfrage wieder eingeschaltet!"
+	}
+
+	"shop_nodamage"
+	{
+		"de"		"Du bist unsterblich für {1} Sekunden!"
+	}
+
+	"shop_revived"
+	{
+		"de"		"{1} wurde wiederbelebt!"
 	}
 
 }

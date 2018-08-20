@@ -233,6 +233,11 @@
 		"it"		"¢rediti dei giocatori nello shop:"
 	}
 
+	"shop_menu_player¢redits"
+	{
+		"it"		"¢rediti dei giocatori nello shop:"
+	}
+
 	"shop_menu_poisonsmoke"
 	{
 		"it"		"Smoke avvelenata [{1}¢]"
@@ -343,6 +348,11 @@
 		"it"		"Hai impostato i ¢rediti a {2} a {1}"
 	}
 
+	"shop_tag"
+	{
+		"it"		"[{green}jail.shop{default}]"
+	}
+
 	"shop_taser"
 	{
 		"it"		"Hai comprato: Taser con 3 munizioni, impara ad usarlo!"
@@ -411,6 +421,66 @@
 	"shop_giftyourself"
 	{
 		"it"		"Non ti puoi inviare da solo crediti."
+	}
+
+	"shop_onlyct"
+	{
+		"it"		"Quest'oggetto e' solo per le guardie!"
+	}
+
+	"shop_saleon"
+	{
+		"it"		"Sconti Attivi! Tutti gli oggetti hanno il {1}%% di sconto!"
+	}
+
+	"shop_saleend"
+	{
+		"it"		"Saldi finiti!"
+	}
+
+	"shop_menu_title_sale"
+	{
+		"it"		"%%SALE%% {1}%% sconto!"
+	}
+
+	"shop_jetpack"
+	{
+		"it"		"Hai comprato: Jetpack | premi CTRL + SPAZIO (duck+jump)"
+	}
+
+	"shop_jetpack"
+	{
+		"it"		"Hai comprato: Jetpack | premi CTRL + SPAZIO (duck+jump)"
+	}
+
+	"shop_jihad"
+	{
+		"it"		"Hai comprato: Bomba dello Jihad  | premi Mouse1 + E (attack+use)"
+	}
+
+	"shop_menu_door"
+	{
+		"it"		"Apri la porta alla quale stai guardando [{1}¢]"
+	}
+
+	"shop_door"
+	{
+		"it"		"Hai comprato: Apri la porta alla quale stai guardando | premi E (use) mentre la guardi"
+	}
+
+	"shop_menu_blackout"
+	{
+		"it"		"Blackout - mappa oscurata [{1}¢]"
+	}
+
+	"shop_blackout"
+	{
+		"it"		"Hai comprato: Blackout - Zzztt..."
+	}
+
+	"shop_blackout_all"
+	{
+		"it"		"Abbiamo un grave dispersione di energia!"
 	}
 
 }
