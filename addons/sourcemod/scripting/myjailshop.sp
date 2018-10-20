@@ -1309,8 +1309,14 @@ public Action Event_RoundEnd(Event event, const char[] name, bool dontBroadcast)
 
 	if (winner == CS_TEAM_T)
 	{
-		for (int i = 1; i <= MaxClients; i++) if (IsValidClient(i, false, gc_bCreditsWinAlive.BoolValue)) if (GetAllPlayersCount() >= gc_iMinPlayersToGetCredits.IntValue && (gc_bCreditsWarmup.BoolValue || GameRules_GetProp("m_bWarmupPeriod") != 1)) 
+		for (int i = 1; i <= MaxClients; i++) if (GetAllPlayersCount() >= gc_iMinPlayersToGetCredits.IntValue && (gc_bCreditsWarmup.BoolValue || GameRules_GetProp("m_bWarmupPeriod") != 1)) 
 		{
+			if (IsValidClient(i, false, !gc_bCreditsWinAlive.BoolValue))
+				continue;
+
+			if (GetClientTeam(i) !=  CS_TEAM_T)
+				continue;
+
 			if (IsPlayerReservationAdmin(i) && gc_iCreditsVIPWinT.IntValue != 0)
 			{
 				Forward_OnSetCredits(i, (Forward_OnGetCredits(i) + gc_iCreditsVIPWinT.IntValue));
@@ -1335,8 +1341,14 @@ public Action Event_RoundEnd(Event event, const char[] name, bool dontBroadcast)
 	}
 	else if (winner == CS_TEAM_CT)
 	{
-		for (int i = 1; i <= MaxClients; i++) if (IsValidClient(i, false, gc_bCreditsWinAlive.BoolValue)) if (GetAllPlayersCount() >= gc_iMinPlayersToGetCredits.IntValue && (gc_bCreditsWarmup.BoolValue || GameRules_GetProp("m_bWarmupPeriod") != 1)) 
+		for (int i = 1; i <= MaxClients; i++) if (GetAllPlayersCount() >= gc_iMinPlayersToGetCredits.IntValue && (gc_bCreditsWarmup.BoolValue || GameRules_GetProp("m_bWarmupPeriod") != 1))
 		{
+			if (!IsValidClient(i, false, !gc_bCreditsWinAlive.BoolValue))
+				continue;
+
+			if (GetClientTeam(i) !=  CS_TEAM_CT)
+				continue;
+
 			if (IsPlayerReservationAdmin(i) && gc_iCreditsVIPWinCT.IntValue != 0)
 			{
 				Forward_OnSetCredits(i,(Forward_OnGetCredits(i) + gc_iCreditsVIPWinCT.IntValue));
