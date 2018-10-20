@@ -338,7 +338,6 @@
 
 	"shop_noclipend"
 	{
-		"#format"	"{1:N}"
 		"en"		"NoClip has ended!"
 	}
 
