@@ -1311,7 +1311,7 @@ public Action Event_RoundEnd(Event event, const char[] name, bool dontBroadcast)
 	{
 		for (int i = 1; i <= MaxClients; i++) if (GetAllPlayersCount() >= gc_iMinPlayersToGetCredits.IntValue && (gc_bCreditsWarmup.BoolValue || GameRules_GetProp("m_bWarmupPeriod") != 1)) 
 		{
-			if (IsValidClient(i, false, !gc_bCreditsWinAlive.BoolValue))
+			if (!IsValidClient(i, false, !gc_bCreditsWinAlive.BoolValue))
 				continue;
 
 			if (GetClientTeam(i) !=  CS_TEAM_T)
