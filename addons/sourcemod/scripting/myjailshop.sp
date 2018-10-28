@@ -965,7 +965,9 @@ public Action Command_SendCredits(int client, int args)
 			if (client != iClient)
 			{
 				if (Forward_OnGetCredits(client) < amount)
+				{
 					ReplyToCommand(client, "%t %t", "shop_tag", "shop_missingcredits", Forward_OnGetCredits(client), amount);
+				}
 				else
 				{
 					Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-amount));
@@ -977,7 +979,10 @@ public Action Command_SendCredits(int client, int args)
 					if (gc_bLogging.BoolValue) LogToFileEx(g_sGiftLogFile, "Player %L has gift %i credits to %L ", client, amount, iClient);
 				}
 			}
-			CPrintToChat(client, "%t %t", "shop_tag", "shop_giftyourself");
+			else
+			{
+				CPrintToChat(client, "%t %t", "shop_tag", "shop_giftyourself");
+			}
 		}
 	}
 	return Plugin_Handled;
@@ -2030,7 +2035,7 @@ public Action Menu_OpenShop(int client)
 
 		Format(info, sizeof(info), "%T","shop_menu_invisible", client, gc_iInvisible.IntValue, RoundToCeil(gc_fInvisibleTime.FloatValue));
 		if (iCredits >= gc_iInvisible.IntValue && gc_iInvisible.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sInvisibleFlag)) AddMenuItem(menu, "Invisible", info);
-		else if (gc_iInvisible.IntValue != 0 && CheckVipFlag(client, g_sInvisibleFlag))AddMenuItem(menu, "Invisible", info, ITEMDRAW_DISABLED);
+		else if (gc_iInvisible.IntValue != 0 && CheckVipFlag(client, g_sInvisibleFlag)) AddMenuItem(menu, "Invisible", info, ITEMDRAW_DISABLED);
 
 		Format(info, sizeof(info), "%T","shop_menu_nodamage", client, gc_iNoDamage.IntValue, RoundToCeil(gc_fNoDamageTime.FloatValue));
 		if (gc_iNoDamageOnlyTeam.IntValue >= 1 && iCredits >= gc_iNoDamage.IntValue && gc_iNoDamage.IntValue != 0 && g_bAllowBuy && IsPlayerAlive(client) && CheckVipFlag(client, g_sNoDamageFlag)) AddMenuItem(menu, "NoDamage", info);
@@ -2308,15 +2313,15 @@ void Item_Invisible(int client, char[] name)
 			SDKHook(client, SDKHook_SetTransmit, Hook_SetTransmit);
 			g_bInvisible[client] = true;
 			CreateTimer(gc_fInvisibleTime.FloatValue, Timer_Invisible, GetClientUserId(client));
-			
+
 			StripAllPlayerWeapons(client);
 			GivePlayerItem(client, "weapon_knife");
-			
+
 			Forward_OnSetCredits(client,(Forward_OnGetCredits(client)-gc_iInvisible.IntValue));
 			Forward_OnPlayerBuyItem(client, name);
-			
+
 			if (gp_bMyIcons) MyIcons_BlockClientIcon(client, true);
-			
+
 			CPrintToChat(client, "%t %t", "shop_tag", "shop_invisible", RoundToCeil(gc_fInvisibleTime.FloatValue));
 			CPrintToChat(client, "%t %t", "shop_tag", "shop_costs", Forward_OnGetCredits(client), gc_iInvisible.IntValue);
 			if (gc_bLogging.BoolValue) LogToFileEx(g_sPurchaseLogFile, "Player %L bought: Invisible", client);
