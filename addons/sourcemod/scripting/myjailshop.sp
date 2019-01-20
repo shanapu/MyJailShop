@@ -62,6 +62,7 @@
 // Shop Settings
 ConVar gc_bEnable;
 ConVar gc_bCreditSystem;
+ConVar gc_iCreditsStart;
 ConVar gc_iCreditsMax;
 ConVar gc_iCreditsKillCT;
 ConVar gc_iCreditsKillT;
@@ -320,6 +321,7 @@ public void OnPluginStart()
 	gc_bCreditSystem = AutoExecConfig_CreateConVar("sm_jailshop_credits_system", "1", "1 - MyJailShop Credits, 0 - Zephrus store or 'SM Store' or FrozDark shop (need extra support plugin)", _, true, 0.0, true, 1.0);
 	gc_bCreditsSave = AutoExecConfig_CreateConVar("sm_jailshop_credits_save", "1", "0 - disabled, 1 - Save credits on player disconnect", _, true, 0.0, true, 1.0);
 	gc_bMySQL = AutoExecConfig_CreateConVar("sm_jailshop_mysql", "0", "0 - disabled, 1 - Should we use a mysql database to store credits", _, true, 0.0, true, 1.0);
+	gc_iCreditsStart = AutoExecConfig_CreateConVar("sm_jailshop_credits_start", "0", "Start credits a player earn on first join", _, true, 0.0);
 	gc_iCreditsMax = AutoExecConfig_CreateConVar("sm_jailshop_credits_max", "50000", "Maximum of credits to earn for a player");
 	gc_iMinPlayersToGetCredits = AutoExecConfig_CreateConVar("sm_jailshop_minplayers", "4", "Minimum players to earn credits", _, true, 0.0);
 	gc_bCreditsWarmup = AutoExecConfig_CreateConVar("sm_jailshop_warmupcredits", "1", "0 - disabled, 1 - enable players get credits on warmup", _, true, 0.0, true, 1.0);
@@ -925,38 +927,38 @@ public Action Command_SendCredits(int client, int args)
 		CReplyToCommand(client, "%t", "Command is in-game only");
 		return Plugin_Handled;
 	}
-	
+
 	if (!gc_bEnable.BoolValue) // if plugin is disbaled
 	{
 		CReplyToCommand(client, "%t %t", "shop_tag", "shop_disabled");
 		return Plugin_Handled;
 	}
-	
+
 	if (args < 2) // Not enough parameters
 	{
 		CReplyToCommand(client, "%t Use: sm_jailgift <#userid|name> [amount]", "shop_tag");
 		return Plugin_Handled;
 	}
-	
+
 	char arg2[10];
 	GetCmdArg(2, arg2, sizeof(arg2));
-	
+
 	int amount = StringToInt(arg2);
-	
+
 	char strTarget[32];
 	GetCmdArg(1, strTarget, sizeof(strTarget));
-	
+
 	char strTargetName[MAX_TARGET_LENGTH];
 	int TargetList[MAXPLAYERS], TargetCount;
 	bool TargetTranslate;
-	
+
 	if ((TargetCount = ProcessTargetString(strTarget, client, TargetList, MAXPLAYERS, COMMAND_FILTER_CONNECTED|COMMAND_FILTER_NO_IMMUNITY,
 		strTargetName, sizeof(strTargetName), TargetTranslate)) <= 0)
 	{
 		ReplyToTargetError(client, TargetCount);
 		return Plugin_Handled;
 	}
-	
+
 	for (int i = 0; i < TargetCount; i++)
 	{
 		int iClient = TargetList[i];
@@ -1533,7 +1535,7 @@ public void OnClientDisconnect(int client)
 
 public void OnClientCookiesCached(int client)
 {
-	if (!gc_bCreditsSave.BoolValue) 
+	if (!gc_bCreditsSave.BoolValue)
 		return;
 
 	if (gc_bMySQL.BoolValue)
@@ -1549,7 +1551,14 @@ public void OnClientCookiesCached(int client)
 	{
 		char CreditsString[12];
 		GetClientCookie(client, g_hCookieCredits, CreditsString, sizeof(CreditsString));
-		g_iCredits[client] = StringToInt(CreditsString);
+		if (!CreditsString[0])
+		{
+			g_iCredits[client] = gc_iCreditsStart.IntValue;
+		}
+		else
+		{
+			g_iCredits[client] = StringToInt(CreditsString);
+		}
 	}
 
 	if (!gc_bCreditSystem.BoolValue)
@@ -3532,7 +3541,7 @@ public void DB_AddPlayer(int client)
 		
 		// insert ifnot already in the table
 		Format(g_sSQLBuffer, sizeof(g_sSQLBuffer),
-			"INSERT IGNORE INTO myjs_credits (accountID,steamid,name,credits) VALUES (%d, '%s', '%s', 0);", id, steamid, sanitized_name);
+			"INSERT IGNORE INTO myjs_credits (accountID,steamid,name,credits) VALUES (%d, '%s', '%s', %d);", id, steamid, sanitized_name, gc_iCreditsStart.IntValue);
 		SQL_TQuery(g_hDB, SQLErrorCheckCallback, g_sSQLBuffer);
 		
 		// update the player name
