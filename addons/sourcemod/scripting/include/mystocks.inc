@@ -240,13 +240,13 @@ stock void SetPlayerAmmo(int client, int weapon, int clip = -1, int ammo = -1)
 
 	if (clip != -1)
 	{
-		SetEntProp(weapon, Prop_Data, "m_iClip1", clip);
+		SetEntProp(weapon, Prop_Send, "m_iClip1", clip);
 	}
 
 	if (ammo != -1)
 	{
-		SetEntProp(weapon, Prop_Data, "m_iPrimaryReserveAmmoCount", ammo);
-		SetEntProp(weapon, Prop_Data, "m_iSecondaryReserveAmmoCount", ammo);
+		SetEntProp(weapon, Prop_Send, "m_iPrimaryReserveAmmoCount", ammo);
+		SetEntProp(weapon, Prop_Send, "m_iSecondaryReserveAmmoCount", ammo);
 	}
 }
 
