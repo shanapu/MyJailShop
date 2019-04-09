@@ -7,7 +7,7 @@
  *	-
  *	@noreturn
 */
-functag public FuncDisplay(client, String:buffer[], maxlength);
+typedef FuncDisplay = function void(int client, char buffer[], int maxlength);
 
 /**
  *	Called when an item from functions menu is being selected
@@ -16,7 +16,7 @@ functag public FuncDisplay(client, String:buffer[], maxlength);
  *	-
  *	@return true to allow performing and false to block
 */
-functag public bool:FuncSelect(client);
+typedef FuncSelect = function bool(int client);
 
 /**
  *	Adds an item to the functions menu

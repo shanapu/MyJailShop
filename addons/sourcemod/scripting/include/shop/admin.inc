@@ -7,7 +7,7 @@
  *	-
  *	@noreturn
 */
-functag public AdminDisplay(client, String:buffer[], maxlength);
+typedef AdminDisplay = function void(int client, char[] buffer, int maxlength);
 
 /**
  *	Called when an item from admin panel is being selected
@@ -16,7 +16,7 @@ functag public AdminDisplay(client, String:buffer[], maxlength);
  *	-
  *	@return true to allow performing and false to block
 */
-functag public bool:AdminSelect(client);
+typedef AdminSelect = function bool(int client);
 
 /**
  *	Adds an item to the admin panel

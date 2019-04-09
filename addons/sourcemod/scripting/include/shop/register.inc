@@ -1,20 +1,20 @@
-functag public bool:CategoryDisplayCallback(client, CategoryId:category_id, const String:category[], const String:name[], String:buffer[], maxlen);
-functag public bool:CategoryDescriptionCallback(client, CategoryId:category_id, const String:category[], const String:description[], String:buffer[], maxlen);
-functag public bool:CategoryShouldDisplayCallback(client, CategoryId:category_id, const String:category[]);
-functag public bool:CategorySelectCallback(client, CategoryId:category_id, const String:category[], ShopMenu:menu);
+typedef CategoryDisplayCallback = function bool(int client, CategoryId category_id, const char[] category, const char[] name, char[] buffer, int maxlen);
+typedef CategoryDescriptionCallback = function bool(int client, CategoryId category_id, const char[] category, const char[] description, char[] buffer, int maxlen);
+typedef CategoryShouldDisplayCallback = function bool(int client, CategoryId category_id, const char[] category);
+typedef CategorySelectCallback = function bool(int client, CategoryId category_id, const char[] category, ShopMenu menu);
 
-funcenum ItemUseToggleCallback
+typeset ItemUseToggleCallback
 {
-	ShopAction:public(client, CategoryId:category_id, const String:category[], ItemId:item_id, const String:item[]),
-	ShopAction:public(client, CategoryId:category_id, const String:category[], ItemId:item_id, const String:item[], bool:isOn, bool:elapsed)
+	function ShopAction (int client, CategoryId category_id, const char[] category, ItemId item_id, const char[] item);
+	function ShopAction (int client, CategoryId category_id, const char[] category, ItemId item_id, const char[] item, bool isOn, bool elapsed);
 }
-functag public ItemRegister(CategoryId:category_id, const String:category[], const String:item[], ItemId:item_id);
-functag public ItemCommon(client, CategoryId:category_id, const String:category[], ItemId:item_id, const String:item[]);
-functag public bool:ItemShouldDisplayCallback(client, CategoryId:category_id, const String:category[], ItemId:item_id, const String:item[], ShopMenu:menu);
-functag public bool:ItemDisplayCallback(client, CategoryId:category_id, const String:category[], ItemId:item_id, const String:item[], ShopMenu:menu, &bool:disabled, const String:name[], String:buffer[], maxlen);
-functag public bool:ItemDescriptionCallback(client, CategoryId:category_id, const String:category[], ItemId:item_id, const String:item[], ShopMenu:menu, const String:description[], String:buffer[], maxlen);
-functag public bool:ItemBuyCallback(client, CategoryId:category_id, const String:category[], ItemId:item_id, const String:item[], ItemType:type, price, sell_price, value);
-functag public bool:ItemSellCallback(client, CategoryId:category_id, const String:category[], ItemId:item_id, const String:item[], ItemType:type, sell_price);
+typedef ItemRegister = function void(CategoryId category_id, const char[] category, const char[] item, ItemId item_id);
+typedef ItemCommon = function void(int client, CategoryId category_id, const char[] category, ItemId item_id, const char[] item);
+typedef ItemShouldDisplayCallback = function bool(int client, CategoryId category_id, const char[] category, ItemId item_id, const char[] item, ShopMenu menu);
+typedef ItemDisplayCallback = function bool(int client, CategoryId category_id, const char[] category, ItemId item_id, const char[] item, ShopMenu menu, bool &disabled, const char[] name, char[] buffer, int maxlen);
+typedef ItemDescriptionCallback = function bool(int client, CategoryId category_id, const char[] category, ItemId item_id, const char[] item, ShopMenu menu, const char[] description, char[] buffer, int maxlen);
+typedef ItemBuyCallback = function bool(int client, CategoryId category_id, const char[] category, ItemId item_id, const char[] item, ItemType type, int price, int sell_price, int value);
+typedef ItemSellCallback = function bool(int client, CategoryId category_id, const char[] category, ItemId item_id, const char[] item, ItemType type, int sell_price);
 
 /**
  *	Registers new category id
