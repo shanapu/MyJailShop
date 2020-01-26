@@ -55,9 +55,7 @@ do
 done
 
 echo "Move all optional binary files to plugins disabled folder"
-  mv addons/sourcemod/plugins/myjailshop-frozdark-shop.smx addons/sourcemod/plugins/disabled
   mv addons/sourcemod/plugins/myjailshop-sm-store.smx addons/sourcemod/plugins/disabled
-  mv addons/sourcemod/plugins/myjailshop-zephyrus-store.smx addons/sourcemod/plugins/disabled
   mv addons/sourcemod/plugins/myjailshop_tacticalshield.smx addons/sourcemod/plugins/disabled
 
 echo "Remove build folder if exists"
