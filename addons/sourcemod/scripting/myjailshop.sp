@@ -1530,6 +1530,8 @@ public void OnClientDisconnect(int client)
 		Format(CreditsString, sizeof(CreditsString), "%i", Forward_OnGetCredits(client));
 		SetClientCookie(client, g_hCookieCredits, CreditsString);
 	}
+
+	g_iCredits[client] = 0;
 }
 
 
