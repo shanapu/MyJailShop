@@ -10,8 +10,9 @@ language: c
 sudo: false
 
 env:
-  - VERSION=1.8
   - VERSION=1.9
+  - VERSION=1.10
+  - VERSION=1.11
 
 script:
   - 'if [[ $TRAVIS_PULL_REQUEST != "false" ]]; then bash ci/test.sh $VERSION $TRAVIS_BRANCH; fi'

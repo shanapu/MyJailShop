@@ -3,7 +3,6 @@ set -ev
 
 BID=$6
 FILE=MyJS-$2-$BID.zip
-LATEST=MyJS-$2-latest.zip
 HOST=$3
 USER=$4
 PASS=$5
@@ -33,9 +32,7 @@ addons/sourcemod/scripting/spcomp -E -v0 addons/sourcemod/scripting/myjailshop_h
 addons/sourcemod/scripting/spcomp -E -v0 addons/sourcemod/scripting/myjailshop_blackout.sp
 addons/sourcemod/scripting/spcomp -E -v0 addons/sourcemod/scripting/myjailshop_jetpack.sp
 addons/sourcemod/scripting/spcomp -E -v0 addons/sourcemod/scripting/myjailshop_jihad.sp
-addons/sourcemod/scripting/spcomp -E -v0 addons/sourcemod/scripting/myjailshop-frozdark-shop.sp
 addons/sourcemod/scripting/spcomp -E -v0 addons/sourcemod/scripting/myjailshop-sm-store.sp
-addons/sourcemod/scripting/spcomp -E -v0 addons/sourcemod/scripting/myjailshop-zephyrus-store.sp
 addons/sourcemod/scripting/spcomp -E -v0 addons/sourcemod/scripting/myjailshop_tacticalshield.sp
 addons/sourcemod/scripting/spcomp -E -v0 addons/sourcemod/scripting/myjailshop_icegrenade.sp
 addons/sourcemod/scripting/spcomp -E -v0 addons/sourcemod/scripting/myjailshop_parachute.sp
@@ -116,11 +113,5 @@ zip -9rq $FILE addons fastDL cfg sound install.txt license.txt downloads.txt CHA
 
 echo "Upload file"
 lftp -c "set ftp:ssl-allow no; set ssl:verify-certificate no; open -u $USER,$PASS $HOST; put -O MyJailShop/downloads/SM$1/$2/ $FILE"
-
-echo "Add latest build"
-mv $FILE $LATEST
-
-echo "Upload latest build"
-lftp -c "set ftp:ssl-allow no; set ssl:verify-certificate no; open -u $USER,$PASS $HOST; put -O MyJailShop/downloads/SM$1/ $LATEST"
 
 echo "Build done"

@@ -198,9 +198,9 @@ void Item_Jetpack(int client, char[] name)
 
 
 // Reset item on Player Death
-public void Event_PlayerDeath(Handle event, const char [] name, bool dontBroadcast)
+public void Event_PlayerDeath(Event event, const char [] name, bool dontBroadcast)
 {
-	int client = GetClientOfUserId(GetEventInt(event, "userid"));
+	int client = GetClientOfUserId(event.GetInt("userid"));
 
 	if (g_bItem[client])
 	{
