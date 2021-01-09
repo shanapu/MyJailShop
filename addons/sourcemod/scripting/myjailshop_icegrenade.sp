@@ -207,7 +207,7 @@ public Action Event_FlashFlashDetonate(Event event, const char[] name, bool dont
 	for (int i = 1; i <= MaxClients; i++)
 	{
 		// Check that client is a real player who is alive and is a CT
-		if (IsValidClient(i, true, true))
+		if (IsValidClient(i, true, false))
 		{
 			if (!gc_bItemAffectTeam.BoolValue && GetClientTeam(i) == CS_TEAM_T)
 				continue;
@@ -218,6 +218,9 @@ public Action Event_FlashFlashDetonate(Event event, const char[] name, bool dont
 			float distance = GetVectorDistance(vec, DetonateOrigin, false);
 
 			if (RoundToFloor(gc_fItemRadius.FloatValue - (distance / 2.0)) <= 0) // distance to ground zero
+				continue;
+			
+			if (g_iIceEntity[i] > 0)
 				continue;
 
 			g_iIceEntity[i] = CreateEntityByName("prop_dynamic_override");
