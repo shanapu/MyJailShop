@@ -222,6 +222,7 @@ int g_iHaloSprite = -1;
 int g_iCredits[MAXPLAYERS+1];
 int g_iFroggyJumped[MAXPLAYERS + 1];
 int g_iKnifesThrown[MAXPLAYERS + 1] = 0;
+int g_iKnifesCounter;
 
 
 // Handles
@@ -1401,6 +1402,7 @@ public Action Event_RoundStart(Event event, const char[] name, bool dontBroadcas
 	g_bAllowBuy = true;
 	g_bCellsOpen = false;
 	g_bIsLR = false;
+	g_iKnifesCounter = 0;
 
 	if (gc_fBuyTime.FloatValue != 0)
 	{
@@ -3032,7 +3034,6 @@ void UnhookWallhack(int client)
 	}
 }
 
-
 // awesome code by bacardi https:// forums.alliedmods.net/showthread.php?t=269846
 public Action KnifeHit(int knife, int other)
 {
@@ -3042,7 +3043,7 @@ public Action KnifeHit(int knife, int other)
 		
 		SetVariantString("csblood");
 		AcceptEntityInput(knife, "DispatchEffect");
-		AcceptEntityInput(knife, "Kill");
+		AcceptEntityInput(knife, "KillHierarchy");
 		
 		int attacker = GetEntPropEnt(knife, Prop_Send, "m_hThrower");
 		int inflictor = GetPlayerWeaponSlot(attacker, CS_SLOT_KNIFE);
@@ -3098,8 +3099,20 @@ public Action KnifeHit(int knife, int other)
 		TE_SetupArmorRicochet(pos, dir);
 		TE_SendToAll(0.0);
 		
-		DispatchKeyValue(knife, "OnUser1", "!self,Kill,,1.0,-1");
+		DispatchKeyValue(knife, "OnUser1", "!self,KillHierarchy,,1.0,-1");
 		AcceptEntityInput(knife, "FireUser1");
+	}
+}
+
+public Action KnifeTriggerHit(int trigger, int other)
+{
+	if ((0 < other <= MaxClients) && GetClientTeam(other) != CS_TEAM_T) // Hits player index
+	{
+		SDKUnhook(trigger, SDKHook_Touch, KnifeTriggerHit);
+		
+		int parent = GetEntPropEnt(trigger, Prop_Data, "m_hMoveParent");
+		AcceptEntityInput(trigger, "Kill");
+		KnifeHit(parent, other);
 	}
 }
 
@@ -3334,15 +3347,16 @@ public Action Timer_CreateKnife(Handle timer, int userid)
 
 	g_hTimerDelay[client] = INVALID_HANDLE;
 	
+	if (g_iKnifesThrown[client] >= gc_iThrowKnifeCount.IntValue)
+		return Plugin_Handled;
+	
 	int slot_knife = GetPlayerWeaponSlot(client, CS_SLOT_KNIFE);
 	int knife = CreateEntityByName("smokegrenade_projectile");
+	int trigger = CreateEntityByName("trigger_multiple");
 	
 	g_iKnifesThrown[client]++;
 	
-	if (g_iKnifesThrown[client] > gc_iThrowKnifeCount.IntValue)
-		return Plugin_Handled;
-	
-	if (knife == -1 || !DispatchSpawn(knife))
+	if (knife == -1 || trigger == -1 || !DispatchSpawn(knife) || !DispatchSpawn(trigger))
 	{
 		return Plugin_Handled;
 	}
@@ -3402,7 +3416,7 @@ public Action Timer_CreateKnife(Handle timer, int userid)
 	// Stop grenade detonate and Kill knive after 1 - 30 sec
 	SetEntProp(knife, Prop_Data, "m_nNextThinkTick", -1);
 	char buffer[25];
-	Format(buffer, sizeof(buffer), "!self,Kill,,%0.1f,-1", 1.5);
+	Format(buffer, sizeof(buffer), "!self,KillHierarchy,,%0.1f,-1", 1.5);
 	DispatchKeyValue(knife, "OnUser1", buffer);
 	AcceptEntityInput(knife, "FireUser1");
 	
@@ -3413,6 +3427,29 @@ public Action Timer_CreateKnife(Handle timer, int userid)
 	
 	// Throw knive!
 	TeleportEntity(knife, pos, angle, velocity);
+	
+	// noblock fix
+	DispatchKeyValue(trigger, "spawnflags", "1");
+	ActivateEntity(trigger);
+	TeleportEntity(trigger, pos, NULL_VECTOR, NULL_VECTOR);
+	SetEntityModel(trigger, "models/error.mdl");
+	float minbounds[3] = {-5.0, -5.0, -5.0};
+	float maxbounds[3] = {5.0, 5.0, 5.0};
+	SetEntPropVector(trigger, Prop_Send, "m_vecMins", minbounds);
+	SetEntPropVector(trigger, Prop_Send, "m_vecMaxs", maxbounds);
+	SetEntProp(trigger, Prop_Send, "m_nSolidType", 2);
+	int trigger_effects = GetEntProp(trigger, Prop_Send, "m_fEffects");
+	trigger_effects |= 32;
+	SetEntProp(trigger, Prop_Send, "m_fEffects", trigger_effects);
+	char knife_targetname[32];
+	Format(knife_targetname, sizeof(knife_targetname), "throwknife_%i", g_iKnifesCounter);
+	g_iKnifesCounter++;
+	DispatchKeyValue(knife, "targetname", knife_targetname);
+	//DispatchKeyValue(trigger, "parentname", knife_targetname); // m_iParent
+	SetVariantString(knife_targetname);
+	AcceptEntityInput(trigger, "SetParent");
+	SDKHookEx(trigger, SDKHook_Touch, KnifeTriggerHit);
+	
 	SDKHookEx(knife, SDKHook_Touch, KnifeHit);
 	
 	PushArrayCell(g_hThrownKnives, EntIndexToEntRef(knife));
