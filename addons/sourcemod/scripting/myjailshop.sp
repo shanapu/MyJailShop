@@ -226,6 +226,7 @@ int g_iKnifesThrown[MAXPLAYERS + 1] = 0;
 
 // Handles
 Handle g_hTimerCredits;
+Handle g_hTimerBuyTime;
 Handle g_hCookieCredits = INVALID_HANDLE;
 Handle g_hDB = INVALID_HANDLE;
 Handle gF_hOnPlayerGetCredits;
@@ -1404,7 +1405,8 @@ public Action Event_RoundStart(Event event, const char[] name, bool dontBroadcas
 
 	if (gc_fBuyTime.FloatValue != 0)
 	{
-		CreateTimer (gc_fBuyTime.FloatValue, Timer_BuyTime);
+		delete g_hTimerBuyTime;
+		g_hTimerBuyTime = CreateTimer(gc_fBuyTime.FloatValue, Timer_BuyTime);
 	}
 }
 
@@ -3116,6 +3118,7 @@ public Action Timer_BuyTime(Handle timer)
 		g_bAllowBuy = false;
 		CPrintToChatAll("%t %t", "shop_tag", "shop_buytime");
 	}
+	g_hTimerBuyTime = null;
 }
 
 
@@ -3228,7 +3231,7 @@ public Action Timer_CheckDamage(Handle timer, any iEntity)
 }
 
 
-public Action Timer_Credits (Handle timer)
+public Action Timer_Credits(Handle timer)
 {
 	if (!gc_bEnable.BoolValue)
 		return Plugin_Continue;
@@ -3428,11 +3431,7 @@ public Action Timer_CreateKnife(Handle timer, int userid)
 
 public void OnMapEnd ()
 {
-	if (g_hTimerCredits != INVALID_HANDLE)
-	{
-		CloseHandle(g_hTimerCredits);
-		g_hTimerCredits = INVALID_HANDLE;
-	}
+	delete g_hTimerCredits;
 	if (!g_bDBConnected && gc_bMySQL.BoolValue)
 		DB_Connect();
 	
