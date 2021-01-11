@@ -117,6 +117,9 @@ public void OnConfigsExecuted()
 	gc_sItemFlag.GetString(g_sJihadFlag, sizeof(g_sJihadFlag));
 	gc_sSoundSuicideBomberPath.GetString(g_sSoundSuicideBomberPath, sizeof(g_sSoundSuicideBomberPath));
 	gc_sSoundBoomPath.GetString(g_sSoundBoomPath, sizeof(g_sSoundBoomPath));
+	
+	PrecacheSoundAnyDownload(g_sSoundSuicideBomberPath);
+	PrecacheSoundAnyDownload(g_sSoundBoomPath);
 }
 
 
