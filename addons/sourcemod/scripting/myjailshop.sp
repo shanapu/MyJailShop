@@ -319,7 +319,7 @@ public void OnPluginStart()
 	gc_bEnable = AutoExecConfig_CreateConVar("sm_jailshop_enable", "1", "0 - disabled, 1 - enable the MyJailShop SourceMod plugin", _, true, 0.0, true, 1.0);
 	
 	gc_bCreditSystem = AutoExecConfig_CreateConVar("sm_jailshop_credits_system", "1", "1 - MyJailShop Credits, 0 - Zephrus store or 'SM Store' or FrozDark shop (need extra support plugin)", _, true, 0.0, true, 1.0);
-	gc_bCreditsSave = AutoExecConfig_CreateConVar("sm_jailshop_credits_save", "1", "0 - disabled, 1 - Save credits on player disconnect", _, true, 0.0, true, 1.0);
+	gc_bCreditsSave = AutoExecConfig_CreateConVar("sm_jailshop_credits_save", "1", "0 - disabled, 1 - Save credits on player disconnect, 2 - Save credits on each transaction and on player disconnect", _, true, 0.0, true, 1.0);
 	gc_bMySQL = AutoExecConfig_CreateConVar("sm_jailshop_mysql", "0", "0 - disabled, 1 - Should we use a mysql database to store credits", _, true, 0.0, true, 1.0);
 	gc_iCreditsStart = AutoExecConfig_CreateConVar("sm_jailshop_credits_start", "0", "Start credits a player earn on first join", _, true, 0.0);
 	gc_iCreditsMax = AutoExecConfig_CreateConVar("sm_jailshop_credits_max", "50000", "Maximum of credits to earn for a player");
@@ -3726,5 +3726,29 @@ void Forward_OnSetCredits(int client, int credits)
 		Call_PushCell(credits);
 		Call_Finish();
 	}
-	else g_iCredits[client] = credits;
+	else 
+	{
+		g_iCredits[client] = credits;
+		
+		if (gc_bCreditsSave.IntValue != 2)
+		{
+			return;
+		}
+	
+		if (gc_bMySQL.BoolValue)
+		{
+			if (!g_bDBConnected)
+			{
+				DB_Connect();
+			}
+	
+			DB_WriteCredits(client);
+		}
+		else if (AreClientCookiesCached(client))
+		{
+			char CreditsString[12];
+			Format(CreditsString, sizeof(CreditsString), "%i", g_iCredits[client]);
+			SetClientCookie(client, g_hCookieCredits, CreditsString);
+		}
+	}
 }
