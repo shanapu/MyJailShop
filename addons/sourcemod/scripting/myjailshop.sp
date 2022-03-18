@@ -1414,7 +1414,7 @@ public void Event_WeaponFire(Event event, char[] name, bool dontBroadcast)
 	char weapon[20];
 	event.GetString("weapon", weapon, sizeof(weapon));
 
-	if (StrContains(weapon, "knife", false) == -1)
+	if ((StrContains(weapon, "knife", false) == -1) && !StrEqual(weapon, "bayonet"))
 		return;
 
 	int client = GetClientOfUserId(event.GetInt("userid"));
